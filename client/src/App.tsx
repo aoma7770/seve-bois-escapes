@@ -1,39 +1,66 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import Home from "./pages/Home";
+import CottagePage from "./pages/CottagePage";
+import LocationPage from "./pages/LocationPage";
+import SustainabilityPage from "./pages/SustainabilityPage";
+import RatesPage from "./pages/RatesPage";
+import BookingPage from "./pages/BookingPage";
+import BookingConfirmation from "./pages/BookingConfirmation";
+import ContactPage from "./pages/ContactPage";
+import FaqPage from "./pages/FaqPage";
+import PrivacyPage from "./pages/PrivacyPage";
+import TermsPage from "./pages/TermsPage";
+import CookiePage from "./pages/CookiePage";
+import NotFound from "./pages/NotFound";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import MobileBottomBar from "./components/MobileBottomBar";
+import CookieBanner from "./components/CookieBanner";
+import ExitIntentPopup from "./components/ExitIntentPopup";
 
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path={"/404"} component={NotFound} />
-      {/* Final fallback route */}
+      <Route path="/" component={Home} />
+      <Route path="/cottages/la-seve" component={() => <CottagePage slug="la-seve" />} />
+      <Route path="/cottages/le-bois" component={() => <CottagePage slug="le-bois" />} />
+      <Route path="/location" component={LocationPage} />
+      <Route path="/sustainability" component={SustainabilityPage} />
+      <Route path="/rates" component={RatesPage} />
+      <Route path="/booking" component={BookingPage} />
+      <Route path="/booking/confirmation" component={BookingConfirmation} />
+      <Route path="/contact" component={ContactPage} />
+      <Route path="/faq" component={FaqPage} />
+      <Route path="/privacy" component={PrivacyPage} />
+      <Route path="/terms" component={TermsPage} />
+      <Route path="/cookies" component={CookiePage} />
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider
-        defaultTheme="light"
-        // switchable
-      >
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
+      <ThemeProvider defaultTheme="light">
+        <LanguageProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Header />
+            <main>
+              <Router />
+            </main>
+            <Footer />
+            <MobileBottomBar />
+            <CookieBanner />
+            <ExitIntentPopup />
+          </TooltipProvider>
+        </LanguageProvider>
       </ThemeProvider>
     </ErrorBoundary>
   );
