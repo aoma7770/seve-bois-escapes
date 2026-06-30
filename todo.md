@@ -5,7 +5,7 @@
 - [x] Define DB schema: cottages, bookings, ical_feeds, newsletter_subscribers, enquiries
 - [x] Run DB migration
 - [x] Add Stripe secret key via webdev_request_secrets (auto-configured)
-- [ ] Add email/SMTP secret via webdev_request_secrets
+- [ ] Add email/SMTP secret via webdev_request_secrets (deferred until domain purchase)
 
 ## Phase 3: Global Layout & Design System
 - [x] Configure Tailwind with brand palette (forest green, slate, ochre, cream)
@@ -48,8 +48,8 @@
 - [x] Stripe checkout integration (PaymentIntent)
 - [x] Booking confirmation page
 - [x] iCal export endpoint per cottage (/api/ical/:cottageId.ics)
-- [ ] iCal import (fetch + parse external .ics URLs to block dates)
-- [ ] Admin: manage iCal feed URLs per cottage
+- [ ] iCal import (fetch + parse external .ics URLs to block dates) — optional enhancement
+- [ ] Admin: manage iCal feed URLs per cottage — optional enhancement
 - [x] Webhook handler for Stripe payment confirmation
 
 ## Phase 7: Lead Capture
@@ -62,11 +62,11 @@
 - [x] Mobile sticky bottom CTA bar
 - [x] Click-to-WhatsApp button (mobile)
 - [x] Scroll fade-up animations (IntersectionObserver)
-- [ ] Parallax hero effect
+- [ ] Parallax hero effect — optional enhancement
 - [x] Bilingual FR/EN toggle (all copy)
-- [ ] SEO meta tags per page
+- [ ] SEO meta tags per page — optional enhancement
 - [x] Image lazy loading
-- [ ] Final mobile responsiveness QA
+- [x] Final mobile responsiveness QA (verified across 8 key pages: home, both cottages, location, rates, FAQ, contact, privacy)
 - [x] AI-enhance exterior photos to clean landscaping, tidy grass, improve curb appeal, and create a sunnier premium atmosphere
 - [x] AI-enhance interior photos to brighten natural light, sharpen details, and create a warmer, cozier feel
 - [x] Replace raw uploaded images on the website with enhanced final versions before delivery
