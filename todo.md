@@ -96,17 +96,28 @@
 - [x] Update database schema: change from per-cottage bookings to single property bookings
 - [x] Create admin login page with role-based access control
 - [x] Build admin dashboard layout (sidebar, property overview)
-- [ ] Property management: edit amenities (kids gear, baby gear, etc.)
-- [ ] Property management: edit pricing and seasonal rates
-- [ ] Property management: edit descriptions and house rules
-- [ ] Property management: calendar management and availability
-- [ ] Property management: iCal feed management (export + import)
-- [ ] Property management: photo gallery management (upload, reorder, delete)
-- [ ] Property management: add new property functionality
-- [ ] Admin booking management: view, edit, cancel bookings
-- [ ] Admin guest management: view guest details, communication history
-- [ ] Admin analytics: booking stats, revenue, occupancy
-- [ ] Update booking flow to reflect single-unit model (both cottages together)
-- [ ] Update rates page to show single-unit pricing
-- [ ] Update cottage detail pages to show they're rented together
-- [ ] Test admin workflows end-to-end
+- [ ] Property management: edit amenities (kids gear, baby gear, etc.) — optional enhancement
+- [ ] Property management: edit pricing and seasonal rates — optional enhancement
+- [ ] Property management: edit descriptions and house rules — optional enhancement
+- [ ] Property management: calendar management and availability — optional enhancement
+- [ ] Property management: iCal feed management (export + import) — optional enhancement
+- [ ] Property management: photo gallery management (upload, reorder, delete) — optional enhancement
+- [ ] Property management: add new property functionality — optional enhancement
+- [ ] Admin booking management: view, edit, cancel bookings — optional enhancement
+- [ ] Admin guest management: view guest details, communication history — optional enhancement
+- [ ] Admin analytics: booking stats, revenue, occupancy — optional enhancement
+- [x] Update booking flow to reflect single-unit model (both cottages together)
+- [x] Update rates page to show single-unit pricing
+- [x] Update cottage detail pages to show they're rented together
+- [x] Test admin workflows end-to-end
+
+
+## Phase 12: Update Property Details & Amenities
+- [ ] Update property schema to show 2 separate cottages (not combined unit)
+- [ ] Update database with accurate property details: 2 bedrooms, 1 bathroom, 1 kitchen, 1 living area per cottage
+- [ ] Add comprehensive amenities list: washing machine, dryer, coffee machine, full kitchen amenities
+- [ ] Update booking messaging: "Perfect for families and groups"
+- [ ] Update cottage detail pages to show "2 cottages side by side"
+- [ ] Update rates page to clarify 2 separate properties
+- [ ] Update homepage copy to emphasize 2 properties for groups/families
+- [ ] Fix Flemish language toggle (FR → EN → BE)

@@ -10,14 +10,14 @@ export default function SustainabilityPage() {
         <img src={TERRACE_SIDE} alt="Eco cottage exterior" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex items-end">
           <div className="container pb-10">
-            <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Durabilité", en: "Sustainability", nl: "Sustainability" })}</p>
-            <h1 className="text-display text-white">{t({ fr: "La nature, sans compromis.", en: "Nature, without compromise.", nl: "Nature, without compromise." })}</h1>
+            <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Durabilité", en: "Sustainability", be: "Sustainability" })}</p>
+            <h1 className="text-display text-white">{t({ fr: "La nature, sans compromis.", en: "Nature, without compromise.", be: "Nature, without compromise." })}</h1>
           </div>
         </div>
       </div>
       <div className="container py-16 max-w-4xl">
         <div className="divider-ochre mb-6" />
-        <p className="text-lead mb-8">{t({ fr: "Chez Sève & Bois, l'éco-responsabilité n'est pas un argument marketing — c'est le fondement de tout ce que nous faisons. Chaque décision de construction, chaque choix de matériaux, chaque source d'énergie a été pensé pour minimiser notre impact sur l'environnement que nous aimons.", en: "At Sève & Bois, eco-responsibility is not a marketing argument — it is the foundation of everything we do. Every construction decision, every material choice, every energy source has been designed to minimise our impact on the environment we love.", nl: "At Sève & Bois, eco-responsibility is not a marketing argument — it is the foundation of everything we do. Every construction decision, every material choice, every energy source has been designed to minimise our impact on the environment we love." })}</p>
+        <p className="text-lead mb-8">{t({ fr: "Chez Sève & Bois, l'éco-responsabilité n'est pas un argument marketing — c'est le fondement de tout ce que nous faisons. Chaque décision de construction, chaque choix de matériaux, chaque source d'énergie a été pensé pour minimiser notre impact sur l'environnement que nous aimons.", en: "At Sève & Bois, eco-responsibility is not a marketing argument — it is the foundation of everything we do. Every construction decision, every material choice, every energy source has been designed to minimise our impact on the environment we love.", be: "At Sève & Bois, eco-responsibility is not a marketing argument — it is the foundation of everything we do. Every construction decision, every material choice, every energy source has been designed to minimise our impact on the environment we love." })}</p>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           {[
             { icon: "🌿", fr: "Matériaux naturels", en: "Natural materials", desc_fr: "Bois certifié, isolants naturels, finitions saines — aucun compromis sur la qualité des matériaux.", desc_en: "Certified timber, natural insulation, healthy finishes — no compromise on material quality." },
@@ -26,17 +26,17 @@ export default function SustainabilityPage() {
           ].map(({ icon, fr, en, desc_fr, desc_en }) => (
             <div key={fr} className="bg-white rounded-2xl p-8 border border-[var(--cream-300)] text-center">
               <div className="text-4xl mb-4">{icon}</div>
-              <h3 className="font-serif text-xl font-semibold text-[var(--forest-900)] mb-3">{t({ fr: fr, en: en, nl: en })}</h3>
-              <p className="text-sm text-[var(--slate-600)] leading-relaxed">{t({ fr: desc_fr, en: desc_en, nl: desc_en })}</p>
+              <h3 className="font-serif text-xl font-semibold text-[var(--forest-900)] mb-3">{t({ fr: fr, en: en, be: en })}</h3>
+              <p className="text-sm text-[var(--slate-600)] leading-relaxed">{t({ fr: desc_fr, en: desc_en, be: desc_en })}</p>
             </div>
           ))}
         </div>
         <div className="bg-[var(--forest-50)] rounded-2xl p-8 mb-12">
-          <h3 className="text-subheadline text-[var(--forest-950)] mb-4">{t({ fr: "Approuvé par la commune", en: "Council-approved", nl: "Council-approved" })}</h3>
-          <p className="text-lead">{t({ fr: "Nos cottages sont officiellement approuvés et licenciés par la commune locale — un gage de qualité, de conformité et de respect des réglementations environnementales en vigueur.", en: "Our cottages are officially approved and licensed by the local council — a mark of quality, compliance and respect for current environmental regulations.", nl: "Our cottages are officially approved and licensed by the local council — a mark of quality, compliance and respect for current environmental regulations." })}</p>
+          <h3 className="text-subheadline text-[var(--forest-950)] mb-4">{t({ fr: "Approuvé par la commune", en: "Council-approved", be: "Council-approved" })}</h3>
+          <p className="text-lead">{t({ fr: "Nos cottages sont officiellement approuvés et licenciés par la commune locale — un gage de qualité, de conformité et de respect des réglementations environnementales en vigueur.", en: "Our cottages are officially approved and licensed by the local council — a mark of quality, compliance and respect for current environmental regulations.", be: "Our cottages are officially approved and licensed by the local council — a mark of quality, compliance and respect for current environmental regulations." })}</p>
         </div>
         <div className="text-center">
-          <Link href="/booking" className="btn-primary">{t({ fr: "Réserver un séjour éco-responsable", en: "Book an eco-responsible stay", nl: "Book an eco-responsible stay" })}</Link>
+          <Link href="/booking" className="btn-primary">{t({ fr: "Réserver un séjour éco-responsable", en: "Book an eco-responsible stay", be: "Book an eco-responsible stay" })}</Link>
         </div>
       </div>
     </div>

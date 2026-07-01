@@ -33,10 +33,10 @@ export default function CookieBanner() {
           {t({
             fr: "Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre ",
             en: "We use cookies to improve your experience. By continuing, you accept our ",
-            nl: "We use cookies to improve your experience. By continuing, you accept our "
+            be: "We use cookies to improve your experience. By continuing, you accept our "
           })}
           <Link href="/cookies" className="underline hover:text-[var(--ochre-300)] transition-colors">
-            {t({ fr: "politique de cookies", en: "cookie policy", nl: "cookie policy" })}
+            {t({ fr: "politique de cookies", en: "cookie policy", be: "cookie policy" })}
           </Link>.
         </p>
         <div className="flex gap-2">
@@ -44,13 +44,13 @@ export default function CookieBanner() {
             onClick={accept}
             className="flex-1 py-2 bg-[var(--forest-600)] hover:bg-[var(--forest-500)] text-white text-sm font-semibold rounded transition-colors"
           >
-            {t({ fr: "Accepter", en: "Accept", nl: "Accepteren" })}
+            {t({ fr: "Accepter", en: "Accept", be: "Accepteren" })}
           </button>
           <button
             onClick={decline}
             className="flex-1 py-2 bg-transparent border border-[var(--forest-600)] text-[var(--forest-300)] hover:text-white text-sm font-medium rounded transition-colors"
           >
-            {t({ fr: "Refuser", en: "Decline", nl: "Weigeren" })}
+            {t({ fr: "Refuser", en: "Decline", be: "Weigeren" })}
           </button>
         </div>
       </div>

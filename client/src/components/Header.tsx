@@ -21,13 +21,13 @@ export default function Header() {
   }, [location]);
 
   const navLinks = [
-    { href: "/cottages/la-seve", label: t({ fr: "La Sève", en: "La Sève", nl: "La Sève" }) },
-    { href: "/cottages/le-bois", label: t({ fr: "Le Bois", en: "Le Bois", nl: "Le Bois" }) },
-    { href: "/location", label: t({ fr: "Le Lieu", en: "The Location", nl: "The Location" }) },
-    { href: "/rates", label: t({ fr: "Tarifs", en: "Rates", nl: "Rates" }) },
-    { href: "/blog", label: t({ fr: "Blog", en: "Blog", nl: "Blog" }) },
+    { href: "/cottages/la-seve", label: t({ fr: "La Sève", en: "La Sève", be: "La Sève" }) },
+    { href: "/cottages/le-bois", label: t({ fr: "Le Bois", en: "Le Bois", be: "Le Bois" }) },
+    { href: "/location", label: t({ fr: "Le Lieu", en: "The Location", be: "The Location" }) },
+    { href: "/rates", label: t({ fr: "Tarifs", en: "Rates", be: "Rates" }) },
+    { href: "/blog", label: t({ fr: "Blog", en: "Blog", be: "Blog" }) },
     { href: "/faq", label: "FAQ" },
-    { href: "/contact", label: t({ fr: "Contact", en: "Contact", nl: "Contact" }) },
+    { href: "/contact", label: t({ fr: "Contact", en: "Contact", be: "Contact" }) },
   ];
 
   const headerBg = isHome && !scrolled
@@ -67,14 +67,14 @@ export default function Header() {
             <div className="hidden lg:flex items-center gap-3">
               {/* Language toggle */}
               <button
-                onClick={() => setLang(lang === "fr" ? "en" : lang === "en" ? "nl" : "fr")}
+                onClick={() => setLang(lang === "fr" ? "en" : lang === "en" ? "be" : "fr")}
                 className={`text-xs font-bold tracking-widest uppercase px-2 py-1 rounded border transition-all duration-200 ${
                   isHome && !scrolled
                     ? "border-white/50 text-white hover:bg-white/10"
                     : "border-[var(--forest-300)] text-[var(--forest-700)] hover:bg-[var(--forest-50)]"
                 }`}
               >
-                {lang === "fr" ? "EN" : lang === "en" ? "NL" : "FR"}
+                {lang === "fr" ? "EN" : lang === "en" ? "BE" : "FR"}
               </button>
 
               {/* CTA */}
@@ -83,21 +83,21 @@ export default function Header() {
                 className="btn-primary text-sm px-5 py-2.5"
                 style={isHome && !scrolled ? { background: "rgba(255,255,255,0.15)", borderColor: "rgba(255,255,255,0.7)", color: "white" } : {}}
               >
-                {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Beschikbaarheid controleren" })}
+                {t({ fr: "Vérifier les disponibilités", en: "Check availability", be: "Beschikbaarheid controleren" })}
               </Link>
             </div>
 
             {/* Mobile: lang + hamburger */}
             <div className="flex lg:hidden items-center gap-2">
               <button
-                onClick={() => setLang(lang === "fr" ? "en" : lang === "en" ? "nl" : "fr")}
+                onClick={() => setLang(lang === "fr" ? "en" : lang === "en" ? "be" : "fr")}
                 className={`text-xs font-bold tracking-widest uppercase px-2 py-1 rounded border transition-all ${
                   isHome && !scrolled
                     ? "border-white/50 text-white"
                     : "border-[var(--forest-300)] text-[var(--forest-700)]"
                 }`}
               >
-                {lang === "fr" ? "EN" : lang === "en" ? "NL" : "FR"}
+                {lang === "fr" ? "EN" : lang === "en" ? "BE" : "FR"}
               </button>
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
@@ -127,7 +127,7 @@ export default function Header() {
                 href="/booking"
                 className="btn-primary mt-3 text-center"
               >
-                {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Beschikbaarheid controleren" })}
+                {t({ fr: "Vérifier les disponibilités", en: "Check availability", be: "Beschikbaarheid controleren" })}
               </Link>
             </div>
           </div>

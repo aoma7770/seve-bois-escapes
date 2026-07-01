@@ -7,7 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { getLoginUrl } from "@/const";
 
-const t = (translations: { fr: string; en: string; nl: string }) => {
+const t = (translations: { fr: string; en: string; be: string }) => {
   const { lang } = useLanguage();
   return translations[lang as keyof typeof translations];
 };
@@ -28,19 +28,19 @@ export default function AdminLogin() {
       <div className="min-h-screen flex items-center justify-center bg-[var(--cream-50)] px-4">
         <Card className="w-full max-w-md p-8">
           <h1 className="text-3xl font-serif font-bold text-[var(--forest-900)] mb-2">
-            {t({ fr: "Admin", en: "Admin", nl: "Admin" })}
+            {t({ fr: "Admin", en: "Admin", be: "Admin" })}
           </h1>
           <p className="text-[var(--slate-600)] mb-6">
             {t({
               fr: "Connectez-vous pour gérer vos propriétés",
               en: "Sign in to manage your properties",
-              nl: "Meld u aan om uw eigenschappen te beheren",
+              be: "Meld u aan om uw eigenschappen te beheren",
             })}
           </p>
 
           <a href={getLoginUrl()}>
             <Button className="w-full bg-[var(--forest-700)] hover:bg-[var(--forest-800)] text-white">
-              {t({ fr: "Se connecter avec Manus", en: "Sign In with Manus", nl: "Aanmelden met Manus" })}
+              {t({ fr: "Se connecter avec Manus", en: "Sign In with Manus", be: "Aanmelden met Manus" })}
             </Button>
           </a>
 
@@ -48,7 +48,7 @@ export default function AdminLogin() {
             {t({
               fr: "Vous n'avez pas de compte ? Contactez le support",
               en: "Don't have an account? Contact support",
-              nl: "Geen account? Neem contact op met ondersteuning",
+              be: "Geen account? Neem contact op met ondersteuning",
             })}
           </p>
         </Card>
@@ -61,20 +61,20 @@ export default function AdminLogin() {
     <div className="min-h-screen flex items-center justify-center bg-[var(--cream-50)] px-4">
       <Card className="w-full max-w-md p-8">
         <h1 className="text-3xl font-serif font-bold text-[var(--forest-900)] mb-2">
-          {t({ fr: "Accès refusé", en: "Access Denied", nl: "Toegang geweigerd" })}
+          {t({ fr: "Accès refusé", en: "Access Denied", be: "Toegang geweigerd" })}
         </h1>
         <p className="text-[var(--slate-600)] mb-6">
           {t({
             fr: "Vous n'avez pas les permissions d'accès à l'admin",
             en: "You don't have permission to access the admin panel",
-            nl: "U hebt geen toestemming om het admin-paneel te openen",
+            be: "U hebt geen toestemming om het admin-paneel te openen",
           })}
         </p>
         <p className="text-center text-sm text-[var(--slate-600)]">
           {t({
             fr: "Contactez le support pour plus d'informations",
             en: "Contact support for more information",
-            nl: "Neem contact op met ondersteuning voor meer informatie",
+            be: "Neem contact op met ondersteuning voor meer informatie",
           })}
         </p>
       </Card>

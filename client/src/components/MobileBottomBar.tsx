@@ -12,7 +12,7 @@ export default function MobileBottomBar() {
           href="/booking"
           className="flex-1 btn-primary text-sm py-3 text-center"
         >
-          {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Check availability" })}
+          {t({ fr: "Vérifier les disponibilités", en: "Check availability", be: "Check availability" })}
         </Link>
         <a
           href="https://wa.me/32467808179"
