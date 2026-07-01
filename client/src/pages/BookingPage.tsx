@@ -44,7 +44,7 @@ export default function BookingPage() {
   const nights = range?.from && range?.to
     ? Math.ceil((range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24))
     : 0;
-  const total = nights * pricePerNight + cleaningFee;
+  const total = nights * basePricePerNight + cleaningFee;
 
   const checkoutMutation = trpc.bookings.createCheckout.useMutation({
     onSuccess: (data) => {
@@ -102,7 +102,6 @@ export default function BookingPage() {
                     key={slug}
                     href={`/booking?cottage=${slug}`}
                     className={`p-4 rounded-xl border-2 text-left transition-all ${
-                      cottageSlug === slug
                         ? "border-[var(--forest-700)] bg-[var(--forest-50)]"
                         : "border-[var(--cream-300)] hover:border-[var(--forest-300)]"
                     }`}
@@ -203,8 +202,7 @@ export default function BookingPage() {
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-2xl shadow-lg border border-[var(--cream-300)] overflow-hidden">
               <div className="bg-[var(--forest-700)] p-6 text-white">
-                <p className="text-sm text-[var(--forest-300)] mb-1">{cottageSlug === "la-seve" ? "La Sève" : "Le Bois"}</p>
-                <div className="text-4xl font-serif font-bold">€{pricePerNight}</div>
+                <div className="text-4xl font-serif font-bold">€{basePricePerNight}</div>
                 <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit", en: "/ night", nl: "/ night" })}</p>
               </div>
               <div className="p-6 space-y-3 text-sm">
@@ -219,8 +217,8 @@ export default function BookingPage() {
                       <span className="font-semibold">{range.to.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", nl: "night(s)" })} × €{pricePerNight}</span>
-                      <span>€{nights * pricePerNight}</span>
+                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", nl: "night(s)" })} × €{basePricePerNight}</span>
+                      <span>€{nights * basePricePerNight}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-[var(--slate-600)]">{t({ fr: "Frais de ménage", en: "Cleaning fee", nl: "Cleaning fee" })}</span>
