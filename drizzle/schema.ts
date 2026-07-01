@@ -8,6 +8,7 @@ import {
   timestamp,
   varchar,
   date,
+  json,
 } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
@@ -25,41 +26,59 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
-// Cottages
-export const cottages = mysqlTable("cottages", {
+// Properties (Sève & Bois Escapes as a single rental unit with 2 cottages)
+export const properties = mysqlTable("properties", {
   id: int("id").autoincrement().primaryKey(),
   slug: varchar("slug", { length: 64 }).notNull().unique(),
   nameFr: varchar("nameFr", { length: 128 }).notNull(),
   nameEn: varchar("nameEn", { length: 128 }).notNull(),
+  nameNl: varchar("nameNl", { length: 128 }).notNull(),
   descriptionFr: text("descriptionFr"),
   descriptionEn: text("descriptionEn"),
-  capacity: int("capacity").notNull().default(4),
-  bedrooms: int("bedrooms").notNull().default(2),
-  bathrooms: int("bathrooms").notNull().default(1),
-  basePriceWeeknight: decimal("basePriceWeeknight", { precision: 10, scale: 2 }).notNull().default("150.00"),
-  basePriceWeekend: decimal("basePriceWeekend", { precision: 10, scale: 2 }).notNull().default("200.00"),
-  basePriceWeek: decimal("basePriceWeek", { precision: 10, scale: 2 }).notNull().default("950.00"),
-  cleaningFee: decimal("cleaningFee", { precision: 10, scale: 2 }).notNull().default("75.00"),
+  descriptionNl: text("descriptionNl"),
+  maxGuests: int("maxGuests").notNull().default(12),
+  bedrooms: int("bedrooms").notNull().default(4), // 2 per cottage
+  bathrooms: int("bathrooms").notNull().default(2),
+  basePriceWeeknight: decimal("basePriceWeeknight", { precision: 10, scale: 2 }).notNull().default("300.00"),
+  basePriceWeekend: decimal("basePriceWeekend", { precision: 10, scale: 2 }).notNull().default("400.00"),
+  basePriceWeek: decimal("basePriceWeek", { precision: 10, scale: 2 }).notNull().default("1900.00"),
+  cleaningFee: decimal("cleaningFee", { precision: 10, scale: 2 }).notNull().default("150.00"),
   minimumStayNights: int("minimumStayNights").notNull().default(2),
   isActive: boolean("isActive").notNull().default(true),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
-export type Cottage = typeof cottages.$inferSelect;
-export type InsertCottage = typeof cottages.$inferInsert;
+export type Property = typeof properties.$inferSelect;
+export type InsertProperty = typeof properties.$inferInsert;
 
-// Bookings
+// Amenities (JSON array stored per property)
+export const amenities = mysqlTable("amenities", {
+  id: int("id").autoincrement().primaryKey(),
+  propertyId: int("propertyId").notNull(),
+  categoryFr: varchar("categoryFr", { length: 128 }).notNull(), // e.g., "Équipements", "Enfants", "Bébé"
+  categoryEn: varchar("categoryEn", { length: 128 }).notNull(),
+  categoryNl: varchar("categoryNl", { length: 128 }).notNull(),
+  items: json("items").notNull(), // Array of { nameFr, nameEn, nameNl, icon }
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Amenity = typeof amenities.$inferSelect;
+export type InsertAmenity = typeof amenities.$inferInsert;
+
+// Bookings (single unit: both cottages together)
 export const bookings = mysqlTable("bookings", {
   id: int("id").autoincrement().primaryKey(),
-  cottageId: int("cottageId").notNull(),
+  propertyId: int("propertyId").notNull(),
   guestName: varchar("guestName", { length: 256 }).notNull(),
   guestEmail: varchar("guestEmail", { length: 320 }).notNull(),
   guestPhone: varchar("guestPhone", { length: 64 }),
-  guestCount: int("guestCount").notNull().default(2),
+  guestCount: int("guestCount").notNull().default(6),
   checkIn: date("checkIn").notNull(),
   checkOut: date("checkOut").notNull(),
   totalAmount: decimal("totalAmount", { precision: 10, scale: 2 }).notNull(),
-  cleaningFee: decimal("cleaningFee", { precision: 10, scale: 2 }).notNull().default("75.00"),
+  cleaningFee: decimal("cleaningFee", { precision: 10, scale: 2 }).notNull().default("150.00"),
   status: mysqlEnum("status", ["pending", "confirmed", "cancelled", "refunded"]).default("pending").notNull(),
   stripePaymentIntentId: varchar("stripePaymentIntentId", { length: 256 }),
   stripeSessionId: varchar("stripeSessionId", { length: 256 }),
@@ -76,7 +95,7 @@ export type InsertBooking = typeof bookings.$inferInsert;
 // iCal feeds (external URLs to import and block dates)
 export const icalFeeds = mysqlTable("ical_feeds", {
   id: int("id").autoincrement().primaryKey(),
-  cottageId: int("cottageId").notNull(),
+  propertyId: int("propertyId").notNull(),
   name: varchar("name", { length: 128 }).notNull(),
   url: text("url").notNull(),
   isActive: boolean("isActive").notNull().default(true),
@@ -86,6 +105,20 @@ export const icalFeeds = mysqlTable("ical_feeds", {
 
 export type IcalFeed = typeof icalFeeds.$inferSelect;
 export type InsertIcalFeed = typeof icalFeeds.$inferInsert;
+
+// Property photos/gallery
+export const propertyPhotos = mysqlTable("property_photos", {
+  id: int("id").autoincrement().primaryKey(),
+  propertyId: int("propertyId").notNull(),
+  url: text("url").notNull(),
+  caption: text("caption"),
+  displayOrder: int("displayOrder").notNull().default(0),
+  isHeroImage: boolean("isHeroImage").notNull().default(false),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type PropertyPhoto = typeof propertyPhotos.$inferSelect;
+export type InsertPropertyPhoto = typeof propertyPhotos.$inferInsert;
 
 // Newsletter subscribers
 export const newsletterSubscribers = mysqlTable("newsletter_subscribers", {
@@ -106,7 +139,7 @@ export const enquiries = mysqlTable("enquiries", {
   name: varchar("name", { length: 256 }).notNull(),
   email: varchar("email", { length: 320 }).notNull(),
   phone: varchar("phone", { length: 64 }),
-  cottageId: int("cottageId"),
+  propertyId: int("propertyId"),
   checkIn: date("checkIn"),
   checkOut: date("checkOut"),
   guestCount: int("guestCount"),
@@ -125,12 +158,16 @@ export const blogPosts = mysqlTable("blog_posts", {
   slug: varchar("slug", { length: 256 }).notNull().unique(),
   titleFr: varchar("titleFr", { length: 256 }).notNull(),
   titleEn: varchar("titleEn", { length: 256 }).notNull(),
+  titleNl: varchar("titleNl", { length: 256 }).notNull(),
   descriptionFr: text("descriptionFr"),
   descriptionEn: text("descriptionEn"),
+  descriptionNl: text("descriptionNl"),
   contentFr: text("contentFr").notNull(),
   contentEn: text("contentEn").notNull(),
+  contentNl: text("contentNl").notNull(),
   categoryFr: varchar("categoryFr", { length: 64 }).default("Général"),
   categoryEn: varchar("categoryEn", { length: 64 }).default("General"),
+  categoryNl: varchar("categoryNl", { length: 64 }).default("Algemeen"),
   authorName: varchar("authorName", { length: 256 }).default("Sève & Bois"),
   featuredImageUrl: text("featuredImageUrl"),
   isPublished: boolean("isPublished").notNull().default(false),

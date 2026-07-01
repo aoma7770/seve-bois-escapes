@@ -24,11 +24,11 @@ export default function BookingPage() {
   const [guestCount, setGuestCount] = useState(2);
   const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", gdprConsent: false });
 
-  const cottageId = cottageSlug === "la-seve" ? 1 : 2;
-  const pricePerNight = cottageId === 1 ? 150 : 175;
-  const cleaningFee = cottageId === 1 ? 75 : 90;
+  const propertyId = cottageSlug === "la-seve" ? 1 : 2;
+  const pricePerNight = propertyId === 1 ? 150 : 175;
+  const cleaningFee = propertyId === 1 ? 75 : 90;
 
-  const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ cottageId });
+  const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId });
 
   const disabledDays = (bookedDates || []).flatMap(({ checkIn, checkOut }) => {
     const days: Date[] = [];
@@ -64,7 +64,7 @@ export default function BookingPage() {
     e.preventDefault();
     if (!range?.from || !range?.to || !form.gdprConsent) return;
     checkoutMutation.mutate({
-      cottageId,
+      propertyId,
       guestName: form.name,
       guestEmail: form.email,
       guestPhone: form.phone,

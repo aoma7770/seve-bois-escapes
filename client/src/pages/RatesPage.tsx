@@ -10,7 +10,7 @@ export default function RatesPage() {
   const [selectedCottage, setSelectedCottage] = useState<1 | 2>(1);
   const [range, setRange] = useState<DateRange | undefined>();
 
-  const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ cottageId: selectedCottage });
+  const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId: selectedCottage });
 
   const disabledDays = (bookedDates || []).flatMap(({ checkIn, checkOut }) => {
     const days: Date[] = [];

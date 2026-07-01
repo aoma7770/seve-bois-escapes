@@ -1,6 +1,6 @@
 import { Router, Request, Response } from "express";
 import { getDb } from "./db";
-import { bookings, cottages } from "../drizzle/schema";
+import { bookings, properties } from "../drizzle/schema";
 import { eq, and, ne } from "drizzle-orm";
 import ical from "ical-generator";
 
@@ -10,8 +10,8 @@ const router = Router();
 // GET /api/ical/:cottageId.ics
 router.get("/:cottageId.ics", async (req: Request, res: Response) => {
   try {
-    const cottageId = parseInt(req.params.cottageId);
-    if (isNaN(cottageId)) {
+    const propertyId = parseInt(req.params.propertyId);
+    if (isNaN(propertyId)) {
       res.status(400).send("Invalid cottage ID");
       return;
     }
@@ -23,8 +23,8 @@ router.get("/:cottageId.ics", async (req: Request, res: Response) => {
     }
 
     // Get cottage info
-    const cottageResult = await db.select().from(cottages).where(eq(cottages.id, cottageId)).limit(1);
-    const cottage = cottageResult[0];
+    const propertyResult = await db.select().from(properties).where(eq(properties.id, propertyId)).limit(1);
+    const cottage = propertyResult[0];
     if (!cottage) {
       res.status(404).send("Cottage not found");
       return;
@@ -36,7 +36,7 @@ router.get("/:cottageId.ics", async (req: Request, res: Response) => {
       .from(bookings)
       .where(
         and(
-          eq(bookings.cottageId, cottageId),
+          eq(bookings.propertyId, propertyId),
           ne(bookings.status, "cancelled"),
           ne(bookings.status, "refunded")
         )

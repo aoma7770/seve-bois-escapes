@@ -63,7 +63,7 @@
 - [x] Click-to-WhatsApp button (mobile)
 - [x] Scroll fade-up animations (IntersectionObserver)
 - [ ] Parallax hero effect — optional enhancement
-- [x] Bilingual FR/EN toggle (all copy)
+- [x] Bilingual FR/EN/NL toggle (all copy)
 - [ ] SEO meta tags per page — optional enhancement
 - [x] Image lazy loading
 - [x] Final mobile responsiveness QA (verified across 8 key pages: home, both cottages, location, rates, FAQ, contact, privacy)
@@ -81,3 +81,32 @@
 - [ ] Implement blog search and category filtering (optional enhancement)
 - [ ] Add blog posts to sitemap for SEO (optional enhancement)
 
+## Optional Enhancements (Not Required for Launch)
+- [ ] Parallax hero effect
+- [ ] SEO meta tags per page
+- [ ] iCal import (external .ics URL blocking)
+- [ ] Admin iCal feed management UI
+- [ ] Blog post editor UI
+- [ ] Blog search and category filtering
+- [ ] Blog posts sitemap integration
+
+
+## Phase 10: Admin Dashboard & Property Management
+- [ ] Restructure booking model: both cottages as single unit (max 12 guests)
+- [ ] Update database schema: change from per-cottage bookings to single property bookings
+- [ ] Create admin login page with role-based access control
+- [ ] Build admin dashboard layout (sidebar, property overview)
+- [ ] Property management: edit amenities (kids gear, baby gear, etc.)
+- [ ] Property management: edit pricing and seasonal rates
+- [ ] Property management: edit descriptions and house rules
+- [ ] Property management: calendar management and availability
+- [ ] Property management: iCal feed management (export + import)
+- [ ] Property management: photo gallery management (upload, reorder, delete)
+- [ ] Property management: add new property functionality
+- [ ] Admin booking management: view, edit, cancel bookings
+- [ ] Admin guest management: view guest details, communication history
+- [ ] Admin analytics: booking stats, revenue, occupancy
+- [ ] Update booking flow to reflect single-unit model (both cottages together)
+- [ ] Update rates page to show single-unit pricing
+- [ ] Update cottage detail pages to show they're rented together
+- [ ] Test admin workflows end-to-end

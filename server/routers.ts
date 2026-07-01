@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
-import { bookings, cottages, enquiries, icalFeeds, newsletterSubscribers, blogPosts } from "../drizzle/schema";
+import { bookings, properties, enquiries, icalFeeds, newsletterSubscribers, blogPosts } from "../drizzle/schema";
 import { eq, and, ne } from "drizzle-orm";
 import Stripe from "stripe";
 import nodemailer from "nodemailer";
@@ -56,7 +56,7 @@ export const appRouter = router({
     list: publicProcedure.query(async () => {
       const db = await getDb();
       if (!db) return [];
-      return db.select().from(cottages).where(eq(cottages.isActive, true));
+      return db.select().from(properties).where(eq(properties.isActive, true));
     }),
 
     bySlug: publicProcedure
@@ -64,7 +64,7 @@ export const appRouter = router({
       .query(async ({ input }) => {
         const db = await getDb();
         if (!db) return null;
-        const result = await db.select().from(cottages).where(eq(cottages.slug, input.slug)).limit(1);
+        const result = await db.select().from(properties).where(eq(properties.slug, input.slug)).limit(1);
         return result[0] ?? null;
       }),
   }),
@@ -72,7 +72,7 @@ export const appRouter = router({
   // ─── Availability ──────────────────────────────────────────────────────────
   availability: router({
     getBookedDates: publicProcedure
-      .input(z.object({ cottageId: z.number() }))
+      .input(z.object({ propertyId: z.number() }))
       .query(async ({ input }) => {
         const db = await getDb();
         if (!db) return [];
@@ -81,7 +81,7 @@ export const appRouter = router({
           .from(bookings)
           .where(
             and(
-              eq(bookings.cottageId, input.cottageId),
+              eq(bookings.propertyId, input.propertyId),
               ne(bookings.status, "cancelled"),
               ne(bookings.status, "refunded")
             )
@@ -94,7 +94,7 @@ export const appRouter = router({
   bookings: router({
     createCheckout: publicProcedure
       .input(z.object({
-        cottageId: z.number(),
+        propertyId: z.number(),
         guestName: z.string().min(2),
         guestEmail: z.string().email(),
         guestPhone: z.string().optional(),
@@ -108,8 +108,8 @@ export const appRouter = router({
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
 
-        const cottageResult = await db.select().from(cottages).where(eq(cottages.id, input.cottageId)).limit(1);
-        const cottage = cottageResult[0];
+        const propertyResult = await db.select().from(properties).where(eq(properties.id, input.propertyId)).limit(1);
+        const cottage = propertyResult[0];
         if (!cottage) throw new Error("Cottage not found");
 
         const checkIn = new Date(input.checkIn);
@@ -132,7 +132,7 @@ export const appRouter = router({
         const totalAmount = nightsTotal + cleaningFee;
 
         const [result] = await (db.insert(bookings).values as any)([{
-          cottageId: input.cottageId,
+          propertyId: input.propertyId,
           guestName: input.guestName,
           guestEmail: input.guestEmail,
           guestPhone: input.guestPhone,
@@ -252,7 +252,7 @@ export const appRouter = router({
         name: z.string().min(2),
         email: z.string().email(),
         phone: z.string().optional(),
-        cottageId: z.number().optional(),
+        propertyId: z.number().optional(),
         checkIn: z.string().optional(),
         checkOut: z.string().optional(),
         guestCount: z.number().optional(),
@@ -266,7 +266,7 @@ export const appRouter = router({
           name: input.name,
           email: input.email,
           phone: input.phone ?? null,
-          cottageId: input.cottageId ?? null,
+          propertyId: input.propertyId ?? null,
           checkIn: input.checkIn ?? null,
           checkOut: input.checkOut ?? null,
           guestCount: input.guestCount ?? null,
@@ -285,16 +285,16 @@ export const appRouter = router({
   // ─── iCal feeds ─────────────────────────────────────────────────────────────
   ical: router({
     getFeeds: protectedProcedure
-      .input(z.object({ cottageId: z.number() }))
+      .input(z.object({ propertyId: z.number() }))
       .query(async ({ input }) => {
         const db = await getDb();
         if (!db) return [];
-        return db.select().from(icalFeeds).where(eq(icalFeeds.cottageId, input.cottageId));
+        return db.select().from(icalFeeds).where(eq(icalFeeds.propertyId, input.propertyId));
       }),
 
     addFeed: protectedProcedure
       .input(z.object({
-        cottageId: z.number(),
+        propertyId: z.number(),
         name: z.string(),
         url: z.string().url(),
       }))

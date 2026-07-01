@@ -8,7 +8,7 @@ interface LanguageContextType {
   t: (translations: { fr: string; en: string; nl: string }) => string;
 }
 
-const LanguageContext = createContext<LanguageContextType>({
+export const LanguageContext = createContext<LanguageContextType>({
   lang: "fr",
   setLang: () => {},
   t: (translations) => translations.fr,

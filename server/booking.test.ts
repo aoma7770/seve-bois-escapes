@@ -53,7 +53,7 @@ describe("bookings.createCheckout validation", () => {
     const caller = appRouter.createCaller(createPublicContext());
     await expect(
       caller.bookings.createCheckout({
-        cottageId: 1,
+        propertyId: 1,
         guestName: "Test User",
         guestEmail: "not-an-email",
         guestCount: 2,

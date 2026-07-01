@@ -90,3 +90,42 @@ export async function getUserByOpenId(openId: string) {
 }
 
 // TODO: add feature queries here as your schema grows.
+
+import { properties, amenities, bookings, propertyPhotos } from "../drizzle/schema";
+
+export async function getProperty(slug: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(properties).where(eq(properties.slug, slug)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getPropertyById(id: number) {
+  const db = await getDb();
+  if (!db) return undefined;
+  
+  const result = await db.select().from(properties).where(eq(properties.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getPropertyAmenities(propertyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(amenities).where(eq(amenities.propertyId, propertyId));
+}
+
+export async function getPropertyPhotos(propertyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(propertyPhotos).where(eq(propertyPhotos.propertyId, propertyId)).orderBy(propertyPhotos.displayOrder);
+}
+
+export async function getPropertyBookings(propertyId: number) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  return await db.select().from(bookings).where(eq(bookings.propertyId, propertyId));
+}
