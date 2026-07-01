@@ -158,17 +158,32 @@ export default function CottagePage({ slug }: Props) {
             {/* Amenities */}
             <div>
               <h3 className="text-subheadline text-[var(--forest-950)] mb-6">
-                {t({ fr: "Équipements inclus", en: "What's included", be: "What's included" })}
+                {t({ fr: "Équipements inclus", en: "What's included", be: "Wat is inbegrepen" })}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {data.amenities.map(({ icon: Icon, fr, en }) => (
+                {data.amenities.map(({ icon: Icon, fr, en, be }) => (
                   <div key={fr} className="flex items-center gap-3 p-4 bg-white rounded-xl border border-[var(--cream-300)]">
                     <div className="w-9 h-9 rounded-lg bg-[var(--forest-50)] flex items-center justify-center text-[var(--forest-600)]">
                       <Icon size={18} />
                     </div>
-                    <span className="text-sm font-medium text-[var(--forest-800)]">{t({ fr, en, be: en })}</span>
+                    <span className="text-sm font-medium text-[var(--forest-800)]">{t({ fr, en, be })}</span>
                   </div>
                 ))}
+              </div>
+              
+              {/* Kitchen & Laundry Amenities */}
+              <div className="mt-8">
+                <h4 className="text-body-bold text-[var(--forest-950)] mb-4">
+                  {t({ fr: "Cuisine & Buanderie", en: "Kitchen & Laundry", be: "Keuken & Wasserij" })}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                  {data.kitchen_amenities?.map(({ fr, en, be }) => (
+                    <div key={fr} className="flex items-center gap-2 p-3 bg-[var(--cream-50)] rounded-lg border border-[var(--cream-200)]">
+                      <span className="text-[var(--ochre-500)]">✓</span>
+                      <span className="text-sm text-[var(--forest-700)]">{t({ fr, en, be })}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

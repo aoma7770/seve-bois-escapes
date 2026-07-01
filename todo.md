@@ -113,11 +113,11 @@
 
 
 ## Phase 12: Update Property Details & Amenities
-- [ ] Update property schema to show 2 separate cottages (not combined unit)
-- [ ] Update database with accurate property details: 2 bedrooms, 1 bathroom, 1 kitchen, 1 living area per cottage
-- [ ] Add comprehensive amenities list: washing machine, dryer, coffee machine, full kitchen amenities
-- [ ] Update booking messaging: "Perfect for families and groups"
-- [ ] Update cottage detail pages to show "2 cottages side by side"
-- [ ] Update rates page to clarify 2 separate properties
-- [ ] Update homepage copy to emphasize 2 properties for groups/families
-- [ ] Fix Flemish language toggle (FR → EN → BE)
+- [x] Update property schema to show 2 separate cottages (not combined unit)
+- [x] Update database with accurate property details: 2 bedrooms, 1 bathroom, 1 kitchen, 1 living area per cottage
+- [x] Add comprehensive amenities list: washing machine, dryer, coffee machine, full kitchen amenities
+- [x] Update booking messaging: "Perfect for families and groups"
+- [x] Update cottage detail pages to show "2 cottages side by side"
+- [x] Update rates page to clarify 2 separate properties
+- [x] Update homepage copy to emphasize 2 properties for groups/families
+- [x] Fix Flemish language toggle (FR → EN → BE)
