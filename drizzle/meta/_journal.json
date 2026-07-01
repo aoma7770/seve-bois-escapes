@@ -15,6 +15,13 @@
       "when": 1782823048404,
       "tag": "0001_wonderful_smiling_tiger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1782877362404,
+      "tag": "0002_stormy_vampiro",
+      "breakpoints": true
     }
   ]
 }

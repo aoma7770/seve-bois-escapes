@@ -1,0 +1,20 @@
+CREATE TABLE `blog_posts` (
+	`id` int AUTO_INCREMENT NOT NULL,
+	`slug` varchar(256) NOT NULL,
+	`titleFr` varchar(256) NOT NULL,
+	`titleEn` varchar(256) NOT NULL,
+	`descriptionFr` text,
+	`descriptionEn` text,
+	`contentFr` text NOT NULL,
+	`contentEn` text NOT NULL,
+	`categoryFr` varchar(64) DEFAULT 'Général',
+	`categoryEn` varchar(64) DEFAULT 'General',
+	`authorName` varchar(256) DEFAULT 'Sève & Bois',
+	`featuredImageUrl` text,
+	`isPublished` boolean NOT NULL DEFAULT false,
+	`publishedAt` timestamp,
+	`createdAt` timestamp NOT NULL DEFAULT (now()),
+	`updatedAt` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,
+	CONSTRAINT `blog_posts_id` PRIMARY KEY(`id`),
+	CONSTRAINT `blog_posts_slug_unique` UNIQUE(`slug`)
+);

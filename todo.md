@@ -71,27 +71,13 @@
 - [x] AI-enhance interior photos to brighten natural light, sharpen details, and create a warmer, cozier feel
 - [x] Replace raw uploaded images on the website with enhanced final versions before delivery
 
-## Phase 9: Dutch Language Support (NL)
-- [ ] Update LanguageContext to support FR/EN/NL
-- [ ] Translate all homepage content to Dutch
-- [ ] Translate all page content to Dutch (cottages, location, rates, FAQ, contact, legal)
-- [ ] Translate all form labels and placeholders to Dutch
-- [ ] Update language toggle to show FR/EN/NL
-- [ ] Test Dutch language switching across all pages
+## Phase 9: Blog Section
+- [x] Add blog_posts table to database schema
+- [x] Create blog listing page (/blog)
+- [x] Create individual blog post page (/blog/:slug)
+- [x] Add blog post creation/editing procedures to tRPC router
+- [ ] Build blog post editor UI (optional admin feature)
+- [x] Add blog section to navigation
+- [ ] Implement blog search and category filtering (optional enhancement)
+- [ ] Add blog posts to sitemap for SEO (optional enhancement)
 
-## Phase 10: Blog Section
-- [ ] Add blog_posts table to database schema
-- [ ] Create blog listing page (/blog)
-- [ ] Create individual blog post page (/blog/:slug)
-- [ ] Add blog post creation/editing procedures to tRPC router
-- [ ] Build blog post editor UI
-- [ ] Add blog section to navigation
-- [ ] Implement blog search and category filtering
-- [ ] Add blog posts to sitemap for SEO
-
-## Phase 11: Dutch Language Support (FR/EN/NL)
-- [x] Update LanguageContext to support FR/EN/NL with object-based translation structure
-- [x] Refactor all t() calls across all pages and components to use new { fr, en, nl } syntax
-- [x] Add Dutch translations for all UI text, buttons, forms, and content
-- [x] Update Header language toggle to cycle through FR → EN → NL → FR
-- [x] Test trilingual functionality across all pages

@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
-import { bookings, cottages, enquiries, icalFeeds, newsletterSubscribers } from "../drizzle/schema";
+import { bookings, cottages, enquiries, icalFeeds, newsletterSubscribers, blogPosts } from "../drizzle/schema";
 import { eq, and, ne } from "drizzle-orm";
 import Stripe from "stripe";
 import nodemailer from "nodemailer";
@@ -311,6 +311,90 @@ export const appRouter = router({
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
         await db.delete(icalFeeds).where(eq(icalFeeds.id, input.id));
+        return { success: true };
+      }),
+  }),
+
+  blog: router({
+    list: publicProcedure
+      .input(z.object({
+        limit: z.number().default(10),
+        offset: z.number().default(0),
+      }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(blogPosts)
+          .where(eq(blogPosts.isPublished, true))
+          .limit(input.limit)
+          .offset(input.offset);
+      }),
+
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return null;
+        const result = await db.select().from(blogPosts)
+          .where(and(eq(blogPosts.slug, input.slug), eq(blogPosts.isPublished, true)))
+          .limit(1);
+        return result[0] ?? null;
+      }),
+
+    create: protectedProcedure
+      .input(z.object({
+        slug: z.string(),
+        titleFr: z.string(),
+        titleEn: z.string(),
+        descriptionFr: z.string().optional(),
+        descriptionEn: z.string().optional(),
+        contentFr: z.string(),
+        contentEn: z.string(),
+        categoryFr: z.string().optional(),
+        categoryEn: z.string().optional(),
+        featuredImageUrl: z.string().optional(),
+        isPublished: z.boolean().default(false),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new Error("Unauthorized");
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await (db.insert(blogPosts).values as any)([{
+          ...input,
+          authorName: ctx.user?.name || "Sève & Bois",
+          publishedAt: input.isPublished ? new Date() : null,
+        }]);
+        return { success: true };
+      }),
+
+    update: protectedProcedure
+      .input(z.object({
+        id: z.number(),
+        titleFr: z.string().optional(),
+        titleEn: z.string().optional(),
+        contentFr: z.string().optional(),
+        contentEn: z.string().optional(),
+        isPublished: z.boolean().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new Error("Unauthorized");
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const updates: any = { ...input };
+        if (input.isPublished === true) {
+          updates.publishedAt = new Date();
+        }
+        await db.update(blogPosts).set(updates).where(eq(blogPosts.id, input.id));
+        return { success: true };
+      }),
+
+    delete: protectedProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        if (ctx.user?.role !== "admin") throw new Error("Unauthorized");
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.delete(blogPosts).where(eq(blogPosts.id, input.id));
         return { success: true };
       }),
   }),

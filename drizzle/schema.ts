@@ -118,3 +118,26 @@ export const enquiries = mysqlTable("enquiries", {
 
 export type Enquiry = typeof enquiries.$inferSelect;
 export type InsertEnquiry = typeof enquiries.$inferInsert;
+
+// Blog posts
+export const blogPosts = mysqlTable("blog_posts", {
+  id: int("id").autoincrement().primaryKey(),
+  slug: varchar("slug", { length: 256 }).notNull().unique(),
+  titleFr: varchar("titleFr", { length: 256 }).notNull(),
+  titleEn: varchar("titleEn", { length: 256 }).notNull(),
+  descriptionFr: text("descriptionFr"),
+  descriptionEn: text("descriptionEn"),
+  contentFr: text("contentFr").notNull(),
+  contentEn: text("contentEn").notNull(),
+  categoryFr: varchar("categoryFr", { length: 64 }).default("Général"),
+  categoryEn: varchar("categoryEn", { length: 64 }).default("General"),
+  authorName: varchar("authorName", { length: 256 }).default("Sève & Bois"),
+  featuredImageUrl: text("featuredImageUrl"),
+  isPublished: boolean("isPublished").notNull().default(false),
+  publishedAt: timestamp("publishedAt"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type BlogPost = typeof blogPosts.$inferSelect;
+export type InsertBlogPost = typeof blogPosts.$inferInsert;
