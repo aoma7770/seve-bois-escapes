@@ -101,10 +101,7 @@ export default function BookingPage() {
                   <Link
                     key={slug}
                     href={`/booking?cottage=${slug}`}
-                    className={`p-4 rounded-xl border-2 text-left transition-all ${
-                        ? "border-[var(--forest-700)] bg-[var(--forest-50)]"
-                        : "border-[var(--cream-300)] hover:border-[var(--forest-300)]"
-                    }`}
+                    className={`p-4 rounded-xl border-2 text-left transition-all border-[var(--cream-300)] hover:border-[var(--forest-300)]`}
                   >
                     <p className="font-semibold text-[var(--forest-900)]">{name}</p>
                     <p className="text-xs text-[var(--slate-500)] mt-1">{desc}</p>
