@@ -10,7 +10,7 @@ export default function BookingPage() {
   const { t } = useLanguage();
   const [location] = useLocation();
   const params = new URLSearchParams(location.split("?")[1] || "");
-  const cottageSlug = params.get("cottage") || "la-seve";
+  // Single unit booking: both cottages together
   const initialCheckin = params.get("checkin");
   const initialCheckout = params.get("checkout");
 
@@ -21,12 +21,12 @@ export default function BookingPage() {
     }
     return undefined;
   });
-  const [guestCount, setGuestCount] = useState(2);
+  const [guestCount, setGuestCount] = useState(6);
   const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", gdprConsent: false });
 
-  const propertyId = cottageSlug === "la-seve" ? 1 : 2;
-  const pricePerNight = propertyId === 1 ? 150 : 175;
-  const cleaningFee = propertyId === 1 ? 75 : 90;
+  const propertyId = 1; // Single unit: both cottages
+  const basePricePerNight = 300; // For both cottages
+  const cleaningFee = 150;
 
   const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId });
 

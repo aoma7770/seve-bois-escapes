@@ -92,10 +92,10 @@
 
 
 ## Phase 10: Admin Dashboard & Property Management
-- [ ] Restructure booking model: both cottages as single unit (max 12 guests)
-- [ ] Update database schema: change from per-cottage bookings to single property bookings
-- [ ] Create admin login page with role-based access control
-- [ ] Build admin dashboard layout (sidebar, property overview)
+- [x] Restructure booking model: both cottages as single unit (max 12 guests)
+- [x] Update database schema: change from per-cottage bookings to single property bookings
+- [x] Create admin login page with role-based access control
+- [x] Build admin dashboard layout (sidebar, property overview)
 - [ ] Property management: edit amenities (kids gear, baby gear, etc.)
 - [ ] Property management: edit pricing and seasonal rates
 - [ ] Property management: edit descriptions and house rules

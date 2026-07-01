@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
 
 const t = (translations: { fr: string; en: string; nl: string }) => {
   const { lang } = useLanguage();
@@ -12,91 +14,67 @@ const t = (translations: { fr: string; en: string; nl: string }) => {
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
+  const { user, isAuthenticated } = useAuth();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
+  // Redirect to dashboard if already authenticated and is admin
+  if (isAuthenticated && user?.role === "admin") {
+    setLocation("/admin");
+    return null;
+  }
 
-    try {
-      // TODO: Implement admin login with Manus OAuth
-      // For now, redirect to dashboard if email is admin
-      if (email.includes("admin")) {
-        localStorage.setItem("adminToken", "temp-token");
-        setLocation("/admin");
-      } else {
-        setError(t({ fr: "Identifiants invalides", en: "Invalid credentials", nl: "Ongeldige inloggegevens" }));
-      }
-    } catch (err) {
-      setError(t({ fr: "Erreur de connexion", en: "Login error", nl: "Inlogfout" }));
-    } finally {
-      setLoading(false);
-    }
-  };
+  // If not authenticated, show login button
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[var(--cream-50)] px-4">
+        <Card className="w-full max-w-md p-8">
+          <h1 className="text-3xl font-serif font-bold text-[var(--forest-900)] mb-2">
+            {t({ fr: "Admin", en: "Admin", nl: "Admin" })}
+          </h1>
+          <p className="text-[var(--slate-600)] mb-6">
+            {t({
+              fr: "Connectez-vous pour gérer vos propriétés",
+              en: "Sign in to manage your properties",
+              nl: "Meld u aan om uw eigenschappen te beheren",
+            })}
+          </p>
 
+          <a href={getLoginUrl()}>
+            <Button className="w-full bg-[var(--forest-700)] hover:bg-[var(--forest-800)] text-white">
+              {t({ fr: "Se connecter avec Manus", en: "Sign In with Manus", nl: "Aanmelden met Manus" })}
+            </Button>
+          </a>
+
+          <p className="text-center text-sm text-[var(--slate-600)] mt-6">
+            {t({
+              fr: "Vous n'avez pas de compte ? Contactez le support",
+              en: "Don't have an account? Contact support",
+              nl: "Geen account? Neem contact op met ondersteuning",
+            })}
+          </p>
+        </Card>
+      </div>
+    );
+  }
+
+  // If authenticated but not admin
   return (
     <div className="min-h-screen flex items-center justify-center bg-[var(--cream-50)] px-4">
       <Card className="w-full max-w-md p-8">
         <h1 className="text-3xl font-serif font-bold text-[var(--forest-900)] mb-2">
-          {t({ fr: "Admin", en: "Admin", nl: "Admin" })}
+          {t({ fr: "Accès refusé", en: "Access Denied", nl: "Toegang geweigerd" })}
         </h1>
         <p className="text-[var(--slate-600)] mb-6">
           {t({
-            fr: "Connectez-vous pour gérer vos propriétés",
-            en: "Sign in to manage your properties",
-            nl: "Meld u aan om uw eigenschappen te beheren",
+            fr: "Vous n'avez pas les permissions d'accès à l'admin",
+            en: "You don't have permission to access the admin panel",
+            nl: "U hebt geen toestemming om het admin-paneel te openen",
           })}
         </p>
-
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-[var(--slate-700)] mb-1">
-              {t({ fr: "Email", en: "Email", nl: "E-mail" })}
-            </label>
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@sevebois.be"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-[var(--slate-700)] mb-1">
-              {t({ fr: "Mot de passe", en: "Password", nl: "Wachtwoord" })}
-            </label>
-            <Input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
-            />
-          </div>
-
-          {error && <div className="text-red-600 text-sm">{error}</div>}
-
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-[var(--forest-700)] hover:bg-[var(--forest-800)] text-white"
-          >
-            {loading
-              ? t({ fr: "Connexion...", en: "Signing in...", nl: "Bezig met aanmelden..." })
-              : t({ fr: "Se connecter", en: "Sign In", nl: "Aanmelden" })}
-          </Button>
-        </form>
-
-        <p className="text-center text-sm text-[var(--slate-600)] mt-6">
+        <p className="text-center text-sm text-[var(--slate-600)]">
           {t({
-            fr: "Vous n'avez pas de compte ? Contactez le support",
-            en: "Don't have an account? Contact support",
-            nl: "Geen account? Neem contact op met ondersteuning",
+            fr: "Contactez le support pour plus d'informations",
+            en: "Contact support for more information",
+            nl: "Neem contact op met ondersteuning voor meer informatie",
           })}
         </p>
       </Card>
