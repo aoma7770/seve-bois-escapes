@@ -41,11 +41,11 @@ export default function ExitIntentPopup() {
 
   const subscribe = trpc.newsletter.subscribe.useMutation({
     onSuccess: () => {
-      toast.success(t("Guide envoyé ! Vérifiez votre boîte mail.", "Guide sent! Check your inbox."));
+      toast.success(t({ fr: "Guide envoyé ! Vérifiez votre boîte mail.", en: "Guide sent! Check your inbox.", nl: "Gids verzonden! Controleer uw inbox." }));
       setVisible(false);
     },
     onError: () => {
-      toast.error(t("Une erreur est survenue.", "Something went wrong."));
+      toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", nl: "Er is iets misgegaan." }));
     },
   });
 
@@ -76,36 +76,38 @@ export default function ExitIntentPopup() {
 
           <div className="divider-ochre mb-4" />
           <h3 className="text-subheadline text-[var(--forest-950)] mb-2">
-            {t("Avant de partir…", "Before you go…")}
+            {t({ fr: "Avant de partir…", en: "Before you go…", nl: "Voordat je gaat..." })}
           </h3>
           <p className="text-sm text-[var(--slate-600)] leading-relaxed mb-5">
-            {t(
-              "Recevez gratuitement notre guide « Explorer la Semois & les Ardennes belges » — sentiers, kayak, villages et bonnes adresses.",
-              "Get our free guide \"Exploring the Semois & the Belgian Ardennes\" — trails, kayaking, villages and local gems."
-            )}
+            {t({
+              fr: "Recevez gratuitement notre guide « Explorer la Semois & les Ardennes belges » — sentiers, kayak, villages et bonnes adresses.",
+              en: "Get our free guide \"Exploring the Semois & the Belgian Ardennes\" — trails, kayaking, villages and local gems.",
+              nl: "Ontvang gratis onze gids \"De Semois & de Belgische Ardennen verkennen\" — paden, kajakken, dorpen en lokale juweeltjes."
+            })}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-3">
             <input
               type="text"
-              placeholder={t("Votre prénom", "Your first name")}
+              placeholder={t({ fr: "Votre prénom", en: "Your first name", nl: "Je voornaam" })}
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="input-eco"
             />
             <input
               type="email"
-              placeholder={t("Votre email", "Your email")}
+              placeholder={t({ fr: "Votre email", en: "Your email", nl: "Je e-mailadres" })}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
               className="input-eco"
             />
             <p className="text-xs text-[var(--slate-400)]">
-              {t(
-                "Pas de spam. Désabonnement en un clic. Conforme RGPD.",
-                "No spam. Unsubscribe anytime. GDPR compliant."
-              )}
+              {t({
+                fr: "Pas de spam. Désabonnement en un clic. Conforme RGPD.",
+                en: "No spam. Unsubscribe anytime. GDPR compliant.",
+                nl: "Geen spam. Afmelden met één klik. GDPR-conform."
+              })}
             </p>
             <button
               type="submit"
@@ -113,8 +115,8 @@ export default function ExitIntentPopup() {
               className="btn-primary w-full"
             >
               {subscribe.isPending
-                ? t("Envoi...", "Sending...")
-                : t("Recevoir le guide gratuit", "Get the free guide")}
+                ? t({ fr: "Envoi...", en: "Sending...", nl: "Verzenden..." })
+                : t({ fr: "Recevoir le guide gratuit", en: "Get the free guide", nl: "Gratis gids ontvangen" })}
             </button>
           </form>
 
@@ -122,7 +124,7 @@ export default function ExitIntentPopup() {
             onClick={() => setVisible(false)}
             className="mt-3 w-full text-center text-xs text-[var(--slate-400)] hover:text-[var(--slate-600)] transition-colors"
           >
-            {t("Non merci, continuer sans le guide", "No thanks, continue without the guide")}
+            {t({ fr: "Non merci, continuer sans le guide", en: "No thanks, continue without the guide", nl: "Nee dank je, doorgaan zonder gids" })}
           </button>
         </div>
       </div>

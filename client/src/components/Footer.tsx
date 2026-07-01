@@ -12,15 +12,15 @@ export default function Footer() {
 
   const subscribe = trpc.newsletter.subscribe.useMutation({
     onSuccess: () => {
-      toast.success(t("Merci ! Vous êtes inscrit.", "Thank you! You're subscribed."));
+      toast.success(t({ fr: "Merci ! Vous êtes inscrit.", en: "Thank you! You're subscribed.", nl: "Thank you! You're subscribed." }));
       setEmail("");
       setName("");
     },
     onError: (err) => {
       if (err.message.includes("already")) {
-        toast.info(t("Vous êtes déjà inscrit.", "You're already subscribed."));
+        toast.info(t({ fr: "Vous êtes déjà inscrit.", en: "You're already subscribed.", nl: "You're already subscribed." }));
       } else {
-        toast.error(t("Une erreur est survenue.", "Something went wrong."));
+        toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", nl: "Something went wrong." }));
       }
     },
   });
@@ -42,16 +42,10 @@ export default function Footer() {
               Sève & Bois
             </div>
             <p className="text-sm text-[var(--forest-300)] leading-relaxed mb-4 italic">
-              {t(
-                "Déconnectez. Respirez. Tout est prévu.",
-                "Disconnect. Breathe. Everything's taken care of."
-              )}
+              {t({ fr: "Déconnectez. Respirez. Tout est prévu.", en: "Disconnect. Breathe. Everything's taken care of.", nl: "Disconnect. Breathe. Everything's taken care of." })}
             </p>
             <p className="text-sm text-[var(--forest-300)] leading-relaxed">
-              {t(
-                "Deux cottages éco-conçus au cœur de l'Ardenne belge, à Laforêt, sur les rives de la Semois.",
-                "Two eco-designed cottages in the heart of the Belgian Ardennes, in Laforêt, on the banks of the Semois."
-              )}
+              {t({ fr: "Deux cottages éco-conçus au cœur de l'Ardenne belge, à Lafarêt, sur les rives de la Semois.", en: "Two eco-designed cottages in the heart of the Belgian Ardennes, in Lafarêt, on the banks of the Semois.", nl: "Twee eco-ontworpen cottages in het hart van de Belgische Ardennen, in Lafarêt, aan de oevers van de Semois." })}
             </p>
             {/* Social */}
             <div className="flex gap-3 mt-5">
@@ -79,17 +73,17 @@ export default function Footer() {
           {/* Quick links */}
           <div>
             <h4 className="text-caption text-[var(--forest-400)] mb-4">
-              {t("Navigation", "Navigation")}
+              {t({ fr: "Navigation", en: "Navigation", nl: "Navigation" })}
             </h4>
             <ul className="space-y-2.5">
               {[
-                { href: "/cottages/la-seve", label: t("La Sève", "La Sève") },
-                { href: "/cottages/le-bois", label: t("Le Bois", "Le Bois") },
-                { href: "/location", label: t("Le Lieu", "The Location") },
-                { href: "/sustainability", label: t("Durabilité", "Sustainability") },
-                { href: "/rates", label: t("Tarifs & Disponibilités", "Rates & Availability") },
+                { href: "/cottages/la-seve", label: t({ fr: "La Sève", en: "La Sève", nl: "La Sève" }) },
+                { href: "/cottages/le-bois", label: t({ fr: "Le Bois", en: "Le Bois", nl: "Le Bois" }) },
+                { href: "/location", label: t({ fr: "Le Lieu", en: "The Location", nl: "The Location" }) },
+                { href: "/sustainability", label: t({ fr: "Durabilité", en: "Sustainability", nl: "Sustainability" }) },
+                { href: "/rates", label: t({ fr: "Tarifs & Disponibilités", en: "Rates & Availability", nl: "Rates & Availability" }) },
                 { href: "/faq", label: "FAQ" },
-                { href: "/contact", label: t("Contact & Réserver", "Contact & Book") },
+                { href: "/contact", label: t({ fr: "Contact & Réserver", en: "Contact & Book", nl: "Contact & Book" }) },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -106,7 +100,7 @@ export default function Footer() {
           {/* Contact */}
           <div>
             <h4 className="text-caption text-[var(--forest-400)] mb-4">
-              {t("Contact", "Contact")}
+              {t({ fr: "Contact", en: "Contact", nl: "Contact" })}
             </h4>
             <ul className="space-y-3">
               <li>
@@ -135,15 +129,15 @@ export default function Footer() {
             <div className="mt-6 space-y-2">
               <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
                 <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">✓</span>
-                {t("Approuvé par la commune", "Council-approved")}
+                {t({ fr: "Approuvé par la commune", en: "Council-approved", nl: "Council-approved" })}
               </div>
               <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
                 <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">♻</span>
-                {t("Énergie 100% renouvelable", "100% renewable energy")}
+                {t({ fr: "Énergie 100% renouvelable", en: "100% renewable energy", nl: "100% renewable energy" })}
               </div>
               <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
                 <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">🔒</span>
-                {t("Paiement sécurisé", "Secure payment")}
+                {t({ fr: "Paiement sécurisé", en: "Secure payment", nl: "Secure payment" })}
               </div>
             </div>
           </div>
@@ -151,25 +145,22 @@ export default function Footer() {
           {/* Newsletter */}
           <div>
             <h4 className="text-caption text-[var(--forest-400)] mb-4">
-              {t("Guide Gratuit", "Free Guide")}
+              {t({ fr: "Guide Gratuit", en: "Free Guide", nl: "Free Guide" })}
             </h4>
             <p className="text-sm text-[var(--forest-300)] leading-relaxed mb-4">
-              {t(
-                "Recevez notre guide gratuit « Explorer la Semois & les Ardennes belges ».",
-                "Receive our free guide \"Exploring the Semois & the Belgian Ardennes\"."
-              )}
+              {t({ fr: "Recevez notre guide gratuit « Explorer la Semois & les Ardennes belges ».", en: "Receive our free guide \"Exploring the Semois & the Belgian Ardennes\".", nl: "Receive our free guide \"Exploring the Semois & the Belgian Ardennes\"." })}
             </p>
             <form onSubmit={handleSubscribe} className="space-y-2">
               <input
                 type="text"
-                placeholder={t("Votre prénom", "Your first name")}
+                placeholder={t({ fr: "Votre prénom", en: "Your first name", nl: "Your first name" })}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="w-full px-3 py-2.5 rounded bg-[var(--forest-800)] border border-[var(--forest-700)] text-white placeholder-[var(--forest-400)] text-sm focus:outline-none focus:border-[var(--ochre-400)] transition-colors"
               />
               <input
                 type="email"
-                placeholder={t("Votre email", "Your email")}
+                placeholder={t({ fr: "Votre email", en: "Your email", nl: "Your email" })}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -181,8 +172,8 @@ export default function Footer() {
                 className="w-full py-2.5 bg-[var(--ochre-600)] hover:bg-[var(--ochre-700)] text-white text-sm font-semibold rounded transition-colors disabled:opacity-60"
               >
                 {subscribe.isPending
-                  ? t("Inscription...", "Subscribing...")
-                  : t("Recevoir le guide", "Get the guide")}
+                  ? t({ fr: "Inscription...", en: "Subscribing...", nl: "Subscribing..." })
+                  : t({ fr: "Recevoir le guide", en: "Get the guide", nl: "Get the guide" })}
               </button>
             </form>
           </div>
@@ -193,12 +184,12 @@ export default function Footer() {
       <div className="border-t border-[var(--forest-800)]">
         <div className="container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[var(--forest-500)]">
-            © {new Date().getFullYear()} Sève & Bois Escapes. {t("Tous droits réservés.", "All rights reserved.")}
+            © {new Date().getFullYear()} Sève & Bois Escapes. {t({ fr: "Tous droits réservés.", en: "All rights reserved.", nl: "All rights reserved." })}
           </p>
           <div className="flex items-center gap-4">
             {[
-              { href: "/privacy", label: t("Confidentialité", "Privacy") },
-              { href: "/terms", label: t("Conditions", "Terms") },
+              { href: "/privacy", label: t({ fr: "Confidentialité", en: "Privacy", nl: "Privacy" }) },
+              { href: "/terms", label: t({ fr: "Conditions", en: "Terms", nl: "Terms" }) },
               { href: "/cookies", label: "Cookies" },
             ].map((link) => (
               <Link

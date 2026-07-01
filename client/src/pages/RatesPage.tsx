@@ -37,8 +37,8 @@ export default function RatesPage() {
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="bg-[var(--forest-900)] py-16 text-white">
         <div className="container">
-          <p className="text-caption text-[var(--ochre-300)] mb-3">{t("Tarifs & Disponibilités", "Rates & Availability")}</p>
-          <h1 className="text-headline text-white">{t("Vérifiez les disponibilités", "Check availability")}</h1>
+          <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Tarifs & Disponibilités", en: "Rates & Availability", nl: "Rates & Availability" })}</p>
+          <h1 className="text-headline text-white">{t({ fr: "Vérifiez les disponibilités", en: "Check availability", nl: "Check availability" })}</h1>
         </div>
       </div>
 
@@ -61,14 +61,14 @@ export default function RatesPage() {
                       : "border-[var(--cream-300)] bg-white text-[var(--forest-800)] hover:border-[var(--forest-400)]"
                   }`}
                 >
-                  {name} <span className="opacity-70">{t("à partir de", "from")} {price}/nuit</span>
+                  {name} <span className="opacity-70">{t({ fr: "à partir de", en: "from", nl: "from" })} {price}/nuit</span>
                 </button>
               ))}
             </div>
 
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)] shadow-sm">
               <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">
-                {t("Sélectionnez vos dates", "Select your dates")}
+                {t({ fr: "Sélectionnez vos dates", en: "Select your dates", nl: "Select your dates" })}
               </h3>
               <DayPicker
                 mode="range"
@@ -85,16 +85,16 @@ export default function RatesPage() {
 
             {/* Pricing table */}
             <div className="mt-8 bg-white rounded-2xl p-8 border border-[var(--cream-300)]">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-6">{t("Grille tarifaire", "Pricing")}</h3>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-6">{t({ fr: "Grille tarifaire", en: "Pricing", nl: "Pricing" })}</h3>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b border-[var(--cream-200)]">
-                      <th className="text-left py-3 text-[var(--slate-600)] font-semibold">{t("Cottage", "Cottage")}</th>
-                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t("Nuit semaine", "Weeknight")}</th>
-                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t("Nuit week-end", "Weekend night")}</th>
-                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t("Semaine", "Week")}</th>
-                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t("Ménage", "Cleaning")}</th>
+                      <th className="text-left py-3 text-[var(--slate-600)] font-semibold">{t({ fr: "Cottage", en: "Cottage", nl: "Cottage" })}</th>
+                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t({ fr: "Nuit semaine", en: "Weeknight", nl: "Weeknight" })}</th>
+                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t({ fr: "Nuit week-end", en: "Weekend night", nl: "Weekend night" })}</th>
+                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t({ fr: "Semaine", en: "Week", nl: "Week" })}</th>
+                      <th className="text-right py-3 text-[var(--slate-600)] font-semibold">{t({ fr: "Ménage", en: "Cleaning", nl: "Cleaning" })}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -113,7 +113,7 @@ export default function RatesPage() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-[var(--slate-400)] mt-4">{t("Séjour minimum 2 nuits. Tarifs indicatifs, susceptibles de varier selon les périodes.", "Minimum 2-night stay. Indicative rates, subject to variation by season.")}</p>
+              <p className="text-xs text-[var(--slate-400)] mt-4">{t({ fr: "Séjour minimum 2 nuits. Tarifs indicatifs, susceptibles de varier selon les périodes.", en: "Minimum 2-night stay. Indicative rates, subject to variation by season.", nl: "Minimum 2-night stay. Indicative rates, subject to variation by season." })}</p>
             </div>
           </div>
 
@@ -125,25 +125,25 @@ export default function RatesPage() {
                   {selectedCottage === 1 ? "La Sève" : "Le Bois"}
                 </p>
                 <div className="text-4xl font-serif font-bold">€{pricePerNight}</div>
-                <p className="text-sm text-[var(--forest-300)] mt-1">{t("/ nuit", "/ night")}</p>
+                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit", en: "/ night", nl: "/ night" })}</p>
               </div>
               <div className="p-6 space-y-4">
                 {range?.from && range?.to ? (
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{t("Arrivée", "Check-in")}</span>
+                      <span className="text-[var(--slate-600)]">{t({ fr: "Arrivée", en: "Check-in", nl: "Check-in" })}</span>
                       <span className="font-semibold">{range.from.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{t("Départ", "Check-out")}</span>
+                      <span className="text-[var(--slate-600)]">{t({ fr: "Départ", en: "Check-out", nl: "Check-out" })}</span>
                       <span className="font-semibold">{range.to.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{nights} {t("nuit(s)", "night(s)")}</span>
+                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", nl: "night(s)" })}</span>
                       <span>€{nights * pricePerNight}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{t("Frais de ménage", "Cleaning fee")}</span>
+                      <span className="text-[var(--slate-600)]">{t({ fr: "Frais de ménage", en: "Cleaning fee", nl: "Cleaning fee" })}</span>
                       <span>€{cleaningFee}</span>
                     </div>
                     <div className="flex justify-between font-bold text-[var(--forest-900)] border-t border-[var(--cream-200)] pt-3">
@@ -153,7 +153,7 @@ export default function RatesPage() {
                   </div>
                 ) : (
                   <p className="text-sm text-[var(--slate-500)] text-center py-4">
-                    {t("Sélectionnez vos dates pour voir le total.", "Select your dates to see the total.")}
+                    {t({ fr: "Sélectionnez vos dates pour voir le total.", en: "Select your dates to see the total.", nl: "Select your dates to see the total." })}
                   </p>
                 )}
 
@@ -161,10 +161,10 @@ export default function RatesPage() {
                   href={`/booking?cottage=${selectedCottage === 1 ? "la-seve" : "le-bois"}${range?.from ? `&checkin=${range.from.toISOString().split("T")[0]}` : ""}${range?.to ? `&checkout=${range.to.toISOString().split("T")[0]}` : ""}`}
                   className="btn-primary w-full text-center"
                 >
-                  {t("Réserver maintenant", "Book now")}
+                  {t({ fr: "Réserver maintenant", en: "Book now", nl: "Book now" })}
                 </Link>
                 <p className="text-xs text-center text-[var(--slate-400)]">
-                  🔒 {t("Paiement sécurisé via Stripe", "Secure payment via Stripe")}
+                  🔒 {t({ fr: "Paiement sécurisé via Stripe", en: "Secure payment via Stripe", nl: "Secure payment via Stripe" })}
                 </p>
               </div>
             </div>

@@ -81,7 +81,7 @@ export default function CottagePage({ slug }: Props) {
 
         {/* Title overlay */}
         <div className="absolute bottom-8 left-8">
-          <p className="text-caption text-[var(--ochre-300)] mb-2">{t("Sève & Bois Escapes", "Sève & Bois Escapes")}</p>
+          <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Sève & Bois Escapes", en: "Sève & Bois Escapes", nl: "Sève & Bois Escapes" })}</p>
           <h1 className="text-display text-white">{name}</h1>
         </div>
       </div>
@@ -111,27 +111,21 @@ export default function CottagePage({ slug }: Props) {
               <div className="divider-ochre mb-4" />
               <h2 className="text-headline text-[var(--forest-950)] mb-4">
                 {slug === "la-seve"
-                  ? t("Un cottage pensé pour la nature — et pour vous.", "A cottage built for nature — and for you.")
-                  : t("Plus d'espace. Même esprit.", "More space. Same spirit.")}
+                  ? t({ fr: "Un cottage pensé pour la nature — et pour vous.", en: "A cottage built for nature — and for you.", nl: "A cottage built for nature — and for you." })
+                  : t({ fr: "Plus d'espace. Même esprit.", en: "More space. Same spirit.", nl: "More space. Same spirit." })}
               </h2>
               <p className="text-lead mb-4">
                 {slug === "la-seve"
-                  ? t(
-                      "La Sève est notre premier cottage — intime, chaleureux, et tourné vers la forêt. Deux chambres, une cuisine complète, une salle de bain aux carreaux vert forêt, et des baies vitrées qui ouvrent sur la nature. Tout est là. Il ne vous reste qu'à arriver.",
-                      "La Sève is our first cottage — intimate, warm, and facing the forest. Two bedrooms, a full kitchen, a bathroom with forest-green tiles, and floor-to-ceiling glazing opening onto nature. Everything is here. All you need to do is arrive."
-                    )
-                  : t(
-                      "Le Bois accueille jusqu'à six personnes dans un espace plus généreux, avec trois chambres et deux salles de bain. Idéal pour les familles ou les groupes d'amis. Le même esprit éco-luxe, avec davantage de place pour respirer.",
-                      "Le Bois welcomes up to six guests in a more generous space, with three bedrooms and two bathrooms. Ideal for families or groups of friends. The same eco-luxe spirit, with more room to breathe."
-                    )}
+                  ? t({ fr: "La Sève est notre premier cottage — intime, chaleureux, et tourné vers la forêt. Deux chambres, une cuisine complète, une salle de bain aux carreaux vert forêt, et des baies vitrées qui ouvrent sur la nature. Tout est là. Il ne vous reste qu'à arriver.", en: "La Sève is our first cottage — intimate, warm, and facing the forest. Two bedrooms, a full kitchen, a bathroom with forest-green tiles, and floor-to-ceiling glazing opening onto nature. Everything is here. All you need to do is arrive.", nl: "La Sève is our first cottage — intimate, warm, and facing the forest. Two bedrooms, a full kitchen, a bathroom with forest-green tiles, and floor-to-ceiling glazing opening onto nature. Everything is here. All you need to do is arrive." })
+                  : t({ fr: "Le Bois accueille jusqu'à six personnes dans un espace plus généreux, avec trois chambres et deux salles de bain. Idéal pour les familles ou les groupes d'amis. Le même esprit éco-luxe, avec davantage de place pour respirer.", en: "Le Bois welcomes up to six guests in a more generous space, with three bedrooms and two bathrooms. Ideal for families or groups of friends. The same eco-luxe spirit, with more room to breathe.", nl: "Le Bois welcomes up to six guests in a more generous space, with three bedrooms and two bathrooms. Ideal for families or groups of friends. The same eco-luxe spirit, with more room to breathe." })}
               </p>
 
               {/* Quick stats */}
               <div className="flex flex-wrap gap-6 mt-6">
                 {[
-                  { icon: Users, label: t(`${data.capacity} personnes`, `${data.capacity} guests`) },
-                  { icon: Bed, label: t(`${data.bedrooms} chambres`, `${data.bedrooms} bedrooms`) },
-                  { icon: Bath, label: t(`${data.bathrooms} salle${data.bathrooms > 1 ? "s" : ""} de bain`, `${data.bathrooms} bathroom${data.bathrooms > 1 ? "s" : ""}`) },
+                  { icon: Users, label: t({ fr: `${data.capacity} personnes`, en: `${data.capacity} guests`, nl: `${data.capacity} gasten` }) },
+                  { icon: Bed, label: t({ fr: `${data.bedrooms} chambres`, en: `${data.bedrooms} bedrooms`, nl: `${data.bedrooms} slaapkamers` }) },
+                  { icon: Bath, label: t({ fr: `${data.bathrooms} salle${data.bathrooms > 1 ? "s" : ""} de bain`, en: `${data.bathrooms} bathroom${data.bathrooms > 1 ? "s" : ""}`, nl: `${data.bathrooms} badkamer${data.bathrooms > 1 ? "s" : ""}` }) },
                 ].map(({ icon: Icon, label }) => (
                   <div key={label} className="flex items-center gap-2 text-[var(--forest-700)]">
                     <Icon size={18} />
@@ -144,7 +138,7 @@ export default function CottagePage({ slug }: Props) {
             {/* Amenities */}
             <div>
               <h3 className="text-subheadline text-[var(--forest-950)] mb-6">
-                {t("Équipements inclus", "What's included")}
+                {t({ fr: "Équipements inclus", en: "What's included", nl: "What's included" })}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 {data.amenities.map(({ icon: Icon, fr, en }) => (
@@ -152,7 +146,7 @@ export default function CottagePage({ slug }: Props) {
                     <div className="w-9 h-9 rounded-lg bg-[var(--forest-50)] flex items-center justify-center text-[var(--forest-600)]">
                       <Icon size={18} />
                     </div>
-                    <span className="text-sm font-medium text-[var(--forest-800)]">{t(fr, en)}</span>
+                    <span className="text-sm font-medium text-[var(--forest-800)]">{t({ fr, en, nl: en })}</span>
                   </div>
                 ))}
               </div>
@@ -161,15 +155,15 @@ export default function CottagePage({ slug }: Props) {
             {/* House rules */}
             <div className="bg-[var(--forest-50)] rounded-2xl p-8">
               <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
-                {t("Règlement intérieur", "House rules")}
+                {t({ fr: "Règlement intérieur", en: "House rules", nl: "House rules" })}
               </h3>
               <ul className="space-y-2 text-sm text-[var(--slate-700)]">
                 {[
-                  t("Arrivée à partir de 16h, départ avant 11h", "Check-in from 4pm, check-out before 11am"),
-                  t("Animaux acceptés sur demande", "Pets welcome on request"),
-                  t("Non-fumeur à l'intérieur", "Non-smoking indoors"),
-                  t("Séjour minimum 2 nuits", "Minimum 2-night stay"),
-                  t("Respect du voisinage et de la nature", "Respect for neighbours and nature"),
+                  t({ fr: "Arrivée à partir de 16h, départ avant 11h", en: "Check-in from 4pm, check-out before 11am", nl: "Check-in from 4pm, check-out before 11am" }),
+                  t({ fr: "Animaux acceptés sur demande", en: "Pets welcome on request", nl: "Pets welcome on request" }),
+                  t({ fr: "Non-fumeur à l'intérieur", en: "Non-smoking indoors", nl: "Non-smoking indoors" }),
+                  t({ fr: "Séjour minimum 2 nuits", en: "Minimum 2-night stay", nl: "Minimum 2-night stay" }),
+                  t({ fr: "Respect du voisinage et de la nature", en: "Respect for neighbours and nature", nl: "Respect for neighbours and nature" }),
                 ].map((rule) => (
                   <li key={rule} className="flex items-start gap-2">
                     <span className="text-[var(--ochre-500)] mt-0.5">·</span>
@@ -182,13 +176,10 @@ export default function CottagePage({ slug }: Props) {
             {/* Eco features */}
             <div>
               <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
-                {t("Engagement éco-responsable", "Eco commitment")}
+                {t({ fr: "Engagement éco-responsable", en: "Eco commitment", nl: "Eco commitment" })}
               </h3>
               <p className="text-lead">
-                {t(
-                  "Ce cottage est construit avec des matériaux naturels et éco-certifiés. Il est alimenté à 100% par des énergies renouvelables. Séjourner ici, c'est choisir la nature sans compromis.",
-                  "This cottage is built with natural, eco-certified materials and powered 100% by renewable energy. Staying here means choosing nature without compromise."
-                )}
+                {t({ fr: "Ce cottage est construit avec des matériaux naturels et éco-certifiés. Il est alimenté à 100% par des énergies renouvelables. Séjourner ici, c'est choisir la nature sans compromis.", en: "This cottage is built with natural, eco-certified materials and powered 100% by renewable energy. Staying here means choosing nature without compromise.", nl: "This cottage is built with natural, eco-certified materials and powered 100% by renewable energy. Staying here means choosing nature without compromise." })}
               </p>
             </div>
           </div>
@@ -197,34 +188,31 @@ export default function CottagePage({ slug }: Props) {
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-2xl shadow-lg border border-[var(--cream-300)] overflow-hidden">
               <div className="bg-[var(--forest-700)] p-6 text-white">
-                <p className="text-caption text-[var(--forest-300)] mb-1">{t("À partir de", "From")}</p>
+                <p className="text-caption text-[var(--forest-300)] mb-1">{t({ fr: "À partir de", en: "From", nl: "From" })}</p>
                 <div className="text-4xl font-serif font-bold">€{data.priceFrom}</div>
-                <p className="text-sm text-[var(--forest-300)] mt-1">{t("/ nuit", "/ night")}</p>
+                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit", en: "/ night", nl: "/ night" })}</p>
               </div>
               <div className="p-6 space-y-4">
                 <p className="text-sm text-[var(--slate-600)]">
-                  {t(
-                    "Réservez en direct pour le meilleur tarif. Pas de frais de plateforme.",
-                    "Book direct for the best rate. No platform fees."
-                  )}
+                  {t({ fr: "Réservez en direct pour le meilleur tarif. Pas de frais de plateforme.", en: "Book direct for the best rate. No platform fees.", nl: "Book direct for the best rate. No platform fees." })}
                 </p>
                 <Link
                   href={`/booking?cottage=${slug}`}
                   className="btn-primary w-full text-center flex items-center justify-center gap-2"
                 >
                   <Calendar size={16} />
-                  {t("Vérifier les disponibilités", "Check availability")}
+                  {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Check availability" })}
                 </Link>
                 <Link
                   href="/contact"
                   className="btn-outline w-full text-center"
                 >
-                  {t("Envoyer une demande", "Send an enquiry")}
+                  {t({ fr: "Envoyer une demande", en: "Send an enquiry", nl: "Send an enquiry" })}
                 </Link>
                 <div className="pt-2 border-t border-[var(--cream-200)]">
                   <div className="flex items-center gap-2 text-xs text-[var(--slate-500)]">
                     <span>🔒</span>
-                    {t("Paiement sécurisé via Stripe", "Secure payment via Stripe")}
+                    {t({ fr: "Paiement sécurisé via Stripe", en: "Secure payment via Stripe", nl: "Secure payment via Stripe" })}
                   </div>
                 </div>
               </div>

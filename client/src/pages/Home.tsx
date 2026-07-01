@@ -68,23 +68,20 @@ export default function Home() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container text-center text-white">
             <p className="text-caption text-[var(--ochre-300)] mb-4 animate-fade-up">
-              {t("Laforêt · Ardennes belges · Sur la Semois", "Laforêt · Belgian Ardennes · On the Semois")}
+              {t({ fr: "Laforêt · Ardennes belges · Sur la Semois", en: "Laforêt · Belgian Ardennes · On the Semois", nl: "Laforêt · Belgian Ardennes · On the Semois" })}
             </p>
             <h1 className="text-display text-white mb-6 animate-fade-up delay-100 max-w-3xl mx-auto">
-              {t("Et si la forêt vous attendait ?", "What if the forest were waiting for you?")}
+              {t({ fr: "Et si la forêt vous attendait ?", en: "What if the forest were waiting for you?", nl: "What if the forest were waiting for you?" })}
             </h1>
             <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto">
-              {t(
-                "Un cottage éco-conçu au cœur de l'Ardenne belge, au bord de la Semois. Toute la beauté de la nature, tout le confort en plus.",
-                "An eco-designed cottage in the heart of the Belgian Ardennes, on the banks of the Semois. All the beauty of nature, with every comfort included."
-              )}
+              {t({ fr: "Un cottage éco-conçu au cœur de l'Ardenne belge, au bord de la Semois. Toute la beauté de la nature, tout le confort en plus.", en: "An eco-designed cottage in the heart of the Belgian Ardennes, on the banks of the Semois. All the beauty of nature, with every comfort included.", nl: "An eco-designed cottage in the heart of the Belgian Ardennes, on the banks of the Semois. All the beauty of nature, with every comfort included." })}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up delay-300">
               <Link href="/booking" className="btn-primary text-base px-8 py-4">
-                {t("Vérifier les disponibilités", "Check availability")}
+                {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Check availability" })}
               </Link>
               <Link href="/cottages/la-seve" className="btn-ghost text-base px-8 py-4">
-                {t("Découvrir les cottages", "Discover the cottages")}
+                {t({ fr: "Découvrir les cottages", en: "Discover the cottages", nl: "Discover the cottages" })}
               </Link>
             </div>
           </div>
@@ -96,11 +93,11 @@ export default function Home() {
         <div className="container">
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center">
             {[
-              t("Cœur de l'Ardenne belge", "Heart of the Belgian Ardennes"),
-              t("Cottage éco-conçu", "Eco-designed cottage"),
-              t("Énergie 100% renouvelable", "100% renewable energy"),
-              t("Wifi & tout confort", "Wifi & full comfort"),
-              t("Approuvé par la commune", "Council-approved"),
+              t({ fr: "Cœur de l'Ardenne belge", en: "Heart of the Belgian Ardennes", nl: "Heart of the Belgian Ardennes" }),
+              t({ fr: "Cottage éco-conçu", en: "Eco-designed cottage", nl: "Eco-designed cottage" }),
+              t({ fr: "Énergie 100% renouvelable", en: "100% renewable energy", nl: "100% hernieuwbare energie" }),
+              t({ fr: "Wifi & tout confort", en: "Wifi & full comfort", nl: "Wifi & full comfort" }),
+              t({ fr: "Approuvé par la commune", en: "Council-approved", nl: "Council-approved" }),
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-[var(--forest-300)]">
                 {i > 0 && <span className="hidden sm:block text-[var(--forest-700)]">·</span>}
@@ -117,13 +114,10 @@ export default function Home() {
           <FadeSection>
             <div className="divider-ochre mx-auto mb-6" />
             <h2 className="text-headline text-[var(--forest-950)] mb-6">
-              {t("Loin de la ville. Au plus près de l'essentiel.", "Far from the city. Close to what matters.")}
+              {t({ fr: "Loin de la ville. Au plus près de l'essentiel.", en: "Far from the city. Close to what matters.", nl: "Far from the city. Close to what matters." })}
             </h2>
             <p className="text-lead max-w-3xl mx-auto">
-              {t(
-                "Ici, le temps ralentit. La forêt commence à votre porte, la Semois murmure en contrebas, et tout ce dont vous avez besoin est déjà là. Pas de stress, pas de matériel, pas d'expérience requise — juste vous, la nature, et le confort d'un vrai chez-soi.",
-                "Here, time slows down. The forest begins at your door, the Semois murmurs below, and everything you need is already here. No stress, no gear, no experience required — just you, nature, and the comfort of a real home."
-              )}
+              {t({ fr: "Ici, le temps ralentit. La forêt commence à votre porte, la Semois murmure en contrebas, et tout ce dont vous avez besoin est déjà là. Pas de stress, pas de matériel, pas d'expérience requise — juste vous, la nature, et le confort d'un vrai chez-soi.", en: "Here, time slows down. The forest begins at your door, the Semois murmurs below, and everything you need is already here. No stress, no gear, no experience required — just you, nature, and the comfort of a real home.", nl: "Here, time slows down. The forest begins at your door, the Semois murmurs below, and everything you need is already here. No stress, no gear, no experience required — just you, nature, and the comfort of a real home." })}
             </p>
           </FadeSection>
         </div>
@@ -133,9 +127,9 @@ export default function Home() {
       <section className="py-20 bg-white">
         <div className="container">
           <FadeSection className="text-center mb-14">
-            <p className="text-caption text-[var(--ochre-500)] mb-3">{t("Pour tous les amoureux de la nature", "For every nature lover")}</p>
+            <p className="text-caption text-[var(--ochre-500)] mb-3">{t({ fr: "Pour tous les amoureux de la nature", en: "For every nature lover", nl: "For every nature lover" })}</p>
             <h2 className="text-headline text-[var(--forest-950)]">
-              {t("Connecté quand il faut, déconnecté quand vous voulez.", "Connected when you need it, unplugged when you want it.")}
+              {t({ fr: "Connecté quand il faut, déconnecté quand vous voulez.", en: "Connected when you need it, unplugged when you want it.", nl: "Connected when you need it, unplugged when you want it." })}
             </h2>
           </FadeSection>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -145,16 +139,17 @@ export default function Home() {
                 <div className="p-8">
                   <div className="divider-ochre mb-4" />
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
-                    {t("Première fois en pleine nature ? Vous êtes au bon endroit.", "First time in the wild? You're in exactly the right place.")}
+                    {t({ fr: "Première fois en pleine nature ? Vous êtes au bon endroit.", en: "First time in the wild? You're in exactly the right place.", nl: "First time in the wild? You're in exactly the right place." })}
                   </h3>
                   <p className="text-[var(--slate-600)] leading-relaxed mb-4">
-                    {t(
-                      "Pas d'expérience requise, pas de matériel à prévoir, rien à planifier. Wifi rapide, chauffage, eau chaude, un vrai lit confortable, une cuisine complète. Vous arrivez, la forêt fait le reste.",
-                      "No experience needed, no equipment to bring, nothing to plan. Fast wifi, heating, hot water, a real comfortable bed, a full kitchen. You arrive, the forest does the rest."
-                    )}
+                    {t({
+                      fr: "Pas d'expérience requise, pas de matériel à prévoir, rien à planifier. Wifi rapide, chauffage, eau chaude, un vrai lit confortable, une cuisine complète. Vous arrivez, la forêt fait le reste.",
+                      en: "No experience needed, no equipment to bring, nothing to plan. Fast wifi, heating, hot water, a real comfortable bed, a full kitchen. You arrive, the forest does the rest.",
+                      nl: "Geen ervaring nodig, geen uitrusting nodig, niets in te plannen. Snel wifi, verwarming, warm water, een echt comfortabel bed, een volledige keuken. Je arriveert, het bos doet de rest."
+                    })}
                   </p>
                   <Link href="/faq" className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
-                    {t("Vos questions, nos réponses", "Your questions, our answers")} <ArrowRight size={14} />
+                    {t({ fr: "Vos questions, nos réponses", en: "Your questions, our answers", nl: "Your questions, our answers" })} <ArrowRight size={14} />
                   </Link>
                 </div>
               </div>
@@ -165,16 +160,17 @@ export default function Home() {
                 <div className="p-8">
                   <div className="divider-ochre mb-4" />
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
-                    {t("Déjà amoureux du grand air ? Le terrain de jeu est immense.", "Already an outdoors soul? The playground is vast.")}
+                    {t({ fr: "Déjà amoureux du grand air ? Le terrain de jeu est immense.", en: "Already an outdoors soul? The playground is vast.", nl: "Already an outdoors soul? The playground is vast." })}
                   </h3>
                   <p className="text-[var(--slate-600)] leading-relaxed mb-4">
-                    {t(
-                      "Forêts, sentiers, panoramas et kayak sur la Semois à deux pas. Un séjour éco-responsable qui correspond à vos valeurs — et un cottage chaleureux pour rentrer le soir.",
-                      "Forests, trails, viewpoints and kayaking on the Semois on your doorstep. An eco-responsible stay that matches your values — and a warm cottage to return to in the evening."
-                    )}
+                    {t({
+                      fr: "Forêts, sentiers, panoramas et kayak sur la Semois à deux pas. Un séjour éco-responsable qui correspond à vos valeurs — et un cottage chaleureux pour rentrer le soir.",
+                      en: "Forests, trails, viewpoints and kayaking on the Semois on your doorstep. An eco-responsible stay that matches your values — and a warm cottage to return to in the evening.",
+                      nl: "Bossen, paden, uitzichtpunten en kajakken op de Semois op je drempel. Een ecoverantwoord verblijf dat aansluit bij je waarden — en een warm cottage om 's avonds naar terug te keren."
+                    })}
                   </p>
                   <Link href="/location" className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
-                    {t("Explorer la région", "Explore the region")} <ArrowRight size={14} />
+                    {t({ fr: "Explorer la région", en: "Explore the region", nl: "Explore the region" })} <ArrowRight size={14} />
                   </Link>
                 </div>
               </div>
@@ -187,9 +183,9 @@ export default function Home() {
       <section className="py-24 bg-[var(--cream-100)]">
         <div className="container">
           <FadeSection className="text-center mb-14">
-            <p className="text-caption text-[var(--ochre-500)] mb-3">{t("Nos cottages", "Our cottages")}</p>
+            <p className="text-caption text-[var(--ochre-500)] mb-3">{t({ fr: "Nos cottages", en: "Our cottages", nl: "Our cottages" })}</p>
             <h2 className="text-headline text-[var(--forest-950)]">
-              {t("Un cottage pensé pour la nature — et pour vous.", "A cottage built for nature — and for you.")}
+              {t({ fr: "Un cottage pensé pour la nature — et pour vous.", en: "A cottage built for nature — and for you.", nl: "A cottage built for nature — and for you." })}
             </h2>
           </FadeSection>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -200,23 +196,23 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t("À partir de €150 / nuit", "From €150 / night")}
+                      {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", nl: "From €150 / night" })}
                     </span>
                   </div>
                 </div>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">La Sève</h3>
                   <p className="text-sm text-[var(--slate-600)] mb-4 leading-relaxed">
-                    {t("2 chambres · 4 personnes · Baies vitrées sur la forêt · Salle de bain aux carreaux vert forêt", "2 bedrooms · 4 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom")}
+                    {t({ fr: "2 chambres · 4 personnes · Baies vitrées sur la forêt · Salle de bain aux carreaux vert forêt", en: "2 bedrooms · 4 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom", nl: "2 bedrooms · 4 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom" })}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t("Chauffage", "Heating") }, { icon: Utensils, label: t("Cuisine", "Kitchen") }, { icon: Leaf, label: t("Éco", "Eco") }].map(({ icon: Icon, label }) => (
+                    {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t({ fr: "Chauffage", en: "Heating", nl: "Heating" }) }, { icon: Utensils, label: t({ fr: "Cuisine", en: "Kitchen", nl: "Kitchen" }) }, { icon: Leaf, label: t({ fr: "Éco", en: "Eco", nl: "Eco" }) }].map(({ icon: Icon, label }) => (
                       <span key={label} className="flex items-center gap-1.5 text-xs text-[var(--forest-700)] bg-[var(--forest-50)] px-3 py-1.5 rounded-full">
                         <Icon size={12} /> {label}
                       </span>
                     ))}
                   </div>
-                  <Link href="/cottages/la-seve" className="btn-outline w-full text-center">{t("Découvrir La Sève", "Discover La Sève")}</Link>
+                  <Link href="/cottages/la-seve" className="btn-outline w-full text-center">{t({ fr: "Découvrir La Sève", en: "Discover La Sève", nl: "Discover La Sève" })}</Link>
                 </div>
               </div>
             </FadeSection>
@@ -227,23 +223,23 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t("À partir de €175 / nuit", "From €175 / night")}
+                      {t({ fr: "À partir de €175 / nuit", en: "From €175 / night", nl: "From €175 / night" })}
                     </span>
                   </div>
                 </div>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">Le Bois</h3>
                   <p className="text-sm text-[var(--slate-600)] mb-4 leading-relaxed">
-                    {t("3 chambres · 6 personnes · Terrasse panoramique · Poêle à bois", "3 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove")}
+                    {t({ fr: "3 chambres · 6 personnes · Terrasse panoramique · Poêle à bois", en: "3 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove", nl: "3 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove" })}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t("Poêle à bois", "Wood stove") }, { icon: Users, label: "6" }, { icon: Leaf, label: t("Éco", "Eco") }].map(({ icon: Icon, label }) => (
+                    {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t({ fr: "Poêle à bois", en: "Wood stove", nl: "Wood stove" }) }, { icon: Users, label: "6" }, { icon: Leaf, label: t({ fr: "Éco", en: "Eco", nl: "Eco" }) }].map(({ icon: Icon, label }) => (
                       <span key={label} className="flex items-center gap-1.5 text-xs text-[var(--forest-700)] bg-[var(--forest-50)] px-3 py-1.5 rounded-full">
                         <Icon size={12} /> {label}
                       </span>
                     ))}
                   </div>
-                  <Link href="/cottages/le-bois" className="btn-outline w-full text-center">{t("Découvrir Le Bois", "Discover Le Bois")}</Link>
+                  <Link href="/cottages/le-bois" className="btn-outline w-full text-center">{t({ fr: "Découvrir Le Bois", en: "Discover Le Bois", nl: "Discover Le Bois" })}</Link>
                 </div>
               </div>
             </FadeSection>
@@ -258,12 +254,12 @@ export default function Home() {
         </div>
         <div className="container relative z-10">
           <FadeSection className="max-w-3xl">
-            <p className="text-caption text-[var(--ochre-400)] mb-4">{t("Le Lieu", "The Location")}</p>
+            <p className="text-caption text-[var(--ochre-400)] mb-4">{t({ fr: "Le Lieu", en: "The Location", nl: "The Location" })}</p>
             <h2 className="text-headline text-white mb-6">
-              {t("Laforêt : l'un des plus beaux villages de Wallonie.", "Laforêt: one of the most beautiful villages in Wallonia.")}
+              {t({ fr: "Laforêt : l'un des plus beaux villages de Wallonie.", en: "Laforêt: one of the most beautiful villages in Wallonia.", nl: "Laforêt: one of the most beautiful villages in Wallonia." })}
             </h2>
             <p className="text-lead text-white/80 mb-8">
-              {t("Maisons en pierre ardoisée, collines boisées, la Semois qui serpente en contrebas. À 2h de Bruxelles — assez proche pour s'échapper, assez loin pour vraiment décrocher.", "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off.")}
+              {t({ fr: "Maisons en pierre ardoisée, collines boisées, la Semois qui serpente en contrebas. À 2h de Bruxelles — assez proche pour s'échapper, assez loin pour vraiment décrocher.", en: "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off.", nl: "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off." })}
             </p>
           </FadeSection>
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-10">
@@ -276,13 +272,13 @@ export default function Home() {
             ].map(({ icon, fr, en }) => (
               <div key={fr} className="bg-white/10 backdrop-blur-sm rounded-xl p-5 text-center hover:bg-white/15 transition-colors">
                 <div className="text-3xl mb-2">{icon}</div>
-                <p className="text-sm font-semibold text-white">{t(fr, en)}</p>
+                <p className="text-sm font-semibold text-white">{t({ fr, en, nl: en })}</p>
               </div>
             ))}
           </div>
           <div className="mt-10">
             <Link href="/location" className="btn-ghost inline-flex items-center gap-2">
-              {t("Explorer la région", "Explore the region")} <ChevronRight size={16} />
+              {t({ fr: "Explorer la région", en: "Explore the region", nl: "Explore the region" })} <ChevronRight size={16} />
             </Link>
           </div>
         </div>
@@ -296,25 +292,25 @@ export default function Home() {
               <img src={TERRACE_SIDE} alt="Cottage eco-concu avec jardin fleuri" className="rounded-2xl w-full h-80 object-cover shadow-lg" loading="lazy" />
             </FadeSection>
             <FadeSection delay={150}>
-              <p className="text-caption text-[var(--ochre-500)] mb-4">{t("Durabilité", "Sustainability")}</p>
+              <p className="text-caption text-[var(--ochre-500)] mb-4">{t({ fr: "Durabilité", en: "Sustainability", nl: "Sustainability" })}</p>
               <h2 className="text-headline text-[var(--forest-950)] mb-6">
-                {t("La nature, sans compromis.", "Nature, without compromise.")}
+                {t({ fr: "La nature, sans compromis.", en: "Nature, without compromise.", nl: "Nature, without compromise." })}
               </h2>
               <p className="text-lead mb-6">
-                {t("Matériaux naturels et éco-certifiés. Énergie 100% renouvelable. Construction à faible impact. Séjourner ici, c'est choisir la nature sans compromis — et sans culpabilité.", "Natural, eco-certified materials. 100% renewable energy. Low-impact construction. Staying here means choosing nature without compromise — and without guilt.")}
+                {t({ fr: "Matériaux naturels et éco-certifiés. Énergie 100% renouvelable. Construction à faible impact. Séjourner ici, c'est choisir la nature sans compromis — et sans culpabilité.", en: "Natural, eco-certified materials. 100% renewable energy. Low-impact construction. Staying here means choosing nature without compromise — and without guilt.", nl: "Natural, eco-certified materials. 100% renewable energy. Low-impact construction. Staying here means choosing nature without compromise — and without guilt." })}
               </p>
               <div className="flex flex-wrap gap-3 mb-8">
                 {[
-                  { icon: "🌿", label: t("Matériaux naturels", "Natural materials") },
-                  { icon: "☀️", label: t("Énergie renouvelable", "Renewable energy") },
-                  { icon: "✓", label: t("Approuvé commune", "Council-approved") },
+                  { icon: "🌿", label: t({ fr: "Matériaux naturels", en: "Natural materials", nl: "Natural materials" }) },
+                  { icon: "☀️", label: t({ fr: "Énergie renouvelable", en: "Renewable energy", nl: "Renewable energy" }) },
+                  { icon: "✓", label: t({ fr: "Approuvé commune", en: "Council-approved", nl: "Council-approved" }) },
                 ].map(({ icon, label }) => (
                   <span key={label} className="flex items-center gap-2 text-sm text-[var(--forest-700)] bg-[var(--forest-50)] px-4 py-2 rounded-full font-medium">
                     <span>{icon}</span> {label}
                   </span>
                 ))}
               </div>
-              <Link href="/sustainability" className="btn-outline">{t("Notre engagement éco", "Our eco commitment")}</Link>
+              <Link href="/sustainability" className="btn-outline">{t({ fr: "Notre engagement éco", en: "Our eco commitment", nl: "Our eco commitment" })}</Link>
             </FadeSection>
           </div>
         </div>
@@ -324,19 +320,19 @@ export default function Home() {
       <section className="py-24 bg-[var(--cream-100)]">
         <div className="container">
           <FadeSection className="text-center mb-14">
-            <p className="text-caption text-[var(--ochre-500)] mb-3">{t("Avis clients", "Guest reviews")}</p>
-            <h2 className="text-headline text-[var(--forest-950)] mb-3">{t("Ce que disent nos hôtes", "What our guests say")}</h2>
+            <p className="text-caption text-[var(--ochre-500)] mb-3">{t({ fr: "Avis clients", en: "Guest reviews", nl: "Guest reviews" })}</p>
+            <h2 className="text-headline text-[var(--forest-950)] mb-3">{t({ fr: "Ce que disent nos hôtes", en: "What our guests say", nl: "What our guests say" })}</h2>
             <div className="flex items-center justify-center gap-1 mb-2">
               {[1,2,3,4,5].map(i => <Star key={i} size={20} className="text-[var(--ochre-500)] fill-current" />)}
               <span className="ml-2 text-sm font-semibold text-[var(--forest-700)]">4.9 / 5</span>
             </div>
-            <p className="text-xs text-[var(--slate-500)] italic">{t("Avis indicatifs — à remplacer par de vrais témoignages", "Indicative reviews — to be replaced with real testimonials")}</p>
+            <p className="text-xs text-[var(--slate-500)] italic">{t({ fr: "Avis indicatifs — à remplacer par de vrais témoignages", en: "Indicative reviews — to be replaced with real testimonials", nl: "Indicative reviews — to be replaced with real testimonials" })}</p>
           </FadeSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {[
-              { name: "Sophie & Marc", country: t("Belgique", "Belgium"), stars: 5, text: t("Un endroit absolument magique. La forêt commence littéralement à la porte. On est rentrés complètement ressourcés.", "An absolutely magical place. The forest literally starts at the door. We came back completely recharged."), tag: t("Voyageurs aguerris", "Seasoned travellers") },
-              { name: "Emma L.", country: t("France", "France"), stars: 5, text: t("C'était notre première escapade nature et on était un peu inquiets. Mais tout était parfait — le confort, la chaleur, le wifi. On recommande à 100%.", "It was our first nature escape and we were a little nervous. But everything was perfect — the comfort, the warmth, the wifi. 100% recommend."), tag: t("Première escapade nature", "First nature escape") },
-              { name: "Thomas V.", country: t("Pays-Bas", "Netherlands"), stars: 5, text: t("Le cottage est encore plus beau en vrai. Les matériaux, les détails, la vue sur la forêt… et la Semois à 5 minutes à pied. Parfait.", "The cottage is even more beautiful in person. The materials, the details, the forest view… and the Semois 5 minutes on foot. Perfect."), tag: t("Amoureux de la nature", "Nature lover") },
+              { name: "Sophie & Marc", country: t({ fr: "Belgique", en: "Belgium", nl: "Belgium" }), stars: 5, text: t({ fr: "Un endroit absolument magique. La forêt commence littéralement à la porte. On est rentrés complètement ressourcés.", en: "An absolutely magical place. The forest literally starts at the door. We came back completely recharged.", nl: "An absolutely magical place. The forest literally starts at the door. We came back completely recharged." }), tag: t({ fr: "Voyageurs aguerris", en: "Seasoned travellers", nl: "Seasoned travellers" }) },
+              { name: "Emma L.", country: t({ fr: "France", en: "France", nl: "France" }), stars: 5, text: t({ fr: "C'était notre première escapade nature et on était un peu inquiets. Mais tout était parfait — le confort, la chaleur, le wifi. On recommande à 100%.", en: "It was our first nature escape and we were a little nervous. But everything was perfect — the comfort, the warmth, the wifi. 100% recommend.", nl: "It was our first nature escape and we were a little nervous. But everything was perfect — the comfort, the warmth, the wifi. 100% recommend." }), tag: t({ fr: "Première escapade nature", en: "First nature escape", nl: "First nature escape" }) },
+              { name: "Thomas V.", country: t({ fr: "Pays-Bas", en: "Netherlands", nl: "Netherlands" }), stars: 5, text: t({ fr: "Le cottage est encore plus beau en vrai. Les matériaux, les détails, la vue sur la forêt… et la Semois à 5 minutes à pied. Parfait.", en: "The cottage is even more beautiful in person. The materials, the details, the forest view… and the Semois 5 minutes on foot. Perfect.", nl: "The cottage is even more beautiful in person. The materials, the details, the forest view… and the Semois 5 minutes on foot. Perfect." }), tag: t({ fr: "Amoureux de la nature", en: "Nature lover", nl: "Nature lover" }) },
             ].map(({ name, country, stars, text, tag }) => (
               <FadeSection key={name} delay={100}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm border border-[var(--cream-300)] h-full flex flex-col">
@@ -360,21 +356,21 @@ export default function Home() {
         <div className="container max-w-3xl text-center">
           <FadeSection>
             <div className="divider-ochre mx-auto mb-6" />
-            <h2 className="text-headline text-[var(--forest-950)] mb-4">{t("Réservez en direct. Le meilleur tarif.", "Book direct. The best rate.")}</h2>
-            <p className="text-lead mb-8">{t("Pas de frais de plateforme, pas d'intermédiaire. Le meilleur tarif, un vrai hôte humain qui connaît l'endroit, et une réservation simple et sécurisée.", "No platform fees, no middleman. The best rate, a real human host who knows the place, and a simple, secure booking.")}</p>
+            <h2 className="text-headline text-[var(--forest-950)] mb-4">{t({ fr: "Réservez en direct. Le meilleur tarif.", en: "Book direct. The best rate.", nl: "Book direct. The best rate." })}</h2>
+            <p className="text-lead mb-8">{t({ fr: "Pas de frais de plateforme, pas d'intermédiaire. Le meilleur tarif, un vrai hôte humain qui connaît l'endroit, et une réservation simple et sécurisée.", en: "No platform fees, no middleman. The best rate, a real human host who knows the place, and a simple, secure booking.", nl: "No platform fees, no middleman. The best rate, a real human host who knows the place, and a simple, secure booking." })}</p>
             <div className="flex flex-wrap justify-center gap-4 mb-10">
               {[
-                { icon: "💳", label: t("Paiement sécurisé", "Secure payment") },
-                { icon: "✓", label: t("Meilleur tarif garanti", "Best rate guaranteed") },
-                { icon: "👤", label: t("Hôte humain & disponible", "Real human host") },
-                { icon: "🔒", label: t("Données protégées RGPD", "GDPR protected") },
+                { icon: "💳", label: t({ fr: "Paiement sécurisé", en: "Secure payment", nl: "Secure payment" }) },
+                { icon: "✓", label: t({ fr: "Meilleur tarif garanti", en: "Best rate guaranteed", nl: "Best rate guaranteed" }) },
+                { icon: "👤", label: t({ fr: "Hôte humain & disponible", en: "Real human host", nl: "Real human host" }) },
+                { icon: "🔒", label: t({ fr: "Données protégées RGPD", en: "GDPR protected", nl: "GDPR protected" }) },
               ].map(({ icon, label }) => (
                 <div key={label} className="flex items-center gap-2 text-sm text-[var(--forest-700)] bg-[var(--forest-50)] px-4 py-2.5 rounded-full font-medium">
                   <span>{icon}</span> {label}
                 </div>
               ))}
             </div>
-            <Link href="/booking" className="btn-primary text-base px-10 py-4">{t("Vérifier les disponibilités", "Check availability")}</Link>
+            <Link href="/booking" className="btn-primary text-base px-10 py-4">{t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Check availability" })}</Link>
           </FadeSection>
         </div>
       </section>
@@ -383,9 +379,9 @@ export default function Home() {
       <section className="py-10 bg-[var(--ochre-100)] border-y border-[var(--ochre-200)]">
         <div className="container text-center">
           <p className="text-[var(--ochre-800)] font-semibold">
-            {t("Deux cottages. Des dates limitées. Les plus beaux week-ends partent vite.", "Two cottages. Limited dates. The best weekends go fast.")}
+            {t({ fr: "Deux cottages. Des dates limitées. Les plus beaux week-ends partent vite.", en: "Two cottages. Limited dates. The best weekends go fast.", nl: "Two cottages. Limited dates. The best weekends go fast." })}
             {" "}
-            <Link href="/booking" className="underline hover:no-underline">{t("Vérifier les disponibilités →", "Check availability →")}</Link>
+            <Link href="/booking" className="underline hover:no-underline">{t({ fr: "Vérifier les disponibilités →", en: "Check availability →", nl: "Check availability →" })}</Link>
           </p>
         </div>
       </section>
@@ -395,15 +391,15 @@ export default function Home() {
         <div className="container max-w-3xl">
           <FadeSection className="text-center mb-12">
             <p className="text-caption text-[var(--ochre-500)] mb-3">FAQ</p>
-            <h2 className="text-headline text-[var(--forest-950)]">{t("Questions fréquentes", "Frequently asked questions")}</h2>
+            <h2 className="text-headline text-[var(--forest-950)]">{t({ fr: "Questions fréquentes", en: "Frequently asked questions", nl: "Frequently asked questions" })}</h2>
           </FadeSection>
           <div className="space-y-4">
             {[
-              { q: t("Comment accéder aux cottages ?", "How do I get to the cottages?"), a: t("Laforêt se trouve à environ 2h de Bruxelles via l'E411, et est facilement accessible depuis la France, le Luxembourg et les Pays-Bas.", "Laforêt is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands.") },
-              { q: t("C'est adapté si je n'ai jamais fait ça ?", "Is it suitable if I've never done this?"), a: t("Absolument. Tout est prévu : wifi, chauffage, eau chaude, lit confortable, cuisine complète. Vous n'avez besoin d'aucune expérience ni équipement.", "Absolutely. Everything is provided: wifi, heating, hot water, comfortable bed, full kitchen. You need no experience or equipment.") },
-              { q: t("Y a-t-il du wifi et du chauffage ?", "Is there wifi and heating?"), a: t("Oui. Wifi haut débit et chauffage inclus dans les deux cottages.", "Yes. High-speed wifi and heating included in both cottages.") },
-              { q: t("Qu'est-ce qui est inclus dans le prix ?", "What's included in the price?"), a: t("Le logement, le wifi, le chauffage, l'eau chaude, le linge de maison, et l'accès à tous les équipements.", "Accommodation, wifi, heating, hot water, household linen, and access to all amenities.") },
-              { q: t("Puis-je réserver directement ?", "Can I book direct?"), a: t("Oui — et c'est le meilleur moyen. Pas de frais de plateforme, le meilleur tarif, et un contact direct avec votre hôte.", "Yes — and it's the best way. No platform fees, the best rate, and direct contact with your host.") },
+              { q: t({ fr: "Comment accéder aux cottages ?", en: "How do I get to the cottages?", nl: "How do I get to the cottages?" }), a: t({ fr: "Laforêt se trouve à environ 2h de Bruxelles via l'E411, et est facilement accessible depuis la France, le Luxembourg et les Pays-Bas.", en: "Laforêt is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands.", nl: "Laforêt is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands." }) },
+              { q: t({ fr: "C'est adapté si je n'ai jamais fait ça ?", en: "Is it suitable if I've never done this?", nl: "Is it suitable if I've never done this?" }), a: t({ fr: "Absolument. Tout est prévu : wifi, chauffage, eau chaude, lit confortable, cuisine complète. Vous n'avez besoin d'aucune expérience ni équipement.", en: "Absolutely. Everything is provided: wifi, heating, hot water, comfortable bed, full kitchen. You need no experience or equipment.", nl: "Absolutely. Everything is provided: wifi, heating, hot water, comfortable bed, full kitchen. You need no experience or equipment." }) },
+              { q: t({ fr: "Y a-t-il du wifi et du chauffage ?", en: "Is there wifi and heating?", nl: "Is there wifi and heating?" }), a: t({ fr: "Oui. Wifi haut débit et chauffage inclus dans les deux cottages.", en: "Yes. High-speed wifi and heating included in both cottages.", nl: "Yes. High-speed wifi and heating included in both cottages." }) },
+              { q: t({ fr: "Qu'est-ce qui est inclus dans le prix ?", en: "What's included in the price?", nl: "What's included in the price?" }), a: t({ fr: "Le logement, le wifi, le chauffage, l'eau chaude, le linge de maison, et l'accès à tous les équipements.", en: "Accommodation, wifi, heating, hot water, household linen, and access to all amenities.", nl: "Accommodation, wifi, heating, hot water, household linen, and access to all amenities." }) },
+              { q: t({ fr: "Puis-je réserver directement ?", en: "Can I book direct?", nl: "Can I book direct?" }), a: t({ fr: "Oui — et c'est le meilleur moyen. Pas de frais de plateforme, le meilleur tarif, et un contact direct avec votre hôte.", en: "Yes — and it's the best way. No platform fees, the best rate, and direct contact with your host.", nl: "Yes — and it's the best way. No platform fees, the best rate, and direct contact with your host." }) },
             ].map(({ q, a }, i) => (
               <FadeSection key={i} delay={i * 50}>
                 <details className="group bg-white rounded-xl border border-[var(--cream-300)] overflow-hidden">
@@ -418,7 +414,7 @@ export default function Home() {
           </div>
           <FadeSection className="text-center mt-8">
             <Link href="/faq" className="text-sm font-semibold text-[var(--forest-600)] flex items-center justify-center gap-1 hover:gap-2 transition-all">
-              {t("Toutes les questions", "All questions")} <ArrowRight size={14} />
+              {t({ fr: "Toutes les questions", en: "All questions", nl: "All questions" })} <ArrowRight size={14} />
             </Link>
           </FadeSection>
         </div>
@@ -432,26 +428,26 @@ export default function Home() {
           <FadeSection>
             <div className="divider-ochre mx-auto mb-6" />
             <h2 className="text-display text-white mb-6 max-w-2xl mx-auto">
-              {t("Votre évasion vous attend.", "Your escape is waiting.")}
+              {t({ fr: "Votre évasion vous attend.", en: "Your escape is waiting.", nl: "Your escape is waiting." })}
             </h2>
             <p className="text-lead text-white/85 mb-10 max-w-xl mx-auto">
-              {t("Deux cottages. La forêt ardennaise. La Semois à votre porte. Il ne manque plus que vous.", "Two cottages. The Ardennes forest. The Semois at your door. All that's missing is you.")}
+              {t({ fr: "Deux cottages. La forêt ardennaise. La Semois à votre porte. Il ne manque plus que vous.", en: "Two cottages. The Ardennes forest. The Semois at your door. All that's missing is you.", nl: "Two cottages. The Ardennes forest. The Semois at your door. All that's missing is you." })}
             </p>
             <Link href="/booking" className="btn-primary text-base px-10 py-4 mb-6 inline-block">
-              {t("Vérifier les disponibilités", "Check availability")}
+              {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Check availability" })}
             </Link>
             {!newsletterDone ? (
               <div className="mt-10 max-w-md mx-auto">
-                <p className="text-sm text-white/70 mb-4">{t("Pas encore prêt ? Recevez notre guide gratuit des Ardennes.", "Not ready yet? Get our free Ardennes guide.")}</p>
+                <p className="text-sm text-white/70 mb-4">{t({ fr: "Pas encore prêt ? Recevez notre guide gratuit des Ardennes.", en: "Not ready yet? Get our free Ardennes guide.", nl: "Not ready yet? Get our free Ardennes guide." })}</p>
                 <form onSubmit={handleNewsletter} className="flex gap-2">
-                  <input type="email" placeholder={t("Votre email", "Your email")} value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required className="flex-1 px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
+                  <input type="email" placeholder={t({ fr: "Votre email", en: "Your email", nl: "Your email" })} value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required className="flex-1 px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
                   <button type="submit" disabled={subscribeMutation.isPending} className="px-5 py-3 bg-[var(--ochre-500)] hover:bg-[var(--ochre-600)] text-white text-sm font-semibold rounded-lg transition-colors whitespace-nowrap">
-                    {t("Recevoir", "Get it")}
+                    {t({ fr: "Recevoir", en: "Get it", nl: "Get it" })}
                   </button>
                 </form>
               </div>
             ) : (
-              <p className="mt-6 text-[var(--ochre-300)] font-semibold">{t("Merci ! Vérifiez votre boîte mail.", "Thank you! Check your inbox.")}</p>
+              <p className="mt-6 text-[var(--ochre-300)] font-semibold">{t({ fr: "Merci ! Vérifiez votre boîte mail.", en: "Thank you! Check your inbox.", nl: "Thank you! Check your inbox." })}</p>
             )}
           </FadeSection>
         </div>

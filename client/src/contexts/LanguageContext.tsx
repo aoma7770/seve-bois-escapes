@@ -1,17 +1,17 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 
-export type Language = "fr" | "en";
+export type Language = "fr" | "en" | "nl";
 
 interface LanguageContextType {
   lang: Language;
   setLang: (lang: Language) => void;
-  t: (fr: string, en: string) => string;
+  t: (translations: { fr: string; en: string; nl: string }) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType>({
   lang: "fr",
   setLang: () => {},
-  t: (fr) => fr,
+  t: (translations) => translations.fr,
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -30,7 +30,9 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const t = useCallback(
-    (fr: string, en: string) => (lang === "fr" ? fr : en),
+    (translations: { fr: string; en: string; nl: string }) => {
+      return translations[lang];
+    },
     [lang]
   );
 

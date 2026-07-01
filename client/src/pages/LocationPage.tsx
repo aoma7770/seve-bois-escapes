@@ -10,17 +10,17 @@ export default function LocationPage() {
         <img src={HERO_EXTERIOR} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex items-end">
           <div className="container pb-10">
-            <p className="text-caption text-[var(--ochre-300)] mb-2">{t("Le Lieu", "The Location")}</p>
-            <h1 className="text-display text-white">{t("Laforêt & la Semois", "Laforêt & the Semois")}</h1>
+            <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Le Lieu", en: "The Location", nl: "The Location" })}</p>
+            <h1 className="text-display text-white">{t({ fr: "Laforêt & la Semois", en: "Laforêt & the Semois", nl: "Laforêt & the Semois" })}</h1>
           </div>
         </div>
       </div>
       <div className="container py-16 max-w-4xl">
         <div className="divider-ochre mb-6" />
-        <h2 className="text-headline text-[var(--forest-950)] mb-6">{t("L'un des plus beaux villages de Wallonie", "One of the most beautiful villages in Wallonia")}</h2>
-        <p className="text-lead mb-6">{t("Laforêt est officiellement classé parmi les « Plus Beaux Villages de Wallonie ». Maisons en pierre ardoisée, collines boisées, et la Semois qui serpente en contrebas — c'est ici que le temps ralentit.", "Laforêt is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down.")}</p>
-        <p className="text-lead mb-10">{t("À environ 2h de Bruxelles, facilement accessible depuis la France, les Pays-Bas, le Luxembourg et l'Allemagne. Assez proche pour s'échapper, assez loin pour vraiment décrocher.", "About 2 hours from Brussels, easily reachable from France, the Netherlands, Luxembourg and Germany. Close enough to escape to, far enough to truly switch off.")}</p>
-        <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t("Activités & découvertes", "Things to do")}</h3>
+        <h2 className="text-headline text-[var(--forest-950)] mb-6">{t({ fr: "L'un des plus beaux villages de Wallonie", en: "One of the most beautiful villages in Wallonia", nl: "One of the most beautiful villages in Wallonia" })}</h2>
+        <p className="text-lead mb-6">{t({ fr: "Laforêt est officiellement classé parmi les « Plus Beaux Villages de Wallonie ». Maisons en pierre ardoisée, collines boisées, et la Semois qui serpente en contrebas — c'est ici que le temps ralentit.", en: "Laforêt is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down.", nl: "Laforêt is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down." })}</p>
+        <p className="text-lead mb-10">{t({ fr: "À environ 2h de Bruxelles, facilement accessible depuis la France, les Pays-Bas, le Luxembourg et l'Allemagne. Assez proche pour s'échapper, assez loin pour vraiment décrocher.", en: "About 2 hours from Brussels, easily reachable from France, the Netherlands, Luxembourg and Germany. Close enough to escape to, far enough to truly switch off.", nl: "About 2 hours from Brussels, easily reachable from France, the Netherlands, Luxembourg and Germany. Close enough to escape to, far enough to truly switch off." })}</p>
+        <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Activités & découvertes", en: "Things to do", nl: "Things to do" })}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           {[
             { icon: "🛶", fr: "Kayak sur la Semois", en: "Kayaking on the Semois", desc_fr: "Des parcours pour tous niveaux sur l'une des plus belles rivières d'Ardenne.", desc_en: "Routes for all levels on one of the Ardennes' most beautiful rivers." },
@@ -32,23 +32,23 @@ export default function LocationPage() {
           ].map(({ icon, fr, en, desc_fr, desc_en }) => (
             <div key={fr} className="card-eco p-6">
               <div className="text-3xl mb-3">{icon}</div>
-              <h4 className="font-serif text-lg font-semibold text-[var(--forest-900)] mb-2">{t(fr, en)}</h4>
-              <p className="text-sm text-[var(--slate-600)]">{t(desc_fr, desc_en)}</p>
+              <h4 className="font-serif text-lg font-semibold text-[var(--forest-900)] mb-2">{t({ fr, en, nl: en })}</h4>
+              <p className="text-sm text-[var(--slate-600)]">{t({ fr: desc_fr, en: desc_en, nl: desc_en })}</p>
             </div>
           ))}
         </div>
-        <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t("Comment nous rejoindre", "Getting here")}</h3>
+        <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Comment nous rejoindre", en: "Getting here", nl: "Getting here" })}</h3>
         <div className="bg-white rounded-2xl p-8 border border-[var(--cream-300)]">
           <ul className="space-y-3 text-sm text-[var(--slate-700)]">
-            <li><strong>{t("Depuis Bruxelles:", "From Brussels:")}</strong> {t("2h en voiture via E411", "2h by car via E411")}</li>
-            <li><strong>{t("Depuis Paris:", "From Paris:")}</strong> {t("3h30 en voiture", "3h30 by car")}</li>
-            <li><strong>{t("Depuis Luxembourg:", "From Luxembourg:")}</strong> {t("1h30 en voiture", "1h30 by car")}</li>
-            <li><strong>{t("Depuis Amsterdam:", "From Amsterdam:")}</strong> {t("3h en voiture", "3h by car")}</li>
-            <li><strong>{t("En train:", "By train:")}</strong> {t("Gare de Bertrix (15 min), puis taxi ou location de voiture", "Bertrix station (15 min), then taxi or car rental")}</li>
+            <li><strong>{t({ fr: "Depuis Bruxelles:", en: "From Brussels:", nl: "From Brussels:" })}</strong> {t({ fr: "2h en voiture via E411", en: "2h by car via E411", nl: "2h by car via E411" })}</li>
+            <li><strong>{t({ fr: "Depuis Paris:", en: "From Paris:", nl: "From Paris:" })}</strong> {t({ fr: "3h30 en voiture", en: "3h30 by car", nl: "3h30 by car" })}</li>
+            <li><strong>{t({ fr: "Depuis Luxembourg:", en: "From Luxembourg:", nl: "From Luxembourg:" })}</strong> {t({ fr: "1h30 en voiture", en: "1h30 by car", nl: "1h30 by car" })}</li>
+            <li><strong>{t({ fr: "Depuis Amsterdam:", en: "From Amsterdam:", nl: "From Amsterdam:" })}</strong> {t({ fr: "3h en voiture", en: "3h by car", nl: "3h by car" })}</li>
+            <li><strong>{t({ fr: "En train:", en: "By train:", nl: "By train:" })}</strong> {t({ fr: "Gare de Bertrix (15 min), puis taxi ou location de voiture", en: "Bertrix station (15 min), then taxi or car rental", nl: "Bertrix station (15 min), then taxi or car rental" })}</li>
           </ul>
         </div>
         <div className="mt-12 text-center">
-          <Link href="/booking" className="btn-primary">{t("Réserver maintenant", "Book now")}</Link>
+          <Link href="/booking" className="btn-primary">{t({ fr: "Réserver maintenant", en: "Book now", nl: "Book now" })}</Link>
         </div>
       </div>
     </div>
