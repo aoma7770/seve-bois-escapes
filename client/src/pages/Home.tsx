@@ -136,7 +136,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FadeSection delay={100}>
               <div className="rounded-2xl overflow-hidden h-full bg-[var(--forest-50)]">
-                <img src={LIVING_ROOM_C1} alt="Intérieur cosy du cottage" className="w-full h-64 object-cover" loading="lazy" />
+                <img src={HERMAN_COTTAGE1_IMAGES.livingRoom[0]} alt="Intérieur cosy du cottage" className="w-full h-64 object-cover" loading="lazy" />
                 <div className="p-8">
                   <div className="divider-ochre mb-4" />
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
@@ -157,7 +157,7 @@ export default function Home() {
             </FadeSection>
             <FadeSection delay={200}>
               <div className="rounded-2xl overflow-hidden h-full bg-[var(--forest-50)]">
-                <img src={TERRACE_SIDE} alt="Extérieur du cottage avec jardin fleuri" className="w-full h-64 object-cover" loading="lazy" />
+                <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="Extérieur du cottage avec jardin fleuri" className="w-full h-64 object-cover" loading="lazy" />
                 <div className="p-8">
                   <div className="divider-ochre mb-4" />
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
@@ -193,7 +193,7 @@ export default function Home() {
             <FadeSection delay={100}>
               <div className="card-eco group">
                 <div className="relative h-72 overflow-hidden">
-                  <img src={HERO_EXTERIOR} alt="La Sève — cottage 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="La Sève — cottage 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -220,7 +220,7 @@ export default function Home() {
             <FadeSection delay={200}>
               <div className="card-eco group">
                 <div className="relative h-72 overflow-hidden">
-                  <img src={COTTAGE2_EXTERIOR} alt="Le Bois — cottage 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={HERMAN_COTTAGE1_IMAGES.hero[1]} alt="Le Bois — cottage 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -251,7 +251,7 @@ export default function Home() {
       {/* LOCATION */}
       <section className="py-24 bg-[var(--forest-950)] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <img src={TERRACE_SIDE} alt="" className="w-full h-full object-cover" />
+          <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="" className="w-full h-full object-cover" />
         </div>
         <div className="container relative z-10">
           <FadeSection className="max-w-3xl">
@@ -290,7 +290,7 @@ export default function Home() {
         <div className="container">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <FadeSection>
-              <img src={TERRACE_SIDE} alt="Cottage eco-concu avec jardin fleuri" className="rounded-2xl w-full h-80 object-cover shadow-lg" loading="lazy" />
+              <img src={HERMAN_COTTAGE1_IMAGES.hero[4]} alt="Cottage eco-concu avec jardin fleuri" className="rounded-2xl w-full h-80 object-cover shadow-lg" loading="lazy" />
             </FadeSection>
             <FadeSection delay={150}>
               <p className="text-caption text-[var(--ochre-500)] mb-4">{t({ fr: "Durabilité", en: "Sustainability", be: "Sustainability" })}</p>
