@@ -1,19 +1,19 @@
 // Herman Photos - House 1 (Cottage 1) CDN URLs
 export const HERMAN_COTTAGE1_IMAGES = {
-  // Hero/Exterior images (best for homepage slideshow) - 10+ best images
-  // Curated selection: outdoor close-ups, interiors, and lifestyle shots
+  // Hero/Exterior images (best for homepage slideshow) - 11+ best images
+  // Heavy outdoor focus with interior highlights
   hero: [
     "/manus-storage/foto-030_64d147d2.jpg",  // Main: outdoor close-up
-    "/manus-storage/foto-031_fc3d5b5a.jpg",  // Outdoor angle
-    "/manus-storage/foto-032_00b0fdb5.jpg",  // Exterior detail
-    "/manus-storage/foto-033_f2fde43d.jpg",  // Outdoor landscape
+    "/manus-storage/foto-034_ba7bd4e1.jpg",  // Outdoor exterior
+    "/manus-storage/foto-035_fc31233a.jpg",  // Outdoor landscape
+    "/manus-storage/foto-036_c6fc3d32.jpg",  // Outdoor detail
+    "/manus-storage/foto-037_90c568d4.jpg",  // Outdoor view
+    "/manus-storage/foto-038_74fc390c.jpg",  // Outdoor angle
     "/manus-storage/foto-001_726ad917.jpg",  // Living room
     "/manus-storage/foto-002_f3c07f38.jpg",  // Living room detail
-    "/manus-storage/foto-003_3f9cef81.jpg",  // Living room cozy
     "/manus-storage/foto-010_4942b06f.jpg",  // Kitchen
-    "/manus-storage/foto-011_c1eca4a9.jpg",  // Kitchen detail
     "/manus-storage/foto-020_807ff133.jpg",  // Bedroom
-    "/manus-storage/foto-021_66c4d4fa.jpg",  // Bedroom detail
+    "/manus-storage/foto-039_9000a280.jpg",  // Outdoor terrace
   ],
   
   // Living room
