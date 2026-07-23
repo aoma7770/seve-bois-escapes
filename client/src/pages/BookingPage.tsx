@@ -25,7 +25,7 @@ export default function BookingPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", gdprConsent: false });
 
   const propertyId = 1; // Single unit: both cottages
-  const basePricePerNight = 797; // €797/night for both cottages
+  const basePricePerNight = 750; // €750/night for both cottages
   const cleaningFee = 0; // No additional cleaning fee
 
   const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId });

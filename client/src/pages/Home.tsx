@@ -196,7 +196,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t({ fr: "À partir de €797 / nuit", en: "From €797 / night", be: "From €797 / night" })}
+                      {t({ fr: "À partir de €750 / nuit", en: "From €750 / night", be: "From €750 / night" })}
                     </span>
                   </div>
                 </div>
@@ -223,7 +223,7 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t({ fr: "À partir de €797 / nuit", en: "From €797 / night", be: "From €797 / night" })}
+                      {t({ fr: "À partir de €750 / nuit", en: "From €750 / night", be: "From €750 / night" })}
                     </span>
                   </div>
                 </div>
