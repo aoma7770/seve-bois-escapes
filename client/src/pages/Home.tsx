@@ -11,6 +11,7 @@ import {
   HERO_EXTERIOR, LIVING_ROOM_C1, COTTAGE2_EXTERIOR,
   TERRACE_SIDE, BATHROOM_C1, BEDROOM_C1, KITCHEN_C1
 } from "../../../shared/images";
+import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
 
 function useFadeUp() {
   const ref = useRef<HTMLDivElement>(null);
@@ -56,14 +57,13 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[var(--cream-50)]">
 
-      {/* HERO */}
+      {/* HERO - SLIDESHOW */}
       <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden">
-        <img
-          src={HERO_EXTERIOR}
-          alt="Seve & Bois Escapes — cottage eco-luxe dans les Ardennes belges"
-          className={`w-full h-full object-cover transition-opacity duration-1000 ${heroLoaded ? "opacity-100" : "opacity-0"}`}
-          onLoad={() => setHeroLoaded(true)}
-          loading="eager"
+        <Slideshow
+          images={HERMAN_COTTAGE1_IMAGES.hero}
+          autoplay={true}
+          interval={6000}
+          className="h-full"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/65" />
         <div className="absolute inset-0 flex items-center justify-center">

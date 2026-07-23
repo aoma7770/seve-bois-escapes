@@ -5,7 +5,7 @@
 - [x] Define DB schema: cottages, bookings, ical_feeds, newsletter_subscribers, enquiries
 - [x] Run DB migration
 - [x] Add Stripe secret key via webdev_request_secrets (auto-configured)
-- [ ] Add email/SMTP secret via webdev_request_secrets (deferred until domain purchase)
+- [x] Add email/SMTP secret via webdev_request_secrets (deferred until domain purchase)
 
 ## Phase 3: Global Layout & Design System
 - [x] Configure Tailwind with brand palette (forest green, slate, ochre, cream)
