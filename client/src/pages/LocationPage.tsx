@@ -1,13 +1,13 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "wouter";
-import { HERO_EXTERIOR } from "../../../shared/images";
+import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
 
 export default function LocationPage() {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="relative h-64 md:h-96 overflow-hidden">
-        <img src={HERO_EXTERIOR} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" />
+        <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex items-end">
           <div className="container pb-10">
             <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>

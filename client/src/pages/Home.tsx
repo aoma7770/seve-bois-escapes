@@ -423,7 +423,7 @@ export default function Home() {
 
       {/* FINAL CTA */}
       <section className="relative py-32 overflow-hidden">
-        <img src={COTTAGE2_EXTERIOR} alt="Votre evasion vous attend" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
+        <img src={HERMAN_COTTAGE1_IMAGES.hero[3]} alt="Votre evasion vous attend" className="absolute inset-0 w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black/70" />
         <div className="container relative z-10 text-center text-white">
           <FadeSection>
