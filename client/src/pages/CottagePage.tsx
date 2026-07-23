@@ -3,13 +3,13 @@ import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Wifi, Flame, Car, Utensils, Droplets, Leaf, Users, Bed, Bath, ChevronLeft, ChevronRight, X, Calendar } from "lucide-react";
-import { COTTAGE1_IMAGES, COTTAGE2_IMAGES, HERO_EXTERIOR, COTTAGE2_EXTERIOR, LIVING_ROOM_C1, COTTAGE2_LIVING, BEDROOM_C1, KITCHEN_C1, BATHROOM_C1 } from "../../../shared/images";
+import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
 
 interface Props { slug: string; }
 
 const COTTAGE_DATA = {
   "la-seve": {
-    images: [HERO_EXTERIOR, LIVING_ROOM_C1, BEDROOM_C1, KITCHEN_C1, BATHROOM_C1, ...COTTAGE1_IMAGES.slice(5, 12)],
+    images: HERMAN_COTTAGE1_IMAGES.hero,
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
       { icon: Wifi, fr: "Wifi haut débit", en: "High-speed Wifi", be: "Snelle WiFi" },
@@ -32,7 +32,7 @@ const COTTAGE_DATA = {
     priceFrom: 150,
   },
   "le-bois": {
-    images: [COTTAGE2_EXTERIOR, COTTAGE2_LIVING, ...COTTAGE2_IMAGES.slice(2, 10)],
+    images: HERMAN_COTTAGE1_IMAGES.hero,
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
       { icon: Wifi, fr: "Wifi haut débit", en: "High-speed Wifi", be: "Snelle WiFi" },
