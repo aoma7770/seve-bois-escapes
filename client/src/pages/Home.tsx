@@ -165,7 +165,7 @@ export default function Home() {
                   <p className="text-[var(--slate-600)] leading-relaxed mb-4">
                     {t({
                       fr: "Forêts, sentiers, panoramas et kayak sur la Semois à deux pas. Un séjour éco-responsable qui correspond à vos valeurs — et un cottage chaleureux pour rentrer le soir.",
-                      en: "Forests, trails, viewpoints and kayaking on the Semois on your doorstep. An eco-responsible stay that matches your values — and a warm cottage to return to in the evening.",
+                      en: "Forests, trails (please verify current conditions), viewpoints and kayaking on the Semois on your doorstep. An eco-responsible stay that matches your values — and a warm cottage to return to in the evening.",
                       be: "Bossen, paden, uitzichtpunten en kajakken op de Semois op je drempel. Een ecoverantwoord verblijf dat aansluit bij je waarden — en een warm cottage om 's avonds naar terug te keren."
                     })}
                   </p>
@@ -265,7 +265,7 @@ export default function Home() {
           <div className="grid grid-cols-2 sm:grid-cols-5 gap-4 mt-10">
             {[
               { icon: "🛶", fr: "Kayak", en: "Kayaking" },
-              { icon: "🥾", fr: "Randonnées", en: "Hiking" },
+              { icon: "🥾", fr: "Randonnées", en: "Hiking (please verify current conditions)" },
               { icon: "✨", fr: "Étoiles", en: "Stargazing" },
               { icon: "🍽️", fr: "Gastronomie", en: "Gastronomy" },
               { icon: "🚴", fr: "Cyclisme", en: "Cycling" },

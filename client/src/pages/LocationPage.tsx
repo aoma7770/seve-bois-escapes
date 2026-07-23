@@ -24,7 +24,7 @@ export default function LocationPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
           {[
             { icon: "🛶", fr: "Kayak sur la Semois", en: "Kayaking on the Semois", desc_fr: "Des parcours pour tous niveaux sur l'une des plus belles rivières d'Ardenne.", desc_en: "Routes for all levels on one of the Ardennes' most beautiful rivers." },
-            { icon: "🥾", fr: "Randonnées & panoramas", en: "Hiking & viewpoints", desc_fr: "Des sentiers balisés traversent forêts et crêtes avec des vues à couper le souffle.", desc_en: "Marked trails through forests and ridges with breathtaking views." },
+            { icon: "🥾", fr: "Randonnées & panoramas", en: "Hiking (please verify current conditions) & viewpoints", desc_fr: "Des sentiers balisés traversent forêts et crêtes avec des vues à couper le souffle.", desc_en: "Marked trails (please verify current conditions) through forests and ridges with breathtaking views." },
             { icon: "✨", fr: "Observation des étoiles", en: "Stargazing", desc_fr: "Loin des lumières de la ville, le ciel nocturne est exceptionnel.", desc_en: "Far from city lights, the night sky is exceptional." },
             { icon: "🍽️", fr: "Gastronomie ardennaise", en: "Ardennes gastronomy", desc_fr: "Gibier, fromages, bières artisanales — la région régale.", desc_en: "Game, cheeses, craft beers — the region delights." },
             { icon: "🚴", fr: "Cyclisme", en: "Cycling", desc_fr: "Des itinéraires cyclables traversent les plus beaux paysages.", desc_en: "Cycling routes through the most beautiful landscapes." },
