@@ -13,7 +13,9 @@ import {
 } from "../../../shared/images";
 import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
 
-function useFadeUp() {
+type AnimationType = 'fade-in' | 'slide-in-left' | 'slide-in-right' | 'slide-in-up' | 'pop' | 'rotate-in';
+
+function useScrollAnimation(animType: AnimationType = 'slide-in-up') {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
@@ -21,16 +23,16 @@ function useFadeUp() {
     if (!el) return;
     const obs = new IntersectionObserver(
       ([entry]) => { if (entry.isIntersecting) { setVisible(true); obs.disconnect(); } },
-      { threshold: 0.1 }
+      { threshold: 0.1, rootMargin: '0px 0px -50px 0px' }
     );
     obs.observe(el);
     return () => obs.disconnect();
   }, []);
-  return { ref, className: visible ? "animate-fade-up" : "opacity-0" };
+  return { ref, className: visible ? `animate-${animType}` : "opacity-0" };
 }
 
-function FadeSection({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
-  const { ref, className: animClass } = useFadeUp();
+function FadeSection({ children, className = "", delay = 0, animation = 'slide-in-up' }: { children: React.ReactNode; className?: string; delay?: number; animation?: AnimationType }) {
+  const { ref, className: animClass } = useScrollAnimation(animation);
   return (
     <div ref={ref} className={`${animClass} ${className}`} style={{ animationDelay: `${delay}ms` }}>
       {children}
@@ -183,14 +185,14 @@ export default function Home() {
       {/* THE COTTAGES */}
       <section className="py-24 bg-[var(--cream-100)]">
         <div className="container">
-          <FadeSection className="text-center mb-14">
+          <FadeSection className="text-center mb-14" animation="fade-in">
             <p className="text-caption text-[var(--ochre-500)] mb-3">{t({ fr: "Nos cottages", en: "Our cottages", be: "Our cottages" })}</p>
             <h2 className="text-headline text-[var(--forest-950)]">
               {t({ fr: "Un cottage pensé pour la nature — et pour vous.", en: "A cottage built for nature — and for you.", be: "A cottage built for nature — and for you." })}
             </h2>
           </FadeSection>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <FadeSection delay={100}>
+            <FadeSection delay={100} animation="slide-in-left">
               <div className="card-eco group">
                 <div className="relative h-72 overflow-hidden">
                   <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="La Sève — cottage 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
@@ -217,7 +219,7 @@ export default function Home() {
                 </div>
               </div>
             </FadeSection>
-            <FadeSection delay={200}>
+            <FadeSection delay={200} animation="slide-in-right">
               <div className="card-eco group">
                 <div className="relative h-72 overflow-hidden">
                   <img src={HERMAN_COTTAGE1_IMAGES.hero[1]} alt="Le Bois — cottage 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
@@ -270,8 +272,8 @@ export default function Home() {
               { icon: "✨", fr: "Étoiles", en: "Stargazing" },
               { icon: "🍽️", fr: "Gastronomie", en: "Gastronomy" },
               { icon: "🚴", fr: "Cyclisme", en: "Cycling" },
-            ].map(({ icon, fr, en }) => (
-              <div key={fr} className="bg-white/10 backdrop-blur-sm rounded-xl p-5 text-center hover:bg-white/15 transition-colors">
+            ].map(({ icon, fr, en }, idx) => (
+              <div key={fr} className="bg-white/10 backdrop-blur-sm rounded-xl p-5 text-center hover:bg-white/15 transition-colors animate-pop" style={{ animationDelay: `${idx * 100}ms` }}>
                 <div className="text-3xl mb-2">{icon}</div>
                 <p className="text-sm font-semibold text-white">{t({ fr, en, be: en })}</p>
               </div>
@@ -338,9 +340,9 @@ export default function Home() {
               <FadeSection key={name} delay={100}>
                 <div className="bg-white rounded-2xl p-7 shadow-sm border border-[var(--cream-300)] h-full flex flex-col">
                   <div className="flex items-center gap-1 mb-4">
-                    {[...Array(stars)].map((_, i) => <Star key={i} size={14} className="text-[var(--ochre-500)] fill-current" />)}
+            {[...Array(stars)].map((_, i) => <Star key={i} size={14} className="text-[var(--ochre-500)] fill-current" />)}
                   </div>
-                  <p className="text-[var(--slate-700)] leading-relaxed flex-1 mb-5 italic">"{text}"</p>
+                  <p className="text-[var(--slate-700)] leading-relaxed flex-1 mb-5 italic">\"{ text}\"</p>
                   <div>
                     <p className="font-semibold text-[var(--forest-900)] text-sm">{name}</p>
                     <p className="text-xs text-[var(--slate-500)]">{country} · <span className="text-[var(--ochre-600)]">{tag}</span></p>
