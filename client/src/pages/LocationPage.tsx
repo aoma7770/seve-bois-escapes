@@ -10,7 +10,7 @@ export default function LocationPage() {
         <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex items-end">
           <div className="container pb-10">
-            <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
+            <p className="text-caption text-white mb-2">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
             <h1 className="text-display text-white">{t({ fr: "Laforêt & la Semois", en: "Laforêt & the Semois", be: "Laforêt & the Semois" })}</h1>
           </div>
         </div>

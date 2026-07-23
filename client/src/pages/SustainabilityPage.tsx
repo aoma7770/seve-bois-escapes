@@ -10,7 +10,7 @@ export default function SustainabilityPage() {
         <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="Eco cottage exterior" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex items-end">
           <div className="container pb-10">
-            <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Durabilité", en: "Sustainability", be: "Sustainability" })}</p>
+            <p className="text-caption text-white mb-2">{t({ fr: "Durabilité", en: "Sustainability", be: "Sustainability" })}</p>
             <h1 className="text-display text-white">{t({ fr: "La nature, sans compromis.", en: "Nature, without compromise.", be: "Nature, without compromise." })}</h1>
           </div>
         </div>
