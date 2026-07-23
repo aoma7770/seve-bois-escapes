@@ -121,3 +121,15 @@
 - [x] Update rates page to clarify 2 separate properties
 - [x] Update homepage copy to emphasize 2 properties for groups/families
 - [x] Fix Flemish language toggle (FR → EN → BE)
+
+
+## Phase 13: Update Property Details & Pricing
+- [x] Update bedroom configuration: 2 Queen beds per cottage (1 per bedroom) + sofa bed in living room
+- [x] Update pricing: €797/night for entire property (both cottages, up to 12 guests)
+- [x] Update booking system to show single price for both cottages combined
+- [x] Add baby cot to amenities list (Foldable baby cot + Foldable high chair)
+- [x] Update cottage pages to clarify sleeping arrangements (Queen bed + sofa bed)
+- [x] Update rates page to show €797/night pricing
+- [x] Update booking widget to show total price calculation
+- [x] Ensure no individual cottage booking is possible (only full property)
+- [x] Update homepage copy to emphasize "€797/night for both cottages"

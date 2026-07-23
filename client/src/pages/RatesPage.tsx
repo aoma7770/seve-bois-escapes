@@ -49,8 +49,8 @@ export default function RatesPage() {
             {/* Cottage selector */}
             <div className="flex gap-3 mb-8">
               {[
-                { id: 1, name: "La Sève", price: "€150" },
-                { id: 2, name: "Le Bois", price: "€175" },
+                { id: 1, name: "La Sève", price: "€797" },
+                { id: 2, name: "Le Bois", price: "€797" },
               ].map(({ id, name, price }) => (
                 <button
                   key={id}
@@ -99,8 +99,8 @@ export default function RatesPage() {
                   </thead>
                   <tbody>
                     {[
-                      { name: "La Sève", weeknight: "€150", weekend: "€200", week: "€950", cleaning: "€75" },
-                      { name: "Le Bois", weeknight: "€175", weekend: "€230", week: "€1 100", cleaning: "€90" },
+                      { name: "La Sève", weeknight: "€797", weekend: "€797", week: "€797", cleaning: "€797" },
+                      { name: "Le Bois", weeknight: "€797", weekend: "€797", week: "€797 100", cleaning: "€797" },
                     ].map((row) => (
                       <tr key={row.name} className="border-b border-[var(--cream-100)] hover:bg-[var(--cream-50)]">
                         <td className="py-4 font-semibold text-[var(--forest-900)]">{row.name}</td>

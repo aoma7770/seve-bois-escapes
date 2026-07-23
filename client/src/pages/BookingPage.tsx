@@ -25,8 +25,8 @@ export default function BookingPage() {
   const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", gdprConsent: false });
 
   const propertyId = 1; // Single unit: both cottages
-  const basePricePerNight = 300; // For both cottages
-  const cleaningFee = 150;
+  const basePricePerNight = 797; // €797/night for both cottages
+  const cleaningFee = 0; // No additional cleaning fee
 
   const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId });
 
@@ -90,26 +90,17 @@ export default function BookingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main form */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Cottage selector */}
+            {/* Property info */}
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)]">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Choisissez votre cottage", en: "Choose your cottage", be: "Choose your cottage" })}</h3>
-              <div className="grid grid-cols-2 gap-3">
-                {[
-                  { slug: "la-seve", name: "La Sève", desc: t({ fr: "4 personnes · 2 chambres", en: "4 guests · 2 bedrooms", be: "4 guests · 2 bedrooms" }), price: "€150" },
-                  { slug: "le-bois", name: "Le Bois", desc: t({ fr: "6 personnes · 3 chambres", en: "6 guests · 3 bedrooms", be: "6 guests · 3 bedrooms" }), price: "€175" },
-                ].map(({ slug, name, desc, price }) => (
-                  <Link
-                    key={slug}
-                    href={`/booking?cottage=${slug}`}
-                    className={`p-4 rounded-xl border-2 text-left transition-all border-[var(--cream-300)] hover:border-[var(--forest-300)]`}
-                  >
-                    <p className="font-semibold text-[var(--forest-900)]">{name}</p>
-                    <p className="text-xs text-[var(--slate-500)] mt-1">{desc}</p>
-                    <p className="text-sm font-bold text-[var(--forest-700)] mt-2">{t({ fr: "à partir de", en: "from", be: "from" })} {price}/nuit</p>
-                  </Link>
-                ))}
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Votre réservation", en: "Your booking", be: "Your booking" })}</h3>
+              <div className="bg-[var(--forest-50)] rounded-lg p-4 border border-[var(--forest-200)]">
+                <p className="text-sm text-[var(--forest-700)] mb-2">{t({ fr: "Vous réservez les deux cottages ensemble pour jusqu'à 12 personnes.", en: "You are booking both cottages together for up to 12 guests.", be: "You are booking both cottages together for up to 12 guests." })}</p>
+                <p className="text-sm text-[var(--forest-700)]">{t({ fr: "Chaque cottage : 2 chambres (lits Queen) + canapé-lit · 1 salle de bain · Cuisine équipée", en: "Each cottage: 2 bedrooms (Queen beds) + sofa bed · 1 bathroom · Equipped kitchen", be: "Each cottage: 2 bedrooms (Queen beds) + sofa bed · 1 bathroom · Equipped kitchen" })}</p>
               </div>
             </div>
+            {/* Placeholder - removed individual cottage selector */}
+            <div className="hidden"></div>
+
 
             {/* Date picker */}
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)]">

@@ -135,9 +135,7 @@ export default function CottagePage({ slug }: Props) {
                   : t({ fr: "Plus d'espace. Même esprit.", en: "More space. Same spirit.", be: "More space. Same spirit." })}
               </h2>
               <p className="text-lead mb-4">
-                {slug === "la-seve"
-                  ? t({ fr: "La Sève est notre premier cottage — intime, chaleureux, et tourné vers la forêt. Deux chambres, une cuisine complète, une salle de bain aux carreaux vert forêt, et des baies vitrées qui ouvrent sur la nature. Tout est là. Il ne vous reste qu'à arriver.", en: "La Sève is our first cottage — intimate, warm, and facing the forest. Two bedrooms, a full kitchen, a bathroom with forest-green tiles, and floor-to-ceiling glazing opening onto nature. Everything is here. All you need to do is arrive.", be: "La Sève is our first cottage — intimate, warm, and facing the forest. Two bedrooms, a full kitchen, a bathroom with forest-green tiles, and floor-to-ceiling glazing opening onto nature. Everything is here. All you need to do is arrive." })
-                  : t({ fr: "Le Bois accueille jusqu'à six personnes dans un espace plus généreux, avec trois chambres et deux salles de bain. Idéal pour les familles ou les groupes d'amis. Le même esprit éco-luxe, avec davantage de place pour respirer.", en: "Le Bois welcomes up to six guests in a more generous space, with three bedrooms and two bathrooms. Ideal for families or groups of friends. The same eco-luxe spirit, with more room to breathe.", be: "Le Bois welcomes up to six guests in a more generous space, with three bedrooms and two bathrooms. Ideal for families or groups of friends. The same eco-luxe spirit, with more room to breathe." })}
+                {t({ fr: "Chaque cottage accueille jusqu'à 6 personnes : 2 chambres avec lit Queen (2 personnes chacun) + canapé-lit dans le salon (2 personnes). Une salle de bain complète, une cuisine équipée, et tous les équipements pour les familles. Idéal pour les familles ou les groupes d'amis. Vous réservez les deux cottages ensemble pour jusqu'à 12 personnes.", en: "Each cottage welcomes up to 6 guests: 2 bedrooms with Queen beds (2 people each) + sofa bed in the living room (2 people). A full bathroom, equipped kitchen, and all family-friendly amenities. Perfect for families or groups of friends. You book both cottages together for up to 12 people.", be: "Elk cottage biedt plaats aan tot 6 gasten: 2 slaapkamers met Queensbedden (2 personen elk) + slaapbank in de woonkamer (2 personen). Een volledige badkamer, uitgeruste keuken en alle gezinsvriendelijke voorzieningen. Perfect voor gezinnen of groepen vrienden. U boekt beide cottages samen voor maximaal 12 personen." })}
               </p>
 
               {/* Quick stats */}
@@ -177,7 +175,7 @@ export default function CottagePage({ slug }: Props) {
                   {t({ fr: "Cuisine & Buanderie", en: "Kitchen & Laundry", be: "Keuken & Wasserij" })}
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {data.kitchen_amenities?.map(({ fr, en, be }) => (
+                  {[...data.kitchen_amenities || [], { fr: "Lit bébé pliant", en: "Foldable baby cot", be: "Opvouwbaar babybedje" }, { fr: "Chaise haute pliante", en: "Foldable high chair", be: "Opvouwbare kinderstoel" }].map(({ fr, en, be }) => (
                     <div key={fr} className="flex items-center gap-2 p-3 bg-[var(--cream-50)] rounded-lg border border-[var(--cream-200)]">
                       <span className="text-[var(--ochre-500)]">✓</span>
                       <span className="text-sm text-[var(--forest-700)]">{t({ fr, en, be })}</span>
