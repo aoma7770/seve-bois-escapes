@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import Slideshow from "@/components/Slideshow";
 import { trpc } from "@/lib/trpc";
 import {
   Wifi, Flame, Car, Utensils, Droplets, Leaf, Users, Star,
