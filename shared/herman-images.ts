@@ -1,7 +1,7 @@
 // Herman Photos - House 1 (Cottage 1) CDN URLs
 export const HERMAN_COTTAGE1_IMAGES = {
   // Hero/Exterior images (best for homepage slideshow) - 11+ best images
-  // Organized by room type: outdoor first, then living room, kitchen, bedrooms, bathrooms
+  // Organized: ALL outdoor images first, then ALL indoor images
   hero: [
     // Outdoor/Exterior - 6 images
     "/manus-storage/foto-030_64d147d2.jpg",  // Outdoor close-up (main)
@@ -11,14 +11,10 @@ export const HERMAN_COTTAGE1_IMAGES = {
     "/manus-storage/foto-037_90c568d4.jpg",  // Outdoor view
     "/manus-storage/foto-038_74fc390c.jpg",  // Outdoor terrace
     
-    // Living Room - 2 images
+    // Indoor images - 5 images
     "/manus-storage/foto-001_726ad917.jpg",  // Living room main
     "/manus-storage/foto-002_f3c07f38.jpg",  // Living room detail
-    
-    // Kitchen - 1 image
     "/manus-storage/foto-010_4942b06f.jpg",  // Kitchen
-    
-    // Bedrooms - 2 images
     "/manus-storage/foto-020_807ff133.jpg",  // Bedroom 1
     "/manus-storage/foto-021_66c4d4fa.jpg",  // Bedroom 2
   ],
