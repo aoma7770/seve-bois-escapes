@@ -9,7 +9,7 @@ interface Props { slug: string; }
 
 const COTTAGE_DATA = {
   "la-seve": {
-    images: HERMAN_COTTAGE1_IMAGES.hero,
+    images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
       { icon: Wifi, fr: "Wifi haut débit", en: "High-speed Wifi", be: "Snelle WiFi" },
@@ -32,7 +32,7 @@ const COTTAGE_DATA = {
     priceFrom: 150,
   },
   "le-bois": {
-    images: HERMAN_COTTAGE1_IMAGES.hero,
+    images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
       { icon: Wifi, fr: "Wifi haut débit", en: "High-speed Wifi", be: "Snelle WiFi" },

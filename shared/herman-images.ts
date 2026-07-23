@@ -46,6 +46,23 @@ export const HERMAN_COTTAGE1_IMAGES = {
     "/manus-storage/foto-025_bb8a1fca.jpg",
   ],
   
+  // Outdoor/Exterior images
+  outdoor: [
+    "/manus-storage/foto-030_64d147d2.jpg",  // Outdoor close-up
+    "/manus-storage/foto-031_fc3d5b5a.jpg",  // Outdoor detail
+    "/manus-storage/foto-032_00b0fdb5.jpg",  // Outdoor view
+    "/manus-storage/foto-033_f2fde43d.jpg",  // Outdoor angle
+    "/manus-storage/foto-034_ba7bd4e1.jpg",  // Outdoor exterior
+    "/manus-storage/foto-035_fc31233a.jpg",  // Outdoor landscape
+    "/manus-storage/foto-036_c6fc3d32.jpg",  // Outdoor detail
+    "/manus-storage/foto-037_90c568d4.jpg",  // Outdoor view
+    "/manus-storage/foto-038_74fc390c.jpg",  // Outdoor terrace
+    "/manus-storage/foto-039_9000a280.jpg",  // Outdoor terrace detail
+    "/manus-storage/foto-040_1bb9b0f7.jpg",  // Parking/EV charging
+    "/manus-storage/foto-041_5cf69c48.jpg",  // Outdoor amenity
+    "/manus-storage/foto-042_576e41dc.jpg",  // Outdoor feature
+  ],
+  
   // All images for gallery
   all: [
     "/manus-storage/foto-001_726ad917.jpg",
