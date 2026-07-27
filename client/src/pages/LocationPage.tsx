@@ -39,28 +39,6 @@ export default function LocationPage() {
         </div>
         <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Comment nous rejoindre", en: "Getting here", be: "Getting here" })}</h3>
         
-        {/* GPS Warning Notice */}
-        <div className="bg-[var(--ochre-50)] border-l-4 border-[var(--ochre-400)] rounded-lg p-6 mb-8">
-          <p className="text-sm font-semibold text-[var(--ochre-900)] mb-2">
-            {t({ fr: "⚠️ Important: GPS peut ne pas être précis", en: "⚠️ Important: GPS may not be accurate", be: "⚠️ Important: GPS may not be accurate" })}
-          </p>
-          <p className="text-sm text-[var(--ochre-800)]">
-            {t({ fr: "Notre propriété au numéro 112, La Forêt est nouvellement établie et les systèmes GPS (Google Maps, Waze) peuvent ne pas vous router correctement. Veuillez utiliser les directions étape par étape ci-dessous et cherchez nos panneaux '112' et 'Propriété Privée' à l'arrivée.", en: "Our property at Number 112, La Forêt is newly established and GPS systems (Google Maps, Waze) may not route you accurately. Please use the step-by-step directions below and look for our '112' and 'Private Property' signs on arrival.", be: "Our property at Number 112, La Forêt is newly established and GPS systems (Google Maps, Waze) may not route you accurately. Please use the step-by-step directions below and look for our '112' and 'Private Property' signs on arrival." })}
-          </p>
-        </div>
-        
-        {/* Manual Directions */}
-        <div className="bg-white rounded-2xl p-8 border border-[var(--cream-300)] mb-8">
-          <h4 className="text-body-bold text-[var(--forest-950)] mb-4">
-            {t({ fr: "Directions pas à pas", en: "Step-by-step directions", be: "Step-by-step directions" })}
-          </h4>
-          <div className="bg-[var(--cream-50)] rounded-lg p-4 border border-[var(--cream-200)]">
-            <p className="text-sm text-[var(--slate-600)] italic">
-              {t({ fr: "[Directions détaillées à venir — Jane prépare les instructions complètes]", en: "[Detailed directions coming soon — Jane is preparing complete instructions]", be: "[Detailed directions coming soon — Jane is preparing complete instructions]" })}
-            </p>
-          </div>
-        </div>
-        
         <div className="bg-white rounded-2xl p-8 border border-[var(--cream-300)]">
           <ul className="space-y-3 text-sm text-[var(--slate-700)]">
             <li><strong>{t({ fr: "Depuis Bruxelles:", en: "From Brussels:", be: "From Brussels:" })}</strong> {t({ fr: "2h en voiture via E411", en: "2h by car via E411", be: "2h by car via E411" })}</li>

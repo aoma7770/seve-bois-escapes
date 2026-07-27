@@ -138,8 +138,8 @@
 ## Phase 14: Website Update from Owner Documents (Laforêt Sève & Bois)
 - [x] Update amenities page with verified amenities list (dishwasher, dryer, WiFi, EV charger, etc.)
 - [x] Remove non-available amenities from website (AC, baby cot, alarm clock, blinds)
-- [x] Update Location page with GPS warning notice
-- [x] Add placeholder for manual driving directions on Location page
+- [x] Update Location page (removed GPS warning and directions - only for booked guests)
+- [x] Manual directions removed from public page (reserved for booked guests only)
 - [x] Add placeholder for local restaurants on Location page
 - [x] Add placeholder for local activities on Location page
 - [x] Update Booking page with pet policy field
