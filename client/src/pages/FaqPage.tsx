@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "wouter";
 import { ChevronDown } from "lucide-react";
+import { LOCATION_IMAGES } from "../../../shared/location-images";
 
 interface FaqItem { q: string; a: string; }
 interface FaqGroup { title: string; items: FaqItem[]; }

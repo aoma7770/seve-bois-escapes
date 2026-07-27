@@ -4,6 +4,7 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "wouter";
+import { LOCATION_IMAGES } from "../../../shared/location-images";
 
 export default function ContactPage() {
   const { t } = useLanguage();

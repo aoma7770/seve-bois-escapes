@@ -1,13 +1,14 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "wouter";
 import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
+import { LOCATION_IMAGES } from "../../../shared/location-images";
 
 export default function SustainabilityPage() {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="relative h-64 md:h-80 overflow-hidden">
-        <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="Eco cottage exterior" className="w-full h-full object-cover" />
+        <img src={LOCATION_IMAGES.forestOverview} alt="Eco cottage exterior" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex items-end">
           <div className="container pb-10">
             <p className="text-caption text-white mb-2">{t({ fr: "Durabilité", en: "Sustainability", be: "Sustainability" })}</p>

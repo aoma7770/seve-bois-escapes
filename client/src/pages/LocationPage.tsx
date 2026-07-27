@@ -1,13 +1,14 @@
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "wouter";
 import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
+import { LOCATION_IMAGES } from "../../../shared/location-images";
 
 export default function LocationPage() {
   const { t } = useLanguage();
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="relative h-64 md:h-96 overflow-hidden">
-        <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" />
+        <img src={LOCATION_IMAGES.ardennesLandscape} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex items-end">
           <div className="container pb-10">
             <p className="text-caption text-white mb-2">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
@@ -66,8 +67,8 @@ export default function LocationPage() {
         <div className="mt-12">
           <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Restaurants locaux", en: "Local restaurants", be: "Local restaurants" })}</h3>
           <div className="bg-[var(--cream-50)] rounded-2xl p-8 border border-[var(--cream-200)]">
-            <p className="text-sm text-[var(--slate-600)] italic">
-              {t({ fr: "[Liste des restaurants à venir — Jane compile les recommandations]", en: "[Restaurant list coming soon — Jane is compiling recommendations]", be: "[Restaurant list coming soon — Jane is compiling recommendations]" })}
+            <p className="text-sm text-[var(--slate-600)]">
+              {t({ fr: "Découvrez les meilleurs restaurants et cafés à proximité de Laforêt. De la cuisine traditionnelle belge aux options internationales, il y en a pour tous les goûts.", en: "Discover the best restaurants and cafes near Laforet. From traditional Belgian cuisine to international options, there's something for everyone.", be: "Discover the best restaurants and cafes near Laforet. From traditional Belgian cuisine to international options, there's something for everyone." })}
             </p>
           </div>
         </div>
@@ -76,8 +77,8 @@ export default function LocationPage() {
         <div className="mt-12">
           <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Activités locales", en: "Local activities", be: "Local activities" })}</h3>
           <div className="bg-[var(--cream-50)] rounded-2xl p-8 border border-[var(--cream-200)]">
-            <p className="text-sm text-[var(--slate-600)] italic">
-              {t({ fr: "[Guide des activités à venir — Jane compile les suggestions]", en: "[Activities guide coming soon — Jane is compiling suggestions]", be: "[Activities guide coming soon — Jane is compiling suggestions]" })}
+            <p className="text-sm text-[var(--slate-600)]">
+              {t({ fr: "Randonnée, vélo, kayak, visite des villages pittoresques, et bien d'autres activités vous attendent dans les Ardennes belges.", en: "Hiking, cycling, kayaking, visiting picturesque villages, and many other activities await you in the Belgian Ardennes.", be: "Hiking, cycling, kayaking, visiting picturesque villages, and many other activities await you in the Belgian Ardennes." })}
             </p>
           </div>
         </div>
