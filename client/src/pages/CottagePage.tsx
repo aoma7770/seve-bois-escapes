@@ -12,22 +12,28 @@ const COTTAGE_DATA = {
     images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
-      { icon: Wifi, fr: "Wifi haut débit", en: "High-speed Wifi", be: "Snelle WiFi" },
+      { icon: Wifi, fr: "Wifi haut débit gratuit", en: "Free high-speed WiFi", be: "Gratis snelle WiFi" },
+      { icon: Car, fr: "Parking gratuit", en: "Free parking", be: "Gratis parkeren" },
+      { icon: Leaf, fr: "Isolation exceptionnelle", en: "Exceptional insulation", be: "Uitzonderlijke isolatie" },
       { icon: Flame, fr: "Chauffage inclus", en: "Heating included", be: "Verwarming inbegrepen" },
       { icon: Utensils, fr: "Cuisine équipée", en: "Fully equipped kitchen", be: "Volledig uitgeruste keuken" },
       { icon: Droplets, fr: "Eau chaude", en: "Hot water", be: "Warm water" },
-      { icon: Car, fr: "Parking gratuit", en: "Free parking", be: "Gratis parkeren" },
-      { icon: Leaf, fr: "Énergie renouvelable", en: "Renewable energy", be: "Hernieuwbare energie" },
     ],
     kitchen_amenities: [
       { fr: "Machine à café", en: "Coffee machine", be: "Koffiezetapparaat" },
-      { fr: "Lave-linge", en: "Washing machine", be: "Wasmachine" },
-      { fr: "Sèche-linge", en: "Dryer", be: "Droger" },
       { fr: "Lave-vaisselle", en: "Dishwasher", be: "Vaatwasser" },
-      { fr: "Réfrigérateur", en: "Refrigerator", be: "Koelkast" },
-      { fr: "Four", en: "Oven", be: "Oven" },
-      { fr: "Plaques de cuisson", en: "Stove", be: "Kookplaat" },
+      { fr: "Réfrigérateur avec congélateur", en: "Fridge with freezer", be: "Koelkast met vriezer" },
+      { fr: "Sèche-linge", en: "Dryer machine", be: "Droger" },
       { fr: "Ustensiles de cuisine", en: "Kitchen utensils", be: "Keukengerei" },
+    ],
+    other_amenities: [
+      { fr: "Sèche-cheveux", en: "Hair dryer", be: "Haardroger" },
+      { fr: "Ventilateur", en: "Fan", be: "Ventilator" },
+      { fr: "Rideaux occultants épais", en: "Thick blackout curtains", be: "Dikke verduisteringsgordijnen" },
+      { fr: "Borne de recharge EV", en: "EV charging station", be: "EV-laadstation" },
+      { fr: "Entrée sans clé (code)", en: "Keyless entry (code lock)", be: "Sleutelvrije ingang (codeslot)" },
+      { fr: "Caméra de sécurité extérieure", en: "Exterior security camera", be: "Externe beveiligingscamera" },
+      { fr: "Mobilier de jardin", en: "Garden furniture", be: "Tuinmeubilair" },
     ],
     priceFrom: 150,
   },
@@ -35,22 +41,28 @@ const COTTAGE_DATA = {
     images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
-      { icon: Wifi, fr: "Wifi haut débit", en: "High-speed Wifi", be: "Snelle WiFi" },
+      { icon: Wifi, fr: "Wifi haut débit gratuit", en: "Free high-speed WiFi", be: "Gratis snelle WiFi" },
+      { icon: Car, fr: "Parking gratuit", en: "Free parking", be: "Gratis parkeren" },
+      { icon: Leaf, fr: "Isolation exceptionnelle", en: "Exceptional insulation", be: "Uitzonderlijke isolatie" },
       { icon: Flame, fr: "Chauffage inclus", en: "Heating included", be: "Verwarming inbegrepen" },
       { icon: Utensils, fr: "Cuisine équipée", en: "Fully equipped kitchen", be: "Volledig uitgeruste keuken" },
       { icon: Droplets, fr: "Eau chaude", en: "Hot water", be: "Warm water" },
-      { icon: Car, fr: "Parking gratuit", en: "Free parking", be: "Gratis parkeren" },
-      { icon: Leaf, fr: "Énergie renouvelable", en: "Renewable energy", be: "Hernieuwbare energie" },
     ],
     kitchen_amenities: [
       { fr: "Machine à café", en: "Coffee machine", be: "Koffiezetapparaat" },
-      { fr: "Lave-linge", en: "Washing machine", be: "Wasmachine" },
-      { fr: "Sèche-linge", en: "Dryer", be: "Droger" },
       { fr: "Lave-vaisselle", en: "Dishwasher", be: "Vaatwasser" },
-      { fr: "Réfrigérateur", en: "Refrigerator", be: "Koelkast" },
-      { fr: "Four", en: "Oven", be: "Oven" },
-      { fr: "Plaques de cuisson", en: "Stove", be: "Kookplaat" },
+      { fr: "Réfrigérateur avec congélateur", en: "Fridge with freezer", be: "Koelkast met vriezer" },
+      { fr: "Sèche-linge", en: "Dryer machine", be: "Droger" },
       { fr: "Ustensiles de cuisine", en: "Kitchen utensils", be: "Keukengerei" },
+    ],
+    other_amenities: [
+      { fr: "Sèche-cheveux", en: "Hair dryer", be: "Haardroger" },
+      { fr: "Ventilateur", en: "Fan", be: "Ventilator" },
+      { fr: "Rideaux occultants épais", en: "Thick blackout curtains", be: "Dikke verduisteringsgordijnen" },
+      { fr: "Borne de recharge EV", en: "EV charging station", be: "EV-laadstation" },
+      { fr: "Entrée sans clé (code)", en: "Keyless entry (code lock)", be: "Sleutelvrije ingang (codeslot)" },
+      { fr: "Caméra de sécurité extérieure", en: "Exterior security camera", be: "Externe beveiligingscamera" },
+      { fr: "Mobilier de jardin", en: "Garden furniture", be: "Tuinmeubilair" },
     ],
     priceFrom: 150,
   },
@@ -175,7 +187,7 @@ export default function CottagePage({ slug }: Props) {
                   {t({ fr: "Cuisine & Buanderie", en: "Kitchen & Laundry", be: "Keuken & Wasserij" })}
                 </h4>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {[...data.kitchen_amenities || [], { fr: "Lit bébé pliant", en: "Foldable baby cot", be: "Opvouwbaar babybedje" }, { fr: "Chaise haute pliante", en: "Foldable high chair", be: "Opvouwbare kinderstoel" }].map(({ fr, en, be }) => (
+                  {data.kitchen_amenities?.map(({ fr, en, be }) => (
                     <div key={fr} className="flex items-center gap-2 p-3 bg-[var(--cream-50)] rounded-lg border border-[var(--cream-200)]">
                       <span className="text-[var(--ochre-500)]">✓</span>
                       <span className="text-sm text-[var(--forest-700)]">{t({ fr, en, be })}</span>
@@ -183,6 +195,23 @@ export default function CottagePage({ slug }: Props) {
                   ))}
                 </div>
               </div>
+              
+              {/* Other Amenities */}
+              {data.other_amenities && data.other_amenities.length > 0 && (
+                <div className="mt-8">
+                  <h4 className="text-body-bold text-[var(--forest-950)] mb-4">
+                    {t({ fr: "Confort & Sécurité", en: "Comfort & Security", be: "Comfort & Veiligheid" })}
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {data.other_amenities.map(({ fr, en, be }) => (
+                      <div key={fr} className="flex items-center gap-2 p-3 bg-[var(--cream-50)] rounded-lg border border-[var(--cream-200)]">
+                        <span className="text-[var(--ochre-500)]">✓</span>
+                        <span className="text-sm text-[var(--forest-700)]">{t({ fr, en, be })}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* House rules */}

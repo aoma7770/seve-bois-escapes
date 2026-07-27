@@ -133,3 +133,26 @@
 - [x] Update booking widget to show total price calculation
 - [x] Ensure no individual cottage booking is possible (only full property)
 - [x] Update homepage copy to emphasize "€797/night for both cottages"
+
+
+## Phase 14: Website Update from Owner Documents (Laforêt Sève & Bois)
+- [x] Update amenities page with verified amenities list (dishwasher, dryer, WiFi, EV charger, etc.)
+- [x] Remove non-available amenities from website (AC, baby cot, alarm clock, blinds)
+- [x] Update Location page with GPS warning notice
+- [x] Add placeholder for manual driving directions on Location page
+- [x] Add placeholder for local restaurants on Location page
+- [x] Add placeholder for local activities on Location page
+- [x] Update Booking page with pet policy field
+- [x] Add parking note to Booking page
+- [x] Add promotional banner to Booking page ("Special Introductory Rates")
+- [x] Update homepage headline: "Escape to Nature — Two Private Cottages in the Heart of La Forêt, Belgium"
+- [x] Update homepage sub-headline: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates."
+- [ ] Add key highlights strip to homepage (6 icons: Pet Friendly, EV Charging, WiFi, 10 min Sumois River, Keyless Check-In, Fully Equipped Kitchen)
+- [ ] Update property description copy with owner-approved text
+- [ ] Add rental options section to homepage (Cottage 1, Cottage 2, Both Cottages)
+- [x] Add SEO meta descriptions infrastructure (hook created, homepage updated)
+- [ ] Update pricing to reflect promotional introductory rate (€750/night)
+- [ ] Verify all pages have correct amenities information
+- [ ] Test booking flow with pet field
+- [ ] Verify GPS warning displays correctly on Location page
+- [ ] Review and verify all changes match owner documents

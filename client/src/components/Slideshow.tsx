@@ -15,6 +15,11 @@ export default function Slideshow({
   className = "",
 }: SlideshowProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  
+  // Debug: log current image
+  useEffect(() => {
+    console.log(`Slideshow: Showing image ${currentIndex}/${images.length}:`, images[currentIndex]);
+  }, [currentIndex, images]);
 
   useEffect(() => {
     if (!autoplay || images.length === 0) return;

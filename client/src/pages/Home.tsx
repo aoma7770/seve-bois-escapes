@@ -12,6 +12,7 @@ import {
   TERRACE_SIDE, BATHROOM_C1, BEDROOM_C1, KITCHEN_C1
 } from "../../../shared/images";
 import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
+import { useSEO } from "@/hooks/useSEO";
 
 type AnimationType = 'fade-in' | 'slide-in-left' | 'slide-in-right' | 'slide-in-up' | 'pop' | 'rotate-in';
 
@@ -42,6 +43,14 @@ function FadeSection({ children, className = "", delay = 0, animation = 'slide-i
 
 export default function Home() {
   const { t } = useLanguage();
+  
+  useSEO({
+    title: "Seve & Bois Escapes - Cottages Eco-Luxe, Ardennes Belges",
+    description: "Deux cottages eco-concus au coeur de l'Ardenne belge, sur les rives de la Semois a Laforet. Reservez en direct. Wifi, tout confort, energie renouvelable.",
+    ogTitle: "Escape to Nature - Two Private Cottages in the Heart of La Foret",
+    ogDescription: "Fully equipped, pet-friendly cottages in the Belgian Ardennes. Book directly for the best rates.",
+  });
+  
   const [heroLoaded, setHeroLoaded] = useState(false);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterDone, setNewsletterDone] = useState(false);
@@ -74,10 +83,10 @@ export default function Home() {
               {t({ fr: "Laforêt · Ardennes belges · Sur la Semois", en: "Laforêt · Belgian Ardennes · On the Semois", be: "Laforêt · Belgian Ardennes · On the Semois" })}
             </p>
             <h1 className="text-display text-white mb-6 animate-fade-up delay-100 max-w-3xl mx-auto">
-              {t({ fr: "Et si la forêt vous attendait ?", en: "What if the forest were waiting for you?", be: "What if the forest were waiting for you?" })}
+              {t({ fr: "Échappez à la ville — Deux cottages privés au cœur de la Forêt", en: "Escape to Nature — Two Private Cottages in the Heart of La Forêt", be: "Escape to Nature — Two Private Cottages in the Heart of La Forêt" })}
             </h1>
             <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto">
-              {t({ fr: "Un cottage éco-conçu au cœur de l'Ardenne belge, au bord de la Semois. Toute la beauté de la nature, tout le confort en plus.", en: "An eco-designed cottage in the heart of the Belgian Ardennes, on the banks of the Semois. All the beauty of nature, with every comfort included.", be: "An eco-designed cottage in the heart of the Belgian Ardennes, on the banks of the Semois. All the beauty of nature, with every comfort included." })}
+              {t({ fr: "Entièrement équipés, acceptant les animaux domestiques, et parfaitement isolés pour chaque saison. Réservez directement pour les meilleurs tarifs.", en: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates.", be: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates." })}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up delay-300">
               <Link href="/booking" className="btn-primary text-base px-8 py-4">

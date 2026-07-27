@@ -22,7 +22,7 @@ export default function BookingPage() {
     return undefined;
   });
   const [guestCount, setGuestCount] = useState(6);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", gdprConsent: false });
+  const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
 
   const propertyId = 1; // Single unit: both cottages
   const basePricePerNight = 750; // €750/night for both cottages
@@ -83,6 +83,15 @@ export default function BookingPage() {
           <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Réservation directe", en: "Direct booking", be: "Direct booking" })}</p>
           <h1 className="text-headline text-white">{t({ fr: "Réservez votre séjour", en: "Book your stay", be: "Book your stay" })}</h1>
           <p className="text-[var(--forest-300)] mt-2">{t({ fr: "Meilleur tarif garanti · Paiement sécurisé · Hôte humain", en: "Best rate guaranteed · Secure payment · Human host", be: "Best rate guaranteed · Secure payment · Human host" })}</p>
+        </div>
+      </div>
+
+      {/* Promotional Banner */}
+      <div className="bg-[var(--ochre-50)] border-b border-[var(--ochre-200)] py-4">
+        <div className="container">
+          <p className="text-sm font-semibold text-[var(--ochre-900)] text-center">
+            {t({ fr: "🎉 Tarifs de lancement spéciaux — Nous mettons les dernières touches à nos magnifiques nouveaux cottages. Profitez de notre tarif d'introduction et soyez parmi nos premiers clients !", en: "🎉 Special Introductory Rates — We are putting the finishing touches on our beautiful new cottages. Enjoy our launch pricing and be among our first guests!", be: "🎉 Special Introductory Rates — We are putting the finishing touches on our beautiful new cottages. Enjoy our launch pricing and be among our first guests!" })}
+          </p>
         </div>
       </div>
 
@@ -151,8 +160,25 @@ export default function BookingPage() {
               </div>
 
               <div>
+                <label className="label-eco">{t({ fr: "Animaux domestiques", en: "Pets", be: "Pets" })}</label>
+                <select value={form.pets || "none"} onChange={e => setForm(f => ({ ...f, pets: e.target.value }))} className="input-eco">
+                  <option value="none">{t({ fr: "Aucun", en: "None", be: "None" })}</option>
+                  <option value="1-small">{t({ fr: "1 petit animal", en: "1 small pet", be: "1 small pet" })}</option>
+                  <option value="2-small">{t({ fr: "2 petits animaux", en: "2 small pets", be: "2 small pets" })}</option>
+                  <option value="1-large">{t({ fr: "1 grand animal", en: "1 large pet", be: "1 large pet" })}</option>
+                </select>
+              </div>
+
+              <div>
                 <label className="label-eco">{t({ fr: "Demandes spéciales", en: "Special requests", be: "Special requests" })}</label>
                 <textarea value={form.specialRequests} onChange={e => setForm(f => ({ ...f, specialRequests: e.target.value }))} className="input-eco h-24 resize-none" placeholder={t({ fr: "Allergies, heure d'arrivée, etc.", en: "Allergies, arrival time, etc.", be: "Allergies, arrival time, etc." })} />
+              </div>
+              
+              {/* Parking Note */}
+              <div className="bg-[var(--cream-50)] rounded-lg p-4 border border-[var(--cream-200)]">
+                <p className="text-xs text-[var(--slate-600)]">
+                  {t({ fr: "📍 Notre zone de stationnement a une surface en pierre naturelle et est légèrement surélevée. Nous recommandons les véhicules avec un bon dégagement au sol.", en: "📍 Our parking area has a natural stone surface and is slightly elevated. We recommend vehicles with reasonable ground clearance.", be: "📍 Our parking area has a natural stone surface and is slightly elevated. We recommend vehicles with reasonable ground clearance." })}
+                </p>
               </div>
 
               <div className="flex items-start gap-3 p-4 bg-[var(--cream-50)] rounded-xl">
