@@ -120,6 +120,27 @@ export default function Home() {
         </div>
       </section>
 
+      {/* KEY HIGHLIGHTS */}
+      <section className="py-16 bg-[var(--cream-50)]">
+        <div className="container">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            {[
+              { icon: "🐾", label: t({ fr: "Animaux acceptés", en: "Pets welcome", be: "Pets welcome" }) },
+              { icon: "⚡", label: t({ fr: "Recharge EV", en: "EV charging", be: "EV charging" }) },
+              { icon: "📶", label: t({ fr: "WiFi haut débit", en: "High-speed WiFi", be: "High-speed WiFi" }) },
+              { icon: "🌊", label: t({ fr: "10 min Semois", en: "10 min Semois", be: "10 min Semois" }) },
+              { icon: "🔑", label: t({ fr: "Entrée sans clé", en: "Keyless entry", be: "Keyless entry" }) },
+              { icon: "🍳", label: t({ fr: "Cuisine équipée", en: "Full kitchen", be: "Full kitchen" }) },
+            ].map((item, i) => (
+              <FadeSection key={i} delay={i * 50} className="text-center">
+                <div className="text-4xl mb-3">{item.icon}</div>
+                <p className="text-sm font-medium text-[var(--forest-900)]">{item.label}</p>
+              </FadeSection>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* THE PROMISE */}
       <section className="py-24 bg-[var(--cream-50)]">
         <div className="container max-w-4xl text-center">

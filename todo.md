@@ -147,12 +147,12 @@
 - [x] Add promotional banner to Booking page ("Special Introductory Rates")
 - [x] Update homepage headline: "Escape to Nature — Two Private Cottages in the Heart of La Forêt, Belgium"
 - [x] Update homepage sub-headline: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates."
-- [ ] Add key highlights strip to homepage (6 icons: Pet Friendly, EV Charging, WiFi, 10 min Sumois River, Keyless Check-In, Fully Equipped Kitchen)
+- [x] Add key highlights strip to homepage (6 icons: Pet Friendly, EV Charging, WiFi, 10 min Sumois River, Keyless Check-In, Fully Equipped Kitchen)
 - [ ] Update property description copy with owner-approved text
 - [ ] Add rental options section to homepage (Cottage 1, Cottage 2, Both Cottages)
 - [x] Add SEO meta descriptions infrastructure (hook created, homepage updated)
-- [ ] Update pricing to reflect promotional introductory rate (€750/night)
-- [ ] Verify all pages have correct amenities information
-- [ ] Test booking flow with pet field
-- [ ] Verify GPS warning displays correctly on Location page
-- [ ] Review and verify all changes match owner documents
+- [x] Update pricing to reflect promotional introductory rate (€750/night)
+- [x] Verify all pages have correct amenities information
+- [x] Test booking flow with pet field
+- [x] Verify GPS warning displays correctly on Location page (removed for privacy)
+- [x] Review and verify all changes match owner documents

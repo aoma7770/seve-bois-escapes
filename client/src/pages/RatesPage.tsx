@@ -29,8 +29,8 @@ export default function RatesPage() {
     ? Math.ceil((range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24))
     : 0;
 
-  const pricePerNight = selectedCottage === 1 ? 150 : 175;
-  const cleaningFee = selectedCottage === 1 ? 75 : 90;
+  const pricePerNight = 750; // €750/night for both cottages
+  const cleaningFee = 80; // Average cleaning fee
   const total = nights * pricePerNight + cleaningFee;
 
   return (
@@ -99,8 +99,7 @@ export default function RatesPage() {
                   </thead>
                   <tbody>
                     {[
-                      { name: "La Sève", weeknight: "€750", weekend: "€750", week: "€750", cleaning: "€750" },
-                      { name: "Le Bois", weeknight: "€750", weekend: "€750", week: "€750 100", cleaning: "€750" },
+                      { name: "La Sève & Le Bois (Both)", weeknight: "€750", weekend: "€750", week: "€750", cleaning: "€75-90" },
                     ].map((row) => (
                       <tr key={row.name} className="border-b border-[var(--cream-100)] hover:bg-[var(--cream-50)]">
                         <td className="py-4 font-semibold text-[var(--forest-900)]">{row.name}</td>
