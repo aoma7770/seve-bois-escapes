@@ -47,6 +47,7 @@ export default function Home() {
   useSEO({
     title: "Seve & Bois Escapes - Cottages Eco-Luxe, Ardennes Belges",
     description: "Deux cottages eco-concus au coeur de l'Ardenne belge, sur les rives de la Semois a Laforet. Reservez en direct. Wifi, tout confort, energie renouvelable.",
+    keywords: "cottages Ardennes, Laforet, Semois, eco-luxe, vacation rentals Belgium, pet-friendly cottages, Belgian Ardennes, holiday homes, sustainable tourism",
     ogTitle: "Escape to Nature - Two Private Cottages in the Heart of La Foret",
     ogDescription: "Fully equipped, pet-friendly cottages in the Belgian Ardennes. Book directly for the best rates.",
   });
@@ -283,7 +284,7 @@ export default function Home() {
       {/* LOCATION */}
       <section className="py-24 bg-[var(--forest-950)] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="" className="w-full h-full object-cover" />
+          <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="Beautiful forest landscape in Laforet Belgian Ardennes" className="w-full h-full object-cover" />
         </div>
         <div className="container relative z-10">
           <FadeSection className="max-w-3xl">

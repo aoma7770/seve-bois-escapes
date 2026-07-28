@@ -3,13 +3,14 @@ import { useEffect } from 'react';
 interface SEOProps {
   title: string;
   description: string;
+  keywords?: string;
   ogTitle?: string;
   ogDescription?: string;
   ogImage?: string;
   canonical?: string;
 }
 
-export function useSEO({ title, description, ogTitle, ogDescription, ogImage, canonical }: SEOProps) {
+export function useSEO({ title, description, keywords, ogTitle, ogDescription, ogImage, canonical }: SEOProps) {
   useEffect(() => {
     // Update title
     document.title = title;
@@ -22,6 +23,17 @@ export function useSEO({ title, description, ogTitle, ogDescription, ogImage, ca
       document.head.appendChild(metaDescription);
     }
     metaDescription.setAttribute('content', description);
+
+    // Update keywords
+    if (keywords) {
+      let metaKeywords = document.querySelector('meta[name="keywords"]');
+      if (!metaKeywords) {
+        metaKeywords = document.createElement('meta');
+        metaKeywords.setAttribute('name', 'keywords');
+        document.head.appendChild(metaKeywords);
+      }
+      metaKeywords.setAttribute('content', keywords);
+    }
 
     // Update OG title
     let ogTitleTag = document.querySelector('meta[property="og:title"]');
@@ -62,5 +74,5 @@ export function useSEO({ title, description, ogTitle, ogDescription, ogImage, ca
       }
       canonicalTag.setAttribute('href', canonical);
     }
-  }, [title, description, ogTitle, ogDescription, ogImage, canonical]);
+  }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonical]);
 }
