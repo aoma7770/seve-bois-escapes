@@ -103,8 +103,11 @@ export default function BookingPage() {
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)]">
               <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Votre réservation", en: "Your booking", be: "Your booking" })}</h3>
               <div className="bg-[var(--forest-50)] rounded-lg p-4 border border-[var(--forest-200)]">
-                <p className="text-sm text-[var(--forest-700)] mb-2">{t({ fr: "Vous réservez les deux cottages ensemble pour jusqu'à 12 personnes.", en: "You are booking both cottages together for up to 12 guests.", be: "You are booking both cottages together for up to 12 guests." })}</p>
-                <p className="text-sm text-[var(--forest-700)]">{t({ fr: "Chaque cottage : 2 chambres (lits Queen) + canapé-lit · 1 salle de bain · Cuisine équipée", en: "Each cottage: 2 bedrooms (Queen beds) + sofa bed · 1 bathroom · Equipped kitchen", be: "Each cottage: 2 bedrooms (Queen beds) + sofa bed · 1 bathroom · Equipped kitchen" })}</p>
+                <p className="text-sm font-semibold text-[var(--forest-900)] mb-3">La Seve</p>
+                <p className="text-sm text-[var(--forest-700)] mb-4">2 bedrooms · 1 bathroom · Up to 6 guests</p>
+                <p className="text-sm font-semibold text-[var(--forest-900)] mb-3">Le Bois</p>
+                <p className="text-sm text-[var(--forest-700)] mb-4">2 bedrooms · 1 bathroom · Up to 6 guests</p>
+                <p className="text-sm font-semibold text-[var(--ochre-900)] text-center pt-2 border-t border-[var(--forest-200)]">Combined: €750/night for up to 12 guests</p>
               </div>
             </div>
             {/* Placeholder - removed individual cottage selector */}
