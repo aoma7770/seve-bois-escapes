@@ -65,21 +65,40 @@ export default function LocationPage() {
         
         {/* Local Restaurants */}
         <div className="mt-12">
-          <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Restaurants locaux", en: "Local restaurants", be: "Local restaurants" })}</h3>
-          <div className="bg-[var(--cream-50)] rounded-2xl p-8 border border-[var(--cream-200)]">
-            <p className="text-sm text-[var(--slate-600)]">
-              {t({ fr: "Découvrez les meilleurs restaurants et cafés à proximité de Laforêt. De la cuisine traditionnelle belge aux options internationales, il y en a pour tous les goûts.", en: "Discover the best restaurants and cafes near Laforet. From traditional Belgian cuisine to international options, there's something for everyone.", be: "Discover the best restaurants and cafes near Laforet. From traditional Belgian cuisine to international options, there's something for everyone." })}
-            </p>
+          <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Restaurants & cafés", en: "Restaurants & cafes", be: "Restaurants & cafes" })}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { name: "Le Serpolet", type: t({ fr: "Boissons & petits plats", en: "Drinks & bites", be: "Drinks & bites" }), distance: t({ fr: "À pied", en: "Walking", be: "Walking" }) },
+              { name: "Brasserie Simonis", type: t({ fr: "Restaurant & boissons", en: "Restaurant & drinks", be: "Restaurant & drinks" }), distance: t({ fr: "À pied", en: "Walking", be: "Walking" }) },
+              { name: "La Riviera", type: t({ fr: "Pizzeria", en: "Pizzeria", be: "Pizzeria" }), distance: t({ fr: "5 min", en: "5 min", be: "5 min" }) },
+              { name: "Le Gastronome", type: t({ fr: "Gastronomie", en: "Fine dining", be: "Fine dining" }), distance: t({ fr: "15 min", en: "15 min", be: "15 min" }) },
+            ].map(({ name, type, distance }) => (
+              <div key={name} className="card-eco p-4">
+                <h4 className="font-serif font-semibold text-[var(--forest-900)] mb-1">{name}</h4>
+                <p className="text-sm text-[var(--slate-600)] mb-1">{type}</p>
+                <p className="text-xs text-[var(--ochre-600)]">{distance}</p>
+              </div>
+            ))}
           </div>
         </div>
         
         {/* Local Activities */}
         <div className="mt-12">
-          <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Activités locales", en: "Local activities", be: "Local activities" })}</h3>
-          <div className="bg-[var(--cream-50)] rounded-2xl p-8 border border-[var(--cream-200)]">
-            <p className="text-sm text-[var(--slate-600)]">
-              {t({ fr: "Randonnée, vélo, kayak, visite des villages pittoresques, et bien d'autres activités vous attendent dans les Ardennes belges.", en: "Hiking, cycling, kayaking, visiting picturesque villages, and many other activities await you in the Belgian Ardennes.", be: "Hiking, cycling, kayaking, visiting picturesque villages, and many other activities await you in the Belgian Ardennes." })}
-            </p>
+          <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Activités & attractions", en: "Activities & attractions", be: "Activities & attractions" })}</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {[
+              { name: "Cap Semois", desc: t({ fr: "Kayak & location de vélos", en: "Kayaking & bike rental", be: "Kayaking & bike rental" }) },
+              { name: "Château de Bouillon", desc: t({ fr: "Château médiéval", en: "Medieval castle", be: "Medieval castle" }) },
+              { name: "Ardois' Alle", desc: t({ fr: "Mine d'ardoise & musée", en: "Slate mine & museum", be: "Slate mine & museum" }) },
+              { name: "Récréalle", desc: t({ fr: "Centre de loisirs (familles)", en: "Recreational centre (families)", be: "Recreational centre (families)" }) },
+              { name: "Bison Ranch", desc: t({ fr: "Visite d'un ranch de bisons", en: "Bison ranch visit", be: "Bison ranch visit" }) },
+              { name: "Semois Nature", desc: t({ fr: "Randonnées guidées", en: "Guided nature walks", be: "Guided nature walks" }) },
+            ].map(({ name, desc }) => (
+              <div key={name} className="card-eco p-4">
+                <h4 className="font-serif font-semibold text-[var(--forest-900)] mb-1">{name}</h4>
+                <p className="text-sm text-[var(--slate-600)]">{desc}</p>
+              </div>
+            ))}
           </div>
         </div>
         
