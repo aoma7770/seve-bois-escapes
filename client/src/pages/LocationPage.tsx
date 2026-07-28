@@ -1,10 +1,13 @@
-import { useLanguage } from "@/contexts/LanguageContext";
+import { useState } from "react";
 import { Link } from "wouter";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
 import { LOCATION_IMAGES } from "../../../shared/location-images";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 
 export default function LocationPage() {
   const { t } = useLanguage();
+  const [selectedRestaurant, setSelectedRestaurant] = useState<{ name: string; type: string; distance: string } | null>(null);
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="relative h-64 md:h-96 overflow-hidden">
@@ -73,7 +76,7 @@ export default function LocationPage() {
               { name: "La Riviera", type: t({ fr: "Pizzeria", en: "Pizzeria", be: "Pizzeria" }), distance: t({ fr: "5 min", en: "5 min", be: "5 min" }) },
               { name: "Le Gastronome", type: t({ fr: "Gastronomie", en: "Fine dining", be: "Fine dining" }), distance: t({ fr: "15 min", en: "15 min", be: "15 min" }) },
             ].map(({ name, type, distance }) => (
-              <div key={name} className="card-eco p-4">
+              <div key={name} className="card-eco p-4 cursor-pointer hover:shadow-lg transition-shadow" onClick={() => setSelectedRestaurant({ name, type, distance })}>
                 <h4 className="font-serif font-semibold text-[var(--forest-900)] mb-1">{name}</h4>
                 <p className="text-sm text-[var(--slate-600)] mb-1">{type}</p>
                 <p className="text-xs text-[var(--ochre-600)]">{distance}</p>
@@ -106,6 +109,19 @@ export default function LocationPage() {
           <Link href="/booking" className="btn-primary">{t({ fr: "Réserver maintenant", en: "Book now", be: "Book now" })}</Link>
         </div>
       </div>
+
+      <Dialog open={!!selectedRestaurant} onOpenChange={(open) => !open && setSelectedRestaurant(null)}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{selectedRestaurant?.name}</DialogTitle>
+            <DialogDescription>{selectedRestaurant?.type}</DialogDescription>
+          </DialogHeader>
+          {selectedRestaurant?.distance && (
+            <p className="text-sm text-[var(--slate-600)]">{t({ fr: "Distance:", en: "Distance:", be: "Distance:" })} {selectedRestaurant.distance}</p>
+          )}
+          <p className="text-sm text-[var(--slate-600)] mt-4">{t({ fr: "Plus d'informations à venir.", en: "More information coming soon.", be: "More information coming soon." })}</p>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
