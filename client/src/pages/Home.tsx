@@ -237,7 +237,7 @@ export default function Home() {
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">La Sève</h3>
                   <p className="text-sm text-[var(--slate-600)] mb-4 leading-relaxed">
-                    {t({ fr: "2 chambres · 4 personnes · Baies vitrées sur la forêt · Salle de bain aux carreaux vert forêt", en: "2 bedrooms · 4 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom", be: "2 bedrooms · 4 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom" })}
+                    {t({ fr: "2 chambres · 6 personnes · Baies vitrées sur la forêt · Salle de bain aux carreaux vert forêt", en: "2 bedrooms · 6 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom", be: "2 bedrooms · 6 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom" })}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t({ fr: "Chauffage", en: "Heating", be: "Heating" }) }, { icon: Utensils, label: t({ fr: "Cuisine", en: "Kitchen", be: "Kitchen" }) }, { icon: Leaf, label: t({ fr: "Éco", en: "Eco", be: "Eco" }) }].map(({ icon: Icon, label }) => (
@@ -264,7 +264,7 @@ export default function Home() {
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">Le Bois</h3>
                   <p className="text-sm text-[var(--slate-600)] mb-4 leading-relaxed">
-                    {t({ fr: "3 chambres · 6 personnes · Terrasse panoramique · Poêle à bois", en: "3 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove", be: "3 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove" })}
+                    {t({ fr: "2 chambres · 6 personnes · Terrasse panoramique · Poêle à bois", en: "2 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove", be: "2 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove" })}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
                     {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t({ fr: "Poêle à bois", en: "Wood stove", be: "Wood stove" }) }, { icon: Users, label: "6" }, { icon: Leaf, label: t({ fr: "Éco", en: "Eco", be: "Eco" }) }].map(({ icon: Icon, label }) => (
