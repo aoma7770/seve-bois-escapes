@@ -113,7 +113,7 @@ export default function CottagePage({ slug }: Props) {
 
         {/* Title overlay */}
         <div className="absolute bottom-8 left-8">
-          <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Sève & Bois Escapes", en: "Sève & Bois Escapes", be: "Sève & Bois Escapes" })}</p>
+          <p className="text-caption text-[var(--ochre-300)] mb-2" style={{color: '#ffffff'}}>{t({ fr: "Sève & Bois Escapes", en: "Sève & Bois Escapes", be: "Sève & Bois Escapes" })}</p>
           <h1 className="text-display text-white">{name}</h1>
         </div>
       </div>
@@ -250,9 +250,7 @@ export default function CottagePage({ slug }: Props) {
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-2xl shadow-lg border border-[var(--cream-300)] overflow-hidden">
               <div className="bg-[var(--forest-700)] p-6 text-white">
-                <p className="text-caption text-[var(--forest-300)] mb-1">{t({ fr: "À partir de", en: "From", be: "From" })}</p>
-                <div className="text-4xl font-serif font-bold">€{data.priceFrom}</div>
-                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit", en: "/ night", be: "/ night" })}</p>
+                <h3 className="text-subheadline text-white">{t({ fr: "Prêt à réserver?", en: "Ready to book?", be: "Ready to book?" })}</h3>
               </div>
               <div className="p-6 space-y-4">
                 <p className="text-sm text-[var(--slate-600)]">
