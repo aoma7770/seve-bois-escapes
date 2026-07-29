@@ -80,13 +80,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/65" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container text-center text-white">
-            <p className="text-caption text-[var(--ochre-300)] mb-4 animate-fade-up">
+            <p className="text-caption text-[var(--ochre-300)] mb-4 animate-fade-up" style={{color: '#ffffff'}}>
               {t({ fr: "Laforêt · Ardennes belges · Sur la Semois", en: "Laforêt · Belgian Ardennes · On the Semois", be: "Laforêt · Belgian Ardennes · On the Semois" })}
             </p>
             <h1 className="text-display text-white mb-6 animate-fade-up delay-100 max-w-3xl mx-auto">
               {t({ fr: "Échappez à la ville — Deux cottages privés au cœur de la Forêt", en: "Escape to Nature — Two Private Cottages in the Heart of La Forêt", be: "Escape to Nature — Two Private Cottages in the Heart of La Forêt" })}
             </h1>
-            <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto">
+            <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto" style={{color: '#ffffff'}}>
               {t({ fr: "Entièrement équipés, acceptant les animaux domestiques, et parfaitement isolés pour chaque saison. Réservez directement pour les meilleurs tarifs.", en: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates.", be: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates." })}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up delay-300">

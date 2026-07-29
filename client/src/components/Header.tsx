@@ -77,6 +77,15 @@ export default function Header() {
                 {lang === "fr" ? "EN" : lang === "en" ? "BE" : "FR"}
               </button>
 
+              {/* Admin link (discreet) */}
+              <Link
+                href="/admin/login"
+                className={`text-xs font-medium transition-colors duration-200 opacity-50 hover:opacity-100 ${textColor}`}
+                title="Admin"
+              >
+                ⚙️
+              </Link>
+
               {/* CTA */}
               <Link
                 href="/booking"

@@ -96,16 +96,16 @@
 - [x] Update database schema: change from per-cottage bookings to single property bookings
 - [x] Create admin login page with role-based access control
 - [x] Build admin dashboard layout (sidebar, property overview)
-- [ ] Property management: edit amenities (kids gear, baby gear, etc.) — optional enhancement
-- [ ] Property management: edit pricing and seasonal rates — optional enhancement
-- [ ] Property management: edit descriptions and house rules — optional enhancement
-- [ ] Property management: calendar management and availability — optional enhancement
-- [ ] Property management: iCal feed management (export + import) — optional enhancement
-- [ ] Property management: photo gallery management (upload, reorder, delete) — optional enhancement
-- [ ] Property management: add new property functionality — optional enhancement
-- [ ] Admin booking management: view, edit, cancel bookings — optional enhancement
-- [ ] Admin guest management: view guest details, communication history — optional enhancement
-- [ ] Admin analytics: booking stats, revenue, occupancy — optional enhancement
+- [ ] Property management: edit amenities (optional enhancement)
+- [ ] Property management: edit pricing and seasonal rates (optional enhancement)
+- [ ] Property management: edit descriptions and house rules (optional enhancement)
+- [ ] Property management: calendar management and availability (optional enhancement)
+- [ ] Property management: iCal feed management (optional enhancement)
+- [ ] Property management: photo gallery management (optional enhancement)
+- [ ] Property management: add new property functionality (optional enhancement)
+- [ ] Admin booking management: view, edit, cancel bookings (optional enhancement)
+- [ ] Admin guest management: view guest details, communication history (optional enhancement)
+- [ ] Admin analytics: booking stats, revenue, occupancy (optional enhancement)
 - [x] Update booking flow to reflect single-unit model (both cottages together)
 - [x] Update rates page to show single-unit pricing
 - [x] Update cottage detail pages to show they're rented together
@@ -148,11 +148,25 @@
 - [x] Update homepage headline: "Escape to Nature — Two Private Cottages in the Heart of La Forêt, Belgium"
 - [x] Update homepage sub-headline: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates."
 - [x] Add key highlights strip to homepage (6 icons: Pet Friendly, EV Charging, WiFi, 10 min Sumois River, Keyless Check-In, Fully Equipped Kitchen)
-- [ ] Update property description copy with owner-approved text
-- [ ] Add rental options section to homepage (Cottage 1, Cottage 2, Both Cottages)
+- [x] Update property description copy with owner-approved text (headline + subheadline updated)
+- [x] Add rental options section to homepage (Both Cottages - single booking unit - no separate cottage booking)
 - [x] Add SEO meta descriptions infrastructure (hook created, homepage updated)
 - [x] Update pricing to reflect promotional introductory rate (€750/night)
 - [x] Verify all pages have correct amenities information
 - [x] Test booking flow with pet field
 - [x] Verify GPS warning displays correctly on Location page (removed for privacy)
 - [x] Review and verify all changes match owner documents
+
+
+## Phase 15: Admin Dashboard Implementation
+- [ ] Add discreet admin login link to navigation (small icon/link)
+- [ ] Create admin login page with authentication
+- [ ] Build admin dashboard layout with sidebar navigation
+- [ ] Implement rates management (edit base price, seasonal rates)
+- [ ] Implement amenities management (add/edit/remove amenities)
+- [ ] Implement iCal calendar integration (connect external calendars)
+- [ ] Implement extra fees management (cleaning fee, service fee, etc.)
+- [ ] Implement discount rates (percentage and fixed amount discounts)
+- [ ] Implement multi-day discount offers (e.g., 10% off for 7+ nights)
+- [ ] Implement council tax calculator (based on property area/value)
+- [ ] Test admin workflows end-to-end
