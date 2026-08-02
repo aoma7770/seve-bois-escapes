@@ -158,10 +158,21 @@
 - [x] Review and verify all changes match owner documents
 
 
+## Phase 16: Owner Feedback Updates (Jane & Didier)
+- [x] Add Smart Lock Instructions to guest handbook (access codes, entering/exiting procedures)
+- [x] Update website title to "Green Cottages of Laforêt"
+- [x] Update WiFi description to "Free WiFi" (remove "high-speed")
+- [x] Add smoke detectors to amenities list
+- [x] Remove all price badges from homepage cottage cards
+- [x] Add bed linen/towels FAQ question to "The cottage" section
+- [x] Update lake/river access descriptions to clarify no direct access (Semois river section)
+- [x] Fix typos (Lafarêt -> Laforêt in Footer)
+- [ ] Implement "Enter dates for price" logic on booking page (optional enhancement)
+
 ## Phase 15: Admin Dashboard Implementation
-- [ ] Add discreet admin login link to navigation (small icon/link)
-- [ ] Create admin login page with authentication
-- [ ] Build admin dashboard layout with sidebar navigation
+- [x] Add discreet admin login link to navigation (small icon/link)
+- [x] Create admin login page with authentication
+- [x] Build admin dashboard layout with sidebar navigation
 - [ ] Implement rates management (edit base price, seasonal rates)
 - [ ] Implement amenities management (add/edit/remove amenities)
 - [ ] Implement iCal calendar integration (connect external calendars)
