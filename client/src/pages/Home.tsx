@@ -228,11 +228,7 @@ export default function Home() {
                 <div className="relative h-72 overflow-hidden">
                   <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="La Sève — cottage 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t({ fr: "À partir de €750 / nuit", en: "From €750 / night", be: "From €750 / night" })}
-                    </span>
-                  </div>
+
                 </div>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">La Sève</h3>
@@ -255,11 +251,7 @@ export default function Home() {
                 <div className="relative h-72 overflow-hidden">
                   <img src={HERMAN_COTTAGE1_IMAGES.hero[1]} alt="Le Bois — cottage 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t({ fr: "À partir de €750 / nuit", en: "From €750 / night", be: "From €750 / night" })}
-                    </span>
-                  </div>
+
                 </div>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">Le Bois</h3>

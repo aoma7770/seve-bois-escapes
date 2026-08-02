@@ -12,7 +12,7 @@ const COTTAGE_DATA = {
     images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
-      { icon: Wifi, fr: "Wifi haut débit gratuit", en: "Free high-speed WiFi", be: "Gratis snelle WiFi" },
+      { icon: Wifi, fr: "WiFi gratuit", en: "Free WiFi", be: "Gratis WiFi" },
       { icon: Car, fr: "Parking gratuit", en: "Free parking", be: "Gratis parkeren" },
       { icon: Leaf, fr: "Isolation exceptionnelle", en: "Exceptional insulation", be: "Uitzonderlijke isolatie" },
       { icon: Flame, fr: "Chauffage inclus", en: "Heating included", be: "Verwarming inbegrepen" },
@@ -34,6 +34,7 @@ const COTTAGE_DATA = {
       { fr: "Entrée sans clé (code)", en: "Keyless entry (code lock)", be: "Sleutelvrije ingang (codeslot)" },
       { fr: "Caméra de sécurité extérieure", en: "Exterior security camera", be: "Externe beveiligingscamera" },
       { fr: "Mobilier de jardin", en: "Garden furniture", be: "Tuinmeubilair" },
+      { fr: "Détecteurs de fumée", en: "Smoke detectors", be: "Rookmelders" },
     ],
     priceFrom: 150,
   },
@@ -41,7 +42,7 @@ const COTTAGE_DATA = {
     images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
-      { icon: Wifi, fr: "Wifi haut débit gratuit", en: "Free high-speed WiFi", be: "Gratis snelle WiFi" },
+      { icon: Wifi, fr: "WiFi gratuit", en: "Free WiFi", be: "Gratis WiFi" },
       { icon: Car, fr: "Parking gratuit", en: "Free parking", be: "Gratis parkeren" },
       { icon: Leaf, fr: "Isolation exceptionnelle", en: "Exceptional insulation", be: "Uitzonderlijke isolatie" },
       { icon: Flame, fr: "Chauffage inclus", en: "Heating included", be: "Verwarming inbegrepen" },
@@ -63,6 +64,7 @@ const COTTAGE_DATA = {
       { fr: "Entrée sans clé (code)", en: "Keyless entry (code lock)", be: "Sleutelvrije ingang (codeslot)" },
       { fr: "Caméra de sécurité extérieure", en: "Exterior security camera", be: "Externe beveiligingscamera" },
       { fr: "Mobilier de jardin", en: "Garden furniture", be: "Tuinmeubilair" },
+      { fr: "Détecteurs de fumée", en: "Smoke detectors", be: "Rookmelders" },
     ],
     priceFrom: 150,
   },

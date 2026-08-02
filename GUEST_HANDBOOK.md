@@ -4,6 +4,26 @@ Welcome to your home away from home! This handbook contains all the information 
 
 ---
 
+## Smart Lock Instructions
+
+### Entering
+Type your code on the keyboard. You will hear the motor of the lock and then just push the door.
+
+**Access Codes:**
+- **La Sève:** 192837
+- **Le Bois:** 283746
+
+### Exiting (Door Not Locked)
+Use the door handle as usual. Once the door is closed behind you, press the "<" key on the keypad to lock the door.
+
+### Exiting (Door Already Locked)
+Press the center of the smart lock, you will hear the engine start, and then exit.
+
+### Emergency
+If there's a problem, the door can be opened manually by turning the lock to the left.
+
+---
+
 ## WiFi & Internet
 
 **Network Name:** Laforet Guest  
