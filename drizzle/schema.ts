@@ -42,7 +42,12 @@ export const properties = mysqlTable("properties", {
   basePriceWeeknight: decimal("basePriceWeeknight", { precision: 10, scale: 2 }).notNull().default("300.00"),
   basePriceWeekend: decimal("basePriceWeekend", { precision: 10, scale: 2 }).notNull().default("400.00"),
   basePriceWeek: decimal("basePriceWeek", { precision: 10, scale: 2 }).notNull().default("1900.00"),
+  extraGuestRate: decimal("extraGuestRate", { precision: 10, scale: 2 }).notNull().default("40.00"),
   cleaningFee: decimal("cleaningFee", { precision: 10, scale: 2 }).notNull().default("150.00"),
+  zapierWebhookUrl: text("zapierWebhookUrl"),
+  propertyAreaM2: decimal("propertyAreaM2", { precision: 8, scale: 2 }).notNull().default("0.00"),
+  annualCouncilTax: decimal("annualCouncilTax", { precision: 10, scale: 2 }).notNull().default("0.00"),
+  councilTaxRatePerM2: decimal("councilTaxRatePerM2", { precision: 10, scale: 2 }).notNull().default("0.00"),
   minimumStayNights: int("minimumStayNights").notNull().default(2),
   isActive: boolean("isActive").notNull().default(true),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -51,6 +56,53 @@ export const properties = mysqlTable("properties", {
 
 export type Property = typeof properties.$inferSelect;
 export type InsertProperty = typeof properties.$inferInsert;
+
+// Promotions and multi-night discounts managed from the admin area
+export const promotions = mysqlTable("promotions", {
+  id: int("id").autoincrement().primaryKey(),
+  propertyId: int("propertyId").notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  discountType: mysqlEnum("discountType", ["percentage", "fixed"]).notNull().default("percentage"),
+  value: decimal("value", { precision: 10, scale: 2 }).notNull(),
+  minimumNights: int("minimumNights").notNull().default(1),
+  isActive: boolean("isActive").notNull().default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Promotion = typeof promotions.$inferSelect;
+export type InsertPromotion = typeof promotions.$inferInsert;
+
+export const seasonalRates = mysqlTable("seasonal_rates", {
+  id: int("id").autoincrement().primaryKey(),
+  propertyId: int("propertyId").notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  startDate: date("startDate").notNull(),
+  endDate: date("endDate").notNull(),
+  nightlyRate: decimal("nightlyRate", { precision: 10, scale: 2 }).notNull(),
+  weekendRate: decimal("weekendRate", { precision: 10, scale: 2 }).notNull(),
+  extraGuestRate: decimal("extraGuestRate", { precision: 10, scale: 2 }).notNull().default("40.00"),
+  isActive: boolean("isActive").notNull().default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type SeasonalRate = typeof seasonalRates.$inferSelect;
+export type InsertSeasonalRate = typeof seasonalRates.$inferInsert;
+
+export const extraFees = mysqlTable("extra_fees", {
+  id: int("id").autoincrement().primaryKey(),
+  propertyId: int("propertyId").notNull(),
+  name: varchar("name", { length: 128 }).notNull(),
+  feeType: mysqlEnum("feeType", ["fixed", "percentage"]).notNull().default("fixed"),
+  amount: decimal("amount", { precision: 10, scale: 2 }).notNull(),
+  isActive: boolean("isActive").notNull().default(true),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ExtraFee = typeof extraFees.$inferSelect;
+export type InsertExtraFee = typeof extraFees.$inferInsert;
 
 // Amenities (JSON array stored per property)
 export const amenities = mysqlTable("amenities", {
@@ -71,6 +123,7 @@ export type InsertAmenity = typeof amenities.$inferInsert;
 export const bookings = mysqlTable("bookings", {
   id: int("id").autoincrement().primaryKey(),
   propertyId: int("propertyId").notNull(),
+  bookingSelection: varchar("bookingSelection", { length: 16 }).notNull().default("both"),
   guestName: varchar("guestName", { length: 256 }).notNull(),
   guestEmail: varchar("guestEmail", { length: 320 }).notNull(),
   guestPhone: varchar("guestPhone", { length: 64 }),
@@ -105,6 +158,20 @@ export const icalFeeds = mysqlTable("ical_feeds", {
 
 export type IcalFeed = typeof icalFeeds.$inferSelect;
 export type InsertIcalFeed = typeof icalFeeds.$inferInsert;
+
+export const icalBlocks = mysqlTable("ical_blocks", {
+  id: int("id").autoincrement().primaryKey(),
+  feedId: int("feedId").notNull(),
+  propertyId: int("propertyId").notNull(),
+  externalUid: varchar("externalUid", { length: 256 }).notNull(),
+  checkIn: date("checkIn").notNull(),
+  checkOut: date("checkOut").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type IcalBlock = typeof icalBlocks.$inferSelect;
+export type InsertIcalBlock = typeof icalBlocks.$inferInsert;
 
 // Property photos/gallery
 export const propertyPhotos = mysqlTable("property_photos", {

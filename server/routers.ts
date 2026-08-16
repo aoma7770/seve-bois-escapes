@@ -4,10 +4,19 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
-import { bookings, properties, enquiries, icalFeeds, newsletterSubscribers, blogPosts } from "../drizzle/schema";
-import { eq, and, ne } from "drizzle-orm";
+import { bookings, properties, enquiries, icalFeeds, icalBlocks, newsletterSubscribers, blogPosts, amenities, promotions, seasonalRates, extraFees } from "../drizzle/schema";
+import { eq, and, ne, or, lte, gte } from "drizzle-orm";
+import { TRPCError } from "@trpc/server";
 import Stripe from "stripe";
+import {
+  BookingSelection,
+  bookingTotal,
+  maximumGuestsForSelection,
+  minimumGuestsForSelection,
+  nightlyRate,
+} from "../shared/booking";
 import nodemailer from "nodemailer";
+import ical from "node-ical";
 
 // ─── Email helper ─────────────────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -30,6 +39,38 @@ async function sendEmail(to: string, subject: string, html: string) {
   } catch (err) {
     console.warn("[Email] Failed to send:", err);
   }
+}
+
+const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
+  if (ctx.user.role !== "admin") {
+    throw new TRPCError({ code: "FORBIDDEN", message: "Admin access required" });
+  }
+  return next({ ctx });
+});
+
+async function syncExternalCalendar(feed: { id: number; propertyId: number; url: string }) {
+  const db = await getDb();
+  if (!db) throw new Error("Database unavailable");
+  let parsed: Record<string, any>;
+  try {
+    parsed = await ical.async.fromURL(feed.url) as Record<string, any>;
+  } catch (error) {
+    console.error(`[iCal] Failed to import ${feed.url}`, error);
+    throw new TRPCError({ code: "BAD_REQUEST", message: "The calendar URL could not be reached or parsed." });
+  }
+  const blocks = Object.values(parsed)
+    .filter((event: any) => event?.type === "VEVENT" && event.start && event.end && new Date(event.end).getTime() > new Date(event.start).getTime())
+    .map((event: any) => ({
+      feedId: feed.id,
+      propertyId: feed.propertyId,
+      externalUid: String(event.uid ?? `${feed.id}-${new Date(event.start).getTime()}`),
+      checkIn: new Date(event.start).toISOString().slice(0, 10),
+      checkOut: new Date(event.end).toISOString().slice(0, 10),
+    }));
+  await db.delete(icalBlocks).where(eq(icalBlocks.feedId, feed.id));
+  if (blocks.length > 0) await db.insert(icalBlocks).values(blocks as any);
+  await db.update(icalFeeds).set({ lastSyncedAt: new Date() }).where(eq(icalFeeds.id, feed.id));
+  return { imported: blocks.length };
 }
 
 // ─── Stripe instance ──────────────────────────────────────────────────────────
@@ -67,26 +108,55 @@ export const appRouter = router({
         const result = await db.select().from(properties).where(eq(properties.slug, input.slug)).limit(1);
         return result[0] ?? null;
       }),
+
+    pricing: publicProcedure
+      .input(z.object({ slug: z.string(), checkIn: z.string().optional(), checkOut: z.string().optional() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return null;
+        const property = (await db.select().from(properties).where(eq(properties.slug, input.slug)).limit(1))[0];
+        if (!property) return null;
+        let nightlyRate = Number(property.basePriceWeeknight);
+        let weekendRate = Number(property.basePriceWeekend);
+        let extraGuestRate = Number(property.extraGuestRate);
+        if (input.checkIn) {
+          const season = (await db.select().from(seasonalRates).where(and(eq(seasonalRates.propertyId, property.id), eq(seasonalRates.isActive, true), lte(seasonalRates.startDate, new Date(input.checkIn)), gte(seasonalRates.endDate, new Date(input.checkIn)))).limit(1))[0];
+          if (season) {
+            nightlyRate = Number(season.nightlyRate);
+            weekendRate = Number(season.weekendRate);
+            extraGuestRate = Number(season.extraGuestRate);
+          }
+        }
+        const activeFees = await db.select().from(extraFees).where(and(eq(extraFees.propertyId, property.id), eq(extraFees.isActive, true)));
+        return { nightlyRate, weekendRate, extraGuestRate, cleaningFee: Number(property.cleaningFee), minimumStayNights: property.minimumStayNights, extraFees: activeFees.map((fee) => ({ feeType: fee.feeType, amount: Number(fee.amount) })) };
+      }),
   }),
 
   // ─── Availability ──────────────────────────────────────────────────────────
   availability: router({
     getBookedDates: publicProcedure
-      .input(z.object({ propertyId: z.number() }))
+      .input(z.object({ propertyId: z.number(), bookingSelection: z.enum(["la-seve", "le-bois", "both"]).default("both") }))
       .query(async ({ input }) => {
         const db = await getDb();
         if (!db) return [];
+        const bookingPropertyIds = input.bookingSelection === "both"
+          ? [1]
+          : [1, input.propertyId];
         const results = await db
           .select({ checkIn: bookings.checkIn, checkOut: bookings.checkOut })
           .from(bookings)
           .where(
             and(
-              eq(bookings.propertyId, input.propertyId),
+              or(...bookingPropertyIds.map((id) => eq(bookings.propertyId, id))),
               ne(bookings.status, "cancelled"),
               ne(bookings.status, "refunded")
             )
           );
-        return results;
+        const externalBlocks = await db
+          .select({ checkIn: icalBlocks.checkIn, checkOut: icalBlocks.checkOut })
+          .from(icalBlocks)
+          .where(or(...bookingPropertyIds.map((id) => eq(icalBlocks.propertyId, id))));
+        return [...results, ...externalBlocks];
       }),
   }),
 
@@ -95,10 +165,11 @@ export const appRouter = router({
     createCheckout: publicProcedure
       .input(z.object({
         propertyId: z.number(),
+        bookingSelection: z.enum(["la-seve", "le-bois", "both"]).default("both"),
         guestName: z.string().min(2),
         guestEmail: z.string().email(),
         guestPhone: z.string().optional(),
-        guestCount: z.number().min(1).max(10),
+        guestCount: z.number().min(1).max(12),
         checkIn: z.string(),
         checkOut: z.string(),
         specialRequests: z.string().optional(),
@@ -108,9 +179,23 @@ export const appRouter = router({
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
 
+        const selectionPropertyId: Record<BookingSelection, number> = {
+          "la-seve": 2,
+          "le-bois": 3,
+          both: 1,
+        };
+        const expectedPropertyId = selectionPropertyId[input.bookingSelection];
+        if (input.propertyId !== expectedPropertyId) throw new Error("Invalid booking selection");
+
         const propertyResult = await db.select().from(properties).where(eq(properties.id, input.propertyId)).limit(1);
         const cottage = propertyResult[0];
         if (!cottage) throw new Error("Cottage not found");
+
+        const minimumGuests = minimumGuestsForSelection(input.bookingSelection);
+        const maximumGuests = maximumGuestsForSelection(input.bookingSelection);
+        if (input.guestCount < minimumGuests || input.guestCount > maximumGuests) {
+          throw new Error(`Guest count must be between ${minimumGuests} and ${maximumGuests}`);
+        }
 
         const checkIn = new Date(input.checkIn);
         const checkOut = new Date(input.checkOut);
@@ -119,20 +204,20 @@ export const appRouter = router({
           throw new Error(`Minimum stay is ${cottage.minimumStayNights} nights`);
         }
 
-        const isWeekend = (d: Date) => d.getDay() === 5 || d.getDay() === 6;
-        let nightsTotal = 0;
-        for (let i = 0; i < nights; i++) {
-          const d = new Date(checkIn);
-          d.setDate(d.getDate() + i);
-          nightsTotal += isWeekend(d)
-            ? parseFloat(cottage.basePriceWeekend)
-            : parseFloat(cottage.basePriceWeeknight);
-        }
         const cleaningFee = parseFloat(cottage.cleaningFee);
+        const season = (await db.select().from(seasonalRates).where(and(eq(seasonalRates.propertyId, cottage.id), eq(seasonalRates.isActive, true), lte(seasonalRates.startDate, new Date(input.checkIn)), gte(seasonalRates.endDate, new Date(input.checkIn)))).limit(1))[0];
+        const activeFees = await db.select().from(extraFees).where(and(eq(extraFees.propertyId, cottage.id), eq(extraFees.isActive, true)));
+        const rateConfig = {
+          cottageNightlyBase: season ? parseFloat(season.nightlyRate) : parseFloat(cottage.basePriceWeeknight),
+          extraGuestNightly: season ? parseFloat(season.extraGuestRate) : parseFloat(cottage.extraGuestRate),
+          extraFees: activeFees.map((fee) => ({ feeType: fee.feeType, amount: parseFloat(fee.amount) })),
+        } as const;
+        const nightsTotal = bookingTotal(input.bookingSelection, input.guestCount, nights, rateConfig);
         const totalAmount = nightsTotal + cleaningFee;
 
         const [result] = await (db.insert(bookings).values as any)([{
           propertyId: input.propertyId,
+          bookingSelection: input.bookingSelection,
           guestName: input.guestName,
           guestEmail: input.guestEmail,
           guestPhone: input.guestPhone,
@@ -154,7 +239,9 @@ export const appRouter = router({
         }
 
         const origin = ctx.req.headers.origin || "https://sevebois.be";
-        const cottageName = cottage.nameFr;
+        const cottageName = input.bookingSelection === "both"
+          ? "Sève & Bois Escapes — both cottages"
+          : cottage.nameFr;
 
         const session = await stripe.checkout.sessions.create({
           payment_method_types: ["card"],
@@ -292,7 +379,7 @@ export const appRouter = router({
         return db.select().from(icalFeeds).where(eq(icalFeeds.propertyId, input.propertyId));
       }),
 
-    addFeed: protectedProcedure
+    addFeed: adminProcedure
       .input(z.object({
         propertyId: z.number(),
         name: z.string(),
@@ -305,12 +392,171 @@ export const appRouter = router({
         return { success: true };
       }),
 
-    deleteFeed: protectedProcedure
+    syncFeed: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const feed = (await db.select().from(icalFeeds).where(eq(icalFeeds.id, input.id)).limit(1))[0];
+        if (!feed) throw new Error("iCal feed not found");
+        return syncExternalCalendar(feed);
+      }),
+
+    deleteFeed: adminProcedure
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
         await db.delete(icalFeeds).where(eq(icalFeeds.id, input.id));
+        return { success: true };
+      }),
+  }),
+
+  admin: router({
+    getProperties: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      return db.select().from(properties);
+    }),
+
+    updateProperty: adminProcedure
+      .input(z.object({
+        id: z.number(),
+        basePriceWeeknight: z.number().nonnegative().optional(),
+        basePriceWeekend: z.number().nonnegative().optional(),
+        basePriceWeek: z.number().nonnegative().optional(),
+        extraGuestRate: z.number().nonnegative().optional(),
+        cleaningFee: z.number().nonnegative().optional(),
+        minimumStayNights: z.number().int().min(1).optional(),
+        propertyAreaM2: z.number().nonnegative().optional(),
+        annualCouncilTax: z.number().nonnegative().optional(),
+        councilTaxRatePerM2: z.number().nonnegative().optional(),
+        zapierWebhookUrl: z.string().url().or(z.literal("")).optional(),
+      }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const { id, ...updates } = input;
+        await db.update(properties).set(updates as any).where(eq(properties.id, id));
+        return { success: true };
+      }),
+
+    getBookings: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      return db.select().from(bookings);
+    }),
+
+    getAmenities: adminProcedure
+      .input(z.object({ propertyId: z.number() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(amenities).where(eq(amenities.propertyId, input.propertyId));
+      }),
+
+    createAmenity: adminProcedure
+      .input(z.object({ propertyId: z.number(), categoryFr: z.string().min(1), categoryEn: z.string().min(1), categoryNl: z.string().min(1), items: z.any().default([]) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(amenities).values(input as any);
+        return { success: true };
+      }),
+
+    deleteAmenity: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.delete(amenities).where(eq(amenities.id, input.id));
+        return { success: true };
+      }),
+
+    updateAmenity: adminProcedure
+      .input(z.object({ id: z.number(), categoryFr: z.string().min(1), categoryEn: z.string().min(1), categoryNl: z.string().min(1), items: z.any() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.update(amenities).set(input as any).where(eq(amenities.id, input.id));
+        return { success: true };
+      }),
+
+    getSeasonalRates: adminProcedure
+      .input(z.object({ propertyId: z.number() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(seasonalRates).where(eq(seasonalRates.propertyId, input.propertyId));
+      }),
+
+    createSeasonalRate: adminProcedure
+      .input(z.object({ propertyId: z.number(), name: z.string().min(1), startDate: z.string(), endDate: z.string(), nightlyRate: z.number().nonnegative(), weekendRate: z.number().nonnegative(), extraGuestRate: z.number().nonnegative(), isActive: z.boolean().default(true) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(seasonalRates).values(input as any);
+        return { success: true };
+      }),
+
+    deleteSeasonalRate: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.delete(seasonalRates).where(eq(seasonalRates.id, input.id));
+        return { success: true };
+      }),
+
+    getExtraFees: adminProcedure
+      .input(z.object({ propertyId: z.number() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(extraFees).where(eq(extraFees.propertyId, input.propertyId));
+      }),
+
+    createExtraFee: adminProcedure
+      .input(z.object({ propertyId: z.number(), name: z.string().min(1), feeType: z.enum(["fixed", "percentage"]), amount: z.number().nonnegative(), isActive: z.boolean().default(true) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(extraFees).values(input as any);
+        return { success: true };
+      }),
+
+    deleteExtraFee: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.delete(extraFees).where(eq(extraFees.id, input.id));
+        return { success: true };
+      }),
+
+    getPromotions: adminProcedure
+      .input(z.object({ propertyId: z.number() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(promotions).where(eq(promotions.propertyId, input.propertyId));
+      }),
+
+    createPromotion: adminProcedure
+      .input(z.object({ propertyId: z.number(), name: z.string().min(1), discountType: z.enum(["percentage", "fixed"]), value: z.number().nonnegative(), minimumNights: z.number().int().min(1), isActive: z.boolean().default(true) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(promotions).values(input as any);
+        return { success: true };
+      }),
+
+    deletePromotion: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.delete(promotions).where(eq(promotions.id, input.id));
         return { success: true };
       }),
   }),

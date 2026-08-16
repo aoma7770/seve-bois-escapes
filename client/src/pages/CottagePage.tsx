@@ -149,7 +149,7 @@ export default function CottagePage({ slug }: Props) {
                   : t({ fr: "Plus d'espace. Même esprit.", en: "More space. Same spirit.", be: "More space. Same spirit." })}
               </h2>
               <p className="text-lead mb-4">
-                {t({ fr: "Chaque cottage accueille jusqu'à 6 personnes : 2 chambres avec lit Queen (2 personnes chacun) + canapé-lit dans le salon (2 personnes). Une salle de bain complète, une cuisine équipée, et tous les équipements pour les familles. Idéal pour les familles ou les groupes d'amis. Vous réservez les deux cottages ensemble pour jusqu'à 12 personnes.", en: "Each cottage welcomes up to 6 guests: 2 bedrooms with Queen beds (2 people each) + sofa bed in the living room (2 people). A full bathroom, equipped kitchen, and all family-friendly amenities. Perfect for families or groups of friends. You book both cottages together for up to 12 people.", be: "Elk cottage biedt plaats aan tot 6 gasten: 2 slaapkamers met Queensbedden (2 personen elk) + slaapbank in de woonkamer (2 personen). Een volledige badkamer, uitgeruste keuken en alle gezinsvriendelijke voorzieningen. Perfect voor gezinnen of groepen vrienden. U boekt beide cottages samen voor maximaal 12 personen." })}
+                {t({ fr: "Chaque cottage accueille jusqu'à 6 personnes : 2 chambres avec lit Queen (2 personnes chacun) + canapé-lit dans le salon (2 personnes). Une salle de bain complète, une cuisine équipée, et tous les équipements pour les familles. Réservez ce cottage seul, ou choisissez les deux cottages pour un groupe de 4 à 12 personnes.", en: "Each cottage welcomes up to 6 guests: 2 bedrooms with Queen beds (2 people each) + sofa bed in the living room (2 people). A full bathroom, equipped kitchen, and family-friendly amenities. Book this cottage on its own, or choose both cottages for a group of 4–12 guests.", be: "Elk cottage biedt plaats aan tot 6 gasten: 2 slaapkamers met Queensbedden (2 personen elk) + slaapbank in de woonkamer (2 personen). Een volledige badkamer, uitgeruste keuken en gezinsvriendelijke voorzieningen. Boek dit cottage afzonderlijk of kies beide cottages voor een groep van 4–12 gasten." })}
               </p>
 
               {/* Quick stats */}
@@ -256,7 +256,7 @@ export default function CottagePage({ slug }: Props) {
               </div>
               <div className="p-6 space-y-4">
                 <p className="text-sm text-[var(--slate-600)]">
-                  {t({ fr: "Réservez en direct pour le meilleur tarif. Pas de frais de plateforme.", en: "Book direct for the best rate. No platform fees.", be: "Book direct for the best rate. No platform fees." })}
+                  {t({ fr: "À partir de €150 / nuit pour ce cottage. Réservez en direct pour le meilleur tarif, sans frais de plateforme.", en: "From €150 / night for this cottage. Book direct for the best rate, with no platform fees.", be: "Vanaf €150 / nacht voor dit cottage. Boek rechtstreeks voor het beste tarief, zonder platformkosten." })}
                 </p>
                 <Link
                   href={`/booking?cottage=${slug}`}

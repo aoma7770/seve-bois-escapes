@@ -22,6 +22,34 @@
       "when": 1782877362404,
       "tag": "0002_stormy_vampiro",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1786894739368,
+      "tag": "0003_add_booking_selection",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1786895200964,
+      "tag": "0004_admin_settings",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1786895772325,
+      "tag": "0005_admin_gap_tables",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1786896623487,
+      "tag": "0006_council_tax_rate",
+      "breakpoints": true
     }
   ]
 }

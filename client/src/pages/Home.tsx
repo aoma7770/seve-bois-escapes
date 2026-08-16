@@ -128,7 +128,7 @@ export default function Home() {
             {[
               { icon: "🐾", label: t({ fr: "Animaux acceptés", en: "Pets welcome", be: "Pets welcome" }) },
               { icon: "⚡", label: t({ fr: "Recharge EV", en: "EV charging", be: "EV charging" }) },
-              { icon: "📶", label: t({ fr: "WiFi haut débit", en: "High-speed WiFi", be: "High-speed WiFi" }) },
+              { icon: "📶", label: t({ fr: "WiFi gratuit", en: "Free WiFi", be: "Gratis WiFi" }) },
               { icon: "🌊", label: t({ fr: "10 min Semois", en: "10 min Semois", be: "10 min Semois" }) },
               { icon: "🔑", label: t({ fr: "Entrée sans clé", en: "Keyless entry", be: "Keyless entry" }) },
               { icon: "🍳", label: t({ fr: "Cuisine équipée", en: "Full kitchen", be: "Full kitchen" }) },
@@ -177,9 +177,9 @@ export default function Home() {
                   </h3>
                   <p className="text-[var(--slate-600)] leading-relaxed mb-4">
                     {t({
-                      fr: "Pas d'expérience requise, pas de matériel à prévoir, rien à planifier. Wifi rapide, chauffage, eau chaude, un vrai lit confortable, une cuisine complète. Vous arrivez, la forêt fait le reste.",
-                      en: "No experience needed, no equipment to bring, nothing to plan. Fast wifi, heating, hot water, a real comfortable bed, a full kitchen. You arrive, the forest does the rest.",
-                      be: "Geen ervaring nodig, geen uitrusting nodig, niets in te plannen. Snel wifi, verwarming, warm water, een echt comfortabel bed, een volledige keuken. Je arriveert, het bos doet de rest."
+                      fr: "Pas d'expérience requise, pas de matériel à prévoir, rien à planifier. WiFi gratuit, chauffage, eau chaude, un vrai lit confortable, une cuisine complète. Vous arrivez, la forêt fait le reste.",
+                      en: "No experience needed, no equipment to bring, nothing to plan. Free WiFi, heating, hot water, a real comfortable bed, a full kitchen. You arrive, the forest does the rest.",
+                      be: "Geen ervaring nodig, geen uitrusting nodig, niets in te plannen. Gratis WiFi, verwarming, warm water, een echt comfortabel bed, een volledige keuken. Je arriveert, het bos doet de rest."
                     })}
                   </p>
                   <Link href="/faq" className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
@@ -228,7 +228,11 @@ export default function Home() {
                 <div className="relative h-72 overflow-hidden">
                   <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="La Sève — cottage 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-
+                  <div className="absolute bottom-4 left-4">
+                    <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", be: "Vanaf €150 / nacht" })}
+                    </span>
+                  </div>
                 </div>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">La Sève</h3>
@@ -251,7 +255,11 @@ export default function Home() {
                 <div className="relative h-72 overflow-hidden">
                   <img src={HERMAN_COTTAGE1_IMAGES.hero[1]} alt="Le Bois — cottage 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-
+                  <div className="absolute bottom-4 left-4">
+                    <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
+                      {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", be: "Vanaf €150 / nacht" })}
+                    </span>
+                  </div>
                 </div>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">Le Bois</h3>
@@ -270,6 +278,16 @@ export default function Home() {
               </div>
             </FadeSection>
           </div>
+          <FadeSection delay={300} className="mt-8" animation="fade-in">
+            <div className="rounded-2xl bg-[var(--forest-900)] text-white p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+              <div>
+                <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Pour les groupes", en: "For groups", be: "Voor groepen" })}</p>
+                <h3 className="font-serif text-2xl">{t({ fr: "Réservez les deux cottages", en: "Book both cottages", be: "Boek beide cottages" })}</h3>
+                <p className="text-sm text-white/75 mt-2">{t({ fr: "Pour 4 à 12 personnes, avec un tarif calculé selon le nombre de voyageurs.", en: "For 4–12 guests, with the rate calculated from the number of travellers.", be: "Voor 4–12 gasten, met de prijs berekend volgens het aantal reizigers." })}</p>
+              </div>
+              <Link href="/booking?cottage=both" className="btn-ghost shrink-0 text-center">{t({ fr: "Choisir les options", en: "Choose your option", be: "Kies uw optie" })}</Link>
+            </div>
+          </FadeSection>
         </div>
       </section>
 

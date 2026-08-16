@@ -1,289 +1,115 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "wouter";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { LogOut, Calendar, Settings, Image, DollarSign } from "lucide-react";
-
-const t = (translations: { fr: string; en: string; be: string }) => {
-  const { lang } = useLanguage();
-  return translations[lang as keyof typeof translations];
-};
+import { useAuth } from "@/_core/hooks/useAuth";
+import { getLoginUrl } from "@/const";
+import { trpc } from "@/lib/trpc";
+import { Calendar, DollarSign, LogOut, Settings, Sparkles, Users, Wrench } from "lucide-react";
 
 export default function AdminDashboard() {
+  const { t } = useLanguage();
   const [, setLocation] = useLocation();
-  const [isAdmin, setIsAdmin] = useState(false);
+  const { user, loading, isAuthenticated, logout } = useAuth();
+  const isAdmin = user?.role === "admin";
+  const [selectedPropertyId, setSelectedPropertyId] = useState(1);
+  const [saveMessage, setSaveMessage] = useState("");
+  const [icalName, setIcalName] = useState("");
+  const [icalUrl, setIcalUrl] = useState("");
+  const [promotion, setPromotion] = useState({ name: "", discountType: "percentage" as "percentage" | "fixed", value: "", minimumNights: "7" });
+  const [seasonalRate, setSeasonalRate] = useState({ name: "", startDate: "", endDate: "", nightlyRate: "", weekendRate: "", extraGuestRate: "40" });
+  const [extraFee, setExtraFee] = useState({ name: "", feeType: "fixed" as "fixed" | "percentage", amount: "" });
+  const [pricing, setPricing] = useState({ basePriceWeeknight: "150", basePriceWeekend: "150", basePriceWeek: "900", extraGuestRate: "40", cleaningFee: "0", minimumStayNights: "2", propertyAreaM2: "0", annualCouncilTax: "0", councilTaxRatePerM2: "0", zapierWebhookUrl: "" });
+  const [amenityDrafts, setAmenityDrafts] = useState<Record<number, string>>({});
+  const [newAmenity, setNewAmenity] = useState({ categoryFr: "", categoryEn: "", categoryNl: "" });
+
+  const propertiesQuery = trpc.admin.getProperties.useQuery(undefined, { enabled: isAdmin });
+  const bookingsQuery = trpc.admin.getBookings.useQuery(undefined, { enabled: isAdmin });
+  const property = propertiesQuery.data?.find((item) => item.id === selectedPropertyId) ?? propertiesQuery.data?.[0];
+  const amenitiesQuery = trpc.admin.getAmenities.useQuery({ propertyId: selectedPropertyId }, { enabled: isAdmin });
+  const promotionsQuery = trpc.admin.getPromotions.useQuery({ propertyId: selectedPropertyId }, { enabled: isAdmin });
+  const seasonalRatesQuery = trpc.admin.getSeasonalRates.useQuery({ propertyId: selectedPropertyId }, { enabled: isAdmin });
+  const extraFeesQuery = trpc.admin.getExtraFees.useQuery({ propertyId: selectedPropertyId }, { enabled: isAdmin });
+  const feedsQuery = trpc.ical.getFeeds.useQuery({ propertyId: selectedPropertyId }, { enabled: isAdmin });
+  const utils = trpc.useUtils();
+
+  const updateProperty = trpc.admin.updateProperty.useMutation({ onSuccess: async () => { setSaveMessage(t({ fr: "Enregistré.", en: "Saved.", be: "Opgeslagen." })); await utils.admin.getProperties.invalidate(); } });
+  const addFeed = trpc.ical.addFeed.useMutation({ onSuccess: async () => { setIcalName(""); setIcalUrl(""); await utils.ical.getFeeds.invalidate(); } });
+  const deleteFeed = trpc.ical.deleteFeed.useMutation({ onSuccess: async () => { await utils.ical.getFeeds.invalidate(); } });
+  const syncFeed = trpc.ical.syncFeed.useMutation({ onSuccess: async (result) => { setSaveMessage(`${result.imported} ${t({ fr: "événements importés", en: "events imported", be: "geïmporteerde evenementen" })}`); await utils.ical.getFeeds.invalidate(); await utils.availability.getBookedDates.invalidate(); }, onError: (error) => setSaveMessage(error.message) });
+  const createPromotion = trpc.admin.createPromotion.useMutation({ onSuccess: async () => { setPromotion({ name: "", discountType: "percentage", value: "", minimumNights: "7" }); await utils.admin.getPromotions.invalidate(); } });
+  const deletePromotion = trpc.admin.deletePromotion.useMutation({ onSuccess: async () => { await utils.admin.getPromotions.invalidate(); } });
+  const createSeasonalRate = trpc.admin.createSeasonalRate.useMutation({ onSuccess: async () => { setSeasonalRate({ name: "", startDate: "", endDate: "", nightlyRate: "", weekendRate: "", extraGuestRate: "40" }); await utils.admin.getSeasonalRates.invalidate(); } });
+  const deleteSeasonalRate = trpc.admin.deleteSeasonalRate.useMutation({ onSuccess: async () => { await utils.admin.getSeasonalRates.invalidate(); } });
+  const createExtraFee = trpc.admin.createExtraFee.useMutation({ onSuccess: async () => { setExtraFee({ name: "", feeType: "fixed", amount: "" }); await utils.admin.getExtraFees.invalidate(); } });
+  const deleteExtraFee = trpc.admin.deleteExtraFee.useMutation({ onSuccess: async () => { await utils.admin.getExtraFees.invalidate(); } });
+  const createAmenity = trpc.admin.createAmenity.useMutation({ onSuccess: async () => { setNewAmenity({ categoryFr: "", categoryEn: "", categoryNl: "" }); await utils.admin.getAmenities.invalidate(); } });
+  const deleteAmenity = trpc.admin.deleteAmenity.useMutation({ onSuccess: async () => { await utils.admin.getAmenities.invalidate(); } });
+  const updateAmenity = trpc.admin.updateAmenity.useMutation({ onSuccess: async () => { await utils.admin.getAmenities.invalidate(); } });
 
   useEffect(() => {
-    const token = localStorage.getItem("adminToken");
-    if (!token) {
-      setLocation("/admin/login");
-    } else {
-      setIsAdmin(true);
-    }
-  }, [setLocation]);
+    if (!property) return;
+    setSelectedPropertyId(property.id);
+    setPricing({
+      basePriceWeeknight: String(property.basePriceWeeknight ?? 150),
+      basePriceWeekend: String(property.basePriceWeekend ?? 150),
+      basePriceWeek: String(property.basePriceWeek ?? 900),
+      extraGuestRate: String(property.extraGuestRate ?? 40),
+      cleaningFee: String(property.cleaningFee ?? 0),
+      minimumStayNights: String(property.minimumStayNights ?? 2),
+      propertyAreaM2: String(property.propertyAreaM2 ?? 0),
+      annualCouncilTax: String(property.annualCouncilTax ?? 0),
+      councilTaxRatePerM2: String(property.councilTaxRatePerM2 ?? 0),
+      zapierWebhookUrl: property.zapierWebhookUrl ?? "",
+    });
+  }, [property]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminToken");
-    setLocation("/admin/login");
+  useEffect(() => {
+    if (!amenitiesQuery.data) return;
+    setAmenityDrafts(Object.fromEntries(amenitiesQuery.data.map((amenity) => [amenity.id, JSON.stringify(amenity.items, null, 2)])));
+  }, [amenitiesQuery.data]);
+
+  const monthlyBookings = useMemo(() => {
+    const month = new Date().getMonth();
+    return (bookingsQuery.data ?? []).filter((booking) => new Date(booking.checkIn).getMonth() === month).length;
+  }, [bookingsQuery.data]);
+
+  if (loading) return <div className="min-h-screen bg-[var(--cream-50)] pt-32 text-center text-[var(--slate-600)]">Loading…</div>;
+  if (!isAuthenticated) return <div className="min-h-screen bg-[var(--cream-50)] flex items-center justify-center p-6"><Card className="p-8 max-w-md"><h1 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-3">Admin</h1><p className="text-[var(--slate-600)] mb-5">{t({ fr: "Connectez-vous pour gérer la propriété.", en: "Sign in to manage the property.", be: "Meld u aan om de accommodatie te beheren." })}</p><a href={getLoginUrl()}><Button className="btn-primary w-full">{t({ fr: "Se connecter", en: "Sign in", be: "Aanmelden" })}</Button></a></Card></div>;
+  if (!isAdmin) return <div className="min-h-screen bg-[var(--cream-50)] flex items-center justify-center p-6"><Card className="p-8 max-w-md"><h1 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-3">{t({ fr: "Accès refusé", en: "Access denied", be: "Toegang geweigerd" })}</h1><p className="text-[var(--slate-600)]">{t({ fr: "Votre compte n'a pas les droits administrateur.", en: "Your account does not have administrator access.", be: "Uw account heeft geen beheerdersrechten." })}</p></Card></div>;
+
+  const estimatedAnnualCouncilTax = Number(pricing.propertyAreaM2) * Number(pricing.councilTaxRatePerM2);
+  const estimatedNightlyCouncilTax = estimatedAnnualCouncilTax / 365;
+
+  const savePricing = () => {
+    if (!property) return;
+    updateProperty.mutate({ id: property.id, basePriceWeeknight: Number(pricing.basePriceWeeknight), basePriceWeekend: Number(pricing.basePriceWeekend), basePriceWeek: Number(pricing.basePriceWeek), extraGuestRate: Number(pricing.extraGuestRate), cleaningFee: Number(pricing.cleaningFee), minimumStayNights: Number(pricing.minimumStayNights), propertyAreaM2: Number(pricing.propertyAreaM2), annualCouncilTax: Number(pricing.annualCouncilTax), councilTaxRatePerM2: Number(pricing.councilTaxRatePerM2), zapierWebhookUrl: pricing.zapierWebhookUrl });
   };
 
-  if (!isAdmin) {
-    return null;
-  }
-
   return (
-    <div className="min-h-screen bg-[var(--cream-50)] pt-24 pb-12 px-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-4xl font-serif font-bold text-[var(--forest-900)]">
-              {t({ fr: "Tableau de bord", en: "Dashboard", be: "Dashboard" })}
-            </h1>
-            <p className="text-[var(--slate-600)] mt-2">
-              {t({
-                fr: "Gérez vos propriétés et réservations",
-                en: "Manage your properties and bookings",
-                be: "Beheer uw eigenschappen en boekingen",
-              })}
-            </p>
+    <div className="min-h-screen bg-[var(--cream-50)] pt-24 pb-16 px-4">
+      <div className="max-w-7xl mx-auto">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8"><div><p className="text-caption text-[var(--ochre-600)] mb-2">SÈVE & BOIS ESCAPES</p><h1 className="text-4xl font-serif font-bold text-[var(--forest-900)]">{t({ fr: "Tableau de bord", en: "Admin dashboard", be: "Admin-dashboard" })}</h1><p className="text-[var(--slate-600)] mt-2">{t({ fr: "Tarifs, disponibilités, contenu et intégrations.", en: "Rates, availability, content and integrations.", be: "Tarieven, beschikbaarheid, inhoud en integraties." })}</p></div><div className="flex items-center gap-3"><select value={selectedPropertyId} onChange={(event) => setSelectedPropertyId(Number(event.target.value))} className="input-eco bg-white"><option value={1}>Sève & Bois — both cottages</option><option value={2}>La Sève</option><option value={3}>Le Bois</option></select><Button variant="outline" onClick={() => { logout(); setLocation("/admin/login"); }} className="flex items-center gap-2"><LogOut className="w-4 h-4" />{t({ fr: "Déconnexion", en: "Logout", be: "Afmelden" })}</Button></div></div>
+
+        <Tabs defaultValue="overview" className="w-full"><div className="grid grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)] gap-6 items-start">
+          <TabsList className="w-full lg:sticky lg:top-24 h-auto flex flex-row lg:flex-col items-stretch gap-1 bg-white border border-[var(--cream-300)] rounded-2xl p-2 shadow-sm"><TabsTrigger value="overview" className="justify-start">{t({ fr: "Aperçu", en: "Overview", be: "Overzicht" })}</TabsTrigger><TabsTrigger value="bookings" className="justify-start"><Calendar className="w-4 h-4 mr-2" />{t({ fr: "Réservations", en: "Bookings", be: "Boekingen" })}</TabsTrigger><TabsTrigger value="pricing" className="justify-start"><DollarSign className="w-4 h-4 mr-2" />{t({ fr: "Tarifs", en: "Pricing", be: "Prijzen" })}</TabsTrigger><TabsTrigger value="amenities" className="justify-start"><Wrench className="w-4 h-4 mr-2" />{t({ fr: "Équipements", en: "Amenities", be: "Voorzieningen" })}</TabsTrigger><TabsTrigger value="calendar" className="justify-start"><Calendar className="w-4 h-4 mr-2" />iCal</TabsTrigger><TabsTrigger value="settings" className="justify-start"><Settings className="w-4 h-4 mr-2" />{t({ fr: "Intégrations", en: "Integrations", be: "Integraties" })}</TabsTrigger></TabsList>
+
+          <div className="min-w-0">
+            <TabsContent value="overview"><Card className="p-8"><h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">{property?.nameEn ?? "Sève & Bois Escapes"}</h2><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"><div className="bg-[var(--cream-100)] p-5 rounded-xl"><Users className="w-5 h-5 text-[var(--ochre-600)] mb-2" /><p className="text-sm text-[var(--slate-600)]">{t({ fr: "Capacité", en: "Capacity", be: "Capaciteit" })}</p><p className="text-3xl font-bold text-[var(--forest-900)]">{property?.maxGuests ?? 0}</p></div><div className="bg-[var(--cream-100)] p-5 rounded-xl"><Calendar className="w-5 h-5 text-[var(--ochre-600)] mb-2" /><p className="text-sm text-[var(--slate-600)]">{t({ fr: "Réservations ce mois", en: "Bookings this month", be: "Boekingen deze maand" })}</p><p className="text-3xl font-bold text-[var(--forest-900)]">{monthlyBookings}</p></div><div className="bg-[var(--cream-100)] p-5 rounded-xl"><DollarSign className="w-5 h-5 text-[var(--ochre-600)] mb-2" /><p className="text-sm text-[var(--slate-600)]">{t({ fr: "Base par cottage", en: "Base per cottage", be: "Basis per cottage" })}</p><p className="text-3xl font-bold text-[var(--forest-900)]">€{pricing.basePriceWeeknight}</p></div><div className="bg-[var(--cream-100)] p-5 rounded-xl"><Sparkles className="w-5 h-5 text-[var(--ochre-600)] mb-2" /><p className="text-sm text-[var(--slate-600)]">{t({ fr: "Promotions actives", en: "Active promotions", be: "Actieve promoties" })}</p><p className="text-3xl font-bold text-[var(--forest-900)]">{(promotionsQuery.data ?? []).filter((promo) => promo.isActive).length}</p></div></div><p className="text-sm text-[var(--slate-600)] mt-6">{t({ fr: "Les prix affichés sur le site sont modifiables depuis Tarifs. Les informations sensibles des invités restent dans le processus sécurisé de réservation.", en: "Public prices are updated from Pricing. Sensitive guest information remains within the secure booking workflow.", be: "Publieke prijzen worden aangepast via Prijzen. Gevoelige gastinformatie blijft in de beveiligde boekingsstroom." })}</p></Card></TabsContent>
+
+            <TabsContent value="bookings"><Card className="p-8"><h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">{t({ fr: "Réservations", en: "Bookings", be: "Boekingen" })}</h2>{(bookingsQuery.data ?? []).length === 0 ? <p className="text-[var(--slate-600)]">{t({ fr: "Aucune réservation pour le moment.", en: "No bookings yet.", be: "Nog geen boekingen." })}</p> : <div className="overflow-x-auto"><table className="w-full text-sm"><thead><tr className="border-b"><th className="text-left py-3">Guest</th><th className="text-left py-3">Dates</th><th className="text-left py-3">Selection</th><th className="text-left py-3">Status</th><th className="text-right py-3">Total</th></tr></thead><tbody>{(bookingsQuery.data ?? []).map((booking) => <tr key={booking.id} className="border-b border-[var(--cream-200)]"><td className="py-3">{booking.guestName}<span className="block text-xs text-[var(--slate-500)]">{booking.guestEmail}</span></td><td className="py-3">{String(booking.checkIn)} → {String(booking.checkOut)}</td><td className="py-3">{booking.bookingSelection}</td><td className="py-3">{booking.status}</td><td className="py-3 text-right">€{booking.totalAmount}</td></tr>)}</tbody></table></div>}</Card></TabsContent>
+
+            <TabsContent value="pricing"><Card className="p-8"><h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-2">{t({ fr: "Tarifs, saisons & frais", en: "Pricing, seasons & fees", be: "Prijzen, seizoenen & kosten" })}</h2><p className="text-sm text-[var(--slate-600)] mb-6">{t({ fr: "Les tarifs publics restent ajustables à tout moment.", en: "Public rates remain adjustable at any time.", be: "Publieke tarieven kunnen op elk moment worden aangepast." })}</p><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">{([ ["basePriceWeeknight", "Base per cottage / night"], ["basePriceWeekend", "Weekend base / cottage"], ["basePriceWeek", "Weekly reference"], ["extraGuestRate", "Extra guest / night"], ["cleaningFee", "Cleaning fee"], ["minimumStayNights", "Minimum nights"] ] as const).map(([key, label]) => <label key={key} className="text-sm font-medium text-[var(--slate-700)]">{label}<input type="number" min="0" value={pricing[key]} onChange={(event) => setPricing((current) => ({ ...current, [key]: event.target.value }))} className="input-eco mt-2" /></label>)}</div><div className="flex items-center gap-3 mt-6"><Button onClick={savePricing} disabled={updateProperty.isPending} className="btn-primary">{t({ fr: "Enregistrer les tarifs", en: "Save pricing", be: "Prijzen opslaan" })}</Button>{saveMessage && <span className="text-sm text-[var(--forest-700)]">{saveMessage}</span>}</div><div className="mt-10 pt-8 border-t border-[var(--cream-200)]"><h3 className="text-xl font-serif font-bold text-[var(--forest-900)] mb-4">{t({ fr: "Tarifs saisonniers", en: "Seasonal rates", be: "Seizoentarieven" })}</h3><div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3"><input className="input-eco" placeholder="Season name" value={seasonalRate.name} onChange={(event) => setSeasonalRate({ ...seasonalRate, name: event.target.value })} /><input className="input-eco" type="date" value={seasonalRate.startDate} onChange={(event) => setSeasonalRate({ ...seasonalRate, startDate: event.target.value })} /><input className="input-eco" type="date" value={seasonalRate.endDate} onChange={(event) => setSeasonalRate({ ...seasonalRate, endDate: event.target.value })} /><input className="input-eco" type="number" placeholder="Nightly" value={seasonalRate.nightlyRate} onChange={(event) => setSeasonalRate({ ...seasonalRate, nightlyRate: event.target.value })} /><input className="input-eco" type="number" placeholder="Weekend" value={seasonalRate.weekendRate} onChange={(event) => setSeasonalRate({ ...seasonalRate, weekendRate: event.target.value })} /><input className="input-eco" type="number" placeholder="Extra guest" value={seasonalRate.extraGuestRate} onChange={(event) => setSeasonalRate({ ...seasonalRate, extraGuestRate: event.target.value })} /></div><Button className="btn-primary mt-3" onClick={() => createSeasonalRate.mutate({ propertyId: selectedPropertyId, name: seasonalRate.name, startDate: seasonalRate.startDate, endDate: seasonalRate.endDate, nightlyRate: Number(seasonalRate.nightlyRate), weekendRate: Number(seasonalRate.weekendRate), extraGuestRate: Number(seasonalRate.extraGuestRate), isActive: true })} disabled={!seasonalRate.name || !seasonalRate.startDate || !seasonalRate.endDate || !seasonalRate.nightlyRate}>{t({ fr: "Ajouter la saison", en: "Add season", be: "Seizoen toevoegen" })}</Button><div className="mt-4 space-y-2">{(seasonalRatesQuery.data ?? []).map((rate) => <div key={rate.id} className="flex justify-between items-center rounded-lg bg-[var(--cream-50)] p-3 text-sm"><span>{rate.name} · {String(rate.startDate)} → {String(rate.endDate)} · €{rate.nightlyRate}</span><Button variant="outline" size="sm" onClick={() => deleteSeasonalRate.mutate({ id: rate.id })}>Delete</Button></div>)}</div></div><div className="mt-10 pt-8 border-t border-[var(--cream-200)]"><h3 className="text-xl font-serif font-bold text-[var(--forest-900)] mb-4">{t({ fr: "Frais supplémentaires", en: "Extra fees", be: "Extra kosten" })}</h3><div className="grid grid-cols-1 sm:grid-cols-3 gap-3"><input className="input-eco" placeholder="Fee name" value={extraFee.name} onChange={(event) => setExtraFee({ ...extraFee, name: event.target.value })} /><select className="input-eco" value={extraFee.feeType} onChange={(event) => setExtraFee({ ...extraFee, feeType: event.target.value as "fixed" | "percentage" })}><option value="fixed">Fixed €</option><option value="percentage">Percentage %</option></select><input className="input-eco" type="number" placeholder="Amount" value={extraFee.amount} onChange={(event) => setExtraFee({ ...extraFee, amount: event.target.value })} /></div><Button className="btn-primary mt-3" onClick={() => createExtraFee.mutate({ propertyId: selectedPropertyId, name: extraFee.name, feeType: extraFee.feeType, amount: Number(extraFee.amount), isActive: true })} disabled={!extraFee.name || !extraFee.amount}>{t({ fr: "Ajouter le frais", en: "Add fee", be: "Kosten toevoegen" })}</Button><div className="mt-4 space-y-2">{(extraFeesQuery.data ?? []).map((fee) => <div key={fee.id} className="flex justify-between items-center rounded-lg bg-[var(--cream-50)] p-3 text-sm"><span>{fee.name} · {fee.feeType === "fixed" ? `€${fee.amount}` : `${fee.amount}%`}</span><Button variant="outline" size="sm" onClick={() => deleteExtraFee.mutate({ id: fee.id })}>Delete</Button></div>)}</div></div><div className="mt-10 pt-8 border-t border-[var(--cream-200)]"><h3 className="text-xl font-serif font-bold text-[var(--forest-900)] mb-4">{t({ fr: "Estimation de taxe communale", en: "Council-tax estimate", be: "Schatting gemeentebelasting" })}</h3><div className="grid grid-cols-1 sm:grid-cols-2 gap-4"><label className="text-sm font-medium text-[var(--slate-700)]">{t({ fr: "Surface du bien (m²)", en: "Property area (m²)", be: "Oppervlakte (m²)" })}<input className="input-eco mt-2" type="number" min="0" value={pricing.propertyAreaM2} onChange={(event) => setPricing({ ...pricing, propertyAreaM2: event.target.value })} /></label><label className="text-sm font-medium text-[var(--slate-700)]">{t({ fr: "Taux indicatif par m² (€)", en: "Indicative rate per m² (€)", be: "Indicatief tarief per m² (€)" })}<input className="input-eco mt-2" type="number" min="0" value={pricing.councilTaxRatePerM2} onChange={(event) => setPricing({ ...pricing, councilTaxRatePerM2: event.target.value })} /></label><label className="text-sm font-medium text-[var(--slate-700)]">{t({ fr: "Montant annuel confirmé par la commune (€)", en: "Annual amount confirmed by the municipality (€)", be: "Jaarbedrag bevestigd door de gemeente (€)" })}<input className="input-eco mt-2" type="number" min="0" value={pricing.annualCouncilTax} onChange={(event) => setPricing({ ...pricing, annualCouncilTax: event.target.value })} /></label></div><p className="text-sm text-[var(--slate-600)] mt-3">{t({ fr: "Estimation indicative : €" + estimatedAnnualCouncilTax.toFixed(2) + " par an (soit €" + estimatedNightlyCouncilTax.toFixed(2) + " par nuit), calculée comme surface × taux indicatif. La commune doit confirmer le montant légal.", en: "Indicative estimate: €" + estimatedAnnualCouncilTax.toFixed(2) + " per year (or €" + estimatedNightlyCouncilTax.toFixed(2) + " per night), calculated as area × indicative rate. The municipality must confirm the legal amount.", be: "Indicatieve schatting: €" + estimatedAnnualCouncilTax.toFixed(2) + " per jaar (of €" + estimatedNightlyCouncilTax.toFixed(2) + " per nacht), berekend als oppervlakte × indicatief tarief. De gemeente moet het wettelijke bedrag bevestigen." })}</p><Button className="btn-primary mt-3" onClick={savePricing}>{t({ fr: "Enregistrer les paramètres", en: "Save settings", be: "Instellingen opslaan" })}</Button></div><div className="mt-10 pt-8 border-t border-[var(--cream-200)]"><h3 className="text-xl font-serif font-bold text-[var(--forest-900)] mb-4">{t({ fr: "Offres promotionnelles", en: "Promotion offers", be: "Promotieaanbiedingen" })}</h3><div className="grid grid-cols-1 sm:grid-cols-4 gap-3"><input className="input-eco" placeholder="Name" value={promotion.name} onChange={(event) => setPromotion({ ...promotion, name: event.target.value })} /><select className="input-eco" value={promotion.discountType} onChange={(event) => setPromotion({ ...promotion, discountType: event.target.value as "percentage" | "fixed" })}><option value="percentage">%</option><option value="fixed">€</option></select><input className="input-eco" type="number" min="0" placeholder="Value" value={promotion.value} onChange={(event) => setPromotion({ ...promotion, value: event.target.value })} /><input className="input-eco" type="number" min="1" placeholder="Min nights" value={promotion.minimumNights} onChange={(event) => setPromotion({ ...promotion, minimumNights: event.target.value })} /></div><Button className="btn-primary mt-3" onClick={() => createPromotion.mutate({ propertyId: selectedPropertyId, name: promotion.name, discountType: promotion.discountType, value: Number(promotion.value), minimumNights: Number(promotion.minimumNights), isActive: true })} disabled={!promotion.name || !promotion.value}>{t({ fr: "Ajouter l'offre", en: "Add offer", be: "Aanbieding toevoegen" })}</Button><div className="mt-4 space-y-2">{(promotionsQuery.data ?? []).map((promo) => <div key={promo.id} className="flex justify-between items-center rounded-lg bg-[var(--cream-50)] p-3 text-sm"><span>{promo.name} · {promo.discountType === "percentage" ? `${promo.value}%` : `€${promo.value}`} · {promo.minimumNights}+ nights</span><Button variant="outline" size="sm" onClick={() => deletePromotion.mutate({ id: promo.id })}>Delete</Button></div>)}</div></div></Card></TabsContent>
+
+            <TabsContent value="amenities"><Card className="p-8"><h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">{t({ fr: "Équipements", en: "Amenities", be: "Voorzieningen" })}</h2><div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-6"><input className="input-eco" placeholder="Category FR" value={newAmenity.categoryFr} onChange={(event) => setNewAmenity({ ...newAmenity, categoryFr: event.target.value })} /><input className="input-eco" placeholder="Category EN" value={newAmenity.categoryEn} onChange={(event) => setNewAmenity({ ...newAmenity, categoryEn: event.target.value })} /><input className="input-eco" placeholder="Category NL" value={newAmenity.categoryNl} onChange={(event) => setNewAmenity({ ...newAmenity, categoryNl: event.target.value })} /></div><Button className="btn-primary mb-6" onClick={() => createAmenity.mutate({ propertyId: selectedPropertyId, ...newAmenity, items: [] })} disabled={!newAmenity.categoryFr || !newAmenity.categoryEn || !newAmenity.categoryNl}>{t({ fr: "Ajouter une catégorie", en: "Add category", be: "Categorie toevoegen" })}</Button><div className="space-y-5">{(amenitiesQuery.data ?? []).map((amenity) => <div key={amenity.id} className="rounded-xl border border-[var(--cream-300)] p-4"><div className="flex items-center justify-between mb-2"><div><p className="font-semibold text-[var(--forest-900)]">{amenity.categoryEn}</p><p className="text-xs text-[var(--slate-500)]">{amenity.categoryFr}</p></div><div className="flex gap-2"><Button variant="outline" size="sm" onClick={() => deleteAmenity.mutate({ id: amenity.id })}>Delete</Button><Button variant="outline" size="sm" onClick={() => { try { updateAmenity.mutate({ id: amenity.id, categoryFr: amenity.categoryFr, categoryEn: amenity.categoryEn, categoryNl: amenity.categoryNl, items: JSON.parse(amenityDrafts[amenity.id] ?? "[]") }); setSaveMessage(t({ fr: "Équipement enregistré.", en: "Amenity saved.", be: "Voorziening opgeslagen." })); } catch { setSaveMessage(t({ fr: "JSON invalide.", en: "Invalid JSON.", be: "Ongeldige JSON." })); } }}>Save</Button></div></div><textarea className="input-eco min-h-24 font-mono text-xs" value={amenityDrafts[amenity.id] ?? "[]"} onChange={(event) => setAmenityDrafts((drafts) => ({ ...drafts, [amenity.id]: event.target.value }))} aria-label={`${amenity.categoryEn} items`} /></div>)}</div><p className="text-xs text-[var(--slate-500)] mt-5">{t({ fr: "Les équipements sont stockés en JSON par catégorie : utilisez un tableau d'objets pour ajouter ou supprimer des éléments.", en: "Amenities are stored as JSON by category: use an array of objects to add or remove items.", be: "Voorzieningen worden per categorie als JSON opgeslagen: gebruik een array van objecten om items toe te voegen of te verwijderen." })}</p></Card></TabsContent>
+
+            <TabsContent value="calendar"><Card className="p-8"><h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-2">iCal</h2><p className="text-sm text-[var(--slate-600)] mb-6">{t({ fr: "Connectez et synchronisez des calendriers externes. Les événements importés bloquent les dates publiques.", en: "Connect and sync external calendars. Imported events block dates on the public calendar.", be: "Verbind en synchroniseer externe agenda's. Geïmporteerde evenementen blokkeren data in de publieke kalender." })}</p><div className="grid grid-cols-1 md:grid-cols-3 gap-3"><input className="input-eco" placeholder="Calendar name" value={icalName} onChange={(event) => setIcalName(event.target.value)} /><input className="input-eco md:col-span-2" placeholder="https://… .ics" value={icalUrl} onChange={(event) => setIcalUrl(event.target.value)} /></div><Button className="btn-primary mt-3" onClick={() => addFeed.mutate({ propertyId: selectedPropertyId, name: icalName, url: icalUrl })} disabled={!icalName || !icalUrl || addFeed.isPending}>{t({ fr: "Ajouter le calendrier", en: "Add calendar", be: "Agenda toevoegen" })}</Button><div className="mt-6 space-y-2">{(feedsQuery.data ?? []).map((feed) => <div key={feed.id} className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 rounded-lg bg-[var(--cream-50)] p-3 text-sm"><span>{feed.name}<span className="block text-xs text-[var(--slate-500)] truncate max-w-xl">{feed.url}</span><span className="block text-xs text-[var(--slate-500)]">{feed.lastSyncedAt ? `Last sync: ${String(feed.lastSyncedAt)}` : "Not synced"}</span></span><div className="flex gap-2"><Button variant="outline" size="sm" onClick={() => syncFeed.mutate({ id: feed.id })} disabled={syncFeed.isPending}>Sync</Button><Button variant="outline" size="sm" onClick={() => deleteFeed.mutate({ id: feed.id })}>Delete</Button></div></div>)}</div></Card></TabsContent>
+
+            <TabsContent value="settings"><Card className="p-8"><h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-2">{t({ fr: "Intégrations", en: "Integrations", be: "Integraties" })}</h2><p className="text-sm text-[var(--slate-600)] mb-6">{t({ fr: "Configurez les connexions opérationnelles sans exposer de données privées sur le site public.", en: "Configure operational connections without exposing private data on the public site.", be: "Configureer operationele verbindingen zonder privégegevens op de publieke site te tonen." })}</p><label className="block text-sm font-medium text-[var(--slate-700)]">Zapier webhook URL<input className="input-eco mt-2" type="url" placeholder="https://hooks.zapier.com/..." value={pricing.zapierWebhookUrl} onChange={(event) => setPricing({ ...pricing, zapierWebhookUrl: event.target.value })} /></label><Button className="btn-primary mt-4" onClick={savePricing} disabled={updateProperty.isPending}>{t({ fr: "Enregistrer l'intégration", en: "Save integration", be: "Integratie opslaan" })}</Button><div className="mt-8 p-5 rounded-xl bg-[var(--forest-50)]"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Photos", en: "Photos", be: "Foto's" })}</p><p className="text-sm text-[var(--slate-600)] mt-1">{t({ fr: "Les galeries publiques restent gérées dans les références d'images du projet afin de préserver les performances et le contrôle éditorial.", en: "Public galleries remain managed through the project image references for performance and editorial control.", be: "Publieke galerijen blijven beheerd via de afbeeldingsreferenties van het project voor prestaties et redactionele controle." })}</p><Link href="/" className="text-sm text-[var(--forest-700)] underline mt-3 inline-block">{t({ fr: "Voir le site public", en: "View public site", be: "Publieke site bekijken" })}</Link></div></Card></TabsContent>
           </div>
-          <Button
-            onClick={handleLogout}
-            variant="outline"
-            className="flex items-center gap-2"
-          >
-            <LogOut className="w-4 h-4" />
-            {t({ fr: "Déconnexion", en: "Logout", be: "Afmelden" })}
-          </Button>
-        </div>
-
-        {/* Main Tabs */}
-        <Tabs defaultValue="overview" className="w-full">
-          <TabsList className="grid w-full grid-cols-5 mb-8">
-            <TabsTrigger value="overview">
-              {t({ fr: "Aperçu", en: "Overview", be: "Overzicht" })}
-            </TabsTrigger>
-            <TabsTrigger value="bookings" className="flex items-center gap-2">
-              <Calendar className="w-4 h-4" />
-              {t({ fr: "Réservations", en: "Bookings", be: "Boekingen" })}
-            </TabsTrigger>
-            <TabsTrigger value="pricing" className="flex items-center gap-2">
-              <DollarSign className="w-4 h-4" />
-              {t({ fr: "Tarifs", en: "Pricing", be: "Prijzen" })}
-            </TabsTrigger>
-            <TabsTrigger value="photos" className="flex items-center gap-2">
-              <Image className="w-4 h-4" />
-              {t({ fr: "Photos", en: "Photos", be: "Foto's" })}
-            </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
-              <Settings className="w-4 h-4" />
-              {t({ fr: "Paramètres", en: "Settings", be: "Instellingen" })}
-            </TabsTrigger>
-          </TabsList>
-
-          {/* Overview Tab */}
-          <TabsContent value="overview">
-            <Card className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">
-                {t({
-                  fr: "Sève & Bois Escapes",
-                  en: "Sève & Bois Escapes",
-                  be: "Sève & Bois Escapes",
-                })}
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-[var(--cream-100)] p-4 rounded-lg">
-                  <p className="text-[var(--slate-600)] text-sm">
-                    {t({ fr: "Capacité", en: "Capacity", be: "Capaciteit" })}
-                  </p>
-                  <p className="text-3xl font-bold text-[var(--forest-900)]">12</p>
-                  <p className="text-xs text-[var(--slate-500)]">
-                    {t({ fr: "hôtes max", en: "max guests", be: "max gasten" })}
-                  </p>
-                </div>
-                <div className="bg-[var(--cream-100)] p-4 rounded-lg">
-                  <p className="text-[var(--slate-600)] text-sm">
-                    {t({
-                      fr: "Réservations",
-                      en: "Bookings",
-                      be: "Boekingen",
-                    })}
-                  </p>
-                  <p className="text-3xl font-bold text-[var(--forest-900)]">0</p>
-                  <p className="text-xs text-[var(--slate-500)]">
-                    {t({ fr: "ce mois", en: "this month", be: "deze maand" })}
-                  </p>
-                </div>
-                <div className="bg-[var(--cream-100)] p-4 rounded-lg">
-                  <p className="text-[var(--slate-600)] text-sm">
-                    {t({ fr: "Revenu", en: "Revenue", be: "Inkomsten" })}
-                  </p>
-                  <p className="text-3xl font-bold text-[var(--forest-900)]">€0</p>
-                  <p className="text-xs text-[var(--slate-500)]">
-                    {t({ fr: "ce mois", en: "this month", be: "deze maand" })}
-                  </p>
-                </div>
-                <div className="bg-[var(--cream-100)] p-4 rounded-lg">
-                  <p className="text-[var(--slate-600)] text-sm">
-                    {t({
-                      fr: "Taux occupation",
-                      en: "Occupancy",
-                      be: "Bezettingsgraad",
-                    })}
-                  </p>
-                  <p className="text-3xl font-bold text-[var(--forest-900)]">0%</p>
-                  <p className="text-xs text-[var(--slate-500)]">
-                    {t({ fr: "ce mois", en: "this month", be: "deze maand" })}
-                  </p>
-                </div>
-              </div>
-            </Card>
-          </TabsContent>
-
-          {/* Bookings Tab */}
-          <TabsContent value="bookings">
-            <Card className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">
-                {t({
-                  fr: "Gérer les réservations",
-                  en: "Manage Bookings",
-                  be: "Boekingen beheren",
-                })}
-              </h2>
-              <p className="text-[var(--slate-600)]">
-                {t({
-                  fr: "Aucune réservation pour le moment",
-                  en: "No bookings yet",
-                  be: "Nog geen boekingen",
-                })}
-              </p>
-            </Card>
-          </TabsContent>
-
-          {/* Pricing Tab */}
-          <TabsContent value="pricing">
-            <Card className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">
-                {t({
-                  fr: "Gérer les tarifs",
-                  en: "Manage Pricing",
-                  be: "Prijzen beheren",
-                })}
-              </h2>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--slate-700)] mb-2">
-                      {t({
-                        fr: "Tarif nuit en semaine",
-                        en: "Weeknight Rate",
-                        be: "Weeknacht tarief",
-                      })}
-                    </label>
-                    <input
-                      type="number"
-                      defaultValue="300"
-                      className="w-full px-3 py-2 border border-[var(--slate-300)] rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--slate-700)] mb-2">
-                      {t({
-                        fr: "Tarif week-end",
-                        en: "Weekend Rate",
-                        be: "Weekendtarief",
-                      })}
-                    </label>
-                    <input
-                      type="number"
-                      defaultValue="400"
-                      className="w-full px-3 py-2 border border-[var(--slate-300)] rounded-lg"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-[var(--slate-700)] mb-2">
-                      {t({
-                        fr: "Tarif semaine",
-                        en: "Weekly Rate",
-                        be: "Wekelijks tarief",
-                      })}
-                    </label>
-                    <input
-                      type="number"
-                      defaultValue="1900"
-                      className="w-full px-3 py-2 border border-[var(--slate-300)] rounded-lg"
-                    />
-                  </div>
-                </div>
-                <Button className="bg-[var(--forest-700)] hover:bg-[var(--forest-800)] text-white">
-                  {t({ fr: "Enregistrer", en: "Save", be: "Opslaan" })}
-                </Button>
-              </div>
-            </Card>
-          </TabsContent>
-
-          {/* Photos Tab */}
-          <TabsContent value="photos">
-            <Card className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">
-                {t({
-                  fr: "Gérer les photos",
-                  en: "Manage Photos",
-                  be: "Foto's beheren",
-                })}
-              </h2>
-              <p className="text-[var(--slate-600)]">
-                {t({
-                  fr: "Téléchargez et organisez les photos de votre propriété",
-                  en: "Upload and organize your property photos",
-                  be: "Upload en organiseer uw eigendomsfoto's",
-                })}
-              </p>
-            </Card>
-          </TabsContent>
-
-          {/* Settings Tab */}
-          <TabsContent value="settings">
-            <Card className="p-8">
-              <h2 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-6">
-                {t({
-                  fr: "Paramètres de la propriété",
-                  en: "Property Settings",
-                  be: "Instellingen eigendom",
-                })}
-              </h2>
-              <div className="space-y-6">
-                <div>
-                  <label className="block text-sm font-medium text-[var(--slate-700)] mb-2">
-                    {t({
-                      fr: "Flux iCal (Airbnb, Booking.com)",
-                      en: "iCal Feed (Airbnb, Booking.com)",
-                      be: "iCal-feed (Airbnb, Booking.com)",
-                    })}
-                  </label>
-                  <input
-                    type="url"
-                    placeholder="https://..."
-                    className="w-full px-3 py-2 border border-[var(--slate-300)] rounded-lg"
-                  />
-                  <p className="text-xs text-[var(--slate-500)] mt-2">
-                    {t({
-                      fr: "Collez l'URL du flux iCal pour synchroniser les dates bloquées",
-                      en: "Paste the iCal feed URL to sync blocked dates",
-                      be: "Plak de iCal-feed-URL om geblokkeerde datums te synchroniseren",
-                    })}
-                  </p>
-                </div>
-                <Button className="bg-[var(--forest-700)] hover:bg-[var(--forest-800)] text-white">
-                  {t({ fr: "Enregistrer", en: "Save", be: "Opslaan" })}
-                </Button>
-              </div>
-            </Card>
-          </TabsContent>
-        </Tabs>
+        </div></Tabs>
       </div>
     </div>
   );

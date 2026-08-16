@@ -5,30 +5,52 @@ import { trpc } from "@/lib/trpc";
 import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/style.css";
 import { toast } from "sonner";
+import {
+  BOOKING_PRICING,
+  BookingSelection,
+  bookingTotal,
+  maximumGuestsForSelection,
+  minimumGuestsForSelection,
+  nightlyRate,
+} from "../../../shared/booking";
 
 export default function BookingPage() {
   const { t } = useLanguage();
   const [location] = useLocation();
   const params = new URLSearchParams(location.split("?")[1] || "");
-  // Single unit booking: both cottages together
   const initialCheckin = params.get("checkin");
   const initialCheckout = params.get("checkout");
+  const initialCottage = params.get("cottage");
+  const initialSelection: BookingSelection = initialCottage === "la-seve" || initialCottage === "le-bois" || initialCottage === "both"
+    ? initialCottage
+    : "both";
 
   const [step, setStep] = useState(1);
+  const [selection, setSelection] = useState<BookingSelection>(initialSelection);
   const [range, setRange] = useState<DateRange | undefined>(() => {
     if (initialCheckin && initialCheckout) {
       return { from: new Date(initialCheckin), to: new Date(initialCheckout) };
     }
     return undefined;
   });
-  const [guestCount, setGuestCount] = useState(6);
+  const [guestCount, setGuestCount] = useState(initialSelection === "both" ? 4 : 1);
   const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
 
-  const propertyId = 1; // Single unit: both cottages
-  const basePricePerNight = 750; // €750/night for both cottages
-  const cleaningFee = 0; // No additional cleaning fee
+  const propertyId = selection === "both" ? 1 : selection === "la-seve" ? 2 : 3;
+  const pricingSlug = selection === "both" ? "seve-bois-escapes" : selection;
+  const { data: selectedProperty } = trpc.cottages.bySlug.useQuery({ slug: pricingSlug });
+  const pricingCheckIn = range?.from?.toISOString().slice(0, 10);
+  const pricingCheckOut = range?.to?.toISOString().slice(0, 10);
+  const { data: selectedPricing } = trpc.cottages.pricing.useQuery({ slug: pricingSlug, checkIn: pricingCheckIn, checkOut: pricingCheckOut }, { enabled: Boolean(pricingCheckIn && pricingCheckOut) });
+  const rateConfig = {
+    cottageNightlyBase: Number(selectedPricing?.nightlyRate ?? selectedProperty?.basePriceWeeknight ?? BOOKING_PRICING.cottageNightlyBase),
+    extraGuestNightly: Number(selectedPricing?.extraGuestRate ?? selectedProperty?.extraGuestRate ?? BOOKING_PRICING.extraGuestNightly),
+    extraFees: selectedPricing?.extraFees ?? [],
+  };
+  const cleaningFee = Number(selectedPricing?.cleaningFee ?? selectedProperty?.cleaningFee ?? 0);
+  const basePricePerNight = nightlyRate(selection, guestCount, rateConfig);
 
-  const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId });
+  const { data: bookedDates } = trpc.availability.getBookedDates.useQuery({ propertyId, bookingSelection: selection });
 
   const disabledDays = (bookedDates || []).flatMap(({ checkIn, checkOut }) => {
     const days: Date[] = [];
@@ -44,7 +66,7 @@ export default function BookingPage() {
   const nights = range?.from && range?.to
     ? Math.ceil((range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24))
     : 0;
-  const total = nights * basePricePerNight + cleaningFee;
+  const total = bookingTotal(selection, guestCount, nights, rateConfig) + cleaningFee;
 
   const checkoutMutation = trpc.bookings.createCheckout.useMutation({
     onSuccess: (data) => {
@@ -65,6 +87,7 @@ export default function BookingPage() {
     if (!range?.from || !range?.to || !form.gdprConsent) return;
     checkoutMutation.mutate({
       propertyId,
+      bookingSelection: selection,
       guestName: form.name,
       guestEmail: form.email,
       guestPhone: form.phone,
@@ -99,19 +122,33 @@ export default function BookingPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main form */}
           <div className="lg:col-span-2 space-y-8">
-            {/* Property info */}
+            {/* Booking scope */}
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)]">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Votre réservation", en: "Your booking", be: "Your booking" })}</h3>
-              <div className="bg-[var(--forest-50)] rounded-lg p-4 border border-[var(--forest-200)]">
-                <p className="text-sm font-semibold text-[var(--forest-900)] mb-3">La Seve</p>
-                <p className="text-sm text-[var(--forest-700)] mb-4">2 bedrooms · 1 bathroom · Up to 6 guests</p>
-                <p className="text-sm font-semibold text-[var(--forest-900)] mb-3">Le Bois</p>
-                <p className="text-sm text-[var(--forest-700)] mb-4">2 bedrooms · 1 bathroom · Up to 6 guests</p>
-                <p className="text-sm font-semibold text-[var(--ochre-900)] text-center pt-2 border-t border-[var(--forest-200)]">Combined: €750/night for up to 12 guests</p>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-2">{t({ fr: "Que souhaitez-vous réserver ?", en: "What would you like to book?", be: "Wat wilt u boeken?" })}</h3>
+              <p className="text-sm text-[var(--slate-600)] mb-5">{t({ fr: "Choisissez un cottage pour 1 à 6 personnes, ou les deux pour un groupe de 4 à 12 personnes.", en: "Choose one cottage for 1–6 guests, or both for a group of 4–12 guests.", be: "Kies één cottage voor 1–6 gasten, of beide voor een groep van 4–12 gasten." })}</p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {([
+                  { value: "la-seve" as const, title: "La Sève", detail: t({ fr: "1 cottage · jusqu'à 6 personnes", en: "1 cottage · up to 6 guests", be: "1 cottage · tot 6 gasten" }) },
+                  { value: "le-bois" as const, title: "Le Bois", detail: t({ fr: "1 cottage · jusqu'à 6 personnes", en: "1 cottage · up to 6 guests", be: "1 cottage · tot 6 gasten" }) },
+                  { value: "both" as const, title: t({ fr: "Les deux cottages", en: "Both cottages", be: "Beide cottages" }), detail: t({ fr: "2 cottages · 4 à 12 personnes", en: "2 cottages · 4–12 guests", be: "2 cottages · 4–12 gasten" }) },
+                ]).map((option) => (
+                  <button
+                    key={option.value}
+                    type="button"
+                    onClick={() => {
+                      setSelection(option.value);
+                      setGuestCount(option.value === "both" ? 4 : 1);
+                      setRange(undefined);
+                    }}
+                    className={`text-left rounded-xl border-2 p-4 transition-colors ${selection === option.value ? "border-[var(--forest-700)] bg-[var(--forest-50)]" : "border-[var(--cream-300)] hover:border-[var(--forest-300)]"}`}
+                  >
+                    <span className="block font-semibold text-[var(--forest-900)]">{option.title}</span>
+                    <span className="block text-xs text-[var(--slate-600)] mt-1">{option.detail}</span>
+                    <span className="block text-xs font-semibold text-[var(--ochre-700)] mt-3">{t({ fr: "À partir de", en: "From", be: "Vanaf" })} €{option.value === "both" ? 300 : 150} / {t({ fr: "nuit", en: "night", be: "nacht" })}</span>
+                  </button>
+                ))}
               </div>
             </div>
-            {/* Placeholder - removed individual cottage selector */}
-            <div className="hidden"></div>
 
 
             {/* Date picker */}
@@ -155,10 +192,11 @@ export default function BookingPage() {
                   <input type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="input-eco" placeholder="+32 4XX XX XX XX" />
                 </div>
                 <div>
-                  <label className="label-eco">{t({ fr: "Nombre de personnes *", en: "Number of guests *", be: "Number of guests *" })}</label>
+                  <label className="label-eco">{t({ fr: "Nombre de personnes *", en: "Number of guests *", be: "Aantal gasten *" })}</label>
                   <select value={guestCount} onChange={e => setGuestCount(Number(e.target.value))} className="input-eco">
-                    {[1,2,3,4,5,6].map(n => <option key={n} value={n}>{n}</option>)}
+                    {Array.from({ length: maximumGuestsForSelection(selection) - minimumGuestsForSelection(selection) + 1 }, (_, index) => index + minimumGuestsForSelection(selection)).map(n => <option key={n} value={n}>{n}</option>)}
                   </select>
+                  {selection === "both" && <p className="text-xs text-[var(--slate-500)] mt-2">{t({ fr: "Les deux cottages sont disponibles pour les groupes de 4 à 12 personnes.", en: "Both cottages are available for groups of 4–12 guests.", be: "Beide cottages zijn beschikbaar voor groepen van 4–12 gasten." })}</p>}
                 </div>
               </div>
 
@@ -202,7 +240,7 @@ export default function BookingPage() {
 
               <button
                 type="submit"
-                disabled={!range?.from || !range?.to || nights < 2 || !form.name || !form.email || !form.gdprConsent || checkoutMutation.isPending}
+                disabled={!range?.from || !range?.to || nights < BOOKING_PRICING.minimumStayNights || guestCount < minimumGuestsForSelection(selection) || !form.name || !form.email || !form.gdprConsent || checkoutMutation.isPending}
                 className="btn-primary w-full text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {checkoutMutation.isPending
@@ -218,9 +256,9 @@ export default function BookingPage() {
           {/* Summary sidebar */}
           <div className="lg:col-span-1">
             <div className="sticky top-24 bg-white rounded-2xl shadow-lg border border-[var(--cream-300)] overflow-hidden">
-              <div className="bg-[var(--forest-700)] p-6 text-white">
+                  <div className="bg-[var(--forest-700)] p-6 text-white">
                 <div className="text-4xl font-serif font-bold">€{basePricePerNight}</div>
-                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit", en: "/ night", be: "/ night" })}</p>
+                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit pour cette sélection", en: "/ night for this selection", be: "/ nacht voor deze selectie" })}</p>
               </div>
               <div className="p-6 space-y-3 text-sm">
                 {range?.from && range?.to ? (
@@ -234,7 +272,7 @@ export default function BookingPage() {
                       <span className="font-semibold">{range.to.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", be: "night(s)" })} × €{basePricePerNight}</span>
+                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", be: "nacht(en)" })} × €{basePricePerNight}</span>
                       <span>€{nights * basePricePerNight}</span>
                     </div>
                     <div className="flex justify-between">
@@ -245,8 +283,11 @@ export default function BookingPage() {
                       <span>Total</span>
                       <span>€{total}</span>
                     </div>
-                    {nights < 2 && (
+                    {nights < BOOKING_PRICING.minimumStayNights && (
                       <p className="text-xs text-red-500">{t({ fr: "Séjour minimum 2 nuits.", en: "Minimum 2-night stay.", be: "Minimum 2-night stay." })}</p>
+                    )}
+                    {guestCount < minimumGuestsForSelection(selection) && (
+                      <p className="text-xs text-red-500">{t({ fr: "Les deux cottages nécessitent au moins 4 personnes.", en: "Both cottages require at least 4 guests.", be: "Beide cottages vereisen minstens 4 gasten." })}</p>
                     )}
                   </>
                 ) : (

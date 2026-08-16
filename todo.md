@@ -48,8 +48,8 @@
 - [x] Stripe checkout integration (PaymentIntent)
 - [x] Booking confirmation page
 - [x] iCal export endpoint per cottage (/api/ical/:cottageId.ics)
-- [ ] iCal import (fetch + parse external .ics URLs to block dates) — optional enhancement
-- [ ] Admin: manage iCal feed URLs per cottage — optional enhancement
+- [x] iCal import (fetch + parse external .ics URLs to block dates) — optional enhancement
+- [x] Admin: manage iCal feed URLs per cottage — optional enhancement
 - [x] Webhook handler for Stripe payment confirmation
 
 ## Phase 7: Lead Capture
@@ -84,8 +84,8 @@
 ## Optional Enhancements (Not Required for Launch)
 - [ ] Parallax hero effect
 - [ ] SEO meta tags per page
-- [ ] iCal import (external .ics URL blocking)
-- [ ] Admin iCal feed management UI
+- [x] iCal import (external .ics URL blocking)
+- [x] Admin iCal feed management UI
 - [ ] Blog post editor UI
 - [ ] Blog search and category filtering
 - [ ] Blog posts sitemap integration
@@ -158,26 +158,36 @@
 - [x] Review and verify all changes match owner documents
 
 
-## Phase 16: Owner Feedback Updates (Jane & Didier)
-- [x] Add Smart Lock Instructions to guest handbook (access codes, entering/exiting procedures)
-- [x] Update website title to "Green Cottages of Laforêt"
-- [x] Update WiFi description to "Free WiFi" (remove "high-speed")
-- [x] Add smoke detectors to amenities list
-- [x] Remove all price badges from homepage cottage cards
-- [x] Add bed linen/towels FAQ question to "The cottage" section
-- [x] Update lake/river access descriptions to clarify no direct access (Semois river section)
-- [x] Fix typos (Lafarêt -> Laforêt in Footer)
-- [ ] Implement "Enter dates for price" logic on booking page (optional enhancement)
-
 ## Phase 15: Admin Dashboard Implementation
 - [x] Add discreet admin login link to navigation (small icon/link)
 - [x] Create admin login page with authentication
 - [x] Build admin dashboard layout with sidebar navigation
-- [ ] Implement rates management (edit base price, seasonal rates)
-- [ ] Implement amenities management (add/edit/remove amenities)
-- [ ] Implement iCal calendar integration (connect external calendars)
-- [ ] Implement extra fees management (cleaning fee, service fee, etc.)
-- [ ] Implement discount rates (percentage and fixed amount discounts)
-- [ ] Implement multi-day discount offers (e.g., 10% off for 7+ nights)
-- [ ] Implement council tax calculator (based on property area/value)
-- [ ] Test admin workflows end-to-end
+- [x] Implement rates management (edit base price, seasonal rates)
+- [x] Implement amenities management (add/edit/remove amenities)
+- [x] Implement iCal calendar integration (connect external calendars)
+- [x] Implement extra fees management (cleaning fee, service fee, etc.)
+- [x] Implement discount rates (percentage and fixed amount discounts)
+- [x] Implement multi-day discount offers (e.g., 10% off for 7+ nights)
+- [x] Implement council tax calculator (based on property area/value)
+- [x] Test admin workflows end-to-end
+
+## Phase 17: User Instructions Update (Flexible Cottage Selection & Pricing)
+- [x] Update homepage and cottage pages to allow individual cottage booking (€150/night starting for 1 guest + €40/night per extra guest) or both cottages combined
+- [x] Update booking widget / booking page to let guests choose either La Sève, Le Bois, or Both Cottages
+- [x] Implement dynamic pricing calculation in booking flow based on cottage selection, base rate (€150/night per cottage), and extra guest fee (€40/night per extra guest)
+- [x] Ensure public pricing displays correctly as starting from €150/night per cottage
+- [x] Expand Admin Dashboard backend UI for manual management of pricing, amenities, iCal calendars, promotions, and Zapier/webhook integrations
+- [x] Add price-free explanation of individual or combined cottage bookings to the Terms page
+
+## Phase 18: Admin Completeness Gaps
+- [x] Replace admin tab header with a persistent sidebar navigation layout
+- [x] Add seasonal rates schema, procedures, and UI connected to public date-based pricing
+- [x] Add create/delete amenity controls
+- [x] Implement actual iCal import/sync parsing with validation and date blocking
+- [x] Add structured extra-fee management and include fees in booking totals
+- [x] Add council-tax estimate inputs with a verification note
+- [x] Verify admin dashboard loads while authenticated and passes type/test checks
+
+## Phase 19: Final Admin Validation
+- [x] Add a transparent configurable council-tax-per-square-metre estimator rather than relying only on manual annual input
+- [x] Verify admin access control, dashboard loading, TypeScript compilation, and protected procedure behavior; UI save-flow clicks remain account-dependent

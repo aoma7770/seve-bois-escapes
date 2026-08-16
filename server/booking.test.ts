@@ -64,3 +64,31 @@ describe("bookings.createCheckout validation", () => {
     ).rejects.toThrow();
   });
 });
+
+
+describe("shared booking pricing", () => {
+  it("calculates the two-cottage base and extra guests", async () => {
+    const { nightlyRate } = await import("../shared/booking");
+    expect(nightlyRate("both", 4, { cottageNightlyBase: 150, extraGuestNightly: 40 })).toBe(420);
+  });
+
+  it("includes configured fixed and percentage fees in the booking total", async () => {
+    const { bookingTotal } = await import("../shared/booking");
+    expect(bookingTotal("la-seve", 1, 2, {
+      cottageNightlyBase: 150,
+      extraGuestNightly: 40,
+      extraFees: [{ feeType: "fixed", amount: 20 }, { feeType: "percentage", amount: 10 }],
+    })).toBe(350);
+  });
+});
+
+
+describe("admin access control", () => {
+  it("rejects non-admin users before reaching admin procedures", async () => {
+    const caller = appRouter.createCaller({
+      ...createPublicContext(),
+      user: { id: 2, openId: "user", email: "user@test.com", name: "User", loginMethod: "manus", role: "user", createdAt: new Date(), updatedAt: new Date(), lastSignedIn: new Date() },
+    });
+    await expect(caller.admin.getProperties()).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+});

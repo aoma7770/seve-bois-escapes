@@ -60,8 +60,8 @@ export default function LocationPage() {
             <p className="text-lead mb-4">
               {t({ fr: "La belle rivière Semois est une agréable promenade de 10 minutes depuis les cottages. Descendez à travers le village de La Forêt et suivez le sentier scénique le long de la rivière. C'est une marche paisible à travers la nature.", en: "The beautiful Semois river is a lovely 10-minute walk from the cottages. Walk down through the village of La Forêt and follow the scenic riverside path. It's a peaceful nature stroll.", be: "The beautiful Semois river is a lovely 10-minute walk from the cottages. Walk down through the village of La Forêt and follow the scenic riverside path. It's a peaceful nature stroll." })}
             </p>
-            <p className="text-sm text-[var(--slate-600)] mb-3">
-              {t({ fr: "Note: La rivière est située en contrebas des cottages. Il n'y a pas d'accès direct depuis la propriété — l'accès se fait par le village et les sentiers publics.", en: "Note: The river is located below the cottage elevation. There is no direct access from the property — access is via the village and public paths.", be: "Note: The river is located below the cottage elevation. There is no direct access from the property — access is via the village and public paths." })}
+            <p className="text-sm text-[var(--slate-600)]">
+              {t({ fr: "Note: La rivière est située en contrebas des cottages, donc la promenade implique une agréable descente à travers le village.", en: "Note: The river is located below the cottage elevation, so the walk involves a pleasant descent through the village.", be: "Note: The river is located below the cottage elevation, so the walk involves a pleasant descent through the village." })}
             </p>
           </div>
         </div>

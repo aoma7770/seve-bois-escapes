@@ -1,0 +1,1 @@
+ALTER TABLE `properties` ADD `councilTaxRatePerM2` decimal(10,2) DEFAULT '0.00' NOT NULL;
