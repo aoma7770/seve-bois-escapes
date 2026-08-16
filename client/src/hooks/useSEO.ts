@@ -8,9 +8,10 @@ interface SEOProps {
   ogDescription?: string;
   ogImage?: string;
   canonical?: string;
+  robots?: string;
 }
 
-export function useSEO({ title, description, keywords, ogTitle, ogDescription, ogImage, canonical }: SEOProps) {
+export function useSEO({ title, description, keywords, ogTitle, ogDescription, ogImage, canonical, robots }: SEOProps) {
   useEffect(() => {
     // Update title
     document.title = title;
@@ -34,6 +35,14 @@ export function useSEO({ title, description, keywords, ogTitle, ogDescription, o
       }
       metaKeywords.setAttribute('content', keywords);
     }
+
+    let robotsTag = document.querySelector('meta[name="robots"]');
+    if (!robotsTag) {
+      robotsTag = document.createElement('meta');
+      robotsTag.setAttribute('name', 'robots');
+      document.head.appendChild(robotsTag);
+    }
+    robotsTag.setAttribute('content', robots || 'index,follow');
 
     // Update OG title
     let ogTitleTag = document.querySelector('meta[property="og:title"]');
@@ -74,5 +83,5 @@ export function useSEO({ title, description, keywords, ogTitle, ogDescription, o
       }
       canonicalTag.setAttribute('href', canonical);
     }
-  }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonical]);
+  }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonical, robots]);
 }

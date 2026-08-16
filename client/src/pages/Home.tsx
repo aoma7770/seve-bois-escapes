@@ -12,7 +12,6 @@ import {
   TERRACE_SIDE, BATHROOM_C1, BEDROOM_C1, KITCHEN_C1
 } from "../../../shared/images";
 import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
-import { useSEO } from "@/hooks/useSEO";
 
 type AnimationType = 'fade-in' | 'slide-in-left' | 'slide-in-right' | 'slide-in-up' | 'pop' | 'rotate-in';
 
@@ -44,17 +43,22 @@ function FadeSection({ children, className = "", delay = 0, animation = 'slide-i
 export default function Home() {
   const { t } = useLanguage();
   
-  useSEO({
-    title: "Seve & Bois Escapes - Cottages Eco-Luxe, Ardennes Belges",
-    description: "Deux cottages eco-concus au coeur de l'Ardenne belge, sur les rives de la Semois a Laforet. Reservez en direct. Wifi, tout confort, energie renouvelable.",
-    keywords: "cottages Ardennes, Laforet, Semois, eco-luxe, vacation rentals Belgium, pet-friendly cottages, Belgian Ardennes, holiday homes, sustainable tourism",
-    ogTitle: "Escape to Nature - Two Private Cottages in the Heart of La Foret",
-    ogDescription: "Fully equipped, pet-friendly cottages in the Belgian Ardennes. Book directly for the best rates.",
-  });
-  
   const [heroLoaded, setHeroLoaded] = useState(false);
+  const [heroParallax, setHeroParallax] = useState(0);
   const [newsletterEmail, setNewsletterEmail] = useState("");
   const [newsletterDone, setNewsletterDone] = useState(false);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reducedMotion) return;
+    let frame = 0;
+    const handleScroll = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setHeroParallax(Math.min(window.scrollY * 0.16, 96)));
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", handleScroll); };
+  }, []);
 
   const subscribeMutation = trpc.newsletter.subscribe.useMutation({
     onSuccess: () => setNewsletterDone(true),
@@ -71,12 +75,14 @@ export default function Home() {
 
       {/* HERO - SLIDESHOW */}
       <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden">
-        <Slideshow
-          images={HERMAN_COTTAGE1_IMAGES.hero}
-          autoplay={true}
-          interval={6000}
-          className="h-full"
-        />
+        <div className="absolute inset-[-10%] will-change-transform" style={{ transform: `translate3d(0, ${heroParallax}px, 0) scale(1.08)` }}>
+          <Slideshow
+            images={HERMAN_COTTAGE1_IMAGES.hero}
+            autoplay={true}
+            interval={6000}
+            className="h-full"
+          />
+        </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/20 to-black/65" />
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container text-center text-white">

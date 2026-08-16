@@ -1,9 +1,10 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
+import { useSEO } from "./hooks/useSEO";
 import Home from "./pages/Home";
 import CottagePage from "./pages/CottagePage";
 import LocationPage from "./pages/LocationPage";
@@ -26,6 +27,33 @@ import Footer from "./components/Footer";
 import MobileBottomBar from "./components/MobileBottomBar";
 import CookieBanner from "./components/CookieBanner";
 import ExitIntentPopup from "./components/ExitIntentPopup";
+
+const routeSEO: Record<string, { title: string; description: string; keywords: string; robots?: string }> = {
+  "/": { title: "Green Cottages of Laforêt | Belgian Ardennes", description: "Two private eco-cottages in Laforêt in the Belgian Ardennes, beside the Semois valley. Book a quiet, pet-friendly stay directly.", keywords: "Green Cottages Laforêt, cottages Ardennes, Semois holiday rental, eco accommodation Belgium" },
+  "/cottages/la-seve": { title: "La Sève — Eco-Cottage in Laforêt | Green Cottages", description: "Discover La Sève, a private eco-cottage in Laforêt in the Belgian Ardennes, with forest surroundings, thoughtful amenities and direct booking.", keywords: "La Sève cottage, Laforêt cottage, Belgian Ardennes accommodation, Semois holiday rental" },
+  "/cottages/le-bois": { title: "Le Bois — Eco-Cottage in Laforêt | Green Cottages", description: "Discover Le Bois, a private eco-cottage in Laforêt in the Belgian Ardennes, designed for restful stays beside the Semois valley.", keywords: "Le Bois cottage, Laforêt cottage, Belgian Ardennes accommodation, Semois holiday rental" },
+  "/location": { title: "Laforêt & the Semois Valley | Green Cottages", description: "Explore Laforêt, the Semois valley, forests, villages, restaurants and outdoor activities around Green Cottages in the Belgian Ardennes.", keywords: "Laforêt Belgium, Semois valley, Belgian Ardennes activities, Bouillon day trips" },
+  "/sustainability": { title: "Sustainable Stays in the Ardennes | Green Cottages", description: "Learn how Green Cottages combines comfortable stays with renewable energy, thoughtful resources and respect for the Belgian Ardennes landscape.", keywords: "sustainable cottage Belgium, eco accommodation Ardennes, renewable energy holiday rental" },
+  "/rates": { title: "Rates & Availability | Green Cottages of Laforêt", description: "Choose La Sève, Le Bois or both cottages, select your dates and see the current total for your stay in Laforêt.", keywords: "Laforêt cottage rates, Ardennes cottage availability, Semois holiday rental prices" },
+  "/booking": { title: "Book Your Stay | Green Cottages of Laforêt", description: "Select a cottage or both cottages, choose your dates and request a secure booking at Green Cottages of Laforêt.", keywords: "book cottage Laforêt, Ardennes cottage booking, Semois accommodation booking" },
+  "/booking/confirmation": { title: "Booking Confirmation | Green Cottages of Laforêt", description: "Your Green Cottages booking confirmation and next steps.", keywords: "Green Cottages booking confirmation", robots: "noindex,nofollow" },
+  "/contact": { title: "Contact Green Cottages of Laforêt", description: "Contact Green Cottages of Laforêt for questions about your stay, availability, accessibility and the Belgian Ardennes.", keywords: "contact Green Cottages, Laforêt holiday rental contact, Semois accommodation" },
+  "/faq": { title: "Frequently Asked Questions | Green Cottages", description: "Find answers about booking, amenities, pets, arrival, bed linen, towels and staying at Green Cottages in Laforêt.", keywords: "Green Cottages FAQ, Laforêt cottage questions, Ardennes holiday rental information" },
+  "/terms": { title: "Booking Terms & Conditions | Green Cottages", description: "Read the booking terms, cancellation information and conditions for stays at Green Cottages of Laforêt.", keywords: "Green Cottages terms, cottage booking conditions Belgium, cancellation policy Laforêt" },
+  "/privacy": { title: "Privacy Policy | Green Cottages of Laforêt", description: "Read how Green Cottages of Laforêt handles personal data, booking information and newsletter preferences.", keywords: "Green Cottages privacy policy, GDPR holiday rental Belgium" },
+  "/cookies": { title: "Cookie Policy | Green Cottages of Laforêt", description: "Read the cookie policy for the Green Cottages of Laforêt website.", keywords: "Green Cottages cookie policy, Laforêt website cookies" },
+  "/blog": { title: "Ardennes Travel Journal | Green Cottages", description: "Read practical guides and inspiration for exploring Laforêt, the Semois valley and the Belgian Ardennes.", keywords: "Laforêt travel journal, Belgian Ardennes blog, Semois travel guide" },
+  "/admin/login": { title: "Admin Login | Green Cottages", description: "Secure administration login for Green Cottages of Laforêt.", keywords: "Green Cottages administration", robots: "noindex,nofollow" },
+  "/admin": { title: "Admin Dashboard | Green Cottages", description: "Private property management dashboard for Green Cottages of Laforêt.", keywords: "Green Cottages administration", robots: "noindex,nofollow" },
+};
+
+function RouteSEO() {
+  const [location] = useLocation();
+  const path = location.split("?")[0];
+  const metadata = routeSEO[path] ?? (path.startsWith("/blog/") ? { title: "Ardennes Travel Journal | Green Cottages", description: "Stories, practical guides and inspiration for your stay in Laforêt and the Belgian Ardennes.", keywords: "Belgian Ardennes travel blog, Laforêt travel guide, Semois valley" } : { title: "Page not found | Green Cottages", description: "The requested Green Cottages page could not be found.", keywords: "Green Cottages", robots: "noindex,nofollow" });
+  useSEO({ ...metadata, ogTitle: metadata.title, ogDescription: metadata.description, canonical: typeof window === "undefined" ? undefined : `${window.location.origin}${path}` });
+  return null;
+}
 
 function Router() {
   return (
@@ -59,6 +87,7 @@ function App() {
         <LanguageProvider>
           <TooltipProvider>
             <Toaster />
+            <RouteSEO />
             <Header />
             <main>
               <Router />

@@ -62,9 +62,9 @@
 - [x] Mobile sticky bottom CTA bar
 - [x] Click-to-WhatsApp button (mobile)
 - [x] Scroll fade-up animations (IntersectionObserver)
-- [ ] Parallax hero effect — optional enhancement
+- [x] Parallax hero effect — optional enhancement
 - [x] Bilingual FR/EN/NL toggle (all copy)
-- [ ] SEO meta tags per page — optional enhancement
+- [x] SEO meta tags per page — optional enhancement
 - [x] Image lazy loading
 - [x] Final mobile responsiveness QA (verified across 8 key pages: home, both cottages, location, rates, FAQ, contact, privacy)
 - [x] AI-enhance exterior photos to clean landscaping, tidy grass, improve curb appeal, and create a sunnier premium atmosphere
@@ -78,16 +78,16 @@
 - [x] Add blog post creation/editing procedures to tRPC router
 - [ ] Build blog post editor UI (optional admin feature)
 - [x] Add blog section to navigation
-- [ ] Implement blog search and category filtering (optional enhancement)
+- [x] Implement blog search and category filtering (optional enhancement)
 - [ ] Add blog posts to sitemap for SEO (optional enhancement)
 
 ## Optional Enhancements (Not Required for Launch)
-- [ ] Parallax hero effect
-- [ ] SEO meta tags per page
+- [x] Parallax hero effect
+- [x] SEO meta tags per page
 - [x] iCal import (external .ics URL blocking)
 - [x] Admin iCal feed management UI
 - [ ] Blog post editor UI
-- [ ] Blog search and category filtering
+- [x] Blog search and category filtering
 - [ ] Blog posts sitemap integration
 
 
@@ -96,11 +96,11 @@
 - [x] Update database schema: change from per-cottage bookings to single property bookings
 - [x] Create admin login page with role-based access control
 - [x] Build admin dashboard layout (sidebar, property overview)
-- [ ] Property management: edit amenities (optional enhancement)
-- [ ] Property management: edit pricing and seasonal rates (optional enhancement)
+- [x] Property management: edit amenities (optional enhancement)
+- [x] Property management: edit pricing and seasonal rates (optional enhancement)
 - [ ] Property management: edit descriptions and house rules (optional enhancement)
-- [ ] Property management: calendar management and availability (optional enhancement)
-- [ ] Property management: iCal feed management (optional enhancement)
+- [x] Property management: calendar management and availability (optional enhancement)
+- [x] Property management: iCal feed management (optional enhancement)
 - [ ] Property management: photo gallery management (optional enhancement)
 - [ ] Property management: add new property functionality (optional enhancement)
 - [ ] Admin booking management: view, edit, cancel bookings (optional enhancement)
