@@ -3,13 +3,13 @@ import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Wifi, Flame, Car, Utensils, Droplets, Leaf, Users, Bed, Bath, ChevronLeft, ChevronRight, X, Calendar } from "lucide-react";
-import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
+import { HERMAN_COTTAGE1_IMAGES, HERMAN_COTTAGE2_IMAGES } from "../../../shared/herman-images";
 
 interface Props { slug: string; }
 
 const COTTAGE_DATA = {
   "la-seve": {
-    images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
+    images: HERMAN_COTTAGE1_IMAGES.all,
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
       { icon: Wifi, fr: "WiFi gratuit", en: "Free WiFi", be: "Gratis WiFi" },
@@ -39,7 +39,7 @@ const COTTAGE_DATA = {
     priceFrom: 150,
   },
   "le-bois": {
-    images: [...HERMAN_COTTAGE1_IMAGES.outdoor, ...HERMAN_COTTAGE1_IMAGES.livingRoom, ...HERMAN_COTTAGE1_IMAGES.kitchen, ...HERMAN_COTTAGE1_IMAGES.bedrooms, ...HERMAN_COTTAGE1_IMAGES.bathrooms],
+    images: HERMAN_COTTAGE2_IMAGES.all,
     capacity: 6, bedrooms: 2, bathrooms: 1, living_areas: 1,
     amenities: [
       { icon: Wifi, fr: "WiFi gratuit", en: "Free WiFi", be: "Gratis WiFi" },

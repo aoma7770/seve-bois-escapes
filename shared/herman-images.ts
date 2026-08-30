@@ -1,121 +1,102 @@
-// Herman Photos - House 1 (Cottage 1) CDN URLs
+// Curated owner-shared photo galleries.
+// House 1 = Le Sève; House 2 = Le Bois. Shared outdoor views are intentionally
+// included in both galleries to show the setting without mixing interiors.
+
+const SHARED_OUTDOOR = [
+  "/manus-storage/foto-133_c0c3d406.jpg", // wide view of both cottages
+  "/manus-storage/foto-135_c95b74fd.jpg", // exterior with vehicle / parking context
+  "/manus-storage/foto-140_dd41d1f5.jpg", // clear approach and landscape
+  "/manus-storage/foto-142_410c5bc4.jpg", // wide driveway and cottages
+  "/manus-storage/foto-147_a0f66544.jpg", // alternate wide site view
+];
+
 export const HERMAN_COTTAGE1_IMAGES = {
-  // Hero/Exterior images (best for homepage slideshow) - 11+ best images
-  // Organized: ALL outdoor images first, then ALL indoor images
   hero: [
-    // Outdoor/Exterior - 6 images
-    "/manus-storage/foto-030_64d147d2_53a760db.webp",  // Outdoor close-up (main)
-    "/manus-storage/foto-034_ba7bd4e1_a7548f3c.webp",  // Outdoor exterior
-    "/manus-storage/foto-035_fc31233a_3f3e17ed.webp",  // Outdoor landscape
-    "/manus-storage/foto-036_c6fc3d32_f85224fd.webp",  // Outdoor detail
-    "/manus-storage/foto-037_90c568d4_6a48c3b3.webp",  // Outdoor view
-    "/manus-storage/foto-038_74fc390c_d9c73a55.webp",  // Outdoor terrace
-    
-    // Indoor images - 5 images
-    "/manus-storage/foto-001_726ad917_e22ab9b3.webp",  // Living room main
-    "/manus-storage/foto-002_f3c07f38_d989998d.webp",  // Living room detail
-    "/manus-storage/foto-010_4942b06f_5eebe54f.webp",  // Kitchen
-    "/manus-storage/foto-020_807ff133_c17b3b55.webp",  // Bedroom 1
-    "/manus-storage/foto-021_66c4d4fa_d446d3ee.webp",  // Bedroom 2
+    ...SHARED_OUTDOOR,
+    "/manus-storage/foto-039_79c67c88.jpg",
+    "/manus-storage/foto-041_f0fe8e62.jpg",
+    "/manus-storage/foto-001_5432d2d9.jpg",
+    "/manus-storage/foto-006_cf2fe93b.jpg",
+    "/manus-storage/foto-007_8249725a.jpg",
+    "/manus-storage/foto-016_4f968fc9.jpg",
   ],
-  
-  // Living room
-  livingRoom: [
-    "/manus-storage/foto-001_726ad917_e22ab9b3.webp",
-    "/manus-storage/foto-002_f3c07f38_d989998d.webp",
-    "/manus-storage/foto-003_3f9cef81_a7b682d1.webp",
-  ],
-  
-  // Kitchen
-  kitchen: [
-    "/manus-storage/foto-010_4942b06f_5eebe54f.webp",
-    "/manus-storage/foto-011_c1eca4a9_198f4f33.webp",
-    "/manus-storage/foto-012_62bcd19c_f09cdfe1.webp",
-  ],
-  
-  // Bedrooms
-  bedrooms: [
-    "/manus-storage/foto-020_807ff133_c17b3b55.webp",
-    "/manus-storage/foto-021_66c4d4fa_d446d3ee.webp",
-    "/manus-storage/foto-022_60076faa_719559ac.webp",
-  ],
-  
-  // Bathrooms
-  bathrooms: [
-    "/manus-storage/foto-024_1230f9ac_ee194fda.webp",
-    "/manus-storage/foto-025_bb8a1fca_b22f3778.webp",
-  ],
-  
-  // Outdoor/Exterior images
   outdoor: [
-    "/manus-storage/foto-030_64d147d2_53a760db.webp",  // Outdoor close-up
-    "/manus-storage/foto-031_fc3d5b5a_c0ddfa01.webp",  // Outdoor detail
-    "/manus-storage/foto-032_00b0fdb5_5ce53aa1.webp",  // Outdoor view
-    "/manus-storage/foto-033_f2fde43d_e1e12804.webp",  // Outdoor angle
-    "/manus-storage/foto-034_ba7bd4e1_a7548f3c.webp",  // Outdoor exterior
-    "/manus-storage/foto-035_fc31233a_3f3e17ed.webp",  // Outdoor landscape
-    "/manus-storage/foto-036_c6fc3d32_f85224fd.webp",  // Outdoor detail
-    "/manus-storage/foto-037_90c568d4_6a48c3b3.webp",  // Outdoor view
-    "/manus-storage/foto-038_74fc390c_d9c73a55.webp",  // Outdoor terrace
-    "/manus-storage/foto-039_9000a280_af2da3a7.webp",  // Outdoor terrace detail
-    "/manus-storage/foto-040_1bb9b0f7_14143d52.webp",  // Parking/EV charging
-    "/manus-storage/foto-041_5cf69c48_ce64103d.webp",  // Outdoor amenity
-    "/manus-storage/foto-042_576e41dc_c3302568.webp",  // Outdoor feature
+    ...SHARED_OUTDOOR,
+    "/manus-storage/foto-039_79c67c88.jpg", // House 1 terrace / exterior
+    "/manus-storage/foto-041_f0fe8e62.jpg", // House 1 exterior
+    "/manus-storage/foto-044_552965b3.jpg", // House 1 exterior angle
   ],
-  
-  // All images for gallery
-  all: [
-    "/manus-storage/foto-001_726ad917_e22ab9b3.webp",
-    "/manus-storage/foto-002_f3c07f38_d989998d.webp",
-    "/manus-storage/foto-003_3f9cef81_a7b682d1.webp",
-    "/manus-storage/foto-004_3f23c553_a097b4fa.webp",
-    "/manus-storage/foto-005_7ae0ae83_3d5a99c6.webp",
-    "/manus-storage/foto-006_15445b04_496f841c.webp",
-    "/manus-storage/foto-007_8916d751_07ef771f.webp",
-    "/manus-storage/foto-008_e81e6e8e_b8cd5594.webp",
-    "/manus-storage/foto-009_410274ff_dd02f5e4.webp",
-    "/manus-storage/foto-010_4942b06f_5eebe54f.webp",
-    "/manus-storage/foto-011_c1eca4a9_198f4f33.webp",
-    "/manus-storage/foto-012_62bcd19c_f09cdfe1.webp",
-    "/manus-storage/foto-013_209aab09_cf660266.webp",
-    "/manus-storage/foto-014_2bd6dd83_f2a17452.webp",
-    "/manus-storage/foto-015_b3ec70d3_02212b19.webp",
-    "/manus-storage/foto-016_1b65d052_8715cb20.webp",
-    "/manus-storage/foto-017_7377cd22_1d241176.webp",
-    "/manus-storage/foto-018_17ddc2e4_d044923e.webp",
-    "/manus-storage/foto-019_a93d6dc3_9c3ecd05.webp",
-    "/manus-storage/foto-020_807ff133_c17b3b55.webp",
-    "/manus-storage/foto-021_66c4d4fa_d446d3ee.webp",
-    "/manus-storage/foto-022_60076faa_719559ac.webp",
-    "/manus-storage/foto-023_206c6c78_5f2973f3.webp",
-    "/manus-storage/foto-024_1230f9ac_ee194fda.webp",
-    "/manus-storage/foto-025_bb8a1fca_b22f3778.webp",
-    "/manus-storage/foto-026_c9b37faa_e6e19739.webp",
-    "/manus-storage/foto-027_3feb54dc_fa1ca145.webp",
-    "/manus-storage/foto-028_3e038f15_63d2944f.webp",
-    "/manus-storage/foto-029_39c90a0a_6599a4a3.webp",
-    "/manus-storage/foto-030_64d147d2_53a760db.webp",
-    "/manus-storage/foto-031_fc3d5b5a_c0ddfa01.webp",
-    "/manus-storage/foto-032_00b0fdb5_5ce53aa1.webp",
-    "/manus-storage/foto-033_f2fde43d_e1e12804.webp",
-    "/manus-storage/foto-034_ba7bd4e1_a7548f3c.webp",
-    "/manus-storage/foto-035_fc31233a_3f3e17ed.webp",
-    "/manus-storage/foto-036_c6fc3d32_f85224fd.webp",
-    "/manus-storage/foto-037_90c568d4_6a48c3b3.webp",
-    "/manus-storage/foto-038_74fc390c_d9c73a55.webp",
-    "/manus-storage/foto-039_9000a280_af2da3a7.webp",
-    "/manus-storage/foto-040_1bb9b0f7_14143d52.webp",
-    "/manus-storage/foto-041_5cf69c48_ce64103d.webp",
-    "/manus-storage/foto-042_576e41dc_c3302568.webp",
-    "/manus-storage/foto-043_03edca44_0adee9ad.webp",
-    "/manus-storage/foto-044_694f3b5a_bde8d503.webp",
-    "/manus-storage/foto-045_2586daef_ccab5b5a.webp",
-    "/manus-storage/foto-046_f2f8b59f_dfe0053e.webp",
-    "/manus-storage/foto-047_c78fe2b8_04e643e6.webp",
-    "/manus-storage/foto-048_be22fcb4_b73dfdb8.webp",
-    "/manus-storage/foto-049_bd509868_42ceb8b1.webp",
-    "/manus-storage/foto-050_50046056_c6a9174e.webp",
-    "/manus-storage/foto-051_7f5d58d3_6232ca66.webp",
-    "/manus-storage/foto-052_0c827ce5_1b95b94f.webp",
+  livingRoom: [
+    "/manus-storage/foto-001_5432d2d9.jpg",
+    "/manus-storage/foto-006_cf2fe93b.jpg",
+    "/manus-storage/foto-007_8249725a.jpg",
+    "/manus-storage/foto-048_8e399522.jpg",
   ],
+  kitchen: [
+    "/manus-storage/foto-046_78d558e2.jpg",
+    "/manus-storage/foto-054_a70c3246.jpg",
+  ],
+  bedrooms: [
+    "/manus-storage/foto-016_4f968fc9.jpg",
+    "/manus-storage/foto-022_bd3c49cc.jpg",
+  ],
+  bathrooms: [
+    "/manus-storage/foto-025_56c3177a.jpg",
+    "/manus-storage/foto-065_b8d5e46b.jpg",
+  ],
+  all: [] as string[],
 };
+
+export const HERMAN_COTTAGE2_IMAGES = {
+  hero: [
+    ...SHARED_OUTDOOR,
+    "/manus-storage/foto-087_e198b868.jpg",
+    "/manus-storage/foto-089_579b62fa.jpg",
+    "/manus-storage/foto-093_62f812b8.jpg",
+    "/manus-storage/foto-073_4272a21c.jpg",
+  ],
+  outdoor: [
+    ...SHARED_OUTDOOR,
+    "/manus-storage/foto-128_6d2980d8.jpg", // House 2 exterior / approach
+    "/manus-storage/foto-130_03b83cf2.jpg", // House 2 exterior angle
+  ],
+  livingRoom: [
+    "/manus-storage/foto-087_e198b868.jpg",
+    "/manus-storage/foto-089_579b62fa.jpg",
+    "/manus-storage/foto-093_62f812b8.jpg",
+    "/manus-storage/foto-121_28436653.jpg",
+  ],
+  kitchen: [
+    "/manus-storage/foto-097_3eee1ba2.jpg",
+    "/manus-storage/foto-100_0bff7f85.jpg",
+    "/manus-storage/foto-118_00668534.jpg",
+  ],
+  bedrooms: [
+    "/manus-storage/foto-073_4272a21c.jpg",
+    "/manus-storage/foto-076_7afa5756.jpg",
+    "/manus-storage/foto-104_b25f0087.jpg",
+  ],
+  bathrooms: [
+    "/manus-storage/foto-078_57cbb0ce.jpg",
+    "/manus-storage/foto-081_c5046d3d.jpg",
+    "/manus-storage/foto-123_c3cff246.jpg",
+  ],
+  all: [] as string[],
+};
+
+// Keep the full gallery order explicit: outdoor first, then living room,
+// kitchen, bedrooms, and bathroom images.
+HERMAN_COTTAGE1_IMAGES.all = [
+  ...HERMAN_COTTAGE1_IMAGES.outdoor,
+  ...HERMAN_COTTAGE1_IMAGES.livingRoom,
+  ...HERMAN_COTTAGE1_IMAGES.kitchen,
+  ...HERMAN_COTTAGE1_IMAGES.bedrooms,
+  ...HERMAN_COTTAGE1_IMAGES.bathrooms,
+];
+HERMAN_COTTAGE2_IMAGES.all = [
+  ...HERMAN_COTTAGE2_IMAGES.outdoor,
+  ...HERMAN_COTTAGE2_IMAGES.livingRoom,
+  ...HERMAN_COTTAGE2_IMAGES.kitchen,
+  ...HERMAN_COTTAGE2_IMAGES.bedrooms,
+  ...HERMAN_COTTAGE2_IMAGES.bathrooms,
+];

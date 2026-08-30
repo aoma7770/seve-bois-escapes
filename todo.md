@@ -213,3 +213,10 @@
 - [x] Verify no incorrect variants remain in public content
 - [x] Run tests and visual verification
 - [x] Save a spelling-correction checkpoint
+
+## Phase 23: Curated Property Image Galleries
+- [x] Curate only the strongest non-duplicate folder images for House 1, House 2, and shared outdoor views
+- [x] Map House 1 images only to Le Sève and House 2 images only to Le Bois
+- [x] Add selected outdoor images to both property galleries where appropriate
+- [x] Compress and optimize every selected image before upload
+- [x] Verify image assignments visually on both cottage pages and save a checkpoint
