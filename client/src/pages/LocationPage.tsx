@@ -11,18 +11,18 @@ export default function LocationPage() {
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="relative h-64 md:h-96 overflow-hidden">
-        <img src={LOCATION_IMAGES.ardennesLandscape} alt="Laforet, Ardennes belges" className="w-full h-full object-cover" decoding="async" />
+        <img src={LOCATION_IMAGES.ardennesLandscape} alt="Laforêt, Ardennes belges" className="w-full h-full object-cover" decoding="async" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex items-end">
           <div className="container pb-10">
             <p className="text-caption text-white mb-2">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
-            <h1 className="text-display text-white">{t({ fr: "Laforet & la Semois", en: "Laforet & the Semois", be: "Laforet & the Semois" })}</h1>
+            <h1 className="text-display text-white">{t({ fr: "Laforêt & la Semois", en: "Laforêt & the Semois", be: "Laforêt & the Semois" })}</h1>
           </div>
         </div>
       </div>
       <div className="container py-16 max-w-4xl">
         <div className="divider-ochre mb-6" />
         <h2 className="text-headline text-[var(--forest-950)] mb-6">{t({ fr: "L'un des plus beaux villages de Wallonie", en: "One of the most beautiful villages in Wallonia", be: "One of the most beautiful villages in Wallonia" })}</h2>
-        <p className="text-lead mb-6">{t({ fr: "Laforet est officiellement classé parmi les « Plus Beaux Villages de Wallonie ». Maisons en pierre ardoisée, collines boisées, et la Semois qui serpente en contrebas — c'est ici que le temps ralentit.", en: "Laforet is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down.", be: "Laforet is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down." })}</p>
+        <p className="text-lead mb-6">{t({ fr: "Laforêt est officiellement classé parmi les « Plus Beaux Villages de Wallonie ». Maisons en pierre ardoisée, collines boisées, et la Semois qui serpente en contrebas — c'est ici que le temps ralentit.", en: "Laforêt is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down.", be: "Laforêt is officially listed among the 'Most Beautiful Villages of Wallonia'. Slate-roofed stone houses, forested hills, and the Semois winding below — this is where time slows down." })}</p>
         <p className="text-lead mb-10">{t({ fr: "À environ 2h de Bruxelles, facilement accessible depuis la France, les Pays-Bas, le Luxembourg et l'Allemagne. Assez proche pour s'échapper, assez loin pour vraiment décrocher.", en: "About 2 hours from Brussels, easily reachable from France, the Netherlands, Luxembourg and Germany. Close enough to escape to, far enough to truly switch off.", be: "About 2 hours from Brussels, easily reachable from France, the Netherlands, Luxembourg and Germany. Close enough to escape to, far enough to truly switch off." })}</p>
         <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "Activités & découvertes", en: "Things to do", be: "Things to do" })}</h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-12">
@@ -58,7 +58,7 @@ export default function LocationPage() {
           <h3 className="text-subheadline text-[var(--forest-950)] mb-6">{t({ fr: "La Semois à 10 minutes", en: "The Semois — 10 minutes away", be: "The Semois — 10 minutes away" })}</h3>
           <div className="bg-[var(--forest-50)] rounded-2xl p-8">
             <p className="text-lead mb-4">
-              {t({ fr: "La belle rivière Semois est une agréable promenade de 10 minutes depuis les cottages. Descendez à travers le village de Laforet et suivez le sentier scénique le long de la rivière. C'est une marche paisible à travers la nature.", en: "The beautiful Semois river is a lovely 10-minute walk from the cottages. Walk down through the village of Laforet and follow the scenic riverside path. It's a peaceful nature stroll.", be: "The beautiful Semois river is a lovely 10-minute walk from the cottages. Walk down through the village of Laforet and follow the scenic riverside path. It's a peaceful nature stroll." })}
+              {t({ fr: "La belle rivière Semois est une agréable promenade de 10 minutes depuis les cottages. Descendez à travers le village de Laforêt et suivez le sentier scénique le long de la rivière. C'est une marche paisible à travers la nature.", en: "The beautiful Semois river is a lovely 10-minute walk from the cottages. Walk down through the village of Laforêt and follow the scenic riverside path. It's a peaceful nature stroll.", be: "The beautiful Semois river is a lovely 10-minute walk from the cottages. Walk down through the village of Laforêt and follow the scenic riverside path. It's a peaceful nature stroll." })}
             </p>
             <p className="text-sm text-[var(--slate-600)]">
               {t({ fr: "Note: La rivière est située en contrebas des cottages, donc la promenade implique une agréable descente à travers le village.", en: "Note: The river is located below the cottage elevation, so the walk involves a pleasant descent through the village.", be: "Note: The river is located below the cottage elevation, so the walk involves a pleasant descent through the village." })}

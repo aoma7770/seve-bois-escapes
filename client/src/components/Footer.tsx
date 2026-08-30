@@ -45,7 +45,7 @@ export default function Footer() {
               {t({ fr: "Déconnectez. Respirez. Tout est prévu.", en: "Disconnect. Breathe. Everything's taken care of.", be: "Disconnect. Breathe. Everything's taken care of." })}
             </p>
             <p className="text-sm text-[var(--forest-300)] leading-relaxed">
-              {t({ fr: "Deux cottages éco-conçus au cœur de l'Ardenne belge, à Laforet, sur les rives de la Semois.", en: "Two eco-designed cottages in the heart of the Belgian Ardennes, in Laforet, on the banks of the Semois.", be: "Twee eco-ontworpen cottages in het hart van de Belgische Ardennen, in Laforet, aan de oevers van de Semois." })}
+              {t({ fr: "Deux cottages éco-conçus au cœur de l'Ardenne belge, à Laforêt, sur les rives de la Semois.", en: "Two eco-designed cottages in the heart of the Belgian Ardennes, in Laforêt, on the banks of the Semois.", be: "Twee eco-ontworpen cottages in het hart van de Belgische Ardennen, in Laforêt, aan de oevers van de Semois." })}
             </p>
             {/* Social */}
             <div className="flex gap-3 mt-5">

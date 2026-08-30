@@ -1,8 +1,8 @@
 #import "report-theme.typ": report-accent, report-theme
 
 #show: report-theme.with(
-  title: "The Laforet Escape Guide",
-  author: "Green Cottages of Laforet",
+  title: "The Laforêt Escape Guide",
+  author: "Green Cottages of Laforêt",
   rhythm: "report",
   running-header: true,
 )
@@ -13,7 +13,7 @@
   #pad(left: 2.2cm, right: 2.2cm, top: 1.5cm, bottom: 1.5cm)[
     #text(size: 11pt, weight: "bold", fill: report-accent)[GREEN COTTAGES OF LAFORET]
     #v(0.55em)
-    #text(size: 28pt, weight: "bold")[The Laforet Escape Guide]
+    #text(size: 28pt, weight: "bold")[The Laforêt Escape Guide]
     #v(0.45em)
     #text(size: 15pt, fill: luma(80))[A slow-travel companion to the Semois valley and Belgian Ardennes]
     #v(1.2em)
@@ -35,17 +35,17 @@
 
 #counter(page).update(1)
 
-= Welcome to Laforet
+= Welcome to Laforêt
 
-There are places that invite you to do more, and places that invite you to notice more. Laforet belongs to the second kind. Set in the Belgian Ardennes, within the municipality of Vresse-sur-Semois, the village looks out over a landscape of wooded hills, slate-roofed stone homes and the winding Semois river below.
+There are places that invite you to do more, and places that invite you to notice more. Laforêt belongs to the second kind. Set in the Belgian Ardennes, within the municipality of Vresse-sur-Semois, the village looks out over a landscape of wooded hills, slate-roofed stone homes and the winding Semois river below.
 
-Laforet is officially recognised among the *Most Beautiful Villages of Wallonia*. Its appeal is not built around a single attraction. It is the combination of scale, texture and quiet: a historic church, traditional tobacco-drying sheds, small fountains and washhouses, and paths that open into long views across the valley.
+Laforêt is officially recognised among the *Most Beautiful Villages of Wallonia*. Its appeal is not built around a single attraction. It is the combination of scale, texture and quiet: a historic church, traditional tobacco-drying sheds, small fountains and washhouses, and paths that open into long views across the valley.
 
-At Green Cottages of Laforet, the idea is simple: use a comfortable base, then let the landscape set the pace. Begin with a morning walk, pause for a long lunch, return for an unhurried afternoon, and leave room for the unexpected.
+At Green Cottages of Laforêt, the idea is simple: use a comfortable base, then let the landscape set the pace. Begin with a morning walk, pause for a long lunch, return for an unhurried afternoon, and leave room for the unexpected.
 
 #figure(
   image("assets/forest.webp", width: 100%),
-  caption: [The wooded character of the Belgian Ardennes around Laforet.],
+  caption: [The wooded character of the Belgian Ardennes around Laforêt.],
 )
 
 = A three-day rhythm
@@ -80,7 +80,7 @@ Spend the final day on heritage, food or a longer outing. You might explore a hi
 
 == Getting there
 
-Laforet is approximately two hours by car from Brussels, around three and a half hours from Paris and about one and a half hours from Luxembourg, depending on route and traffic. Bertrix is the nearest rail connection referenced for the area; onward travel may require a taxi or rental car. Confirm journey times and transport connections before departure.
+Laforêt is approximately two hours by car from Brussels, around three and a half hours from Paris and about one and a half hours from Luxembourg, depending on route and traffic. Bertrix is the nearest rail connection referenced for the area; onward travel may require a taxi or rental car. Confirm journey times and transport connections before departure.
 
 == What to bring
 
@@ -97,7 +97,7 @@ The river, trails and nearby attractions are part of the wider local area and ar
 
 = A more considered stay
 
-A stay in Laforet works best when the accommodation is treated as a pause, not simply a place to sleep. Leave a little space in the day for a slow breakfast, a book by the window, a conversation that runs long or the decision to take the scenic route home.
+A stay in Laforêt works best when the accommodation is treated as a pause, not simply a place to sleep. Leave a little space in the day for a slow breakfast, a book by the window, a conversation that runs long or the decision to take the scenic route home.
 
 Whether you are travelling as a couple, a family or a group of friends, the two-cottage setting offers a useful balance: shared time when you want it, and the possibility of retreat when you need it. The surrounding landscape does the rest.
 
@@ -109,11 +109,11 @@ Whether you are travelling as a couple, a family or a group of friends, the two-
 
 = A final invitation
 
-Come for the forest, the river valley or the village heritage. Stay for the feeling of having made room for something quieter. Laforet is a place to walk slowly, look closely and let the Ardennes become part of the memory of the trip.
+Come for the forest, the river valley or the village heritage. Stay for the feeling of having made room for something quieter. Laforêt is a place to walk slowly, look closely and let the Ardennes become part of the memory of the trip.
 
 #align(center)[
   #v(1em)
-  #text(size: 12pt, weight: "bold", fill: report-accent)[Green Cottages of Laforet]
+  #text(size: 12pt, weight: "bold", fill: report-accent)[Green Cottages of Laforêt]
   #v(0.35em)
   #text(size: 9pt, fill: luma(90))[A quiet base for exploring the Semois valley]
 ]
@@ -122,7 +122,7 @@ Come for the forest, the river valley or the village heritage. Stay for the feel
 
 = Guide notes & responsible planning
 
-This free guide is intended as a helpful introduction to Laforet and the wider Semois valley. It does not replace official information, professional safety advice, or current instructions from local operators and authorities.
+This free guide is intended as a helpful introduction to Laforêt and the wider Semois valley. It does not replace official information, professional safety advice, or current instructions from local operators and authorities.
 
 Please confirm current conditions before activities, respect private land and marked routes, and leave the landscape as you found it. Nearby experiences are independent third-party services; Green Cottages does not operate or guarantee their availability.
 

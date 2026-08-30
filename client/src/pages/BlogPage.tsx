@@ -42,7 +42,7 @@ export default function BlogPage() {
   const translations = {
     fr: {
       title: "Journal des Ardennes",
-      subtitle: "Conseils, histoires et guides pour explorer Laforet, la Semois et la nature environnante",
+      subtitle: "Conseils, histoires et guides pour explorer Laforêt, la Semois et la nature environnante",
       searchPlaceholder: "Rechercher un article...",
       allCategories: "Tous les sujets",
       noPost: "Aucun article ne correspond à votre recherche.",
@@ -50,7 +50,7 @@ export default function BlogPage() {
     },
     en: {
       title: "Ardennes Journal",
-      subtitle: "Tips, stories and guides for exploring Laforet, the Semois valley and surrounding nature",
+      subtitle: "Tips, stories and guides for exploring Laforêt, the Semois valley and surrounding nature",
       searchPlaceholder: "Search articles...",
       allCategories: "All topics",
       noPost: "No articles match your search.",
@@ -58,7 +58,7 @@ export default function BlogPage() {
     },
     nl: {
       title: "Ardennen Journaal",
-      subtitle: "Tips, verhalen en gidsen om Laforet, de Semois en de omliggende natuur te verkennen",
+      subtitle: "Tips, verhalen en gidsen om Laforêt, de Semois en de omliggende natuur te verkennen",
       searchPlaceholder: "Zoek artikelen...",
       allCategories: "Alle onderwerpen",
       noPost: "Geen artikelen gevonden die aan uw zoekopdracht voldoen.",

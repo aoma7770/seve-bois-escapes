@@ -207,3 +207,9 @@
 - [x] Add guest communication-history storage, protected procedures, and UI
 - [x] Display the occupancy metric in the admin analytics interface
 - [x] Re-run tests and visual verification; checkpoint remains the final delivery step
+
+## Phase 22: Correct Laforêt Spelling
+- [x] Replace incorrect Laforet/Lafarêt variants with the accented spelling “Laforêt” across website source, metadata, public database-backed content, and documentation
+- [x] Verify no incorrect variants remain in public content
+- [x] Run tests and visual verification
+- [x] Save a spelling-correction checkpoint

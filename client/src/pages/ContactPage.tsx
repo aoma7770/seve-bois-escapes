@@ -95,7 +95,7 @@ export default function ContactPage() {
                     <MapPin size={20} />
                   </div>
                   <div>
-                    <p className="font-semibold text-[var(--forest-900)]">Laforet, Wallonie, Belgique</p>
+                    <p className="font-semibold text-[var(--forest-900)]">Laforêt, Wallonie, Belgique</p>
                     <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Sur les rives de la Semois", en: "On the banks of the Semois", be: "On the banks of the Semois" })}</p>
                   </div>
                 </div>

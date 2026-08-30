@@ -6,7 +6,7 @@ Welcome to your home away from home! This handbook contains all the information 
 
 ## WiFi & Internet
 
-**Network Name:** Laforet Guest  
+**Network Name:** Laforêt Guest  
 **Password:** Green_Cottage!
 
 ---
@@ -25,7 +25,7 @@ Welcome to your home away from home! This handbook contains all the information 
 - *Action:* Place out the evening before
 
 **Glass (Special Instructions)**
-Glass bottles, jars, and containers are **NOT collected at your door**. You must take glass to the glass bubble located in Laforet:
+Glass bottles, jars, and containers are **NOT collected at your door**. You must take glass to the glass bubble located in Laforêt:
 
 > **Location:** In front of the "La Sapinière" building, going up towards the woods (en montant dans les bois)
 
@@ -97,7 +97,7 @@ If you need early check-in or late check-out, please contact your host in advanc
 - Thermostat location: [To be provided by host]
 
 ### WiFi Setup
-- Network: Laforet Guest
+- Network: Laforêt Guest
 - Password: Green_Cottage!
 - If connection issues: Restart router and reconnect
 
@@ -155,7 +155,7 @@ Minor issues (light bulbs, etc.) can often be resolved quickly. Prompt reporting
 - **Bison Ranch** — Bison ranch visit (bisonranchorchimont.com)
 - **Récréalle** — Recreational centre (recrealle.com/fr)
 
-### Nature Walks (from Laforet)
+### Nature Walks (from Laforêt)
 - **Le Pont de Claies** — Historic bridge over the Semois (10 min walk)
 - **Promenade des Légendes** — Legend-themed walk (15 min walk)
 - **Le Point de Vue du Jambon** — Panoramic viewpoint (30 min drive)
@@ -170,7 +170,7 @@ Minor issues (light bulbs, etc.) can often be resolved quickly. Prompt reporting
 
 | Item | Detail |
 |---|---|
-| WiFi Network | Laforet Guest |
+| WiFi Network | Laforêt Guest |
 | WiFi Password | Green_Cottage! |
 | Rubbish Day | Monday morning (household + organic) |
 | Cardboard Day | Tuesday morning |
@@ -185,7 +185,7 @@ Minor issues (light bulbs, etc.) can often be resolved quickly. Prompt reporting
 
 ## Enjoy Your Stay!
 
-We hope you have a wonderful and relaxing time at Sève & Bois Escapes. The beauty of Laforet and the Semois valley is yours to explore. If you have any questions or need assistance, don't hesitate to contact your host.
+We hope you have a wonderful and relaxing time at Sève & Bois Escapes. The beauty of Laforêt and the Semois valley is yours to explore. If you have any questions or need assistance, don't hesitate to contact your host.
 
 **Thank you for choosing Sève & Bois Escapes!**
 
