@@ -64,6 +64,20 @@
       "when": 1788106846263,
       "tag": "0008_reflective_robin_chapel",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1788118904714,
+      "tag": "0009_clever_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1788119301550,
+      "tag": "0010_romantic_changeling",
+      "breakpoints": true
     }
   ]
 }

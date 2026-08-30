@@ -1,0 +1,1 @@
+ALTER TABLE `admin_credentials` ADD `sessionVersion` int DEFAULT 0 NOT NULL;

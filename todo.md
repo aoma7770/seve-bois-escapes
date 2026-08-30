@@ -233,3 +233,12 @@
 - [x] Add admin controls to reorder each property’s gallery images
 - [x] Persist and apply each image’s display sequence per property through ordered database-backed public galleries
 - [x] Test profile cards, public gallery ordering, TypeScript, and unit tests; authenticated admin click-through remains owner-account dependent
+
+## Phase 26: Standalone Admin Username/Password Login
+- [x] Add a standalone admin credential model with securely hashed password storage
+- [x] Add username/password login and logout session handling independent of Manus OAuth
+- [x] Protect admin procedures with the standalone admin session
+- [x] Update admin login UI and navigation to use the standalone login
+- [x] Add authentication regression tests without exposing the supplied password
+- [x] Verify login/logout end-to-end: post-logout admin and session checks return unauthorized
+- [x] Save a checkpoint containing the standalone username/password admin authentication changes

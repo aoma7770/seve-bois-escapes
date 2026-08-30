@@ -26,6 +26,20 @@ export const users = mysqlTable("users", {
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
+// Standalone staff/admin credentials; password material is stored only as a salted hash.
+export const adminCredentials = mysqlTable("admin_credentials", {
+  id: int("id").autoincrement().primaryKey(),
+  username: varchar("username", { length: 128 }).notNull().unique(),
+  passwordHash: text("passwordHash").notNull(),
+  passwordSalt: varchar("passwordSalt", { length: 128 }).notNull(),
+  sessionVersion: int("sessionVersion").notNull().default(0),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type AdminCredential = typeof adminCredentials.$inferSelect;
+export type InsertAdminCredential = typeof adminCredentials.$inferInsert;
+
 // Properties (Sève & Bois Escapes as a single rental unit with 2 cottages)
 export const properties = mysqlTable("properties", {
   id: int("id").autoincrement().primaryKey(),

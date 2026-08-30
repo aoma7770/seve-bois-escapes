@@ -11,6 +11,7 @@ import { serveStatic, setupVite } from "./vite";
 import icalRouter from "../ical";
 import stripeWebhookRouter from "../stripeWebhook";
 import { registerSitemapRoute } from "../sitemap";
+import { loginAdmin, logoutAdmin, authenticateAdminRequest } from "../adminAuth";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -42,6 +43,13 @@ async function startServer() {
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
+  app.post("/api/admin/login", loginAdmin);
+  app.post("/api/admin/logout", logoutAdmin);
+  app.get("/api/admin/me", async (req, res) => {
+    const user = await authenticateAdminRequest(req);
+    if (!user) return res.status(401).json({ authenticated: false });
+    return res.json({ authenticated: true, username: user.name });
+  });
   registerOAuthRoutes(app);
   registerSitemapRoute(app);
   // tRPC API

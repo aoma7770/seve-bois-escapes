@@ -26,6 +26,9 @@ export function useAuth(options?: UseAuthOptions) {
 
   const logout = useCallback(async () => {
     try {
+      await fetch("/api/admin/logout", { method: "POST", credentials: "include" });
+    } catch {}
+    try {
       await logoutMutation.mutateAsync();
     } catch (error: unknown) {
       if (

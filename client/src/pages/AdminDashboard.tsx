@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { getLoginUrl } from "@/const";
 import { trpc } from "@/lib/trpc";
 import { Calendar, DollarSign, LogOut, Settings, Sparkles, Users, Wrench } from "lucide-react";
 import AdminOperationsPanel from "./AdminOperationsPanel";
@@ -79,7 +78,7 @@ export default function AdminDashboard() {
   }, [bookingsQuery.data]);
 
   if (loading) return <div className="min-h-screen bg-[var(--cream-50)] pt-32 text-center text-[var(--slate-600)]">Loading…</div>;
-  if (!isAuthenticated) return <div className="min-h-screen bg-[var(--cream-50)] flex items-center justify-center p-6"><Card className="p-8 max-w-md"><h1 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-3">Admin</h1><p className="text-[var(--slate-600)] mb-5">{t({ fr: "Connectez-vous pour gérer la propriété.", en: "Sign in to manage the property.", be: "Meld u aan om de accommodatie te beheren." })}</p><a href={getLoginUrl()}><Button className="btn-primary w-full">{t({ fr: "Se connecter", en: "Sign in", be: "Aanmelden" })}</Button></a></Card></div>;
+  if (!isAuthenticated) return <div className="min-h-screen bg-[var(--cream-50)] flex items-center justify-center p-6"><Card className="p-8 max-w-md"><h1 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-3">Admin</h1><p className="text-[var(--slate-600)] mb-5">{t({ fr: "Connectez-vous pour gérer la propriété.", en: "Sign in to manage the property.", be: "Meld u aan om de accommodatie te beheren." })}</p><Button className="btn-primary w-full" onClick={() => setLocation("/admin/login")}>{t({ fr: "Se connecter", en: "Sign in", be: "Aanmelden" })}</Button></Card></div>;
   if (!isAdmin) return <div className="min-h-screen bg-[var(--cream-50)] flex items-center justify-center p-6"><Card className="p-8 max-w-md"><h1 className="text-2xl font-serif font-bold text-[var(--forest-900)] mb-3">{t({ fr: "Accès refusé", en: "Access denied", be: "Toegang geweigerd" })}</h1><p className="text-[var(--slate-600)]">{t({ fr: "Votre compte n'a pas les droits administrateur.", en: "Your account does not have administrator access.", be: "Uw account heeft geen beheerdersrechten." })}</p></Card></div>;
 
   const estimatedAnnualCouncilTax = Number(pricing.propertyAreaM2) * Number(pricing.councilTaxRatePerM2);
