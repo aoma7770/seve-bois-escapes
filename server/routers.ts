@@ -5,7 +5,7 @@ import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
 import { bookings, properties, enquiries, icalFeeds, icalBlocks, newsletterSubscribers, blogPosts, amenities, promotions, seasonalRates, extraFees, propertyPhotos, guestCommunications } from "../drizzle/schema";
-import { eq, and, ne, or, lte, gte } from "drizzle-orm";
+import { eq, and, ne, or, lte, gte, asc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import Stripe from "stripe";
 import {
@@ -106,7 +106,10 @@ export const appRouter = router({
         const db = await getDb();
         if (!db) return null;
         const result = await db.select().from(properties).where(eq(properties.slug, input.slug)).limit(1);
-        return result[0] ?? null;
+        const property = result[0];
+        if (!property) return null;
+        const photos = await db.select().from(propertyPhotos).where(eq(propertyPhotos.propertyId, property.id)).orderBy(asc(propertyPhotos.displayOrder), asc(propertyPhotos.id));
+        return { ...property, photos };
       }),
 
     pricing: publicProcedure
@@ -519,7 +522,23 @@ export const appRouter = router({
       .query(async ({ input }) => {
         const db = await getDb();
         if (!db) return [];
-        return db.select().from(propertyPhotos).where(eq(propertyPhotos.propertyId, input.propertyId));
+        return db.select().from(propertyPhotos).where(eq(propertyPhotos.propertyId, input.propertyId)).orderBy(asc(propertyPhotos.displayOrder), asc(propertyPhotos.id));
+      }),
+
+    reorderPropertyPhoto: adminProcedure
+      .input(z.object({ propertyId: z.number(), photoId: z.number(), direction: z.enum(["up", "down"]) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const rows = await db.select().from(propertyPhotos).where(eq(propertyPhotos.propertyId, input.propertyId)).orderBy(asc(propertyPhotos.displayOrder), asc(propertyPhotos.id));
+        const index = rows.findIndex((row) => row.id === input.photoId);
+        const targetIndex = input.direction === "up" ? index - 1 : index + 1;
+        if (index < 0 || targetIndex < 0 || targetIndex >= rows.length) return { success: true, moved: false };
+        const current = rows[index];
+        const target = rows[targetIndex];
+        await db.update(propertyPhotos).set({ displayOrder: target.displayOrder }).where(eq(propertyPhotos.id, current.id));
+        await db.update(propertyPhotos).set({ displayOrder: current.displayOrder }).where(eq(propertyPhotos.id, target.id));
+        return { success: true, moved: true };
       }),
 
     addPropertyPhoto: adminProcedure

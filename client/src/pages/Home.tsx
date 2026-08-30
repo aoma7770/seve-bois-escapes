@@ -11,7 +11,7 @@ import {
   HERO_EXTERIOR, LIVING_ROOM_C1, COTTAGE2_EXTERIOR,
   TERRACE_SIDE, BATHROOM_C1, BEDROOM_C1, KITCHEN_C1
 } from "../../../shared/images";
-import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
+import { HERMAN_COTTAGE1_IMAGES, HERMAN_COTTAGE2_IMAGES } from "../../../shared/herman-images";
 
 type AnimationType = 'fade-in' | 'slide-in-left' | 'slide-in-right' | 'slide-in-up' | 'pop' | 'rotate-in';
 
@@ -232,7 +232,7 @@ export default function Home() {
             <FadeSection delay={100} animation="slide-in-left">
               <div className="card-eco group">
                 <div className="relative h-72 overflow-hidden">
-                  <img src={HERMAN_COTTAGE1_IMAGES.hero[0]} alt="La Sève — cottage 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={HERMAN_COTTAGE1_IMAGES.livingRoom[0]} alt="La Sève — lounge room" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -259,7 +259,7 @@ export default function Home() {
             <FadeSection delay={200} animation="slide-in-right">
               <div className="card-eco group">
                 <div className="relative h-72 overflow-hidden">
-                  <img src={HERMAN_COTTAGE1_IMAGES.hero[1]} alt="Le Bois — cottage 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
+                  <img src={HERMAN_COTTAGE2_IMAGES.livingRoom[0]} alt="Le Bois — lounge room" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
                     <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">

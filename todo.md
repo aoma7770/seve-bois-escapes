@@ -220,3 +220,16 @@
 - [x] Add selected outdoor images to both property galleries where appropriate
 - [x] Compress and optimize every selected image before upload
 - [x] Verify image assignments visually on both cottage pages and save a checkpoint
+
+## Phase 24: Complete Bathroom Galleries
+- [x] Add all useful non-duplicate bathroom angles from House 1 to Le Sève
+- [x] Add all useful non-duplicate bathroom angles from House 2 to Le Bois
+- [x] Compress the added bathroom images before upload
+- [x] Verify both bathroom sequences through the persisted gallery counts and public gallery rendering
+
+## Phase 25: Profile Images and Admin Gallery Ordering
+- [x] Use the correct lounge-room profile image for La Sève / House 1
+- [x] Use the correct lounge-room profile image for Le Bois / House 2
+- [x] Add admin controls to reorder each property’s gallery images
+- [x] Persist and apply each image’s display sequence per property through ordered database-backed public galleries
+- [x] Test profile cards, public gallery ordering, TypeScript, and unit tests; authenticated admin click-through remains owner-account dependent

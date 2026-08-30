@@ -20,3 +20,8 @@ Reviewed contact sheets generated from the owner-shared folder.
 - Shared outdoor candidates to review/select: the clearest building, garden, vehicle/parking, and landscape views from `foto-133`–`foto-150`, excluding near-identical angles.
 
 These notes are based on the owner-shared folder and are not public website content.
+
+## Bathroom-angle update
+- House 1 / Le Sève now includes compressed bathroom views `foto-024` through `foto-029` plus `foto-062` through `foto-065`, covering the principal bathroom, shower, vanity, and detail angles without assigning House 2 images.
+- House 2 / Le Bois now includes compressed bathroom views `foto-078` through `foto-083` plus `foto-123`, covering the toilet, shower, vanity, and sink angles without assigning House 1 images.
+- Public gallery screenshots confirmed the correct cottage routes load and that the gallery starts with shared outdoor views before the relevant house-specific images. The full counters reflect the expanded sequences: 28 images for Le Sève and 27 images for Le Bois after the bathroom additions.

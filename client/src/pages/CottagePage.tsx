@@ -82,7 +82,8 @@ export default function CottagePage({ slug }: Props) {
 
   if (!data) return null;
 
-  const images = data.images;
+  const databaseImages = cottage?.photos?.map((photo) => photo.url) ?? [];
+  const images = databaseImages.length > 0 ? databaseImages : data.images;
   const name = slug === "la-seve" ? "La Sève" : "Le Bois";
 
   const prev = () => setGalleryIndex((i) => (i - 1 + images.length) % images.length);
