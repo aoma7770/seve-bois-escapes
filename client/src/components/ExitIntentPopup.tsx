@@ -63,7 +63,7 @@ export default function ExitIntentPopup() {
         {/* Image strip */}
         <div
           className="h-40 bg-cover bg-center"
-          style={{ backgroundImage: `url(/manus-storage/enhanced_hero_exterior_900690b4.png)` }}
+          style={{ backgroundImage: `url(/manus-storage/enhanced_hero_exterior_900690b4_1db4629c.webp)` }}
         />
         <div className="p-7">
           <button

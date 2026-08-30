@@ -1,0 +1,722 @@
+[
+  {
+    "original": "/manus-storage/0BhaVZu9lE0B_d8b7db6f.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/0BhaVZu9lE0B_d8b7db6f.webp",
+    "original_bytes": 130285,
+    "optimized_bytes": 164226,
+    "width": 1080,
+    "height": 700
+  },
+  {
+    "original": "/manus-storage/3nQDyj7LuTsX_67116f4c.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/3nQDyj7LuTsX_67116f4c.webp",
+    "original_bytes": 264407,
+    "optimized_bytes": 322896,
+    "width": 1300,
+    "height": 957
+  },
+  {
+    "original": "/manus-storage/BGJaEO9MWmE9_7e7562cf.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/BGJaEO9MWmE9_7e7562cf.webp",
+    "original_bytes": 163935,
+    "optimized_bytes": 210752,
+    "width": 1080,
+    "height": 700
+  },
+  {
+    "original": "/manus-storage/SHO9bw0B7eFn_af93d3dc.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/SHO9bw0B7eFn_af93d3dc.webp",
+    "original_bytes": 165945,
+    "optimized_bytes": 182276,
+    "width": 1280,
+    "height": 570
+  },
+  {
+    "original": "/manus-storage/X9HBZPJGzJil_cfe255d3.webp",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/X9HBZPJGzJil_cfe255d3.webp",
+    "original_bytes": 2890104,
+    "optimized_bytes": 735550,
+    "width": 2000,
+    "height": 1333
+  },
+  {
+    "original": "/manus-storage/cottage1_04_9c87b777.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_04_9c87b777.webp",
+    "original_bytes": 342412,
+    "optimized_bytes": 351166,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage1_06_93da57a5.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_06_93da57a5.webp",
+    "original_bytes": 276717,
+    "optimized_bytes": 259950,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage1_08_6a0856f8.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_08_6a0856f8.webp",
+    "original_bytes": 382034,
+    "optimized_bytes": 388926,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage1_10_1673cc2a.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_10_1673cc2a.webp",
+    "original_bytes": 419042,
+    "optimized_bytes": 437602,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage1_12_c49084d8.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_12_c49084d8.webp",
+    "original_bytes": 130681,
+    "optimized_bytes": 79986,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage1_16_6cb45074.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_16_6cb45074.webp",
+    "original_bytes": 150109,
+    "optimized_bytes": 88362,
+    "width": 1536,
+    "height": 2048
+  },
+  {
+    "original": "/manus-storage/cottage1_18_96d071dd.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_18_96d071dd.webp",
+    "original_bytes": 199884,
+    "optimized_bytes": 130626,
+    "width": 2048,
+    "height": 1536
+  },
+  {
+    "original": "/manus-storage/cottage1_20_efb43a52.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_20_efb43a52.webp",
+    "original_bytes": 188203,
+    "optimized_bytes": 119628,
+    "width": 2048,
+    "height": 1536
+  },
+  {
+    "original": "/manus-storage/cottage1_26_37f3e047.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_26_37f3e047.webp",
+    "original_bytes": 150340,
+    "optimized_bytes": 85916,
+    "width": 1536,
+    "height": 2048
+  },
+  {
+    "original": "/manus-storage/cottage1_28_6a7858fd.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_28_6a7858fd.webp",
+    "original_bytes": 196360,
+    "optimized_bytes": 123080,
+    "width": 1536,
+    "height": 2048
+  },
+  {
+    "original": "/manus-storage/cottage1_30_e828b4d6.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage1_30_e828b4d6.webp",
+    "original_bytes": 140743,
+    "optimized_bytes": 81408,
+    "width": 1536,
+    "height": 2048
+  },
+  {
+    "original": "/manus-storage/cottage2_02_4d6e3b9c.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_02_4d6e3b9c.webp",
+    "original_bytes": 211549,
+    "optimized_bytes": 179126,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage2_03_7410aab0.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_03_7410aab0.webp",
+    "original_bytes": 208160,
+    "optimized_bytes": 175402,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage2_04_06ea6ca2.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_04_06ea6ca2.webp",
+    "original_bytes": 203258,
+    "optimized_bytes": 165434,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage2_05_6e37f86f.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_05_6e37f86f.webp",
+    "original_bytes": 105660,
+    "optimized_bytes": 66146,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage2_06_978e34df.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_06_978e34df.webp",
+    "original_bytes": 125928,
+    "optimized_bytes": 77616,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage2_07_4a856a5c.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_07_4a856a5c.webp",
+    "original_bytes": 140582,
+    "optimized_bytes": 94406,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage2_08_6f0f8838.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_08_6f0f8838.webp",
+    "original_bytes": 263042,
+    "optimized_bytes": 239498,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage2_09_71d06bea.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_09_71d06bea.webp",
+    "original_bytes": 234746,
+    "optimized_bytes": 196880,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage2_10_ff109a78.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_10_ff109a78.webp",
+    "original_bytes": 100529,
+    "optimized_bytes": 58624,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/cottage2_12_eecc6dec.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_12_eecc6dec.webp",
+    "original_bytes": 109345,
+    "optimized_bytes": 65422,
+    "width": 1600,
+    "height": 1200
+  },
+  {
+    "original": "/manus-storage/cottage2_13_53891be5.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/cottage2_13_53891be5.webp",
+    "original_bytes": 120857,
+    "optimized_bytes": 76748,
+    "width": 1200,
+    "height": 1600
+  },
+  {
+    "original": "/manus-storage/enhanced_bathroom_0604b628.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_bathroom_0604b628.webp",
+    "original_bytes": 4841622,
+    "optimized_bytes": 324378,
+    "width": 1632,
+    "height": 2176
+  },
+  {
+    "original": "/manus-storage/enhanced_bedroom_fbc2c4e1.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_bedroom_fbc2c4e1.webp",
+    "original_bytes": 5172217,
+    "optimized_bytes": 308350,
+    "width": 2176,
+    "height": 1632
+  },
+  {
+    "original": "/manus-storage/enhanced_cottage2_exterior_6f99700e.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_cottage2_exterior_6f99700e.webp",
+    "original_bytes": 6405768,
+    "optimized_bytes": 674072,
+    "width": 2176,
+    "height": 1632
+  },
+  {
+    "original": "/manus-storage/enhanced_cottage2_living_8c9da7be.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_cottage2_living_8c9da7be.webp",
+    "original_bytes": 5594666,
+    "optimized_bytes": 468522,
+    "width": 2176,
+    "height": 1632
+  },
+  {
+    "original": "/manus-storage/enhanced_dining_room_32df470f.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_dining_room_32df470f.webp",
+    "original_bytes": 4712696,
+    "optimized_bytes": 287322,
+    "width": 1632,
+    "height": 2176
+  },
+  {
+    "original": "/manus-storage/enhanced_hero_exterior_900690b4.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_hero_exterior_900690b4.webp",
+    "original_bytes": 7445776,
+    "optimized_bytes": 759256,
+    "width": 2200,
+    "height": 1238
+  },
+  {
+    "original": "/manus-storage/enhanced_kitchen_3d964958.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_kitchen_3d964958.webp",
+    "original_bytes": 4321819,
+    "optimized_bytes": 169512,
+    "width": 2176,
+    "height": 1632
+  },
+  {
+    "original": "/manus-storage/enhanced_living_room_88b17250.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_living_room_88b17250.webp",
+    "original_bytes": 6144996,
+    "optimized_bytes": 622390,
+    "width": 2176,
+    "height": 1632
+  },
+  {
+    "original": "/manus-storage/enhanced_terrace_side_56b3ef4b.png",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/enhanced_terrace_side_56b3ef4b.webp",
+    "original_bytes": 7101731,
+    "optimized_bytes": 801144,
+    "width": 1632,
+    "height": 2176
+  },
+  {
+    "original": "/manus-storage/foto-001_726ad917.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-001_726ad917.webp",
+    "original_bytes": 17465471,
+    "optimized_bytes": 571184,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-002_f3c07f38.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-002_f3c07f38.webp",
+    "original_bytes": 16163739,
+    "optimized_bytes": 431942,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-003_3f9cef81.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-003_3f9cef81.webp",
+    "original_bytes": 19039374,
+    "optimized_bytes": 590474,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-004_3f23c553.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-004_3f23c553.webp",
+    "original_bytes": 19271630,
+    "optimized_bytes": 615892,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-005_7ae0ae83.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-005_7ae0ae83.webp",
+    "original_bytes": 20915175,
+    "optimized_bytes": 624732,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-006_15445b04.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-006_15445b04.webp",
+    "original_bytes": 18120126,
+    "optimized_bytes": 541486,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-007_8916d751.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-007_8916d751.webp",
+    "original_bytes": 16184674,
+    "optimized_bytes": 257130,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-008_e81e6e8e.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-008_e81e6e8e.webp",
+    "original_bytes": 15311285,
+    "optimized_bytes": 466606,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-009_410274ff.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-009_410274ff.webp",
+    "original_bytes": 16598348,
+    "optimized_bytes": 522748,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-010_4942b06f.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-010_4942b06f.webp",
+    "original_bytes": 10773405,
+    "optimized_bytes": 134284,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-011_c1eca4a9.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-011_c1eca4a9.webp",
+    "original_bytes": 13852265,
+    "optimized_bytes": 319824,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-012_62bcd19c.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-012_62bcd19c.webp",
+    "original_bytes": 10034028,
+    "optimized_bytes": 108184,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-013_209aab09.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-013_209aab09.webp",
+    "original_bytes": 15954172,
+    "optimized_bytes": 481082,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-014_2bd6dd83.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-014_2bd6dd83.webp",
+    "original_bytes": 10046846,
+    "optimized_bytes": 73990,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-015_b3ec70d3.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-015_b3ec70d3.webp",
+    "original_bytes": 11332666,
+    "optimized_bytes": 118716,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-016_1b65d052.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-016_1b65d052.webp",
+    "original_bytes": 13215771,
+    "optimized_bytes": 256958,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-017_7377cd22.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-017_7377cd22.webp",
+    "original_bytes": 11135871,
+    "optimized_bytes": 163542,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-018_17ddc2e4.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-018_17ddc2e4.webp",
+    "original_bytes": 12581224,
+    "optimized_bytes": 184542,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-019_a93d6dc3.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-019_a93d6dc3.webp",
+    "original_bytes": 11384677,
+    "optimized_bytes": 188800,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-020_807ff133.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-020_807ff133.webp",
+    "original_bytes": 8295413,
+    "optimized_bytes": 56036,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-021_66c4d4fa.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-021_66c4d4fa.webp",
+    "original_bytes": 13313435,
+    "optimized_bytes": 264978,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-022_60076faa.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-022_60076faa.webp",
+    "original_bytes": 13589548,
+    "optimized_bytes": 342530,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-023_206c6c78.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-023_206c6c78.webp",
+    "original_bytes": 12490197,
+    "optimized_bytes": 285060,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-024_1230f9ac.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-024_1230f9ac.webp",
+    "original_bytes": 12542513,
+    "optimized_bytes": 237554,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-025_bb8a1fca.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-025_bb8a1fca.webp",
+    "original_bytes": 10315439,
+    "optimized_bytes": 138432,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-026_c9b37faa.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-026_c9b37faa.webp",
+    "original_bytes": 10039775,
+    "optimized_bytes": 125530,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-027_3feb54dc.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-027_3feb54dc.webp",
+    "original_bytes": 13763038,
+    "optimized_bytes": 209546,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-028_3e038f15.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-028_3e038f15.webp",
+    "original_bytes": 10435457,
+    "optimized_bytes": 110224,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-029_39c90a0a.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-029_39c90a0a.webp",
+    "original_bytes": 13808678,
+    "optimized_bytes": 243570,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-030_64d147d2.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-030_64d147d2.webp",
+    "original_bytes": 11566600,
+    "optimized_bytes": 209176,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-031_fc3d5b5a.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-031_fc3d5b5a.webp",
+    "original_bytes": 15944546,
+    "optimized_bytes": 558972,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-032_00b0fdb5.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-032_00b0fdb5.webp",
+    "original_bytes": 13922605,
+    "optimized_bytes": 418122,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-033_f2fde43d.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-033_f2fde43d.webp",
+    "original_bytes": 15090404,
+    "optimized_bytes": 522504,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-034_ba7bd4e1.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-034_ba7bd4e1.webp",
+    "original_bytes": 16294169,
+    "optimized_bytes": 519748,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-035_fc31233a.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-035_fc31233a.webp",
+    "original_bytes": 11418305,
+    "optimized_bytes": 140462,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-036_c6fc3d32.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-036_c6fc3d32.webp",
+    "original_bytes": 11339026,
+    "optimized_bytes": 127772,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-037_90c568d4.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-037_90c568d4.webp",
+    "original_bytes": 13005163,
+    "optimized_bytes": 262264,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-038_74fc390c.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-038_74fc390c.webp",
+    "original_bytes": 13605523,
+    "optimized_bytes": 306666,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-039_9000a280.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-039_9000a280.webp",
+    "original_bytes": 20120822,
+    "optimized_bytes": 771318,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-040_1bb9b0f7.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-040_1bb9b0f7.webp",
+    "original_bytes": 20995041,
+    "optimized_bytes": 781030,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-041_5cf69c48.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-041_5cf69c48.webp",
+    "original_bytes": 24084345,
+    "optimized_bytes": 992728,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-042_576e41dc.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-042_576e41dc.webp",
+    "original_bytes": 24309584,
+    "optimized_bytes": 874290,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-043_03edca44.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-043_03edca44.webp",
+    "original_bytes": 22033630,
+    "optimized_bytes": 816588,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-044_694f3b5a.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-044_694f3b5a.webp",
+    "original_bytes": 23031617,
+    "optimized_bytes": 909952,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-045_2586daef.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-045_2586daef.webp",
+    "original_bytes": 26105811,
+    "optimized_bytes": 1019902,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-046_f2f8b59f.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-046_f2f8b59f.webp",
+    "original_bytes": 9018444,
+    "optimized_bytes": 46848,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-047_c78fe2b8.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-047_c78fe2b8.webp",
+    "original_bytes": 11778287,
+    "optimized_bytes": 281538,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-048_be22fcb4.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-048_be22fcb4.webp",
+    "original_bytes": 11975644,
+    "optimized_bytes": 294818,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-049_bd509868.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-049_bd509868.webp",
+    "original_bytes": 12438037,
+    "optimized_bytes": 267532,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-050_50046056.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-050_50046056.webp",
+    "original_bytes": 11594870,
+    "optimized_bytes": 310132,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/foto-051_7f5d58d3.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-051_7f5d58d3.webp",
+    "original_bytes": 12732028,
+    "optimized_bytes": 322772,
+    "width": 1467,
+    "height": 2200
+  },
+  {
+    "original": "/manus-storage/foto-052_0c827ce5.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/foto-052_0c827ce5.webp",
+    "original_bytes": 10319205,
+    "optimized_bytes": 92296,
+    "width": 2200,
+    "height": 1467
+  },
+  {
+    "original": "/manus-storage/gscsiqZMv4pN_1a96c14a.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/gscsiqZMv4pN_1a96c14a.webp",
+    "original_bytes": 1132716,
+    "optimized_bytes": 668852,
+    "width": 2200,
+    "height": 1237
+  },
+  {
+    "original": "/manus-storage/mRpaBK4f8n2M_18df9ef0.jpg",
+    "optimized": "/webdev-static-assets/green-cottages-optimized/mRpaBK4f8n2M_18df9ef0.webp",
+    "original_bytes": 89222,
+    "optimized_bytes": 83344,
+    "width": 500,
+    "height": 500
+  }
+]

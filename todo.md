@@ -23,7 +23,7 @@
 - [x] The Promise section
 - [x] Dual Avatar blocks (First-Timer + Seasoned)
 - [x] Cottage showcase (two cottages preview cards)
-- [x] Location / Laforêt section
+- [x] Location / Laforet section
 - [x] Sustainability section
 - [x] Testimonials (placeholder)
 - [x] Direct-booking value prop
@@ -33,7 +33,7 @@
 ## Phase 5: Inner Pages
 - [x] Cottage 1 detail page (gallery, amenities, booking widget)
 - [x] Cottage 2 detail page (gallery, amenities, booking widget)
-- [x] Location page (Laforêt, Semois, things-to-do, getting here, seasons)
+- [x] Location page (Laforet, Semois, things-to-do, getting here, seasons)
 - [x] Sustainability page
 - [x] Rates & Availability page (calendar, pricing, min stay)
 - [x] FAQ page (5 groups)
@@ -135,7 +135,7 @@
 - [x] Update homepage copy to emphasize "€797/night for both cottages"
 
 
-## Phase 14: Website Update from Owner Documents (Laforêt Sève & Bois)
+## Phase 14: Website Update from Owner Documents (Laforet Sève & Bois)
 - [x] Update amenities page with verified amenities list (dishwasher, dryer, WiFi, EV charger, etc.)
 - [x] Remove non-available amenities from website (AC, baby cot, alarm clock, blinds)
 - [x] Update Location page (removed GPS warning and directions - only for booked guests)
@@ -145,7 +145,7 @@
 - [x] Update Booking page with pet policy field
 - [x] Add parking note to Booking page
 - [x] Add promotional banner to Booking page ("Special Introductory Rates")
-- [x] Update homepage headline: "Escape to Nature — Two Private Cottages in the Heart of La Forêt, Belgium"
+- [x] Update homepage headline: "Escape to Nature — Two Private Cottages in the Heart of Laforet, Belgium"
 - [x] Update homepage sub-headline: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates."
 - [x] Add key highlights strip to homepage (6 icons: Pet Friendly, EV Charging, WiFi, 10 min Sumois River, Keyless Check-In, Fully Equipped Kitchen)
 - [x] Update property description copy with owner-approved text (headline + subheadline updated)
@@ -191,3 +191,12 @@
 ## Phase 19: Final Admin Validation
 - [x] Add a transparent configurable council-tax-per-square-metre estimator rather than relying only on manual annual input
 - [x] Verify admin access control, dashboard loading, TypeScript compilation, and protected procedure behavior; UI save-flow clicks remain account-dependent
+
+## Phase 20: Laforet Spelling, Image Optimization & Free Guide
+- [x] Standardize all public website spelling to “Laforet” as one word without an accent
+- [x] Audit all website image assets and references for oversized files
+- [x] Compress and optimize website imagery while preserving visual quality and responsive display
+- [x] Create a polished, public-facing free guide PDF aligned with the intended audience
+- [x] Keep private guest handbook information, access codes, WiFi credentials, and exact directions out of the public guide
+- [x] Run tests and visual verification after the updates
+- [x] Save a checkpoint containing the website updates and guide source files

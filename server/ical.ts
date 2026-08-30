@@ -65,7 +65,7 @@ router.get("/:cottageId.ics", async (req: Request, res: Response) => {
         end: checkOut,
         summary: "Réservé / Booked",
         description: `Booking #${booking.id} — ${booking.guestCount} guest(s)`,
-        location: "Laforêt, Wallonie, Belgique",
+        location: "Laforet, Wallonie, Belgique",
         allDay: false,
       });
     }

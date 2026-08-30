@@ -87,10 +87,10 @@ export default function Home() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container text-center text-white">
             <p className="text-caption text-[var(--ochre-300)] mb-4 animate-fade-up" style={{color: '#ffffff'}}>
-              {t({ fr: "Laforêt · Ardennes belges · Sur la Semois", en: "Laforêt · Belgian Ardennes · On the Semois", be: "Laforêt · Belgian Ardennes · On the Semois" })}
+              {t({ fr: "Laforet · Ardennes belges · Sur la Semois", en: "Laforet · Belgian Ardennes · On the Semois", be: "Laforet · Belgian Ardennes · On the Semois" })}
             </p>
             <h1 className="text-display text-white mb-6 animate-fade-up delay-100 max-w-3xl mx-auto">
-              {t({ fr: "Échappez à la ville — Deux cottages privés au cœur de la Forêt", en: "Escape to Nature — Two Private Cottages in the Heart of La Forêt", be: "Escape to Nature — Two Private Cottages in the Heart of La Forêt" })}
+              {t({ fr: "Échappez à la ville — Deux cottages privés au cœur de Laforet", en: "Escape to Nature — Two Private Cottages in the Heart of Laforet", be: "Escape to Nature — Two Private Cottages in the Heart of Laforet" })}
             </h1>
             <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto" style={{color: '#ffffff'}}>
               {t({ fr: "Entièrement équipés, acceptant les animaux domestiques, et parfaitement isolés pour chaque saison. Réservez directement pour les meilleurs tarifs.", en: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates.", be: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates." })}
@@ -204,7 +204,7 @@ export default function Home() {
                   </h3>
                   <p className="text-[var(--slate-600)] leading-relaxed mb-4">
                     {t({
-                      fr: "Forêts, sentiers, panoramas et kayak sur la Semois à deux pas. Un séjour éco-responsable qui correspond à vos valeurs — et un cottage chaleureux pour rentrer le soir.",
+                      fr: "Laforets, sentiers, panoramas et kayak sur la Semois à deux pas. Un séjour éco-responsable qui correspond à vos valeurs — et un cottage chaleureux pour rentrer le soir.",
                       en: "Forests, trails (please verify current conditions), viewpoints and kayaking on the Semois on your doorstep. An eco-responsible stay that matches your values — and a warm cottage to return to in the evening.",
                       be: "Bossen, paden, uitzichtpunten en kajakken op de Semois op je drempel. Een ecoverantwoord verblijf dat aansluit bij je waarden — en een warm cottage om 's avonds naar terug te keren."
                     })}
@@ -300,13 +300,13 @@ export default function Home() {
       {/* LOCATION */}
       <section className="py-24 bg-[var(--forest-950)] text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-20">
-          <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="Beautiful forest landscape in Laforet Belgian Ardennes" className="w-full h-full object-cover" />
+          <img src={HERMAN_COTTAGE1_IMAGES.hero[5]} alt="Beautiful forest landscape in Laforet Belgian Ardennes" className="w-full h-full object-cover" loading="lazy" decoding="async" />
         </div>
         <div className="container relative z-10">
           <FadeSection className="max-w-3xl">
             <p className="text-caption text-[var(--ochre-400)] mb-4">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
             <h2 className="text-headline text-white mb-6">
-              {t({ fr: "Laforêt : l'un des plus beaux villages de Wallonie.", en: "Laforêt: one of the most beautiful villages in Wallonia.", be: "Laforêt: one of the most beautiful villages in Wallonia." })}
+              {t({ fr: "Laforet : l'un des plus beaux villages de Wallonie.", en: "Laforet: one of the most beautiful villages in Wallonia.", be: "Laforet: one of the most beautiful villages in Wallonia." })}
             </h2>
             <p className="text-lead text-white/80 mb-8">
               {t({ fr: "Maisons en pierre ardoisée, collines boisées, la Semois qui serpente en contrebas. À 2h de Bruxelles — assez proche pour s'échapper, assez loin pour vraiment décrocher.", en: "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off.", be: "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off." })}
@@ -445,7 +445,7 @@ export default function Home() {
           </FadeSection>
           <div className="space-y-4">
             {[
-              { q: t({ fr: "Comment accéder aux cottages ?", en: "How do I get to the cottages?", be: "How do I get to the cottages?" }), a: t({ fr: "Laforêt se trouve à environ 2h de Bruxelles via l'E411, et est facilement accessible depuis la France, le Luxembourg et les Pays-Bas.", en: "Laforêt is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands.", be: "Laforêt is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands." }) },
+              { q: t({ fr: "Comment accéder aux cottages ?", en: "How do I get to the cottages?", be: "How do I get to the cottages?" }), a: t({ fr: "Laforet se trouve à environ 2h de Bruxelles via l'E411, et est facilement accessible depuis la France, le Luxembourg et les Pays-Bas.", en: "Laforet is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands.", be: "Laforet is about 2 hours from Brussels via the E411, and easily accessible from France, Luxembourg and the Netherlands." }) },
               { q: t({ fr: "C'est adapté si je n'ai jamais fait ça ?", en: "Is it suitable if I've never done this?", be: "Is it suitable if I've never done this?" }), a: t({ fr: "Absolument. Tout est prévu : wifi, chauffage, eau chaude, lit confortable, cuisine complète. Vous n'avez besoin d'aucune expérience ni équipement.", en: "Absolutely. Everything is provided: wifi, heating, hot water, comfortable bed, full kitchen. You need no experience or equipment.", be: "Absolutely. Everything is provided: wifi, heating, hot water, comfortable bed, full kitchen. You need no experience or equipment." }) },
               { q: t({ fr: "Y a-t-il du wifi et du chauffage ?", en: "Is there wifi and heating?", be: "Is there wifi and heating?" }), a: t({ fr: "Oui. Wifi haut débit et chauffage inclus dans les deux cottages.", en: "Yes. High-speed wifi and heating included in both cottages.", be: "Yes. High-speed wifi and heating included in both cottages." }) },
               { q: t({ fr: "Qu'est-ce qui est inclus dans le prix ?", en: "What's included in the price?", be: "What's included in the price?" }), a: t({ fr: "Le logement, le wifi, le chauffage, l'eau chaude, le linge de maison, et l'accès à tous les équipements.", en: "Accommodation, wifi, heating, hot water, household linen, and access to all amenities.", be: "Accommodation, wifi, heating, hot water, household linen, and access to all amenities." }) },
@@ -489,6 +489,9 @@ export default function Home() {
             {!newsletterDone ? (
               <div className="mt-10 max-w-md mx-auto">
                 <p className="text-sm text-white/70 mb-4">{t({ fr: "Pas encore prêt ? Recevez notre guide gratuit des Ardennes.", en: "Not ready yet? Get our free Ardennes guide.", be: "Not ready yet? Get our free Ardennes guide." })}</p>
+                <a href="/manus-storage/main_d924455e.pdf" target="_blank" rel="noreferrer" className="inline-block mb-5 text-sm font-semibold text-[var(--ochre-300)] underline underline-offset-4 hover:text-white transition-colors">
+                  {t({ fr: "Télécharger le guide gratuit", en: "Download the free guide", be: "Download the free guide" })}
+                </a>
                 <form onSubmit={handleNewsletter} className="flex gap-2">
                   <input type="email" placeholder={t({ fr: "Votre email", en: "Your email", be: "Your email" })} value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required className="flex-1 px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
                   <button type="submit" disabled={subscribeMutation.isPending} className="px-5 py-3 bg-[var(--ochre-500)] hover:bg-[var(--ochre-600)] text-white text-sm font-semibold rounded-lg transition-colors whitespace-nowrap">

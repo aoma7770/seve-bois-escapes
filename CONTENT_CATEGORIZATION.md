@@ -4,8 +4,8 @@
 Information that should be visible to all visitors (helps with booking decision):
 
 ### Restaurants & Dining
-- ✅ Le Serpolet (drinks & bites, Laforêt, walking distance)
-- ✅ Brasserie Simonis (restaurant, Laforêt, walking distance)
+- ✅ Le Serpolet (drinks & bites, Laforet, walking distance)
+- ✅ Brasserie Simonis (restaurant, Laforet, walking distance)
 - ✅ La Riviera (pizzeria, Vresse-sur-Semois)
 - ✅ Grain D'sel (fries, Vresse-sur-Semois)
 - ✅ Adagio (pizzeria, Bohan)
@@ -39,7 +39,7 @@ Information that should be visible to all visitors (helps with booking decision)
 
 ### Tourism Information
 - ✅ Tourism Office (Vresse-sur-Semois)
-- ✅ General information about Laforêt and Semois valley
+- ✅ General information about Laforet and Semois valley
 
 ---
 
