@@ -4,7 +4,7 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
-import { bookings, properties, enquiries, icalFeeds, icalBlocks, newsletterSubscribers, blogPosts, amenities, promotions, seasonalRates, extraFees } from "../drizzle/schema";
+import { bookings, properties, enquiries, icalFeeds, icalBlocks, newsletterSubscribers, blogPosts, amenities, promotions, seasonalRates, extraFees, propertyPhotos, guestCommunications } from "../drizzle/schema";
 import { eq, and, ne, or, lte, gte } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import Stripe from "stripe";
@@ -432,6 +432,12 @@ export const appRouter = router({
         annualCouncilTax: z.number().nonnegative().optional(),
         councilTaxRatePerM2: z.number().nonnegative().optional(),
         zapierWebhookUrl: z.string().url().or(z.literal("")).optional(),
+        descriptionFr: z.string().optional(),
+        descriptionEn: z.string().optional(),
+        descriptionNl: z.string().optional(),
+        houseRulesFr: z.string().optional(),
+        houseRulesEn: z.string().optional(),
+        houseRulesNl: z.string().optional(),
       }))
       .mutation(async ({ input }) => {
         const db = await getDb();
@@ -441,11 +447,98 @@ export const appRouter = router({
         return { success: true };
       }),
 
+    createProperty: adminProcedure
+      .input(z.object({ slug: z.string().min(1), nameFr: z.string().min(1), nameEn: z.string().min(1), nameNl: z.string().min(1), descriptionFr: z.string().optional(), descriptionEn: z.string().optional(), descriptionNl: z.string().optional(), maxGuests: z.number().int().min(1).max(50), bedrooms: z.number().int().min(0).max(50), bathrooms: z.number().int().min(0).max(50), basePriceWeeknight: z.number().nonnegative(), basePriceWeekend: z.number().nonnegative(), basePriceWeek: z.number().nonnegative(), extraGuestRate: z.number().nonnegative(), cleaningFee: z.number().nonnegative(), minimumStayNights: z.number().int().min(1).max(30) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(properties).values(input as any);
+        return { success: true };
+      }),
+
     getBookings: adminProcedure.query(async () => {
       const db = await getDb();
       if (!db) return [];
       return db.select().from(bookings);
     }),
+
+    updateBookingStatus: adminProcedure
+      .input(z.object({ id: z.number(), status: z.enum(["pending", "confirmed", "cancelled", "refunded"]) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.update(bookings).set({ status: input.status }).where(eq(bookings.id, input.id));
+        return { success: true };
+      }),
+
+    updateBooking: adminProcedure
+      .input(z.object({ id: z.number(), guestName: z.string().min(2), guestEmail: z.string().email(), guestPhone: z.string().optional(), guestCount: z.number().int().min(1).max(12), checkIn: z.string(), checkOut: z.string(), specialRequests: z.string().optional() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        if (new Date(input.checkOut).getTime() <= new Date(input.checkIn).getTime()) throw new TRPCError({ code: "BAD_REQUEST", message: "Check-out must be after check-in." });
+        const { id, ...updates } = input;
+        await db.update(bookings).set(updates as any).where(eq(bookings.id, id));
+        return { success: true };
+      }),
+
+    getGuestCommunications: adminProcedure
+      .input(z.object({ guestEmail: z.string().email() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(guestCommunications).where(eq(guestCommunications.guestEmail, input.guestEmail));
+      }),
+
+    addGuestCommunication: adminProcedure
+      .input(z.object({ guestEmail: z.string().email(), bookingId: z.number().optional(), channel: z.enum(["email", "phone", "note"]), summary: z.string().min(2) }))
+      .mutation(async ({ input, ctx }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(guestCommunications).values({ ...input, createdBy: ctx.user.name ?? "Admin" });
+        return { success: true };
+      }),
+
+    getGuestSummary: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      return db.select({ guestName: bookings.guestName, guestEmail: bookings.guestEmail, guestPhone: bookings.guestPhone, bookingCount: bookings.id, lastCheckIn: bookings.checkIn }).from(bookings);
+    }),
+
+    getAnalytics: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return { totalBookings: 0, confirmedBookings: 0, cancelledBookings: 0, revenue: 0, nightsBooked: 0, occupancyEstimate: 0 };
+      const rows = await db.select().from(bookings);
+      const active = rows.filter((booking) => booking.status !== "cancelled" && booking.status !== "refunded");
+      const nightsBooked = active.reduce((total, booking) => total + Math.max(0, Math.ceil((new Date(String(booking.checkOut)).getTime() - new Date(String(booking.checkIn)).getTime()) / 86400000)), 0);
+      return { totalBookings: rows.length, confirmedBookings: rows.filter((booking) => booking.status === "confirmed").length, cancelledBookings: rows.filter((booking) => booking.status === "cancelled").length, revenue: active.reduce((total, booking) => total + Number(booking.totalAmount), 0), nightsBooked, occupancyEstimate: Math.min(100, Math.round((nightsBooked / 365) * 100)) };
+    }),
+
+    getPropertyPhotos: adminProcedure
+      .input(z.object({ propertyId: z.number() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return [];
+        return db.select().from(propertyPhotos).where(eq(propertyPhotos.propertyId, input.propertyId));
+      }),
+
+    addPropertyPhoto: adminProcedure
+      .input(z.object({ propertyId: z.number(), url: z.string().url(), caption: z.string().optional(), displayOrder: z.number().int().min(0).default(0), isHeroImage: z.boolean().default(false) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.insert(propertyPhotos).values(input);
+        return { success: true };
+      }),
+
+    deletePropertyPhoto: adminProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        await db.delete(propertyPhotos).where(eq(propertyPhotos.id, input.id));
+        return { success: true };
+      }),
 
     getAmenities: adminProcedure
       .input(z.object({ propertyId: z.number() }))
@@ -562,6 +655,12 @@ export const appRouter = router({
   }),
 
   blog: router({
+    adminList: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      return db.select().from(blogPosts);
+    }),
+
     list: publicProcedure
       .input(z.object({
         limit: z.number().default(10),

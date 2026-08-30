@@ -10,6 +10,7 @@ import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import icalRouter from "../ical";
 import stripeWebhookRouter from "../stripeWebhook";
+import { registerSitemapRoute } from "../sitemap";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -42,6 +43,7 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+  registerSitemapRoute(app);
   // tRPC API
   app.use(
     "/api/trpc",

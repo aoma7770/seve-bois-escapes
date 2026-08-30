@@ -76,19 +76,19 @@
 - [x] Create blog listing page (/blog)
 - [x] Create individual blog post page (/blog/:slug)
 - [x] Add blog post creation/editing procedures to tRPC router
-- [ ] Build blog post editor UI (optional admin feature)
+- [x] Build blog post editor UI (optional admin feature)
 - [x] Add blog section to navigation
 - [x] Implement blog search and category filtering (optional enhancement)
-- [ ] Add blog posts to sitemap for SEO (optional enhancement)
+- [x] Add blog posts to sitemap for SEO (optional enhancement)
 
 ## Optional Enhancements (Not Required for Launch)
 - [x] Parallax hero effect
 - [x] SEO meta tags per page
 - [x] iCal import (external .ics URL blocking)
 - [x] Admin iCal feed management UI
-- [ ] Blog post editor UI
+- [x] Blog post editor UI
 - [x] Blog search and category filtering
-- [ ] Blog posts sitemap integration
+- [x] Blog posts sitemap integration
 
 
 ## Phase 10: Admin Dashboard & Property Management
@@ -98,14 +98,14 @@
 - [x] Build admin dashboard layout (sidebar, property overview)
 - [x] Property management: edit amenities (optional enhancement)
 - [x] Property management: edit pricing and seasonal rates (optional enhancement)
-- [ ] Property management: edit descriptions and house rules (optional enhancement)
+- [x] Property management: edit descriptions and house rules (optional enhancement)
 - [x] Property management: calendar management and availability (optional enhancement)
 - [x] Property management: iCal feed management (optional enhancement)
-- [ ] Property management: photo gallery management (optional enhancement)
-- [ ] Property management: add new property functionality (optional enhancement)
-- [ ] Admin booking management: view, edit, cancel bookings (optional enhancement)
-- [ ] Admin guest management: view guest details, communication history (optional enhancement)
-- [ ] Admin analytics: booking stats, revenue, occupancy (optional enhancement)
+- [x] Property management: photo gallery management (optional enhancement)
+- [x] Property management: add new property functionality (optional enhancement)
+- [x] Admin booking management: view, edit, cancel bookings (optional enhancement)
+- [x] Admin guest management: view guest details, communication history (optional enhancement)
+- [x] Admin analytics: booking stats, revenue, occupancy (optional enhancement)
 - [x] Update booking flow to reflect single-unit model (both cottages together)
 - [x] Update rates page to show single-unit pricing
 - [x] Update cottage detail pages to show they're rented together
@@ -200,3 +200,10 @@
 - [x] Keep private guest handbook information, access codes, WiFi credentials, and exact directions out of the public guide
 - [x] Run tests and visual verification after the updates
 - [x] Save a checkpoint containing the website updates and guide source files
+
+## Phase 21: Admin Completeness Follow-up
+- [x] Add edit, update, and publish controls for existing blog posts
+- [x] Extend booking management with validated detail editing and a clear cancel action through protected status controls
+- [x] Add guest communication-history storage, protected procedures, and UI
+- [x] Display the occupancy metric in the admin analytics interface
+- [x] Re-run tests and visual verification; checkpoint remains the final delivery step

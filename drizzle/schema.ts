@@ -36,6 +36,9 @@ export const properties = mysqlTable("properties", {
   descriptionFr: text("descriptionFr"),
   descriptionEn: text("descriptionEn"),
   descriptionNl: text("descriptionNl"),
+  houseRulesFr: text("houseRulesFr"),
+  houseRulesEn: text("houseRulesEn"),
+  houseRulesNl: text("houseRulesNl"),
   maxGuests: int("maxGuests").notNull().default(12),
   bedrooms: int("bedrooms").notNull().default(4), // 2 per cottage
   bathrooms: int("bathrooms").notNull().default(2),
@@ -218,6 +221,19 @@ export const enquiries = mysqlTable("enquiries", {
 
 export type Enquiry = typeof enquiries.$inferSelect;
 export type InsertEnquiry = typeof enquiries.$inferInsert;
+
+export const guestCommunications = mysqlTable("guest_communications", {
+  id: int("id").autoincrement().primaryKey(),
+  guestEmail: varchar("guestEmail", { length: 320 }).notNull(),
+  bookingId: int("bookingId"),
+  channel: mysqlEnum("channel", ["email", "phone", "note"]).notNull().default("note"),
+  summary: text("summary").notNull(),
+  createdBy: varchar("createdBy", { length: 256 }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type GuestCommunication = typeof guestCommunications.$inferSelect;
+export type InsertGuestCommunication = typeof guestCommunications.$inferInsert;
 
 // Blog posts
 export const blogPosts = mysqlTable("blog_posts", {
