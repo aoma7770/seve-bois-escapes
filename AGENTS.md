@@ -31,9 +31,11 @@ All non-secret placeholders live in `.env.base44-defaults` (first in `env_file`)
 - `@/*` → `client/src/*`
 - `@shared/*` → `shared/*`
 
+## Images — local serving
+All 85 production images (84 WebP/JPG + 1 PDF guide) were downloaded from the original Manus-hosted site (`https://sevebois.manus.space/manus-storage/`) and stored in `client/public/manus-storage/`. The storage proxy (`server/_core/storageProxy.ts`) serves these local files first, falling back to the Forge API only if a file isn't found locally. Since `forge.manus.im` doesn't resolve from this sandbox, the local files are the primary serving path.
+
 ## Known warnings (harmless)
-- `[OAuth] ERROR: OAUTH_SERVER_URL is not configured` — expected without OAuth server
-- `%VITE_ANALYTICS_ENDPOINT%` not defined — analytics script tag in index.html, non-blocking
+- `[OAuth] OAUTH_SERVER_URL is not configured` — expected without OAuth server (downgraded to warn)
 - `Ignored build scripts: @tailwindcss/oxide, esbuild` — pnpm safety feature, doesn't affect dev
 
 ## Verification
