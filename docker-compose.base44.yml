@@ -1,0 +1,56 @@
+services:
+  db:
+    image: mysql:8
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-b44_root_pw}
+      MYSQL_DATABASE: sevebois
+      MYSQL_USER: sevebois
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-b44_sevebois_pw}
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD:-b44_root_pw}"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  migrate:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+    environment:
+      - DATABASE_URL=mysql://sevebois:${MYSQL_PASSWORD:-b44_sevebois_pw}@db:3306/sevebois
+    env_file:
+      - ./.env.base44-defaults
+      - /run/base44/app.env
+    depends_on:
+      db:
+        condition: service_healthy
+    command: sh -c "npm install -g pnpm@10.4.1 && pnpm install && pnpm drizzle-kit push --force"
+
+  app:
+    image: node:22-slim
+    working_dir: /app
+    volumes:
+      - ./:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mysql://sevebois:${MYSQL_PASSWORD:-b44_sevebois_pw}@db:3306/sevebois
+      - PORT=3000
+      - __VITE_ADDITIONAL_SERVER_ALLOWED_HOSTS
+    env_file:
+      - ./.env.base44-defaults
+      - /run/base44/app.env
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    command: sh -c "npm install -g pnpm@10.4.1 && pnpm install && pnpm dev"
+
+volumes:
+  mysql_data:

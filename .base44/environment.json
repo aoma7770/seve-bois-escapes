@@ -1,0 +1,32 @@
+{
+  "previewPort": 3000,
+  "healthPath": "/",
+  "startCommand": "docker compose -f docker-compose.base44.yml up -d",
+  "secrets": [
+    {
+      "name": "STRIPE_SECRET_KEY",
+      "description": "Stripe secret API key for payment processing (Stripe Dashboard → Developers → API keys).",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "STRIPE_WEBHOOK_SECRET",
+      "description": "Stripe webhook signing secret (Stripe Dashboard → Developers → Webhooks → your endpoint).",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "SMTP_PASS",
+      "description": "SMTP password for the support@sevebois.be email account (used by Nodemailer for booking/enquiry notifications).",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "BUILT_IN_FORGE_API_URL",
+      "description": "Manus Forge API base URL — needed for the /manus-storage/ image proxy and data API calls (images won't load without it).",
+      "requiredAtBoot": false
+    },
+    {
+      "name": "BUILT_IN_FORGE_API_KEY",
+      "description": "Manus Forge API bearer token — paired with BUILT_IN_FORGE_API_URL for the storage proxy and data API.",
+      "requiredAtBoot": false
+    }
+  ]
+}
