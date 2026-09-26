@@ -465,6 +465,21 @@ export const appRouter = router({
       return db.select().from(bookings);
     }),
 
+    getBookingProfile: adminProcedure
+      .input(z.object({ bookingId: z.number() }))
+      .query(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return null;
+        const booking = (await db.select().from(bookings).where(eq(bookings.id, input.bookingId)).limit(1))[0];
+        if (!booking) return null;
+        const [guestBookings, communications, property] = await Promise.all([
+          db.select().from(bookings).where(eq(bookings.guestEmail, booking.guestEmail)),
+          db.select().from(guestCommunications).where(eq(guestCommunications.guestEmail, booking.guestEmail)),
+          db.select().from(properties).where(eq(properties.id, booking.propertyId)).limit(1),
+        ]);
+        return { booking, guestBookings, communications, property: property[0] ?? null };
+      }),
+
     updateBookingStatus: adminProcedure
       .input(z.object({ id: z.number(), status: z.enum(["pending", "confirmed", "cancelled", "refunded"]) }))
       .mutation(async ({ input }) => {
@@ -475,11 +490,13 @@ export const appRouter = router({
       }),
 
     updateBooking: adminProcedure
-      .input(z.object({ id: z.number(), guestName: z.string().min(2), guestEmail: z.string().email(), guestPhone: z.string().optional(), guestCount: z.number().int().min(1).max(12), checkIn: z.string(), checkOut: z.string(), specialRequests: z.string().optional() }))
+      .input(z.object({ id: z.number(), bookingSelection: z.enum(["la-seve", "le-bois", "both"]).optional(), guestName: z.string().min(2), guestEmail: z.string().email(), guestPhone: z.string().optional(), guestCount: z.number().int().min(1).max(12), checkIn: z.string(), checkOut: z.string(), totalAmount: z.number().nonnegative().optional(), cleaningFee: z.number().nonnegative().optional(), specialRequests: z.string().optional() }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
         if (new Date(input.checkOut).getTime() <= new Date(input.checkIn).getTime()) throw new TRPCError({ code: "BAD_REQUEST", message: "Check-out must be after check-in." });
+        if (input.bookingSelection === "both" && input.guestCount < minimumGuestsForSelection("both")) throw new TRPCError({ code: "BAD_REQUEST", message: "Both cottages require at least 4 guests." });
+        if (input.bookingSelection && input.guestCount > maximumGuestsForSelection(input.bookingSelection)) throw new TRPCError({ code: "BAD_REQUEST", message: "Guest count exceeds the selected cottage capacity." });
         const { id, ...updates } = input;
         await db.update(bookings).set(updates as any).where(eq(bookings.id, id));
         return { success: true };
