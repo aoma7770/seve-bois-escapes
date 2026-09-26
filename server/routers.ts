@@ -251,14 +251,13 @@ export const appRouter = router({
           : cottage.nameFr;
 
         const session = await stripe.checkout.sessions.create({
-          payment_method_types: ["card"],
           line_items: [
             {
               price_data: {
                 currency: "eur",
                 product_data: {
                   name: `${cottageName} — ${nights} nuit${nights > 1 ? "s" : ""}`,
-                  description: `${input.checkIn} → ${input.checkOut} · ${input.guestCount} personne${input.guestCount > 1 ? "s" : ""}`,
+                  description: `${input.guestFirstName} ${input.guestSurname} · ${input.checkIn} → ${input.checkOut} · ${input.guestCount} personne${input.guestCount > 1 ? "s" : ""}`,
                 },
                 unit_amount: Math.round(nightsTotal * 100),
               },
@@ -526,7 +525,6 @@ export const appRouter = router({
         const property = (await db.select().from(properties).where(eq(properties.id, booking.propertyId)).limit(1))[0];
         const origin = ctx.req.headers.origin || "https://sevebois.be";
         const session = await stripe.checkout.sessions.create({
-          payment_method_types: ["card"],
           line_items: [{
             price_data: {
               currency: "eur",
