@@ -166,6 +166,22 @@ export const bookings = mysqlTable("bookings", {
 export type Booking = typeof bookings.$inferSelect;
 export type InsertBooking = typeof bookings.$inferInsert;
 
+// Short-lived anonymous presence records used by the private live activity dashboard.
+// Do not store names, emails, phone numbers, or raw IP addresses here.
+export const visitorPresence = mysqlTable("visitor_presence", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionKey: varchar("sessionKey", { length: 128 }).notNull().unique(),
+  path: varchar("path", { length: 255 }).notNull().default("/"),
+  bookingStage: varchar("bookingStage", { length: 64 }).notNull().default("browsing"),
+  countryCode: varchar("countryCode", { length: 8 }),
+  language: varchar("language", { length: 16 }),
+  lastSeenAt: timestamp("lastSeenAt").defaultNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type VisitorPresence = typeof visitorPresence.$inferSelect;
+export type InsertVisitorPresence = typeof visitorPresence.$inferInsert;
+
 // iCal feeds (external URLs to import and block dates)
 export const icalFeeds = mysqlTable("ical_feeds", {
   id: int("id").autoincrement().primaryKey(),

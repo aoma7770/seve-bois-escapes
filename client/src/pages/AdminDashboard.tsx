@@ -75,7 +75,7 @@ export default function AdminDashboard() {
 
   const monthlyBookings = useMemo(() => {
     const month = new Date().getMonth();
-    return (bookingsQuery.data ?? []).filter((booking) => new Date(booking.checkIn).getMonth() === month).length;
+    return (bookingsQuery.data ?? []).filter((booking) => booking.paymentStatus === "paid" && booking.status === "confirmed" && new Date(booking.checkIn).getMonth() === month).length;
   }, [bookingsQuery.data]);
 
   if (loading) return <div className="min-h-screen bg-[var(--cream-50)] pt-32 text-center text-[var(--slate-600)]">Loading…</div>;

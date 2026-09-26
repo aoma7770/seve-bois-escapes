@@ -27,6 +27,8 @@ import Footer from "./components/Footer";
 import MobileBottomBar from "./components/MobileBottomBar";
 import CookieBanner from "./components/CookieBanner";
 import ExitIntentPopup from "./components/ExitIntentPopup";
+import { useEffect, useState } from "react";
+import { trpc } from "@/lib/trpc";
 
 const routeSEO: Record<string, { title: string; description: string; keywords: string; robots?: string }> = {
   "/": { title: "Green Cottages of Laforêt | Belgian Ardennes", description: "Two private eco-cottages in Laforêt in the Belgian Ardennes, beside the Semois valley. Book a quiet, pet-friendly stay directly.", keywords: "Green Cottages Laforêt, cottages Ardennes, Semois holiday rental, eco accommodation Belgium" },
@@ -80,6 +82,28 @@ function Router() {
   );
 }
 
+function LivePresence() {
+  const [location] = useLocation();
+  const heartbeat = trpc.analytics.heartbeat.useMutation();
+  const [sessionKey] = useState(() => {
+    if (typeof window === "undefined") return "server-rendered-session";
+    const key = window.sessionStorage.getItem("green-cottages-live-session");
+    if (key) return key;
+    const created = `${crypto.randomUUID()}-${Date.now()}`;
+    window.sessionStorage.setItem("green-cottages-live-session", created);
+    return created;
+  });
+
+  useEffect(() => {
+    if (location.startsWith("/admin")) return;
+    const send = () => heartbeat.mutate({ sessionKey, path: location.split("?")[0], bookingStage: location.startsWith("/booking") ? "booking" : "browsing", countryCode: typeof navigator !== "undefined" ? (navigator.language.split("-")[1] ?? "").toUpperCase() : undefined, language: typeof navigator !== "undefined" ? navigator.language : undefined });
+    send();
+    const timer = window.setInterval(send, 30_000);
+    return () => window.clearInterval(timer);
+  }, [location, sessionKey]);
+  return null;
+}
+
 function App() {
   return (
     <ErrorBoundary>
@@ -88,6 +112,7 @@ function App() {
           <TooltipProvider>
             <Toaster />
             <RouteSEO />
+            <LivePresence />
             <Header />
             <main>
               <Router />

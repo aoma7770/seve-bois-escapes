@@ -4,8 +4,8 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
 import { getDb } from "./db";
-import { bookings, properties, enquiries, icalFeeds, icalBlocks, newsletterSubscribers, blogPosts, amenities, promotions, seasonalRates, extraFees, propertyPhotos, guestCommunications } from "../drizzle/schema";
-import { eq, and, ne, or, lte, gte, asc } from "drizzle-orm";
+import { bookings, properties, enquiries, icalFeeds, icalBlocks, newsletterSubscribers, blogPosts, amenities, promotions, seasonalRates, extraFees, propertyPhotos, guestCommunications, visitorPresence } from "../drizzle/schema";
+import { eq, and, ne, or, lte, gte, gt, asc } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 import Stripe from "stripe";
 import {
@@ -81,6 +81,24 @@ function getStripe() {
 }
 
 export const appRouter = router({
+  analytics: router({
+    heartbeat: publicProcedure
+      .input(z.object({ sessionKey: z.string().min(16).max(128), path: z.string().max(255), bookingStage: z.string().max(64).default("browsing"), countryCode: z.string().max(8).optional(), language: z.string().max(16).optional() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) return { success: false };
+        const now = new Date();
+        await db.insert(visitorPresence).values({ ...input, lastSeenAt: now }).onDuplicateKeyUpdate({ set: { path: input.path, bookingStage: input.bookingStage, countryCode: input.countryCode, language: input.language, lastSeenAt: now } });
+        return { success: true };
+      }),
+    getLiveActivity: adminProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return { activeVisitors: 0, bookingVisitors: 0, visitors: [] };
+      const cutoff = new Date(Date.now() - 90 * 1000);
+      const visitors = await db.select().from(visitorPresence).where(gt(visitorPresence.lastSeenAt, cutoff));
+      return { activeVisitors: visitors.length, bookingVisitors: visitors.filter((visitor) => visitor.path.startsWith("/booking") || visitor.bookingStage !== "browsing").length, visitors: visitors.sort((a, b) => b.lastSeenAt.getTime() - a.lastSeenAt.getTime()).map(({ sessionKey: _sessionKey, ...visitor }) => visitor) };
+    }),
+  }),
   system: systemRouter,
 
   auth: router({
@@ -571,11 +589,15 @@ export const appRouter = router({
 
     getAnalytics: adminProcedure.query(async () => {
       const db = await getDb();
-      if (!db) return { totalBookings: 0, confirmedBookings: 0, cancelledBookings: 0, revenue: 0, nightsBooked: 0, occupancyEstimate: 0 };
+      if (!db) return { totalBookings: 0, confirmedBookings: 0, cancelledBookings: 0, pendingBookings: 0, abandonedCheckouts: 0, revenue: 0, paidRevenue: 0, nightsBooked: 0, occupancyEstimate: 0 };
       const rows = await db.select().from(bookings);
-      const active = rows.filter((booking) => booking.status !== "cancelled" && booking.status !== "refunded");
-      const nightsBooked = active.reduce((total, booking) => total + Math.max(0, Math.ceil((new Date(String(booking.checkOut)).getTime() - new Date(String(booking.checkIn)).getTime()) / 86400000)), 0);
-      return { totalBookings: rows.length, confirmedBookings: rows.filter((booking) => booking.status === "confirmed").length, cancelledBookings: rows.filter((booking) => booking.status === "cancelled").length, revenue: active.reduce((total, booking) => total + Number(booking.totalAmount), 0), nightsBooked, occupancyEstimate: Math.min(100, Math.round((nightsBooked / 365) * 100)) };
+      const paid = rows.filter((booking) => booking.paymentStatus === "paid" && booking.status === "confirmed");
+      const pending = rows.filter((booking) => booking.paymentStatus !== "paid" && booking.status === "pending");
+      const abandonedCutoff = Date.now() - 24 * 60 * 60 * 1000;
+      const abandoned = pending.filter((booking) => new Date(booking.createdAt).getTime() < abandonedCutoff);
+      const nightsBooked = paid.reduce((total, booking) => total + Math.max(0, Math.ceil((new Date(String(booking.checkOut)).getTime() - new Date(String(booking.checkIn)).getTime()) / 86400000)), 0);
+      const paidRevenue = paid.reduce((total, booking) => total + Number(booking.totalAmount), 0);
+      return { totalBookings: paid.length, confirmedBookings: paid.length, cancelledBookings: rows.filter((booking) => booking.status === "cancelled" || booking.status === "refunded").length, pendingBookings: pending.length, abandonedCheckouts: abandoned.length, revenue: paidRevenue, paidRevenue, nightsBooked, occupancyEstimate: Math.min(100, Math.round((nightsBooked / 365) * 100)) };
     }),
 
     getPropertyPhotos: adminProcedure
