@@ -231,7 +231,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <FadeSection delay={100} animation="slide-in-left">
               <div className="card-eco group">
-                <div className="relative h-72 overflow-hidden">
+                <Link href="/cottages/la-seve" className="block relative h-72 overflow-hidden" aria-label={t({ fr: "Découvrir La Sève", en: "Discover La Sève", be: "Ontdek La Sève" })}>
                   <img src={HERMAN_COTTAGE1_IMAGES.livingRoom[0]} alt="La Sève — lounge room" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
@@ -239,7 +239,7 @@ export default function Home() {
                       {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", be: "Vanaf €150 / nacht" })}
                     </span>
                   </div>
-                </div>
+                </Link>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">La Sève</h3>
                   <p className="text-sm text-[var(--slate-600)] mb-4 leading-relaxed">
@@ -258,7 +258,7 @@ export default function Home() {
             </FadeSection>
             <FadeSection delay={200} animation="slide-in-right">
               <div className="card-eco group">
-                <div className="relative h-72 overflow-hidden">
+                <Link href="/cottages/le-bois" className="block relative h-72 overflow-hidden" aria-label={t({ fr: "Découvrir Le Bois", en: "Discover Le Bois", be: "Ontdek Le Bois" })}>
                   <img src={HERMAN_COTTAGE2_IMAGES.livingRoom[0]} alt="Le Bois — lounge room" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
@@ -266,7 +266,7 @@ export default function Home() {
                       {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", be: "Vanaf €150 / nacht" })}
                     </span>
                   </div>
-                </div>
+                </Link>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">Le Bois</h3>
                   <p className="text-sm text-[var(--slate-600)] mb-4 leading-relaxed">

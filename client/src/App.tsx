@@ -27,6 +27,7 @@ import Footer from "./components/Footer";
 import MobileBottomBar from "./components/MobileBottomBar";
 import CookieBanner from "./components/CookieBanner";
 import ExitIntentPopup from "./components/ExitIntentPopup";
+import ScrollRevealObserver from "./components/ScrollRevealObserver";
 import { useEffect, useState } from "react";
 import { trpc } from "@/lib/trpc";
 
@@ -113,6 +114,7 @@ function App() {
             <Toaster />
             <RouteSEO />
             <LivePresence />
+            <ScrollRevealObserver />
             <Header />
             <main>
               <Router />

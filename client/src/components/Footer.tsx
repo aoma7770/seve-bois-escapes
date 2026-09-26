@@ -128,10 +128,6 @@ export default function Footer() {
             {/* Trust badges */}
             <div className="mt-6 space-y-2">
               <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
-                <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">✓</span>
-                {t({ fr: "Approuvé par la commune", en: "Council-approved", be: "Council-approved" })}
-              </div>
-              <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
                 <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">♻</span>
                 {t({ fr: "Énergie 100% renouvelable", en: "100% renewable energy", be: "100% renewable energy" })}
               </div>
