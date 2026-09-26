@@ -36,16 +36,17 @@ router.post("/webhook", async (req: Request, res: Response) => {
 
   console.log(`[Stripe Webhook] Event: ${event.type}`);
 
-  if (event.type === "checkout.session.completed") {
+  if (event.type === "checkout.session.completed" || event.type === "checkout.session.async_payment_succeeded") {
     const session = event.data.object as Stripe.Checkout.Session;
     const bookingId = session.metadata?.booking_id;
 
-    if (bookingId) {
+    if (bookingId && (event.type === "checkout.session.async_payment_succeeded" || session.payment_status === "paid")) {
       const db = await getDb();
       if (db) {
         await db.update(bookings)
           .set({
             status: "confirmed",
+            paymentStatus: "paid",
             stripePaymentIntentId: session.payment_intent as string,
           })
           .where(eq(bookings.id, parseInt(bookingId)));
@@ -61,7 +62,7 @@ router.post("/webhook", async (req: Request, res: Response) => {
       const db = await getDb();
       if (db) {
         await db.update(bookings)
-          .set({ status: "cancelled" })
+          .set({ status: "cancelled", paymentStatus: "unpaid" })
           .where(eq(bookings.id, parseInt(bookingId)));
       }
     }

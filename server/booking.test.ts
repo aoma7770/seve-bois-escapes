@@ -54,8 +54,10 @@ describe("bookings.createCheckout validation", () => {
     await expect(
       caller.bookings.createCheckout({
         propertyId: 1,
-        guestName: "Test User",
+        guestFirstName: "Test",
+        guestSurname: "User",
         guestEmail: "not-an-email",
+        guestPhone: "+32123456789",
         guestCount: 2,
         checkIn: "2025-08-01",
         checkOut: "2025-08-03",

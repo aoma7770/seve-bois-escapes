@@ -169,9 +169,10 @@ export const appRouter = router({
       .input(z.object({
         propertyId: z.number(),
         bookingSelection: z.enum(["la-seve", "le-bois", "both"]).default("both"),
-        guestName: z.string().min(2),
+        guestFirstName: z.string().trim().min(1),
+        guestSurname: z.string().trim().min(1),
         guestEmail: z.string().email(),
-        guestPhone: z.string().optional(),
+        guestPhone: z.string().trim().min(5),
         guestCount: z.number().min(1).max(12),
         checkIn: z.string(),
         checkOut: z.string(),
@@ -221,7 +222,9 @@ export const appRouter = router({
         const [result] = await (db.insert(bookings).values as any)([{
           propertyId: input.propertyId,
           bookingSelection: input.bookingSelection,
-          guestName: input.guestName,
+          guestName: `${input.guestFirstName} ${input.guestSurname}`,
+          guestFirstName: input.guestFirstName,
+          guestSurname: input.guestSurname,
           guestEmail: input.guestEmail,
           guestPhone: input.guestPhone,
           guestCount: input.guestCount,
@@ -229,6 +232,7 @@ export const appRouter = router({
           checkOut: input.checkOut,
           totalAmount: totalAmount.toFixed(2),
           cleaningFee: cleaningFee.toFixed(2),
+          paymentStatus: "unpaid" as const,
           specialRequests: input.specialRequests,
           gdprConsent: input.gdprConsent,
           status: "pending" as const,
@@ -274,7 +278,7 @@ export const appRouter = router({
           client_reference_id: bookingId.toString(),
           metadata: {
             booking_id: bookingId.toString(),
-            guest_name: input.guestName,
+            guest_name: `${input.guestFirstName} ${input.guestSurname}`,
             cottage_name: cottageName,
             check_in: input.checkIn,
             check_out: input.checkOut,
@@ -485,21 +489,61 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
-        await db.update(bookings).set({ status: input.status }).where(eq(bookings.id, input.id));
+        const booking = (await db.select({ paymentStatus: bookings.paymentStatus }).from(bookings).where(eq(bookings.id, input.id)).limit(1))[0];
+        if (!booking) throw new TRPCError({ code: "NOT_FOUND", message: "Booking not found." });
+        if (input.status === "confirmed" && booking.paymentStatus !== "paid") throw new TRPCError({ code: "PRECONDITION_FAILED", message: "A booking can only be confirmed after Stripe reports a successful payment." });
+        await db.update(bookings).set({ status: input.status, ...(input.status === "refunded" ? { paymentStatus: "refunded" as const } : input.status === "pending" ? { paymentStatus: "requires_payment" as const } : {}) }).where(eq(bookings.id, input.id));
         return { success: true };
       }),
 
     updateBooking: adminProcedure
-      .input(z.object({ id: z.number(), bookingSelection: z.enum(["la-seve", "le-bois", "both"]).optional(), guestName: z.string().min(2), guestEmail: z.string().email(), guestPhone: z.string().optional(), guestCount: z.number().int().min(1).max(12), checkIn: z.string(), checkOut: z.string(), totalAmount: z.number().nonnegative().optional(), cleaningFee: z.number().nonnegative().optional(), specialRequests: z.string().optional() }))
+      .input(z.object({ id: z.number(), bookingSelection: z.enum(["la-seve", "le-bois", "both"]).optional(), guestFirstName: z.string().trim().min(1).optional(), guestSurname: z.string().trim().min(1).optional(), guestName: z.string().min(2), guestEmail: z.string().email(), guestPhone: z.string().trim().refine((value) => value.length === 0 || value.length >= 5, "Phone number is too short.").optional(), guestCount: z.number().int().min(1).max(12), checkIn: z.string(), checkOut: z.string(), totalAmount: z.number().nonnegative().optional(), cleaningFee: z.number().nonnegative().optional(), specialRequests: z.string().optional(), requiresPayment: z.boolean().optional() }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
         if (new Date(input.checkOut).getTime() <= new Date(input.checkIn).getTime()) throw new TRPCError({ code: "BAD_REQUEST", message: "Check-out must be after check-in." });
         if (input.bookingSelection === "both" && input.guestCount < minimumGuestsForSelection("both")) throw new TRPCError({ code: "BAD_REQUEST", message: "Both cottages require at least 4 guests." });
         if (input.bookingSelection && input.guestCount > maximumGuestsForSelection(input.bookingSelection)) throw new TRPCError({ code: "BAD_REQUEST", message: "Guest count exceeds the selected cottage capacity." });
-        const { id, ...updates } = input;
-        await db.update(bookings).set(updates as any).where(eq(bookings.id, id));
+        const { id, guestFirstName, guestSurname, requiresPayment, ...updates } = input;
+        const normalizedUpdates = {
+          ...updates,
+          guestPhone: updates.guestPhone ?? "",
+          ...(guestFirstName && guestSurname ? { guestFirstName, guestSurname, guestName: `${guestFirstName} ${guestSurname}` } : {}),
+          ...(requiresPayment ? { paymentStatus: "requires_payment" as const, status: "pending" as const } : {}),
+        };
+        await db.update(bookings).set(normalizedUpdates as any).where(eq(bookings.id, id));
         return { success: true };
+      }),
+    createPaymentLink: adminProcedure
+      .input(z.object({ bookingId: z.number() }))
+      .mutation(async ({ input, ctx }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const booking = (await db.select().from(bookings).where(eq(bookings.id, input.bookingId)).limit(1))[0];
+        if (!booking) throw new TRPCError({ code: "NOT_FOUND", message: "Booking not found." });
+        const stripe = getStripe();
+        if (!stripe) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Stripe live payments are not configured." });
+        const property = (await db.select().from(properties).where(eq(properties.id, booking.propertyId)).limit(1))[0];
+        const origin = ctx.req.headers.origin || "https://sevebois.be";
+        const session = await stripe.checkout.sessions.create({
+          payment_method_types: ["card"],
+          line_items: [{
+            price_data: {
+              currency: "eur",
+              product_data: { name: `${property?.nameEn ?? "Green Cottages"} — booking balance`, description: `${booking.checkIn} → ${booking.checkOut} · ${booking.guestCount} guests` },
+              unit_amount: Math.round(Number(booking.totalAmount) * 100),
+            },
+            quantity: 1,
+          }],
+          mode: "payment",
+          customer_email: booking.guestEmail,
+          client_reference_id: booking.id.toString(),
+          metadata: { booking_id: booking.id.toString(), payment_link_for: "booking_amendment" },
+          success_url: `${origin}/booking/confirmation?session_id={CHECKOUT_SESSION_ID}&booking_id=${booking.id}`,
+          cancel_url: `${origin}/booking/confirmation?booking_id=${booking.id}&payment_cancelled=1`,
+        });
+        await db.update(bookings).set({ paymentLinkUrl: session.url, paymentStatus: "requires_payment", status: "pending", stripeSessionId: session.id }).where(eq(bookings.id, booking.id));
+        return { url: session.url, bookingId: booking.id };
       }),
 
     getGuestCommunications: adminProcedure

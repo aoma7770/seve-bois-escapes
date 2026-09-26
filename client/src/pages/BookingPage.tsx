@@ -34,7 +34,7 @@ export default function BookingPage() {
     return undefined;
   });
   const [guestCount, setGuestCount] = useState(initialSelection === "both" ? 4 : 1);
-  const [form, setForm] = useState({ name: "", email: "", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
+  const [form, setForm] = useState({ guestFirstName: "", guestSurname: "", email: "", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
 
   const propertyId = selection === "both" ? 1 : selection === "la-seve" ? 2 : 3;
   const pricingSlug = selection === "both" ? "seve-bois-escapes" : selection;
@@ -88,7 +88,8 @@ export default function BookingPage() {
     checkoutMutation.mutate({
       propertyId,
       bookingSelection: selection,
-      guestName: form.name,
+      guestFirstName: form.guestFirstName,
+      guestSurname: form.guestSurname,
       guestEmail: form.email,
       guestPhone: form.phone,
       guestCount,
@@ -180,16 +181,20 @@ export default function BookingPage() {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="label-eco">{t({ fr: "Nom complet *", en: "Full name *", be: "Full name *" })}</label>
-                  <input type="text" required value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="input-eco" placeholder={t({ fr: "Jean Dupont", en: "Jane Smith", be: "Jane Smith" })} />
+                  <label className="label-eco">{t({ fr: "Prénom *", en: "First name *", be: "First name *" })}</label>
+                  <input type="text" required value={form.guestFirstName} onChange={e => setForm(f => ({ ...f, guestFirstName: e.target.value }))} className="input-eco" placeholder={t({ fr: "Jean", en: "Jane", be: "Jane" })} />
+                </div>
+                <div>
+                  <label className="label-eco">{t({ fr: "Nom de famille *", en: "Surname *", be: "Surname *" })}</label>
+                  <input type="text" required value={form.guestSurname} onChange={e => setForm(f => ({ ...f, guestSurname: e.target.value }))} className="input-eco" placeholder={t({ fr: "Dupont", en: "Smith", be: "Smith" })} />
                 </div>
                 <div>
                   <label className="label-eco">{t({ fr: "Email *", en: "Email *", be: "Email *" })}</label>
                   <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="input-eco" placeholder="jean@exemple.com" />
                 </div>
                 <div>
-                  <label className="label-eco">{t({ fr: "Téléphone", en: "Phone", be: "Phone" })}</label>
-                  <input type="tel" value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="input-eco" placeholder="+32 4XX XX XX XX" />
+                  <label className="label-eco">{t({ fr: "Téléphone *", en: "Phone *", be: "Phone *" })}</label>
+                  <input type="tel" required value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="input-eco" placeholder="+32 4XX XX XX XX" />
                 </div>
                 <div>
                   <label className="label-eco">{t({ fr: "Nombre de personnes *", en: "Number of guests *", be: "Aantal gasten *" })}</label>
@@ -240,7 +245,7 @@ export default function BookingPage() {
 
               <button
                 type="submit"
-                disabled={!range?.from || !range?.to || nights < BOOKING_PRICING.minimumStayNights || guestCount < minimumGuestsForSelection(selection) || !form.name || !form.email || !form.gdprConsent || checkoutMutation.isPending}
+                disabled={!range?.from || !range?.to || nights < BOOKING_PRICING.minimumStayNights || guestCount < minimumGuestsForSelection(selection) || !form.guestFirstName || !form.guestSurname || !form.email || !form.phone || !form.gdprConsent || checkoutMutation.isPending}
                 className="btn-primary w-full text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {checkoutMutation.isPending
