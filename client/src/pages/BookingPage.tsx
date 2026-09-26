@@ -14,6 +14,16 @@ import {
   nightlyRate,
 } from "../../../shared/booking";
 
+const PHONE_COUNTRIES = [
+  ["BE", "🇧🇪", "Belgium", "+32"], ["FR", "🇫🇷", "France", "+33"], ["NL", "🇳🇱", "Netherlands", "+31"],
+  ["LU", "🇱🇺", "Luxembourg", "+352"], ["DE", "🇩🇪", "Germany", "+49"], ["GB", "🇬🇧", "United Kingdom", "+44"],
+  ["IE", "🇮🇪", "Ireland", "+353"], ["ES", "🇪🇸", "Spain", "+34"], ["IT", "🇮🇹", "Italy", "+39"],
+  ["PT", "🇵🇹", "Portugal", "+351"], ["CH", "🇨🇭", "Switzerland", "+41"], ["AT", "🇦🇹", "Austria", "+43"],
+  ["US", "🇺🇸", "United States", "+1"], ["CA", "🇨🇦", "Canada", "+1"], ["AU", "🇦🇺", "Australia", "+61"],
+  ["NZ", "🇳🇿", "New Zealand", "+64"], ["ZA", "🇿🇦", "South Africa", "+27"], ["IN", "🇮🇳", "India", "+91"],
+  ["BR", "🇧🇷", "Brazil", "+55"], ["JP", "🇯🇵", "Japan", "+81"], ["AE", "🇦🇪", "United Arab Emirates", "+971"],
+] as const;
+
 export default function BookingPage() {
   const { t } = useLanguage();
   const [location] = useLocation();
@@ -34,7 +44,7 @@ export default function BookingPage() {
     return undefined;
   });
   const [guestCount, setGuestCount] = useState(initialSelection === "both" ? 4 : 1);
-  const [form, setForm] = useState({ guestFirstName: "", guestSurname: "", email: "", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
+  const [form, setForm] = useState({ guestFirstName: "", guestSurname: "", email: "", country: "BE", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
 
   const propertyId = selection === "both" ? 1 : selection === "la-seve" ? 2 : 3;
   const pricingSlug = selection === "both" ? "seve-bois-escapes" : selection;
@@ -91,7 +101,7 @@ export default function BookingPage() {
       guestFirstName: form.guestFirstName,
       guestSurname: form.guestSurname,
       guestEmail: form.email,
-      guestPhone: form.phone,
+      guestPhone: `${PHONE_COUNTRIES.find(([code]) => code === form.country)?.[3] ?? "+32"}${form.phone.replace(/\D/g, "").replace(/^0+/, "")}`,
       guestCount,
       checkIn: range.from.toISOString().split("T")[0],
       checkOut: range.to.toISOString().split("T")[0],
@@ -194,7 +204,16 @@ export default function BookingPage() {
                 </div>
                 <div>
                   <label className="label-eco">{t({ fr: "Téléphone *", en: "Phone *", be: "Phone *" })}</label>
-                  <input type="tel" required value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="input-eco" placeholder="+32 4XX XX XX XX" />
+                  <div className="grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-2">
+                    <select aria-label={t({ fr: "Pays du téléphone", en: "Phone country", be: "Phone country" })} value={form.country} onChange={e => setForm(f => ({ ...f, country: e.target.value }))} className="input-eco">
+                      {PHONE_COUNTRIES.map(([code, flag, name, dialCode]) => <option key={code} value={code}>{flag} {name} ({dialCode})</option>)}
+                    </select>
+                    <div className="flex min-w-0">
+                      <span className="inline-flex items-center rounded-l-lg border border-r-0 border-[var(--cream-300)] bg-[var(--cream-100)] px-3 text-sm font-semibold text-[var(--forest-800)]">{PHONE_COUNTRIES.find(([code]) => code === form.country)?.[3] ?? "+32"}</span>
+                      <input type="tel" required value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="input-eco min-w-0 rounded-l-none" placeholder="4XX XX XX XX" inputMode="tel" />
+                    </div>
+                  </div>
+                  <p className="text-xs text-[var(--slate-500)] mt-1">{t({ fr: "Choisissez votre pays, puis saisissez votre numéro sans l'indicatif.", en: "Choose your country, then enter your number without the country code.", be: "Kies uw land en voer daarna uw nummer in zonder landcode." })}</p>
                 </div>
                 <div>
                   <label className="label-eco">{t({ fr: "Nombre de personnes *", en: "Number of guests *", be: "Aantal gasten *" })}</label>

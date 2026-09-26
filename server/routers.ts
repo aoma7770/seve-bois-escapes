@@ -251,6 +251,7 @@ export const appRouter = router({
           : cottage.nameFr;
 
         const session = await stripe.checkout.sessions.create({
+          managed_payments: { enabled: false },
           line_items: [
             {
               price_data: {
@@ -525,6 +526,7 @@ export const appRouter = router({
         const property = (await db.select().from(properties).where(eq(properties.id, booking.propertyId)).limit(1))[0];
         const origin = ctx.req.headers.origin || "https://sevebois.be";
         const session = await stripe.checkout.sessions.create({
+          managed_payments: { enabled: false },
           line_items: [{
             price_data: {
               currency: "eur",
