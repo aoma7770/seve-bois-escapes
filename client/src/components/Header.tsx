@@ -25,7 +25,6 @@ export default function Header() {
     { href: "/cottages/le-bois", label: t({ fr: "Le Bois", en: "Le Bois", be: "Le Bois" }) },
     { href: "/location", label: t({ fr: "Le Lieu", en: "The Location", be: "The Location" }) },
     { href: "/rates", label: t({ fr: "Tarifs", en: "Rates", be: "Rates" }) },
-    { href: "/blog", label: t({ fr: "Blog", en: "Blog", be: "Blog" }) },
     { href: "/faq", label: "FAQ" },
     { href: "/contact", label: t({ fr: "Contact", en: "Contact", be: "Contact" }) },
   ];
