@@ -7,28 +7,22 @@ import { toast } from "sonner";
 
 export default function Footer() {
   const { t } = useLanguage();
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [guideForm, setGuideForm] = useState({ firstName: "", lastName: "", email: "", marketingConsent: false });
 
-  const subscribe = trpc.newsletter.subscribe.useMutation({
+  const guideRequest = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => {
-      toast.success(t({ fr: "Merci ! Vous êtes inscrit.", en: "Thank you! You're subscribed.", be: "Thank you! You're subscribed." }));
-      setEmail("");
-      setName("");
+      toast.success(t({ fr: "Merci ! Le guide a été envoyé à votre adresse email.", en: "Thank you! The guide has been sent to your email.", be: "Bedankt! De gids is naar uw e-mail gestuurd." }));
+      setGuideForm({ firstName: "", lastName: "", email: "", marketingConsent: false });
     },
     onError: (err) => {
-      if (err.message.includes("already")) {
-        toast.info(t({ fr: "Vous êtes déjà inscrit.", en: "You're already subscribed.", be: "You're already subscribed." }));
-      } else {
-        toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Something went wrong." }));
-      }
+      toast.error(err.message || t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Er is iets misgegaan." }));
     },
   });
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    subscribe.mutate({ email, name, source: "footer" });
+    if (!guideForm.firstName || !guideForm.lastName || !guideForm.email || !guideForm.marketingConsent) return;
+    guideRequest.mutate({ firstName: guideForm.firstName, lastName: guideForm.lastName, email: guideForm.email, marketingConsent: true, source: "footer_guide" });
   };
 
   return (
@@ -150,25 +144,35 @@ export default function Footer() {
               <input
                 type="text"
                 placeholder={t({ fr: "Votre prénom", en: "Your first name", be: "Your first name" })}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={guideForm.firstName}
+                onChange={(e) => setGuideForm({ ...guideForm, firstName: e.target.value })}
+                required
+                className="w-full px-3 py-2.5 rounded bg-[var(--forest-800)] border border-[var(--forest-700)] text-white placeholder-[var(--forest-400)] text-sm focus:outline-none focus:border-[var(--ochre-400)] transition-colors"
+              />
+              <input
+                type="text"
+                placeholder={t({ fr: "Votre nom", en: "Your last name", be: "Your last name" })}
+                value={guideForm.lastName}
+                onChange={(e) => setGuideForm({ ...guideForm, lastName: e.target.value })}
+                required
                 className="w-full px-3 py-2.5 rounded bg-[var(--forest-800)] border border-[var(--forest-700)] text-white placeholder-[var(--forest-400)] text-sm focus:outline-none focus:border-[var(--ochre-400)] transition-colors"
               />
               <input
                 type="email"
                 placeholder={t({ fr: "Votre email", en: "Your email", be: "Your email" })}
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                value={guideForm.email}
+                onChange={(e) => setGuideForm({ ...guideForm, email: e.target.value })}
                 required
                 className="w-full px-3 py-2.5 rounded bg-[var(--forest-800)] border border-[var(--forest-700)] text-white placeholder-[var(--forest-400)] text-sm focus:outline-none focus:border-[var(--ochre-400)] transition-colors"
               />
+              <label className="flex items-start gap-2 text-xs text-[var(--forest-300)]"><input type="checkbox" checked={guideForm.marketingConsent} onChange={(e) => setGuideForm({ ...guideForm, marketingConsent: e.target.checked })} required className="mt-0.5 accent-[var(--ochre-500)]" />{t({ fr: "J'accepte de recevoir le guide et les informations de Sève & Bois.", en: "I agree to receive the guide and Green Cottages updates.", be: "Ik ga akkoord met de gids en updates van Green Cottages." })}</label>
               <button
                 type="submit"
-                disabled={subscribe.isPending}
+                disabled={guideRequest.isPending}
                 className="w-full py-2.5 bg-[var(--ochre-600)] hover:bg-[var(--ochre-700)] text-white text-sm font-semibold rounded transition-colors disabled:opacity-60"
               >
-                {subscribe.isPending
-                  ? t({ fr: "Inscription...", en: "Subscribing...", be: "Subscribing..." })
+                {guideRequest.isPending
+                  ? t({ fr: "Envoi...", en: "Sending...", be: "Verzenden..." })
                   : t({ fr: "Recevoir le guide", en: "Get the guide", be: "Get the guide" })}
               </button>
             </form>

@@ -92,6 +92,20 @@
       "when": 1790460926855,
       "tag": "0012_aspiring_junta",
       "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1790465320558,
+      "tag": "0013_daffy_bishop",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1790465891236,
+      "tag": "0014_equal_blur",
+      "breakpoints": true
     }
   ]
 }

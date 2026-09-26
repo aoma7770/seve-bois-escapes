@@ -45,7 +45,7 @@ export default function Home() {
   
   const [heroLoaded, setHeroLoaded] = useState(false);
   const [heroParallax, setHeroParallax] = useState(0);
-  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterForm, setNewsletterForm] = useState({ firstName: "", lastName: "", email: "", marketingConsent: false });
   const [newsletterDone, setNewsletterDone] = useState(false);
 
   useEffect(() => {
@@ -60,14 +60,14 @@ export default function Home() {
     return () => { cancelAnimationFrame(frame); window.removeEventListener("scroll", handleScroll); };
   }, []);
 
-  const subscribeMutation = trpc.newsletter.subscribe.useMutation({
+  const guideMutation = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => setNewsletterDone(true),
   });
 
   const handleNewsletter = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newsletterEmail) return;
-    subscribeMutation.mutate({ email: newsletterEmail, source: "homepage_cta" });
+    if (!newsletterForm.firstName || !newsletterForm.lastName || !newsletterForm.email || !newsletterForm.marketingConsent) return;
+    guideMutation.mutate({ firstName: newsletterForm.firstName, lastName: newsletterForm.lastName, email: newsletterForm.email, marketingConsent: true, source: "homepage_cta" });
   };
 
   return (
@@ -489,13 +489,15 @@ export default function Home() {
             {!newsletterDone ? (
               <div className="mt-10 max-w-md mx-auto">
                 <p className="text-sm text-white/70 mb-4">{t({ fr: "Pas encore prêt ? Recevez notre guide gratuit des Ardennes.", en: "Not ready yet? Get our free Ardennes guide.", be: "Not ready yet? Get our free Ardennes guide." })}</p>
-                <a href="/manus-storage/main_cdc2d87b.pdf" target="_blank" rel="noreferrer" className="inline-block mb-5 text-sm font-semibold text-[var(--ochre-300)] underline underline-offset-4 hover:text-white transition-colors">
-                  {t({ fr: "Télécharger le guide gratuit", en: "Download the free guide", be: "Download the free guide" })}
-                </a>
-                <form onSubmit={handleNewsletter} className="flex gap-2">
-                  <input type="email" placeholder={t({ fr: "Votre email", en: "Your email", be: "Your email" })} value={newsletterEmail} onChange={(e) => setNewsletterEmail(e.target.value)} required className="flex-1 px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
-                  <button type="submit" disabled={subscribeMutation.isPending} className="px-5 py-3 bg-[var(--ochre-500)] hover:bg-[var(--ochre-600)] text-white text-sm font-semibold rounded-lg transition-colors whitespace-nowrap">
-                    {t({ fr: "Recevoir", en: "Get it", be: "Get it" })}
+                <form onSubmit={handleNewsletter} className="space-y-2 text-left">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <input type="text" placeholder={t({ fr: "Prénom", en: "First name", be: "First name" })} value={newsletterForm.firstName} onChange={(e) => setNewsletterForm({ ...newsletterForm, firstName: e.target.value })} required className="px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
+                    <input type="text" placeholder={t({ fr: "Nom", en: "Last name", be: "Last name" })} value={newsletterForm.lastName} onChange={(e) => setNewsletterForm({ ...newsletterForm, lastName: e.target.value })} required className="px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
+                  </div>
+                  <input type="email" placeholder={t({ fr: "Votre email", en: "Your email", be: "Your email" })} value={newsletterForm.email} onChange={(e) => setNewsletterForm({ ...newsletterForm, email: e.target.value })} required className="w-full px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
+                  <label className="flex items-start gap-2 text-xs text-white/75"><input type="checkbox" checked={newsletterForm.marketingConsent} onChange={(e) => setNewsletterForm({ ...newsletterForm, marketingConsent: e.target.checked })} required className="mt-0.5 accent-[var(--ochre-500)]" />{t({ fr: "J'accepte de recevoir le guide et les informations de Sève & Bois.", en: "I agree to receive the guide and Green Cottages updates.", be: "Ik ga akkoord met de gids en updates van Green Cottages." })}</label>
+                  <button type="submit" disabled={guideMutation.isPending} className="w-full px-5 py-3 bg-[var(--ochre-500)] hover:bg-[var(--ochre-600)] text-white text-sm font-semibold rounded-lg transition-colors whitespace-nowrap disabled:opacity-60">
+                    {guideMutation.isPending ? t({ fr: "Envoi…", en: "Sending…", be: "Verzenden…" }) : t({ fr: "Recevoir le guide par email", en: "Email me the guide", be: "Ontvang de gids per e-mail" })}
                   </button>
                 </form>
               </div>

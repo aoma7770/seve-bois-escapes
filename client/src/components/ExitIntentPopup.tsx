@@ -7,8 +7,7 @@ import { toast } from "sonner";
 export default function ExitIntentPopup() {
   const { t } = useLanguage();
   const [visible, setVisible] = useState(false);
-  const [email, setEmail] = useState("");
-  const [name, setName] = useState("");
+  const [form, setForm] = useState({ firstName: "", lastName: "", email: "", marketingConsent: false });
   const triggered = useRef(false);
 
   useEffect(() => {
@@ -39,9 +38,9 @@ export default function ExitIntentPopup() {
     };
   }, []);
 
-  const subscribe = trpc.newsletter.subscribe.useMutation({
+  const guideRequest = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => {
-      toast.success(t({ fr: "Guide envoyé ! Vérifiez votre boîte mail.", en: "Guide sent! Check your inbox.", be: "Gids verzonden! Controleer uw inbox." }));
+      toast.success(t({ fr: "Merci ! Le guide a été envoyé à votre adresse email.", en: "Thank you! The guide has been sent to your email.", be: "Bedankt! De gids is naar uw e-mail gestuurd." }));
       setVisible(false);
     },
     onError: () => {
@@ -51,8 +50,8 @@ export default function ExitIntentPopup() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email) return;
-    subscribe.mutate({ email, name, source: "exit_popup" });
+    if (!form.firstName || !form.lastName || !form.email || !form.marketingConsent) return;
+    guideRequest.mutate({ firstName: form.firstName, lastName: form.lastName, email: form.email, marketingConsent: true, source: "exit_popup" });
   };
 
   if (!visible) return null;
@@ -90,18 +89,28 @@ export default function ExitIntentPopup() {
             <input
               type="text"
               placeholder={t({ fr: "Votre prénom", en: "Your first name", be: "Je voornaam" })}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={form.firstName}
+              onChange={(e) => setForm({ ...form, firstName: e.target.value })}
+              required
+              className="input-eco"
+            />
+            <input
+              type="text"
+              placeholder={t({ fr: "Votre nom", en: "Your last name", be: "Je achternaam" })}
+              value={form.lastName}
+              onChange={(e) => setForm({ ...form, lastName: e.target.value })}
+              required
               className="input-eco"
             />
             <input
               type="email"
               placeholder={t({ fr: "Votre email", en: "Your email", be: "Je e-mailadres" })}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={form.email}
+              onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
               className="input-eco"
             />
+            <label className="flex items-start gap-2 text-xs text-[var(--slate-500)]"><input type="checkbox" checked={form.marketingConsent} onChange={(e) => setForm({ ...form, marketingConsent: e.target.checked })} required className="mt-0.5 accent-[var(--forest-700)]" />{t({ fr: "J'accepte de recevoir le guide et les informations de Sève & Bois.", en: "I agree to receive the guide and Green Cottages updates.", be: "Ik ga akkoord met de gids en updates van Green Cottages." })}</label>
             <p className="text-xs text-[var(--slate-400)]">
               {t({
                 fr: "Pas de spam. Désabonnement en un clic. Conforme RGPD.",
@@ -111,10 +120,10 @@ export default function ExitIntentPopup() {
             </p>
             <button
               type="submit"
-              disabled={subscribe.isPending}
+              disabled={guideRequest.isPending}
               className="btn-primary w-full"
             >
-              {subscribe.isPending
+              {guideRequest.isPending
                 ? t({ fr: "Envoi...", en: "Sending...", be: "Verzenden..." })
                 : t({ fr: "Recevoir le guide gratuit", en: "Get the free guide", be: "Gratis gids ontvangen" })}
             </button>

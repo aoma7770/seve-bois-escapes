@@ -39,6 +39,13 @@ describe("newsletter.subscribe validation", () => {
   });
 });
 
+describe("promotions.validate validation", () => {
+  it("rejects an empty private promo code before database access", async () => {
+    const caller = appRouter.createCaller(createPublicContext());
+    await expect(caller.promotions.validate({ propertyId: 1, code: "", nights: 2, guestCount: 4, baseAmount: 840 })).rejects.toThrow();
+  });
+});
+
 describe("enquiries.submit validation", () => {
   it("rejects missing name", async () => {
     const caller = appRouter.createCaller(createPublicContext());

@@ -45,6 +45,8 @@ export default function BookingPage() {
   });
   const [guestCount, setGuestCount] = useState(initialSelection === "both" ? 4 : 1);
   const [form, setForm] = useState({ guestFirstName: "", guestSurname: "", email: "", country: "BE", phone: "", specialRequests: "", pets: "none", gdprConsent: false });
+  const [promoCode, setPromoCode] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<{ code: string; discount: number; signature: string } | null>(null);
 
   const propertyId = selection === "both" ? 1 : selection === "la-seve" ? 2 : 3;
   const pricingSlug = selection === "both" ? "seve-bois-escapes" : selection;
@@ -76,7 +78,23 @@ export default function BookingPage() {
   const nights = range?.from && range?.to
     ? Math.ceil((range.to.getTime() - range.from.getTime()) / (1000 * 60 * 60 * 24))
     : 0;
-  const total = bookingTotal(selection, guestCount, nights, rateConfig) + cleaningFee;
+  const subtotalBeforePromo = bookingTotal(selection, guestCount, nights, rateConfig);
+  const promoSignature = `${selection}|${guestCount}|${nights}|${form.email.trim().toLowerCase()}|${subtotalBeforePromo}`;
+  const usablePromo = appliedPromo?.signature === promoSignature ? appliedPromo : null;
+  const total = Math.max(0, subtotalBeforePromo - (usablePromo?.discount ?? 0)) + cleaningFee;
+
+  const validatePromoMutation = trpc.promotions.validate.useMutation({
+    onSuccess: (result) => {
+      if (!result.valid) {
+        setAppliedPromo(null);
+        toast.error(result.message);
+        return;
+      }
+      setAppliedPromo({ code: result.code, discount: Number(result.discount), signature: promoSignature });
+      toast.success(t({ fr: `Code promo appliqué : -€${Number(result.discount).toFixed(2)}`, en: `Promo code applied: -€${Number(result.discount).toFixed(2)}`, be: `Promocode toegepast: -€${Number(result.discount).toFixed(2)}` }));
+    },
+    onError: (error) => { setAppliedPromo(null); toast.error(error.message); },
+  });
 
   const checkoutMutation = trpc.bookings.createCheckout.useMutation({
     onSuccess: (data) => {
@@ -105,6 +123,7 @@ export default function BookingPage() {
       guestCount,
       checkIn: range.from.toISOString().split("T")[0],
       checkOut: range.to.toISOString().split("T")[0],
+      promoCode: usablePromo?.code,
       specialRequests: form.specialRequests,
       gdprConsent: form.gdprConsent,
     });
@@ -238,6 +257,18 @@ export default function BookingPage() {
                 <label className="label-eco">{t({ fr: "Demandes spéciales", en: "Special requests", be: "Special requests" })}</label>
                 <textarea value={form.specialRequests} onChange={e => setForm(f => ({ ...f, specialRequests: e.target.value }))} className="input-eco h-24 resize-none" placeholder={t({ fr: "Allergies, heure d'arrivée, etc.", en: "Allergies, arrival time, etc.", be: "Allergies, arrival time, etc." })} />
               </div>
+
+              <div className="rounded-xl border border-[var(--cream-300)] bg-[var(--cream-50)] p-4">
+                <label className="label-eco">{t({ fr: "Code promo", en: "Promo code", be: "Promocode" })}</label>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <input type="text" value={promoCode} onChange={e => { setPromoCode(e.target.value.toUpperCase()); setAppliedPromo(null); }} className="input-eco flex-1 uppercase" placeholder={t({ fr: "Entrez votre code", en: "Enter your code", be: "Voer uw code in" })} autoComplete="off" />
+                  <button type="button" onClick={() => { if (!promoCode.trim() || !nights) return; validatePromoMutation.mutate({ propertyId, code: promoCode, nights, guestCount, guestEmail: form.email || undefined, baseAmount: subtotalBeforePromo }); }} disabled={!promoCode.trim() || !nights || validatePromoMutation.isPending} className="btn-outline whitespace-nowrap disabled:opacity-50">
+                    {validatePromoMutation.isPending ? t({ fr: "Vérification…", en: "Checking…", be: "Controleren…" }) : t({ fr: "Appliquer", en: "Apply", be: "Toepassen" })}
+                  </button>
+                </div>
+                {usablePromo && <p className="text-xs text-emerald-700 mt-2">{t({ fr: `Code ${usablePromo.code} appliqué : -€${usablePromo.discount.toFixed(2)}`, en: `Code ${usablePromo.code} applied: -€${usablePromo.discount.toFixed(2)}`, be: `Code ${usablePromo.code} toegepast: -€${usablePromo.discount.toFixed(2)}` })}</p>}
+                <p className="text-xs text-[var(--slate-500)] mt-2">{t({ fr: "Les codes promotionnels sont vérifiés avant le paiement.", en: "Promo codes are checked before payment.", be: "Promocodes worden vóór betaling gecontroleerd." })}</p>
+              </div>
               
               {/* Parking Note */}
               <div className="bg-[var(--cream-50)] rounded-lg p-4 border border-[var(--cream-200)]">
@@ -303,6 +334,7 @@ export default function BookingPage() {
                       <span className="text-[var(--slate-600)]">{t({ fr: "Frais de ménage", en: "Cleaning fee", be: "Cleaning fee" })}</span>
                       <span>€{cleaningFee}</span>
                     </div>
+                    {usablePromo && <div className="flex justify-between text-emerald-700"><span>{usablePromo.code}</span><span>-€{usablePromo.discount.toFixed(2)}</span></div>}
                     <div className="flex justify-between font-bold text-[var(--forest-900)] border-t border-[var(--cream-200)] pt-3 text-base">
                       <span>Total</span>
                       <span>€{total}</span>

@@ -17,6 +17,7 @@ import {
 } from "../shared/booking";
 import nodemailer from "nodemailer";
 import ical from "node-ical";
+import { createGuideToken } from "./guide";
 
 // ─── Email helper ─────────────────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -39,6 +40,43 @@ async function sendEmail(to: string, subject: string, html: string) {
   } catch (err) {
     console.warn("[Email] Failed to send:", err);
   }
+}
+
+async function syncGuideLeadToHighLevel(input: { firstName: string; lastName: string; email: string }) {
+  const token = process.env.GOHIGHLEVEL_PRIVATE_TOKEN;
+  const locationId = process.env.GOHIGHLEVEL_LOCATION_ID;
+  if (!token || !locationId) return { synced: false };
+  const response = await fetch("https://services.leadconnectorhq.com/contacts/", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", Version: "2021-07-28" },
+    body: JSON.stringify({ firstName: input.firstName, lastName: input.lastName, email: input.email, locationId, tags: ["warm-lead-guide"], source: "Green Cottages guide" }),
+  });
+  if (!response.ok) {
+    console.warn(`[GoHighLevel] Guide lead sync failed with ${response.status}`);
+    return { synced: false };
+  }
+  return { synced: true };
+}
+
+async function validatePromotion(db: any, input: { propertyId: number; code: string; nights: number; guestCount: number; guestEmail?: string; baseAmount: number }) {
+  const code = input.code.trim().toUpperCase();
+  const promotion = (await db.select().from(promotions).where(and(eq(promotions.propertyId, input.propertyId), eq(promotions.code, code), eq(promotions.isActive, true))).limit(1))[0];
+  if (!promotion) return { valid: false as const, message: "Invalid promo code." };
+  const today = new Date().toISOString().slice(0, 10);
+  if (promotion.validFrom && today < String(promotion.validFrom)) return { valid: false as const, message: "This promo code is not active yet." };
+  if (promotion.validUntil && today > String(promotion.validUntil)) return { valid: false as const, message: "This promo code has expired." };
+  if (input.nights < promotion.minimumNights) return { valid: false as const, message: `This code requires at least ${promotion.minimumNights} nights.` };
+  if (promotion.minimumGuests && input.guestCount < promotion.minimumGuests) return { valid: false as const, message: `This code requires at least ${promotion.minimumGuests} guests.` };
+  if (promotion.maximumGuests && input.guestCount > promotion.maximumGuests) return { valid: false as const, message: `This code is limited to ${promotion.maximumGuests} guests.` };
+  if (promotion.eligibleEmail && input.guestEmail?.trim().toLowerCase() !== String(promotion.eligibleEmail).trim().toLowerCase()) return { valid: false as const, message: "This code is not valid for this email address." };
+  const paidBookings = await db.select({ id: bookings.id, guestEmail: bookings.guestEmail, promotionCode: bookings.promotionCode }).from(bookings).where(and(eq(bookings.paymentStatus, "paid"), ne(bookings.status, "cancelled"), ne(bookings.status, "refunded")));
+  if (promotion.firstBookingOnly && (!input.guestEmail || paidBookings.some((booking: any) => String(booking.guestEmail).toLowerCase() === input.guestEmail!.trim().toLowerCase()))) return { valid: false as const, message: "This code is for first-time bookings only." };
+  const codeUses = paidBookings.filter((booking: any) => String(booking.promotionCode ?? "").toUpperCase() === code);
+  if (promotion.maxUses && codeUses.length >= promotion.maxUses) return { valid: false as const, message: "This promo code has reached its usage limit." };
+  if (promotion.maxUsesPerGuest && input.guestEmail && codeUses.filter((booking: any) => String(booking.guestEmail).toLowerCase() === input.guestEmail!.trim().toLowerCase()).length >= promotion.maxUsesPerGuest) return { valid: false as const, message: "This promo code has already been used for this email address." };
+  const rawDiscount = promotion.discountType === "percentage" ? input.baseAmount * Number(promotion.value) / 100 : Number(promotion.value);
+  const discount = Math.min(Math.max(0, rawDiscount), Math.max(0, input.baseAmount));
+  return { valid: true as const, code, promotion, discount };
 }
 
 const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
@@ -153,6 +191,18 @@ export const appRouter = router({
       }),
   }),
 
+  promotions: router({
+    validate: publicProcedure
+      .input(z.object({ propertyId: z.number(), code: z.string().trim().min(1).max(64), nights: z.number().int().min(1), guestCount: z.number().int().min(1).max(12), guestEmail: z.string().email().optional(), baseAmount: z.number().nonnegative() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const result = await validatePromotion(db, input);
+        if (!result.valid) return result;
+        return { valid: true as const, code: result.code, discount: Number(result.discount), description: result.promotion.description, name: result.promotion.name };
+      }),
+  }),
+
   // ─── Availability ──────────────────────────────────────────────────────────
   availability: router({
     getBookedDates: publicProcedure
@@ -194,6 +244,7 @@ export const appRouter = router({
         guestCount: z.number().min(1).max(12),
         checkIn: z.string(),
         checkOut: z.string(),
+        promoCode: z.string().trim().max(64).optional(),
         specialRequests: z.string().optional(),
         gdprConsent: z.boolean(),
       }))
@@ -235,7 +286,11 @@ export const appRouter = router({
           extraFees: activeFees.map((fee) => ({ feeType: fee.feeType, amount: parseFloat(fee.amount) })),
         } as const;
         const nightsTotal = bookingTotal(input.bookingSelection, input.guestCount, nights, rateConfig);
-        const totalAmount = nightsTotal + cleaningFee;
+        const promotionResult = input.promoCode ? await validatePromotion(db, { propertyId: input.propertyId, code: input.promoCode, nights, guestCount: input.guestCount, guestEmail: input.guestEmail, baseAmount: nightsTotal }) : null;
+        if (promotionResult && !promotionResult.valid) throw new Error(promotionResult.message);
+        const promotionDiscount = promotionResult?.valid ? Number(promotionResult.discount) : 0;
+        const discountedNightsTotal = Math.max(0, nightsTotal - promotionDiscount);
+        const totalAmount = discountedNightsTotal + cleaningFee;
 
         const [result] = await (db.insert(bookings).values as any)([{
           propertyId: input.propertyId,
@@ -250,6 +305,8 @@ export const appRouter = router({
           checkOut: input.checkOut,
           totalAmount: totalAmount.toFixed(2),
           cleaningFee: cleaningFee.toFixed(2),
+          promotionCode: promotionResult?.valid ? promotionResult.code : null,
+          promotionDiscount: promotionDiscount.toFixed(2),
           paymentStatus: "unpaid" as const,
           specialRequests: input.specialRequests,
           gdprConsent: input.gdprConsent,
@@ -278,7 +335,7 @@ export const appRouter = router({
                   name: `${cottageName} — ${nights} nuit${nights > 1 ? "s" : ""}`,
                   description: `${input.guestFirstName} ${input.guestSurname} · ${input.checkIn} → ${input.checkOut} · ${input.guestCount} personne${input.guestCount > 1 ? "s" : ""}`,
                 },
-                unit_amount: Math.round(nightsTotal * 100),
+                unit_amount: Math.round(discountedNightsTotal * 100),
               },
               quantity: 1,
             },
@@ -300,10 +357,12 @@ export const appRouter = router({
             cottage_name: cottageName,
             check_in: input.checkIn,
             check_out: input.checkOut,
+            promotion_code: promotionResult?.valid ? promotionResult.code : "",
+            promotion_discount: promotionDiscount.toFixed(2),
           },
           success_url: `${origin}/booking/confirmation?session_id={CHECKOUT_SESSION_ID}&booking_id=${bookingId}`,
           cancel_url: `${origin}/booking?cancelled=1`,
-          allow_promotion_codes: true,
+          allow_promotion_codes: false,
         });
 
         await db.update(bookings)
@@ -354,6 +413,31 @@ export const appRouter = router({
           `<p>Nouvel abonné : <strong>${input.email}</strong> (${input.name || "—"}) via ${input.source || "footer"}</p>`
         );
         return { success: true };
+      }),
+    requestGuide: publicProcedure
+      .input(z.object({
+        firstName: z.string().trim().min(1).max(128),
+        lastName: z.string().trim().min(1).max(128),
+        email: z.string().email(),
+        marketingConsent: z.literal(true),
+        source: z.string().optional(),
+      }))
+      .mutation(async ({ input, ctx }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const existing = (await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.email, input.email)).limit(1))[0];
+        const source = input.source || "guide_cta";
+        if (existing) {
+          await db.update(newsletterSubscribers).set({ firstName: input.firstName, lastName: input.lastName, name: `${input.firstName} ${input.lastName}`, gdprConsent: true, marketingConsent: true, guideRequested: true, source }).where(eq(newsletterSubscribers.id, existing.id));
+        } else {
+          await db.insert(newsletterSubscribers).values({ email: input.email, name: `${input.firstName} ${input.lastName}`, firstName: input.firstName, lastName: input.lastName, gdprConsent: true, marketingConsent: true, guideRequested: true, source });
+        }
+        const crm = await syncGuideLeadToHighLevel(input);
+        if (crm.synced) await db.update(newsletterSubscribers).set({ crmSyncedAt: new Date() }).where(eq(newsletterSubscribers.email, input.email));
+        const origin = ctx.req.headers.origin || "https://www.sevebois.be";
+        const guideUrl = `${origin}/api/guide/download?token=${createGuideToken(input.email)}`;
+        await sendEmail(input.email, "Votre guide Green Cottages de Laforêt", `<p>Bonjour ${input.firstName},</p><p>Merci pour votre intérêt pour Green Cottages de Laforêt. Votre guide est prêt :</p><p><a href="${guideUrl}">Télécharger le guide des Ardennes</a></p><p>Vous recevrez également nos informations et inspirations concernant nos hébergements. Vous pouvez vous désabonner à tout moment.</p>`);
+        return { success: true, crmSynced: crm.synced };
       }),
   }),
 
@@ -738,11 +822,21 @@ export const appRouter = router({
       }),
 
     createPromotion: adminProcedure
-      .input(z.object({ propertyId: z.number(), name: z.string().min(1), discountType: z.enum(["percentage", "fixed"]), value: z.number().nonnegative(), minimumNights: z.number().int().min(1), isActive: z.boolean().default(true) }))
+      .input(z.object({ propertyId: z.number(), name: z.string().min(1), code: z.string().trim().min(1).max(64).transform((value) => value.toUpperCase()), description: z.string().optional(), discountType: z.enum(["percentage", "fixed"]), value: z.number().nonnegative(), minimumNights: z.number().int().min(1), validFrom: z.string().optional(), validUntil: z.string().optional(), firstBookingOnly: z.boolean().default(false), maxUses: z.number().int().positive().optional(), maxUsesPerGuest: z.number().int().positive().default(1), eligibleEmail: z.string().email().optional().or(z.literal("")), minimumGuests: z.number().int().positive().optional(), maximumGuests: z.number().int().positive().optional(), isActive: z.boolean().default(true) }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
         await db.insert(promotions).values(input as any);
+        return { success: true };
+      }),
+
+    updatePromotion: adminProcedure
+      .input(z.object({ id: z.number(), name: z.string().min(1), code: z.string().trim().min(1).max(64).transform((value) => value.toUpperCase()), description: z.string().optional(), discountType: z.enum(["percentage", "fixed"]), value: z.number().nonnegative(), minimumNights: z.number().int().min(1), validFrom: z.string().optional(), validUntil: z.string().optional(), firstBookingOnly: z.boolean(), maxUses: z.number().int().positive().optional(), maxUsesPerGuest: z.number().int().positive(), eligibleEmail: z.string().email().optional().or(z.literal("")), minimumGuests: z.number().int().positive().optional(), maximumGuests: z.number().int().positive().optional(), isActive: z.boolean() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const { id, ...values } = input;
+        await db.update(promotions).set(values as any).where(eq(promotions.id, id));
         return { success: true };
       }),
 
