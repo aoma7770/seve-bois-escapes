@@ -19,6 +19,7 @@ import nodemailer from "nodemailer";
 import ical from "node-ical";
 import { createGuideToken } from "./guide";
 import { dispatchAbandonedCheckout } from "./abandonedCheckout";
+import { dispatchConfirmedBooking } from "./confirmedBooking";
 
 // ─── Email helper ─────────────────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -704,6 +705,17 @@ export const appRouter = router({
         if (booking.status !== "abandoned") throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Only abandoned checkouts can be retried." });
         if (!booking.stripeSessionId) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "This booking has no Stripe Checkout Session." });
         return dispatchAbandonedCheckout({ bookingId: booking.id, stripeSessionId: booking.stripeSessionId, stripeEventId: `manual_retry_${booking.id}_${Date.now()}` });
+      }),
+
+    retryConfirmedWebhook: adminProcedure
+      .input(z.object({ bookingId: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const booking = (await db.select({ id: bookings.id, status: bookings.status, paymentStatus: bookings.paymentStatus, stripeSessionId: bookings.stripeSessionId }).from(bookings).where(eq(bookings.id, input.bookingId)).limit(1))[0];
+        if (!booking) throw new TRPCError({ code: "NOT_FOUND", message: "Booking not found." });
+        if (booking.status !== "confirmed" || booking.paymentStatus !== "paid") throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Only paid and confirmed bookings can be sent." });
+        return dispatchConfirmedBooking({ bookingId: booking.id, stripeEventId: `manual_retry_${booking.id}_${Date.now()}`, stripeSessionId: booking.stripeSessionId ?? undefined });
       }),
 
     getGuestCommunications: adminProcedure

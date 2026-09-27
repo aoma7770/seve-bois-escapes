@@ -4,6 +4,7 @@ import { getDb } from "./db";
 import { bookings } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
 import { dispatchAbandonedCheckout } from "./abandonedCheckout";
+import { dispatchConfirmedBooking } from "./confirmedBooking";
 
 const router = Router();
 
@@ -52,6 +53,14 @@ router.post("/webhook", async (req: Request, res: Response) => {
           })
           .where(eq(bookings.id, parseInt(bookingId)));
         console.log(`[Stripe Webhook] Booking ${bookingId} confirmed`);
+        const delivery = await dispatchConfirmedBooking({
+          bookingId: parseInt(bookingId),
+          stripeEventId: event.id,
+          stripeSessionId: session.id,
+        });
+        if (!delivery.sent) {
+          console.warn(`[Stripe Webhook] Confirmed booking webhook was not delivered for ${bookingId}: ${delivery.reason ?? "unknown reason"}`);
+        }
       }
     }
   }
