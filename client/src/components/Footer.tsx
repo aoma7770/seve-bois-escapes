@@ -182,7 +182,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="border-t border-[var(--forest-800)]">
-        <div className="container py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="container py-5 pb-24 lg:pb-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[var(--forest-500)]">
             © {new Date().getFullYear()} Sève & Bois Escapes. {t({ fr: "Tous droits réservés.", en: "All rights reserved.", be: "All rights reserved." })}
           </p>

@@ -5,6 +5,7 @@ import { trpc } from "@/lib/trpc";
 import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/style.css";
 import { toast } from "sonner";
+import { useIsMobile } from "@/hooks/useMobile";
 import {
   BOOKING_PRICING,
   BookingSelection,
@@ -26,6 +27,7 @@ const PHONE_COUNTRIES = [
 
 export default function BookingPage() {
   const { t } = useLanguage();
+  const isMobile = useIsMobile();
   const [location] = useLocation();
   const params = new URLSearchParams(location.split("?")[1] || "");
   const initialCheckin = params.get("checkin");
@@ -131,7 +133,7 @@ export default function BookingPage() {
 
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
-      <div className="bg-[var(--forest-900)] py-16 text-white">
+      <div className="bg-[var(--forest-900)] py-12 sm:py-16 text-white">
         <div className="container">
           <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Réservation directe", en: "Direct booking", be: "Direct booking" })}</p>
           <h1 className="text-headline text-white">{t({ fr: "Réservez votre séjour", en: "Book your stay", be: "Book your stay" })}</h1>
@@ -148,12 +150,12 @@ export default function BookingPage() {
         </div>
       </div>
 
-      <div className="container py-16">
+      <div className="container py-10 sm:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
           {/* Main form */}
           <div className="lg:col-span-2 space-y-8">
             {/* Booking scope */}
-            <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)]">
+            <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[var(--cream-300)] overflow-hidden">
               <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-2">{t({ fr: "Que souhaitez-vous réserver ?", en: "What would you like to book?", be: "Wat wilt u boeken?" })}</h3>
               <p className="text-sm text-[var(--slate-600)] mb-5">{t({ fr: "Choisissez un cottage pour 1 à 6 personnes, ou les deux pour un groupe de 4 à 12 personnes.", en: "Choose one cottage for 1–6 guests, or both for a group of 4–12 guests.", be: "Kies één cottage voor 1–6 gasten, of beide voor een groep van 4–12 gasten." })}</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -189,7 +191,7 @@ export default function BookingPage() {
                 selected={range}
                 onSelect={setRange}
                 disabled={disabledDays}
-                numberOfMonths={2}
+                numberOfMonths={isMobile ? 1 : 2}
                 fromDate={new Date()}
               />
               <div className="flex items-center gap-4 mt-4">
@@ -205,7 +207,7 @@ export default function BookingPage() {
             </div>
 
             {/* Guest details */}
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-6 border border-[var(--cream-300)] space-y-5">
+            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-4 sm:p-6 border border-[var(--cream-300)] space-y-5">
               <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)]">{t({ fr: "Vos coordonnées", en: "Your details", be: "Your details" })}</h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -223,7 +225,7 @@ export default function BookingPage() {
                 </div>
                 <div>
                   <label className="label-eco">{t({ fr: "Téléphone *", en: "Phone *", be: "Phone *" })}</label>
-                  <div className="grid grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-2">
+                  <div className="grid grid-cols-1 min-[380px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-2">
                     <select aria-label={t({ fr: "Pays du téléphone", en: "Phone country", be: "Phone country" })} value={form.country} onChange={e => setForm(f => ({ ...f, country: e.target.value }))} className="input-eco">
                       {PHONE_COUNTRIES.map(([code, flag, name, dialCode]) => <option key={code} value={code}>{flag} {name} ({dialCode})</option>)}
                     </select>

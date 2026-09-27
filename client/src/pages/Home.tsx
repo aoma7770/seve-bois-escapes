@@ -74,7 +74,7 @@ export default function Home() {
     <div className="min-h-screen bg-[var(--cream-50)]">
 
       {/* HERO - SLIDESHOW */}
-      <section className="relative h-screen min-h-[600px] max-h-[900px] overflow-hidden">
+      <section className="relative h-screen min-h-[560px] sm:min-h-[600px] max-h-[900px] overflow-hidden">
         <div className="absolute inset-[-10%] will-change-transform" style={{ transform: `translate3d(0, ${heroParallax}px, 0) scale(1.08)` }}>
           <Slideshow
             images={HERMAN_COTTAGE1_IMAGES.hero}
@@ -89,17 +89,17 @@ export default function Home() {
             <p className="text-caption text-[var(--ochre-300)] mb-4 animate-fade-up" style={{color: '#ffffff'}}>
               {t({ fr: "Laforêt · Ardennes belges · Sur la Semois", en: "Laforêt · Belgian Ardennes · On the Semois", be: "Laforêt · Belgian Ardennes · On the Semois" })}
             </p>
-            <h1 className="text-display text-white mb-6 animate-fade-up delay-100 max-w-3xl mx-auto">
+            <h1 className="text-display text-white mb-6 px-2 animate-fade-up delay-100 max-w-3xl mx-auto">
               {t({ fr: "Échappez à la ville — Deux cottages privés au cœur de Laforêt", en: "Escape to Nature — Two Private Cottages in the Heart of Laforêt", be: "Escape to Nature — Two Private Cottages in the Heart of Laforêt" })}
             </h1>
             <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto" style={{color: '#ffffff'}}>
               {t({ fr: "Entièrement équipés, acceptant les animaux domestiques, et parfaitement isolés pour chaque saison. Réservez directement pour les meilleurs tarifs.", en: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates.", be: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates." })}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-up delay-300">
-              <Link href="/booking" className="btn-primary text-base px-8 py-4">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-fade-up delay-300 px-4 sm:px-0">
+              <Link href="/booking" className="btn-primary sm:w-auto text-base px-8 py-4">
                 {t({ fr: "Vérifier les disponibilités", en: "Check availability", be: "Check availability" })}
               </Link>
-              <Link href="/cottages/la-seve" className="btn-ghost text-base px-8 py-4">
+              <Link href="/cottages/la-seve" className="btn-ghost sm:w-auto text-base px-8 py-4">
                 {t({ fr: "Découvrir les cottages", en: "Discover the cottages", be: "Discover the cottages" })}
               </Link>
             </div>
