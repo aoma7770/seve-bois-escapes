@@ -8,6 +8,12 @@ type DispatchInput = {
   stripeSessionId?: string;
 };
 
+export function formatPropertyBooked(selection: string) {
+  if (selection === "la-seve") return "La Sève";
+  if (selection === "le-bois") return "Le Bois";
+  return "Entire Site (La Sève + Le Bois)";
+}
+
 export function formatWebhookDate(value: Date | string | null | undefined) {
   if (!value) return "";
   const raw = value instanceof Date ? value.toISOString().slice(0, 10) : String(value).slice(0, 10);
@@ -43,6 +49,7 @@ export async function dispatchConfirmedBooking(input: DispatchInput) {
     event_type: "booking_confirmed",
     // Flat fields are intentional: they are easy to map in GoHighLevel workflows.
     booking_amount: Number(booking.totalAmount),
+    property_booked: formatPropertyBooked(booking.bookingSelection),
     number_of_guests: booking.guestCount,
     booking_check_in_date: formatWebhookDate(booking.checkIn),
     booking_check_out_date: formatWebhookDate(booking.checkOut),

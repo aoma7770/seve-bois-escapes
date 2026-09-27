@@ -1,9 +1,15 @@
 import { describe, expect, it } from "vitest";
-import { formatWebhookDate } from "./confirmedBooking";
+import { formatPropertyBooked, formatWebhookDate } from "./confirmedBooking";
 
 describe("confirmed booking webhook configuration", () => {
   it("formats booking dates as dd/mm/yyyy", () => {
     expect(formatWebhookDate("2027-06-01")).toBe("01/06/2027");
+  });
+
+  it("formats the booked property for GoHighLevel mapping", () => {
+    expect(formatPropertyBooked("la-seve")).toBe("La Sève");
+    expect(formatPropertyBooked("le-bois")).toBe("Le Bois");
+    expect(formatPropertyBooked("both")).toBe("Entire Site (La Sève + Le Bois)");
   });
 
   it("has a reachable GoHighLevel webhook endpoint", async () => {
