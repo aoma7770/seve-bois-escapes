@@ -12,6 +12,7 @@ import {
   TERRACE_SIDE, BATHROOM_C1, BEDROOM_C1, KITCHEN_C1
 } from "../../../shared/images";
 import { HERMAN_COTTAGE1_IMAGES, HERMAN_COTTAGE2_IMAGES } from "../../../shared/herman-images";
+import { trackEvent } from "@/lib/analytics";
 
 type AnimationType = 'fade-in' | 'slide-in-left' | 'slide-in-right' | 'slide-in-up' | 'pop' | 'rotate-in';
 
@@ -61,12 +62,17 @@ export default function Home() {
   }, []);
 
   const guideMutation = trpc.newsletter.requestGuide.useMutation({
-    onSuccess: () => setNewsletterDone(true),
+    onSuccess: () => {
+      trackEvent("guide_request_success", { lead_source: "homepage_cta" });
+      setNewsletterDone(true);
+    },
+    onError: (error) => trackEvent("guide_request_error", { lead_source: "homepage_cta", error_message: error.message.slice(0, 120) }),
   });
 
   const handleNewsletter = (e: React.FormEvent) => {
     e.preventDefault();
     if (!newsletterForm.firstName || !newsletterForm.lastName || !newsletterForm.email || !newsletterForm.marketingConsent) return;
+    trackEvent("guide_request_submitted", { lead_source: "homepage_cta" });
     guideMutation.mutate({ firstName: newsletterForm.firstName, lastName: newsletterForm.lastName, email: newsletterForm.email, marketingConsent: true, source: "homepage_cta" });
   };
 
@@ -489,7 +495,7 @@ export default function Home() {
             {!newsletterDone ? (
               <div className="mt-10 max-w-md mx-auto">
                 <p className="text-sm text-white/70 mb-4">{t({ fr: "Pas encore prêt ? Recevez notre guide gratuit des Ardennes.", en: "Not ready yet? Get our free Ardennes guide.", be: "Not ready yet? Get our free Ardennes guide." })}</p>
-                <form onSubmit={handleNewsletter} className="space-y-2 text-left">
+                <form data-analytics-form="free_guide_homepage" onSubmit={handleNewsletter} className="space-y-2 text-left">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <input type="text" placeholder={t({ fr: "Prénom", en: "First name", be: "First name" })} value={newsletterForm.firstName} onChange={(e) => setNewsletterForm({ ...newsletterForm, firstName: e.target.value })} required className="px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />
                     <input type="text" placeholder={t({ fr: "Nom", en: "Last name", be: "Last name" })} value={newsletterForm.lastName} onChange={(e) => setNewsletterForm({ ...newsletterForm, lastName: e.target.value })} required className="px-4 py-3 rounded-lg bg-white/15 border border-white/30 text-white placeholder-white/50 text-sm focus:outline-none focus:border-white/60 backdrop-blur-sm" />

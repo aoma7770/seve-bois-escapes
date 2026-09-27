@@ -6,6 +6,7 @@ import { DayPicker, DateRange } from "react-day-picker";
 import "react-day-picker/style.css";
 import { toast } from "sonner";
 import { useIsMobile } from "@/hooks/useMobile";
+import { trackEvent } from "@/lib/analytics";
 import {
   BOOKING_PRICING,
   BookingSelection,
@@ -89,10 +90,12 @@ export default function BookingPage() {
     onSuccess: (result) => {
       if (!result.valid) {
         setAppliedPromo(null);
+        trackEvent("promo_code_invalid", { code_entered: promoCode.trim().toUpperCase() });
         toast.error(result.message);
         return;
       }
       setAppliedPromo({ code: result.code, discount: Number(result.discount), signature: promoSignature });
+      trackEvent("promo_code_applied", { promo_code: result.code, discount_amount: Number(result.discount) });
       toast.success(t({ fr: `Code promo appliqué : -€${Number(result.discount).toFixed(2)}`, en: `Promo code applied: -€${Number(result.discount).toFixed(2)}`, be: `Promocode toegepast: -€${Number(result.discount).toFixed(2)}` }));
     },
     onError: (error) => { setAppliedPromo(null); toast.error(error.message); },
@@ -101,6 +104,7 @@ export default function BookingPage() {
   const checkoutMutation = trpc.bookings.createCheckout.useMutation({
     onSuccess: (data) => {
       if (data.checkoutUrl) {
+        trackEvent("booking_payment_redirected", { booking_selection: selection, guest_count: guestCount, total_amount: total, check_in: pricingCheckIn, check_out: pricingCheckOut });
         window.open(data.checkoutUrl, "_blank");
         toast.success(t({ fr: "Redirection vers le paiement...", en: "Redirecting to payment...", be: "Redirecting to payment..." }));
       } else {
@@ -108,6 +112,7 @@ export default function BookingPage() {
       }
     },
     onError: (err) => {
+      trackEvent("booking_checkout_error", { error_message: err.message.slice(0, 120) });
       toast.error(err.message || t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Something went wrong." }));
     },
   });
@@ -115,6 +120,8 @@ export default function BookingPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!range?.from || !range?.to || !form.gdprConsent) return;
+    trackEvent("booking_details_submitted", { booking_selection: selection, guest_count: guestCount, total_amount: total, check_in: pricingCheckIn, check_out: pricingCheckOut });
+    trackEvent("begin_checkout", { booking_selection: selection, guest_count: guestCount, value: total, currency: "EUR" });
     checkoutMutation.mutate({
       propertyId,
       bookingSelection: selection,
@@ -207,7 +214,7 @@ export default function BookingPage() {
             </div>
 
             {/* Guest details */}
-            <form onSubmit={handleSubmit} className="bg-white rounded-2xl p-4 sm:p-6 border border-[var(--cream-300)] space-y-5">
+            <form data-analytics-form="booking_details" data-analytics-booking-action="details" onSubmit={handleSubmit} className="bg-white rounded-2xl p-4 sm:p-6 border border-[var(--cream-300)] space-y-5">
               <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)]">{t({ fr: "Vos coordonnées", en: "Your details", be: "Your details" })}</h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

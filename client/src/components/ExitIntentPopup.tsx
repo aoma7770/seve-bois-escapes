@@ -3,6 +3,7 @@ import { X } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 
 export default function ExitIntentPopup() {
   const { t } = useLanguage();
@@ -68,10 +69,12 @@ export default function ExitIntentPopup() {
 
   const guideRequest = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => {
+      trackEvent("guide_request_success", { lead_source: "exit_popup" });
       toast.success(t({ fr: "Merci pour votre intérêt ! Le guide gratuit vient d’être envoyé à votre adresse email. Bonne découverte des Ardennes !", en: "Thank you for your interest! We’ve sent the free guide to your inbox — enjoy discovering the Semois and the Belgian Ardennes.", be: "Bedankt voor uw interesse! We hebben de gratis gids naar uw inbox gestuurd — veel ontdekkingsplezier in de Semois en de Belgische Ardennen!" }));
       setVisible(false);
     },
-    onError: () => {
+    onError: (error) => {
+      trackEvent("guide_request_error", { lead_source: "exit_popup", error_message: error.message.slice(0, 120) });
       toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Er is iets misgegaan." }));
     },
   });
@@ -79,6 +82,7 @@ export default function ExitIntentPopup() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.firstName || !form.lastName || !form.email || !form.marketingConsent) return;
+    trackEvent("guide_request_submitted", { lead_source: "exit_popup" });
     guideRequest.mutate({ firstName: form.firstName, lastName: form.lastName, email: form.email, marketingConsent: true, source: "exit_popup" });
   };
 
@@ -113,7 +117,7 @@ export default function ExitIntentPopup() {
             })}
           </p>
 
-          <form onSubmit={handleSubmit} className="space-y-3">
+          <form data-analytics-form="free_guide_exit_popup" onSubmit={handleSubmit} className="space-y-3">
             <input
               type="text"
               placeholder={t({ fr: "Votre prénom", en: "Your first name", be: "Je voornaam" })}

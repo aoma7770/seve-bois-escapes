@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { emitAnalyticsConsentChanged, loadGoogleAnalytics, trackEvent } from "@/lib/analytics";
 
 export default function CookieBanner() {
   const { t } = useLanguage();
@@ -16,11 +17,15 @@ export default function CookieBanner() {
 
   const accept = () => {
     localStorage.setItem("sevebois-cookie-consent", "accepted");
+    loadGoogleAnalytics();
+    trackEvent("cookie_consent_granted", { consent_type: "analytics" });
+    emitAnalyticsConsentChanged("accepted");
     setVisible(false);
   };
 
   const decline = () => {
     localStorage.setItem("sevebois-cookie-consent", "declined");
+    emitAnalyticsConsentChanged("declined");
     setVisible(false);
   };
 

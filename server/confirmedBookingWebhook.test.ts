@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
+import { formatWebhookDate } from "./confirmedBooking";
 
 describe("confirmed booking webhook configuration", () => {
+  it("formats booking dates as dd/mm/yyyy", () => {
+    expect(formatWebhookDate("2027-06-01")).toBe("01/06/2027");
+  });
+
   it("has a reachable GoHighLevel webhook endpoint", async () => {
     const webhookUrl = process.env.GOHIGHLEVEL_CONFIRMED_BOOKING_WEBHOOK_URL;
     expect(webhookUrl).toMatch(/^https:\/\/services\.leadconnectorhq\.com\/hooks\//);

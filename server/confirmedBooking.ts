@@ -8,6 +8,13 @@ type DispatchInput = {
   stripeSessionId?: string;
 };
 
+export function formatWebhookDate(value: Date | string | null | undefined) {
+  if (!value) return "";
+  const raw = value instanceof Date ? value.toISOString().slice(0, 10) : String(value).slice(0, 10);
+  const [year, month, day] = raw.split("-");
+  return year && month && day ? `${day.padStart(2, "0")}/${month.padStart(2, "0")}/${year}` : String(value);
+}
+
 export async function dispatchConfirmedBooking(input: DispatchInput) {
   const webhookUrl = process.env.GOHIGHLEVEL_CONFIRMED_BOOKING_WEBHOOK_URL;
   const db = await getDb();
@@ -34,6 +41,15 @@ export async function dispatchConfirmedBooking(input: DispatchInput) {
 
   const payload = {
     event_type: "booking_confirmed",
+    // Flat fields are intentional: they are easy to map in GoHighLevel workflows.
+    booking_amount: Number(booking.totalAmount),
+    number_of_guests: booking.guestCount,
+    booking_check_in_date: formatWebhookDate(booking.checkIn),
+    booking_check_out_date: formatWebhookDate(booking.checkOut),
+    phone: booking.guestPhone,
+    first_name: booking.guestFirstName || booking.guestName.split(" ")[0] || "",
+    last_name: booking.guestSurname || booking.guestName.split(" ").slice(1).join(" "),
+    email: booking.guestEmail,
     source: booking.source,
     booking_id: booking.id,
     booking_status: booking.status,
@@ -50,8 +66,8 @@ export async function dispatchConfirmedBooking(input: DispatchInput) {
     },
     stay: {
       selection: booking.bookingSelection,
-      check_in: String(booking.checkIn),
-      check_out: String(booking.checkOut),
+      check_in: formatWebhookDate(booking.checkIn),
+      check_out: formatWebhookDate(booking.checkOut),
       guest_count: booking.guestCount,
       total_amount: Number(booking.totalAmount),
       currency: "EUR",

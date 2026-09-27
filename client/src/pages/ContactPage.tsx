@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { LOCATION_IMAGES } from "../../../shared/location-images";
+import { trackEvent } from "@/lib/analytics";
 
 export default function ContactPage() {
   const { t } = useLanguage();
@@ -12,14 +13,19 @@ export default function ContactPage() {
 
   const submitMutation = trpc.enquiries.submit.useMutation({
     onSuccess: () => {
+      trackEvent("contact_request_success", { contact_method: "website_form" });
       toast.success(t({ fr: "Merci pour votre message ! Nous l’avons bien reçu et nous vous répondrons sous 24 heures. Au plaisir d’échanger avec vous !", en: "Thank you for reaching out! We’ve received your message and will reply within 24 hours. We look forward to helping you plan your escape.", be: "Bedankt voor uw bericht! We hebben het goed ontvangen en antwoorden binnen 24 uur. We helpen u graag bij het plannen van uw verblijf." }));
       setForm({ name: "", email: "", phone: "", message: "", gdprConsent: false });
     },
-    onError: () => toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Something went wrong." })),
+    onError: (error) => {
+      trackEvent("contact_request_error", { error_message: error.message.slice(0, 120) });
+      toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Something went wrong." }));
+    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    trackEvent("contact_request_submitted", { contact_method: "website_form" });
     submitMutation.mutate({ name: form.name, email: form.email, phone: form.phone, message: form.message, gdprConsent: form.gdprConsent });
   };
 
@@ -37,7 +43,7 @@ export default function ContactPage() {
             <div className="divider-ochre mb-6" />
             <h2 className="text-subheadline text-[var(--forest-950)] mb-4">{t({ fr: "Envoyez-nous un message", en: "Send us a message", be: "Send us a message" })}</h2>
             <p className="text-lead mb-8">{t({ fr: "Nous répondons sous 24h. Pour une réponse immédiate, utilisez WhatsApp.", en: "We reply within 24h. For an immediate response, use WhatsApp.", be: "We reply within 24h. For an immediate response, use WhatsApp." })}</p>
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form data-analytics-form="contact_request" onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label className="label-eco">{t({ fr: "Nom *", en: "Name *", be: "Name *" })}</label>

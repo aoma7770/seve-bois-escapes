@@ -4,6 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -11,10 +12,12 @@ export default function Footer() {
 
   const guideRequest = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => {
+      trackEvent("guide_request_success", { lead_source: "footer_guide" });
       toast.success(t({ fr: "Merci pour votre intérêt ! Le guide gratuit vient d’être envoyé à votre adresse email. Bonne découverte des Ardennes !", en: "Thank you for your interest! We’ve sent the free guide to your inbox — enjoy discovering the Semois and the Belgian Ardennes.", be: "Bedankt voor uw interesse! We hebben de gratis gids naar uw inbox gestuurd — veel ontdekkingsplezier in de Semois en de Belgische Ardennen!" }));
       setGuideForm({ firstName: "", lastName: "", email: "", marketingConsent: false });
     },
     onError: (err) => {
+      trackEvent("guide_request_error", { lead_source: "footer_guide", error_message: err.message.slice(0, 120) });
       toast.error(err.message || t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Er is iets misgegaan." }));
     },
   });
@@ -22,6 +25,7 @@ export default function Footer() {
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
     if (!guideForm.firstName || !guideForm.lastName || !guideForm.email || !guideForm.marketingConsent) return;
+    trackEvent("guide_request_submitted", { lead_source: "footer_guide" });
     guideRequest.mutate({ firstName: guideForm.firstName, lastName: guideForm.lastName, email: guideForm.email, marketingConsent: true, source: "footer_guide" });
   };
 
@@ -140,7 +144,7 @@ export default function Footer() {
             <p className="text-sm text-[var(--forest-300)] leading-relaxed mb-4">
               {t({ fr: "Recevez notre guide gratuit « Explorer la Semois & les Ardennes belges ».", en: "Receive our free guide \"Exploring the Semois & the Belgian Ardennes\".", be: "Receive our free guide \"Exploring the Semois & the Belgian Ardennes\"." })}
             </p>
-            <form onSubmit={handleSubscribe} className="space-y-2">
+            <form data-analytics-form="free_guide_footer" onSubmit={handleSubscribe} className="space-y-2">
               <input
                 type="text"
                 placeholder={t({ fr: "Votre prénom", en: "Your first name", be: "Your first name" })}

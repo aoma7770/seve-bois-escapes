@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { trpc } from "@/lib/trpc";
+import { trackEvent } from "@/lib/analytics";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Wifi, Flame, Car, Utensils, Droplets, Leaf, Users, Bed, Bath, ChevronLeft, ChevronRight, X, Calendar } from "lucide-react";
 import { HERMAN_COTTAGE1_IMAGES, HERMAN_COTTAGE2_IMAGES } from "../../../shared/herman-images";
@@ -107,10 +108,13 @@ export default function CottagePage({ slug }: Props) {
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       {/* Hero gallery */}
-      <div className="relative h-[60vh] md:h-[75vh] overflow-hidden bg-[var(--forest-900)]">
+      <div data-analytics-gallery={name} className="relative h-[60vh] md:h-[75vh] overflow-hidden bg-[var(--forest-900)]">
         <button
           type="button"
-          onClick={() => setLightboxOpen(true)}
+          onClick={() => {
+            trackEvent("gallery_opened", { gallery_name: name, photo_index: galleryIndex + 1 });
+            setLightboxOpen(true);
+          }}
           className="absolute inset-0 z-[1] cursor-zoom-in"
           aria-label={t({ fr: `Ouvrir la galerie complète de ${name}`, en: `Open the full ${name} gallery`, be: `Open de volledige galerij van ${name}` })}
         >
@@ -146,7 +150,7 @@ export default function CottagePage({ slug }: Props) {
       </div>
 
       {/* Thumbnail strip */}
-      <div className="bg-[var(--forest-950)] py-3 overflow-x-auto">
+      <div data-analytics-gallery={`${name}_thumbnails`} className="bg-[var(--forest-950)] py-3 overflow-x-auto">
         <div className="flex gap-2 px-4 w-max mx-auto">
           {images.slice(0, 10).map((img, i) => (
             <button
@@ -161,7 +165,7 @@ export default function CottagePage({ slug }: Props) {
       </div>
 
       {lightboxOpen && (
-        <div className="fixed inset-0 z-[120] bg-black/95 flex flex-col" role="dialog" aria-modal="true" aria-label={t({ fr: `Galerie de ${name}`, en: `${name} gallery`, be: `${name} galerij` })}>
+        <div data-analytics-gallery={`${name}_lightbox`} className="fixed inset-0 z-[120] bg-black/95 flex flex-col" role="dialog" aria-modal="true" aria-label={t({ fr: `Galerie de ${name}`, en: `${name} gallery`, be: `${name} galerij` })}>
           <div className="flex items-center justify-between px-4 py-3 text-white shrink-0">
             <p className="text-sm font-medium">{name} <span className="text-white/60">· {galleryIndex + 1} / {images.length}</span></p>
             <button type="button" onClick={() => setLightboxOpen(false)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center" aria-label={t({ fr: "Fermer la galerie", en: "Close gallery", be: "Galerij sluiten" })}>

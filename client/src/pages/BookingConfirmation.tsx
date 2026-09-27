@@ -1,7 +1,9 @@
 import { useLocation, Link } from "wouter";
+import { useEffect } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/lib/trpc";
 import { CheckCircle, Calendar, Mail, Phone } from "lucide-react";
+import { trackEvent } from "@/lib/analytics";
 
 export default function BookingConfirmation() {
   const { t } = useLanguage();
@@ -13,6 +15,11 @@ export default function BookingConfirmation() {
     { sessionId: sessionId! },
     { enabled: !!sessionId }
   );
+
+  useEffect(() => {
+    if (!booking) return;
+    trackEvent("booking_confirmed_viewed", { booking_id: booking.id, booking_amount: Number(booking.totalAmount), number_of_guests: booking.guestCount });
+  }, [booking]);
 
   return (
     <div className="min-h-screen bg-[var(--cream-50)] flex items-center justify-center py-20" style={{ paddingTop: "6rem" }}>
