@@ -3,6 +3,7 @@ import Stripe from "stripe";
 import { getDb } from "./db";
 import { bookings } from "../drizzle/schema";
 import { eq } from "drizzle-orm";
+import { dispatchAbandonedCheckout } from "./abandonedCheckout";
 
 const router = Router();
 
@@ -61,9 +62,18 @@ router.post("/webhook", async (req: Request, res: Response) => {
     if (bookingId) {
       const db = await getDb();
       if (db) {
-        await db.update(bookings)
-          .set({ status: "cancelled", paymentStatus: "unpaid" })
-          .where(eq(bookings.id, parseInt(bookingId)));
+        const booking = (await db.select({ id: bookings.id, paymentStatus: bookings.paymentStatus, stripeSessionId: bookings.stripeSessionId }).from(bookings).where(eq(bookings.id, parseInt(bookingId))).limit(1))[0];
+        if (booking?.paymentStatus !== "paid") {
+          await db.update(bookings)
+            .set({ status: "abandoned", paymentStatus: "unpaid", abandonedAt: new Date(), stripeRecoveryUrl: session.after_expiration?.recovery?.url ?? null })
+            .where(eq(bookings.id, parseInt(bookingId)));
+          await dispatchAbandonedCheckout({
+            bookingId: parseInt(bookingId),
+            stripeSessionId: session.id,
+            stripeEventId: event.id,
+            recoveryUrl: session.after_expiration?.recovery?.url,
+          });
+        }
       }
     }
   }

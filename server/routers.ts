@@ -18,6 +18,7 @@ import {
 import nodemailer from "nodemailer";
 import ical from "node-ical";
 import { createGuideToken } from "./guide";
+import { dispatchAbandonedCheckout } from "./abandonedCheckout";
 
 // ─── Email helper ─────────────────────────────────────────────────────────────
 async function sendEmail(to: string, subject: string, html: string) {
@@ -327,6 +328,7 @@ export const appRouter = router({
 
         const session = await stripe.checkout.sessions.create({
           managed_payments: { enabled: false },
+          after_expiration: { recovery: { enabled: true, allow_promotion_codes: false } },
           line_items: [
             {
               price_data: {
@@ -541,6 +543,7 @@ export const appRouter = router({
         annualCouncilTax: z.number().nonnegative().optional(),
         councilTaxRatePerM2: z.number().nonnegative().optional(),
         zapierWebhookUrl: z.string().url().or(z.literal("")).optional(),
+        gohighlevelWebhookUrl: z.string().url().or(z.literal("")).optional(),
         descriptionFr: z.string().optional(),
         descriptionEn: z.string().optional(),
         descriptionNl: z.string().optional(),
@@ -587,7 +590,7 @@ export const appRouter = router({
       }),
 
     updateBookingStatus: adminProcedure
-      .input(z.object({ id: z.number(), status: z.enum(["pending", "confirmed", "cancelled", "refunded"]) }))
+      .input(z.object({ id: z.number(), status: z.enum(["pending", "confirmed", "abandoned", "cancelled", "refunded"]) }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
@@ -648,6 +651,18 @@ export const appRouter = router({
         return { url: session.url, bookingId: booking.id };
       }),
 
+    retryAbandonedWebhook: adminProcedure
+      .input(z.object({ bookingId: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const booking = (await db.select({ id: bookings.id, status: bookings.status, stripeSessionId: bookings.stripeSessionId }).from(bookings).where(eq(bookings.id, input.bookingId)).limit(1))[0];
+        if (!booking) throw new TRPCError({ code: "NOT_FOUND", message: "Booking not found." });
+        if (booking.status !== "abandoned") throw new TRPCError({ code: "PRECONDITION_FAILED", message: "Only abandoned checkouts can be retried." });
+        if (!booking.stripeSessionId) throw new TRPCError({ code: "PRECONDITION_FAILED", message: "This booking has no Stripe Checkout Session." });
+        return dispatchAbandonedCheckout({ bookingId: booking.id, stripeSessionId: booking.stripeSessionId, stripeEventId: `manual_retry_${booking.id}_${Date.now()}` });
+      }),
+
     getGuestCommunications: adminProcedure
       .input(z.object({ guestEmail: z.string().email() }))
       .query(async ({ input }) => {
@@ -676,9 +691,9 @@ export const appRouter = router({
       if (!db) return { totalBookings: 0, confirmedBookings: 0, cancelledBookings: 0, pendingBookings: 0, abandonedCheckouts: 0, revenue: 0, paidRevenue: 0, nightsBooked: 0, occupancyEstimate: 0 };
       const rows = await db.select().from(bookings);
       const paid = rows.filter((booking) => booking.paymentStatus === "paid" && booking.status === "confirmed");
-      const pending = rows.filter((booking) => booking.paymentStatus !== "paid" && booking.status === "pending");
       const abandonedCutoff = Date.now() - 24 * 60 * 60 * 1000;
-      const abandoned = pending.filter((booking) => new Date(booking.createdAt).getTime() < abandonedCutoff);
+      const pending = rows.filter((booking) => booking.paymentStatus !== "paid" && booking.status === "pending" && new Date(booking.createdAt).getTime() >= abandonedCutoff);
+      const abandoned = rows.filter((booking) => booking.status === "abandoned" || (booking.paymentStatus !== "paid" && booking.status === "pending" && new Date(booking.createdAt).getTime() < abandonedCutoff));
       const nightsBooked = paid.reduce((total, booking) => total + Math.max(0, Math.ceil((new Date(String(booking.checkOut)).getTime() - new Date(String(booking.checkIn)).getTime()) / 86400000)), 0);
       const paidRevenue = paid.reduce((total, booking) => total + Number(booking.totalAmount), 0);
       return { totalBookings: paid.length, confirmedBookings: paid.length, cancelledBookings: rows.filter((booking) => booking.status === "cancelled" || booking.status === "refunded").length, pendingBookings: pending.length, abandonedCheckouts: abandoned.length, revenue: paidRevenue, paidRevenue, nightsBooked, occupancyEstimate: Math.min(100, Math.round((nightsBooked / 365) * 100)) };
