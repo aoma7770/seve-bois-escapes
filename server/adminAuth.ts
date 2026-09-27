@@ -7,7 +7,7 @@ import { getDb } from "./db";
 import { getSessionCookieOptions } from "./_core/cookies";
 
 const ADMIN_SESSION_COOKIE = "green_cottages_admin_session";
-const SESSION_TTL_SECONDS = 60 * 60 * 8;
+export const ADMIN_SESSION_TTL_SECONDS = 60 * 60 * 24;
 
 type SessionPayload = { username: string; exp: number; sessionVersion: number };
 
@@ -39,7 +39,7 @@ export function verifyPasswordRecord(password: string, record: { passwordHash: s
 }
 
 function createSessionToken(username: string, sessionVersion: number) {
-  const payload: SessionPayload = { username, sessionVersion, exp: Math.floor(Date.now() / 1000) + SESSION_TTL_SECONDS };
+  const payload: SessionPayload = { username, sessionVersion, exp: Math.floor(Date.now() / 1000) + ADMIN_SESSION_TTL_SECONDS };
   const encoded = toBase64Url(JSON.stringify(payload));
   const signature = createHmac("sha256", secret()).update(encoded).digest("base64url");
   return `${encoded}.${signature}`;
@@ -93,7 +93,7 @@ export async function loginAdmin(req: Request, res: Response) {
   const row = (await db.select().from(adminCredentials).where(eq(adminCredentials.username, username)).limit(1))[0];
   if (!row) return res.status(401).json({ error: "Invalid credentials." });
   if (!verifyPasswordRecord(password, row)) return res.status(401).json({ error: "Invalid credentials." });
-  res.cookie(ADMIN_SESSION_COOKIE, createSessionToken(row.username, row.sessionVersion), { ...getSessionCookieOptions(req), maxAge: SESSION_TTL_SECONDS * 1000 });
+  res.cookie(ADMIN_SESSION_COOKIE, createSessionToken(row.username, row.sessionVersion), { ...getSessionCookieOptions(req), maxAge: ADMIN_SESSION_TTL_SECONDS * 1000 });
   return res.json({ success: true, username: row.username });
 }
 

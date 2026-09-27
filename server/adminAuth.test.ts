@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { createPasswordRecord, verifyPasswordRecord } from "./adminAuth";
+import { ADMIN_SESSION_TTL_SECONDS, createPasswordRecord, verifyPasswordRecord } from "./adminAuth";
 
 describe("standalone admin credentials", () => {
   it("stores a salted hash rather than the plaintext password", () => {
@@ -15,5 +15,9 @@ describe("standalone admin credentials", () => {
     const second = createPasswordRecord("example-password");
     expect(first.passwordSalt).not.toBe(second.passwordSalt);
     expect(first.passwordHash).not.toBe(second.passwordHash);
+  });
+
+  it("keeps an authenticated staff session valid for 24 hours", () => {
+    expect(ADMIN_SESSION_TTL_SECONDS).toBe(60 * 60 * 24);
   });
 });
