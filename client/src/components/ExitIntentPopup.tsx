@@ -11,29 +11,57 @@ export default function ExitIntentPopup() {
   const triggered = useRef(false);
 
   useEffect(() => {
-    const shown = sessionStorage.getItem("sevebois-exit-popup");
+    const shown = window.sessionStorage.getItem("sevebois-exit-popup");
     if (shown) return;
 
-    const handleMouseLeave = (e: MouseEvent) => {
-      if (e.clientY <= 0 && !triggered.current) {
-        triggered.current = true;
-        sessionStorage.setItem("sevebois-exit-popup", "shown");
-        setTimeout(() => setVisible(true), 200);
-      }
+    let lastScrollY = window.scrollY;
+    let hasMeaningfulScroll = window.scrollY > 160;
+    let hiddenAt = 0;
+
+    const trigger = () => {
+      if (triggered.current) return;
+      triggered.current = true;
+      window.sessionStorage.setItem("sevebois-exit-popup", "shown");
+      window.setTimeout(() => setVisible(true), 120);
     };
 
-    // Also show after 45s on mobile (no mouse leave event)
-    const mobileTimer = setTimeout(() => {
-      if (!triggered.current) {
-        triggered.current = true;
-        sessionStorage.setItem("sevebois-exit-popup", "shown");
-        setVisible(true);
+    const handleMouseLeave = (e: MouseEvent) => {
+      // Desktop exit intent: the pointer reaches the browser chrome.
+      if (e.clientY <= 0) trigger();
+    };
+
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY > 160) hasMeaningfulScroll = true;
+      // On touch devices, a deliberate upward swipe is the closest reliable
+      // equivalent to moving the pointer toward the browser's close/back UI.
+      if (hasMeaningfulScroll && lastScrollY - currentY > 70) trigger();
+      lastScrollY = currentY;
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        hiddenAt = Date.now();
+        return;
       }
-    }, 45000);
+      // If the visitor returns from the browser/tab switcher, offer the guide
+      // while they are still deciding whether to leave.
+      if (hiddenAt && Date.now() - hiddenAt > 400 && (hasMeaningfulScroll || window.innerWidth < 768)) trigger();
+    };
+
+    // A shorter fallback catches visitors who do not move the pointer or
+    // scroll upward. It is intentionally delayed to avoid interrupting entry.
+    const mobileTimer = window.setTimeout(() => {
+      if (window.innerWidth < 768) trigger();
+    }, 18000);
 
     document.addEventListener("mouseleave", handleMouseLeave);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
       document.removeEventListener("mouseleave", handleMouseLeave);
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       clearTimeout(mobileTimer);
     };
   }, []);
@@ -58,13 +86,13 @@ export default function ExitIntentPopup() {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 animate-fade-in">
-      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-scale-in">
+      <div className="relative bg-white rounded-2xl shadow-2xl max-w-md max-h-[92vh] w-full overflow-y-auto overflow-x-hidden animate-scale-in">
         {/* Image strip */}
         <div
-          className="h-40 bg-cover bg-center"
+          className="h-28 sm:h-40 bg-cover bg-center"
           style={{ backgroundImage: `url(/manus-storage/enhanced_hero_exterior_900690b4_1db4629c.webp)` }}
         />
-        <div className="p-7">
+        <div className="p-5 sm:p-7">
           <button
             onClick={() => setVisible(false)}
             className="absolute top-3 right-3 w-8 h-8 rounded-full bg-black/20 flex items-center justify-center text-white hover:bg-black/40 transition-colors"
