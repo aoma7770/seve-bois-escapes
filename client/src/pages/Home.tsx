@@ -294,7 +294,7 @@ export default function Home() {
             <div className="rounded-2xl bg-[var(--forest-900)] text-white p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
               <div>
                 <p className="text-caption text-[var(--ochre-300)] mb-2" style={{color: '#f8f7f7'}}>{t({ fr: "Pour les groupes", en: "For groups", be: "Voor groepen" })}</p>
-                <h3 className="font-serif text-2xl">{t({ fr: "Réservez les deux cottages", en: "Book both cottages", be: "Boek beide cottages" })}</h3>
+                <h3 className="font-serif text-2xl" style={{color: '#fafafa'}}>{t({ fr: "Réservez les deux cottages", en: "Book both cottages", be: "Boek beide cottages" })}</h3>
                 <p className="text-sm text-white/75 mt-2" style={{color: '#f9f6f6'}}>{t({ fr: "Pour 4 à 12 personnes, avec un tarif calculé selon le nombre de voyageurs.", en: "For 4–12 guests, with the rate calculated from the number of travellers.", be: "Voor 4–12 gasten, met de prijs berekend volgens het aantal reizigers." })}</p>
               </div>
               <Link href="/booking?cottage=both" className="btn-ghost shrink-0 text-center">{t({ fr: "Choisir les options", en: "Choose your option", be: "Kies uw optie" })}</Link>
