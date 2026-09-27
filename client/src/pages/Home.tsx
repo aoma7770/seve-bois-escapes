@@ -486,7 +486,7 @@ export default function Home() {
             <h2 className="text-display text-white mb-6 max-w-2xl mx-auto">
               {t({ fr: "Votre évasion vous attend.", en: "Your escape is waiting.", be: "Your escape is waiting." })}
             </h2>
-            <p className="text-lead text-white/85 mb-10 max-w-xl mx-auto">
+            <p className="text-lead text-white/85 mb-10 max-w-xl mx-auto" style={{color: '#ffffff'}}>
               {t({ fr: "Deux cottages. La forêt ardennaise. La Semois à votre porte. Il ne manque plus que vous.", en: "Two cottages. The Ardennes forest. The Semois at your door. All that's missing is you.", be: "Two cottages. The Ardennes forest. The Semois at your door. All that's missing is you." })}
             </p>
             <Link href="/booking" className="btn-primary text-base px-10 py-4 mb-6 inline-block">
