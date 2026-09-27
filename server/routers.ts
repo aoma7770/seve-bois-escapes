@@ -46,30 +46,39 @@ async function sendEmail(to: string, subject: string, html: string) {
 async function syncGuideLeadToHighLevel(input: { firstName: string; lastName: string; email: string; source?: string }) {
   const webhookUrl = process.env.GOHIGHLEVEL_GUIDE_WEBHOOK_URL;
   if (webhookUrl) {
-    const response = await fetch(webhookUrl, {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-Green-Cottages-Event": "guide_request" },
-      body: JSON.stringify({
-        event_type: "guide_request",
-        source: input.source || "guide_cta",
-        first_name: input.firstName,
-        last_name: input.lastName,
-        email: input.email,
-        marketing_consent: true,
-        guide_requested: true,
-        guide_name: "Exploring the Semois & the Belgian Ardennes",
-      }),
-      signal: AbortSignal.timeout(8_000),
-    });
-    if (!response.ok) {
-      console.warn(`[GoHighLevel] Guide webhook sync failed with ${response.status}`);
-      return { synced: false };
+    const payload = {
+      event_type: "guide_request",
+      source: input.source || "guide_cta",
+      first_name: input.firstName,
+      last_name: input.lastName,
+      email: input.email,
+      marketing_consent: true,
+      guide_requested: true,
+      guide_name: "Exploring the Semois & the Belgian Ardennes",
+    };
+    let lastFailure = "Unknown webhook failure";
+    for (let attempt = 1; attempt <= 3; attempt += 1) {
+      try {
+        const response = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json", "X-Green-Cottages-Event": "guide_request" },
+          body: JSON.stringify(payload),
+          signal: AbortSignal.timeout(8_000),
+        });
+        if (response.ok) return { synced: true };
+        const body = (await response.text()).slice(0, 240);
+        lastFailure = `HTTP ${response.status}${body ? `: ${body}` : ""}`;
+      } catch (error) {
+        lastFailure = error instanceof Error ? error.message : String(error);
+      }
+      console.warn(`[GoHighLevel] Guide webhook attempt ${attempt}/3 failed: ${lastFailure}`);
+      if (attempt < 3) await new Promise((resolve) => setTimeout(resolve, attempt * 750));
     }
-    return { synced: true };
+    return { synced: false, reason: lastFailure };
   }
   const token = process.env.GOHIGHLEVEL_PRIVATE_TOKEN;
   const locationId = process.env.GOHIGHLEVEL_LOCATION_ID;
-  if (!token || !locationId) return { synced: false };
+  if (!token || !locationId) return { synced: false, reason: "No GoHighLevel guide webhook or API credentials are configured." };
   const response = await fetch("https://services.leadconnectorhq.com/contacts/", {
     method: "POST",
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json", Version: "2021-07-28" },
@@ -77,7 +86,7 @@ async function syncGuideLeadToHighLevel(input: { firstName: string; lastName: st
   });
   if (!response.ok) {
     console.warn(`[GoHighLevel] Guide lead sync failed with ${response.status}`);
-    return { synced: false };
+    return { synced: false, reason: `HTTP ${response.status}` };
   }
   return { synced: true };
 }
@@ -458,7 +467,10 @@ export const appRouter = router({
           await db.insert(newsletterSubscribers).values({ email: input.email, name: `${input.firstName} ${input.lastName}`, firstName: input.firstName, lastName: input.lastName, gdprConsent: true, marketingConsent: true, guideRequested: true, source });
         }
         const crm = await syncGuideLeadToHighLevel(input);
-        if (crm.synced) await db.update(newsletterSubscribers).set({ crmSyncedAt: new Date() }).where(eq(newsletterSubscribers.email, input.email));
+        if (!crm.synced) {
+          throw new TRPCError({ code: "SERVICE_UNAVAILABLE", message: "We saved your request, but could not connect to the guide delivery service. Please try again in a moment." });
+        }
+        await db.update(newsletterSubscribers).set({ crmSyncedAt: new Date() }).where(eq(newsletterSubscribers.email, input.email));
         const origin = ctx.req.headers.origin || "https://www.sevebois.be";
         const guideUrl = `${origin}/api/guide/download?token=${createGuideToken(input.email)}`;
         await sendEmail(input.email, "Votre guide Green Cottages de Laforêt", `<p>Bonjour ${input.firstName},</p><p>Merci pour votre intérêt pour Green Cottages de Laforêt. Votre guide est prêt :</p><p><a href="${guideUrl}">Télécharger le guide des Ardennes</a></p><p>Vous recevrez également nos informations et inspirations concernant nos hébergements. Vous pouvez vous désabonner à tout moment.</p>`);
