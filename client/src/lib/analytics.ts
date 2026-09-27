@@ -1,11 +1,21 @@
 export const GA4_MEASUREMENT_ID = "G-VR4KH5D142";
+export const META_PIXEL_ID = "1965444947426063";
 const CONSENT_KEY = "sevebois-cookie-consent";
 const CONSENT_EVENT = "green-cottages-analytics-consent";
+
+type Fbq = ((...args: unknown[]) => void) & {
+  callMethod?: (...args: unknown[]) => void;
+  queue?: unknown[];
+  loaded?: boolean;
+  version?: string;
+};
 
 declare global {
   interface Window {
     dataLayer: unknown[];
     gtag?: (...args: unknown[]) => void;
+    fbq?: Fbq;
+    _fbq?: Fbq;
   }
 }
 
@@ -44,6 +54,36 @@ export function loadGoogleAnalytics() {
   return true;
 }
 
+export function loadMetaPixel() {
+  if (typeof window === "undefined" || !hasAnalyticsConsent()) return false;
+  if (document.querySelector(`script[data-green-cottages-meta-pixel="${META_PIXEL_ID}"]`)) return true;
+
+  if (!window.fbq) {
+    const fbq = ((...args: unknown[]) => {
+      fbq.queue?.push(args);
+    }) as Fbq;
+    fbq.loaded = true;
+    fbq.version = "2.0";
+    fbq.queue = [];
+    window.fbq = fbq;
+    window._fbq = fbq;
+  }
+  window.fbq("init", META_PIXEL_ID);
+  window.fbq("track", "PageView");
+
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://connect.facebook.net/en_US/fbevents.js";
+  script.dataset.greenCottagesMetaPixel = META_PIXEL_ID;
+  document.head.appendChild(script);
+  return true;
+}
+
+export function trackMetaEvent(name: string, params: AnalyticsEventParams = {}) {
+  if (!hasAnalyticsConsent() || typeof window === "undefined" || typeof window.fbq !== "function") return;
+  window.fbq("trackCustom", name, params);
+}
+
 export function trackEvent(name: string, params: AnalyticsEventParams = {}) {
   if (!hasAnalyticsConsent() || typeof window === "undefined" || typeof window.gtag !== "function") return;
   window.gtag("event", name, {
@@ -51,10 +91,12 @@ export function trackEvent(name: string, params: AnalyticsEventParams = {}) {
     page_path: window.location.pathname,
     page_location: window.location.href,
   });
+  trackMetaEvent(name, params);
 }
 
 export function trackPageView(path: string, title?: string) {
   trackEvent("page_view", { page_path: path, page_title: title ?? document.title });
+  if (hasAnalyticsConsent() && typeof window.fbq === "function") window.fbq("track", "PageView");
 }
 
 export function safeElementLabel(element: Element) {

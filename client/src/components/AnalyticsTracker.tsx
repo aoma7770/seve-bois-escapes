@@ -4,6 +4,7 @@ import {
   analyticsConsentEventName,
   hasAnalyticsConsent,
   loadGoogleAnalytics,
+  loadMetaPixel,
   safeElementLabel,
   trackEvent,
   trackPageView,
@@ -20,6 +21,7 @@ export default function AnalyticsTracker() {
   useEffect(() => {
     const startTracking = () => {
       loadGoogleAnalytics();
+      loadMetaPixel();
       setConsentVersion((version) => version + 1);
     };
     if (hasAnalyticsConsent()) startTracking();
@@ -30,6 +32,7 @@ export default function AnalyticsTracker() {
   useEffect(() => {
     if (!hasAnalyticsConsent()) return;
     loadGoogleAnalytics();
+    loadMetaPixel();
     const path = location.split("?")[0];
     const timer = window.setTimeout(() => trackPageView(path, getPageTitle()), 0);
     return () => window.clearTimeout(timer);
