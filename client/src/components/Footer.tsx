@@ -11,7 +11,7 @@ export default function Footer() {
 
   const guideRequest = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => {
-      toast.success(t({ fr: "Merci ! Le guide a été envoyé à votre adresse email.", en: "Thank you! The guide has been sent to your email.", be: "Bedankt! De gids is naar uw e-mail gestuurd." }));
+      toast.success(t({ fr: "Merci pour votre intérêt ! Le guide gratuit vient d’être envoyé à votre adresse email. Bonne découverte des Ardennes !", en: "Thank you for your interest! We’ve sent the free guide to your inbox — enjoy discovering the Semois and the Belgian Ardennes.", be: "Bedankt voor uw interesse! We hebben de gratis gids naar uw inbox gestuurd — veel ontdekkingsplezier in de Semois en de Belgische Ardennen!" }));
       setGuideForm({ firstName: "", lastName: "", email: "", marketingConsent: false });
     },
     onError: (err) => {

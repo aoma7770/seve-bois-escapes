@@ -502,7 +502,7 @@ export default function Home() {
                 </form>
               </div>
             ) : (
-              <p className="mt-6 text-[var(--ochre-300)] font-semibold">{t({ fr: "Merci ! Vérifiez votre boîte mail.", en: "Thank you! Check your inbox.", be: "Thank you! Check your inbox." })}</p>
+              <p className="mt-6 text-[var(--ochre-300)] font-semibold">{t({ fr: "Merci pour votre intérêt ! Le guide gratuit vient d’être envoyé à votre adresse email. Bonne découverte des Ardennes !", en: "Thank you for your interest! We’ve sent the free guide to your inbox — enjoy discovering the Semois and the Belgian Ardennes.", be: "Bedankt voor uw interesse! We hebben de gratis gids naar uw inbox gestuurd — veel ontdekkingsplezier in de Semois en de Belgische Ardennen!" })}</p>
             )}
           </FadeSection>
         </div>

@@ -12,7 +12,7 @@ export default function ContactPage() {
 
   const submitMutation = trpc.enquiries.submit.useMutation({
     onSuccess: () => {
-      toast.success(t({ fr: "Message envoyé ! Nous vous répondrons sous 24h.", en: "Message sent! We'll reply within 24 hours.", be: "Message sent! We'll reply within 24 hours." }));
+      toast.success(t({ fr: "Merci pour votre message ! Nous l’avons bien reçu et nous vous répondrons sous 24 heures. Au plaisir d’échanger avec vous !", en: "Thank you for reaching out! We’ve received your message and will reply within 24 hours. We look forward to helping you plan your escape.", be: "Bedankt voor uw bericht! We hebben het goed ontvangen en antwoorden binnen 24 uur. We helpen u graag bij het plannen van uw verblijf." }));
       setForm({ name: "", email: "", phone: "", message: "", gdprConsent: false });
     },
     onError: () => toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Something went wrong." })),
