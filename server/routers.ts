@@ -778,6 +778,24 @@ export const appRouter = router({
         return { success: true, moved: true };
       }),
 
+    reorderPropertyPhotos: adminProcedure
+      .input(z.object({ propertyId: z.number(), photoIds: z.array(z.number()).min(1) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const rows = await db.select({ id: propertyPhotos.id }).from(propertyPhotos).where(eq(propertyPhotos.propertyId, input.propertyId));
+        const validIds = new Set(rows.map((row) => row.id));
+        const requestedIds = new Set(input.photoIds);
+        if (requestedIds.size !== input.photoIds.length || requestedIds.size !== validIds.size || input.photoIds.some((id) => !validIds.has(id))) {
+          throw new TRPCError({ code: "BAD_REQUEST", message: "The gallery order does not match this property." });
+        }
+        for (let displayOrder = 0; displayOrder < input.photoIds.length; displayOrder += 1) {
+          const id = input.photoIds[displayOrder];
+          await db.update(propertyPhotos).set({ displayOrder }).where(and(eq(propertyPhotos.id, id), eq(propertyPhotos.propertyId, input.propertyId)));
+        }
+        return { success: true };
+      }),
+
     addPropertyPhoto: adminProcedure
       .input(z.object({ propertyId: z.number(), url: z.string().trim().min(1).refine((value) => /^https?:\/\//i.test(value) || value.startsWith("/manus-storage/"), "Use an HTTPS image URL or a /manus-storage/ path."), caption: z.string().optional(), displayOrder: z.number().int().min(0).default(0), isHeroImage: z.boolean().default(false) }))
       .mutation(async ({ input }) => {
