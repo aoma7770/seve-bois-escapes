@@ -89,23 +89,44 @@ export default function CottagePage({ slug }: Props) {
   const prev = () => setGalleryIndex((i) => (i - 1 + images.length) % images.length);
   const next = () => setGalleryIndex((i) => (i + 1) % images.length);
 
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setLightboxOpen(false);
+      if (event.key === "ArrowLeft") prev();
+      if (event.key === "ArrowRight") next();
+    };
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [lightboxOpen, images.length]);
+
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       {/* Hero gallery */}
       <div className="relative h-[60vh] md:h-[75vh] overflow-hidden bg-[var(--forest-900)]">
-        <img
-          src={images[galleryIndex]}
-          alt={`${name} — photo ${galleryIndex + 1}`}
-          className="w-full h-full object-cover transition-opacity duration-500"
-          loading="eager"
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/50" />
+        <button
+          type="button"
+          onClick={() => setLightboxOpen(true)}
+          className="absolute inset-0 z-[1] cursor-zoom-in"
+          aria-label={t({ fr: `Ouvrir la galerie complète de ${name}`, en: `Open the full ${name} gallery`, be: `Open de volledige galerij van ${name}` })}
+        >
+          <img
+            src={images[galleryIndex]}
+            alt={`${name} — photo ${galleryIndex + 1}`}
+            className="w-full h-full object-cover transition-opacity duration-500"
+            loading="eager"
+          />
+        </button>
 
         {/* Gallery controls */}
-        <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center text-white transition-colors">
+        <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center text-white transition-colors" aria-label={t({ fr: "Photo précédente", en: "Previous photo", be: "Vorige foto" })}>
           <ChevronLeft size={20} />
         </button>
-        <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/30 hover:bg-black/50 flex items-center justify-center text-white transition-colors">
+        <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-black/20 hover:bg-black/40 flex items-center justify-center text-white transition-colors" aria-label={t({ fr: "Photo suivante", en: "Next photo", be: "Volgende foto" })}>
           <ChevronRight size={20} />
         </button>
 
@@ -114,10 +135,13 @@ export default function CottagePage({ slug }: Props) {
           {galleryIndex + 1} / {images.length}
         </div>
 
-        {/* Title overlay */}
-        <div className="absolute bottom-8 left-8">
-          <p className="text-caption text-[var(--ochre-300)] mb-2" style={{color: '#ffffff'}}>{t({ fr: "Sève & Bois Escapes", en: "Sève & Bois Escapes", be: "Sève & Bois Escapes" })}</p>
-          <h1 className="text-display text-white">{name}</h1>
+      </div>
+
+      <div className="bg-white border-b border-[var(--cream-200)]">
+        <div className="container py-6">
+          <p className="text-caption text-[var(--forest-600)] mb-2">{t({ fr: "Sève & Bois Escapes", en: "Sève & Bois Escapes", be: "Sève & Bois Escapes" })}</p>
+          <h1 className="text-headline text-[var(--forest-950)]">{name}</h1>
+          <p className="text-sm text-[var(--slate-500)] mt-2">{t({ fr: "Cliquez sur une photo pour ouvrir la galerie complète.", en: "Click any photo to open the full gallery.", be: "Klik op een foto om de volledige galerij te openen." })}</p>
         </div>
       </div>
 
@@ -135,6 +159,31 @@ export default function CottagePage({ slug }: Props) {
           ))}
         </div>
       </div>
+
+      {lightboxOpen && (
+        <div className="fixed inset-0 z-[120] bg-black/95 flex flex-col" role="dialog" aria-modal="true" aria-label={t({ fr: `Galerie de ${name}`, en: `${name} gallery`, be: `${name} galerij` })}>
+          <div className="flex items-center justify-between px-4 py-3 text-white shrink-0">
+            <p className="text-sm font-medium">{name} <span className="text-white/60">· {galleryIndex + 1} / {images.length}</span></p>
+            <button type="button" onClick={() => setLightboxOpen(false)} className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center" aria-label={t({ fr: "Fermer la galerie", en: "Close gallery", be: "Galerij sluiten" })}>
+              <X size={22} />
+            </button>
+          </div>
+          <div className="relative flex-1 min-h-0 flex items-center justify-center px-12 sm:px-20 py-2">
+            <img src={images[galleryIndex]} alt={`${name} — photo ${galleryIndex + 1}`} className="max-h-full max-w-full object-contain" />
+            <button type="button" onClick={prev} className="absolute left-3 sm:left-8 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center" aria-label={t({ fr: "Photo précédente", en: "Previous photo", be: "Vorige foto" })}><ChevronLeft size={24} /></button>
+            <button type="button" onClick={next} className="absolute right-3 sm:right-8 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center" aria-label={t({ fr: "Photo suivante", en: "Next photo", be: "Volgende foto" })}><ChevronRight size={24} /></button>
+          </div>
+          <div className="shrink-0 overflow-x-auto px-4 py-3">
+            <div className="flex gap-2 justify-center w-max min-w-full">
+              {images.map((img, index) => (
+                <button key={img + index} type="button" onClick={() => setGalleryIndex(index)} className={`w-16 h-12 sm:w-20 sm:h-14 shrink-0 overflow-hidden rounded ${index === galleryIndex ? "ring-2 ring-white" : "opacity-60 hover:opacity-100"}`} aria-label={t({ fr: `Ouvrir la photo ${index + 1}`, en: `Open photo ${index + 1}`, be: `Foto ${index + 1} openen` })}>
+                  <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Content */}
       <div className="container py-16">
