@@ -568,6 +568,14 @@ export const appRouter = router({
     updateProperty: adminProcedure
       .input(z.object({
         id: z.number(),
+        slug: z.string().trim().min(1).max(64).optional(),
+        nameFr: z.string().trim().min(1).max(128).optional(),
+        nameEn: z.string().trim().min(1).max(128).optional(),
+        nameNl: z.string().trim().min(1).max(128).optional(),
+        maxGuests: z.number().int().min(1).max(50).optional(),
+        bedrooms: z.number().int().min(0).max(50).optional(),
+        bathrooms: z.number().int().min(0).max(50).optional(),
+        isActive: z.boolean().optional(),
         basePriceWeeknight: z.number().nonnegative().optional(),
         basePriceWeekend: z.number().nonnegative().optional(),
         basePriceWeek: z.number().nonnegative().optional(),
@@ -759,20 +767,44 @@ export const appRouter = router({
       }),
 
     addPropertyPhoto: adminProcedure
-      .input(z.object({ propertyId: z.number(), url: z.string().url(), caption: z.string().optional(), displayOrder: z.number().int().min(0).default(0), isHeroImage: z.boolean().default(false) }))
+      .input(z.object({ propertyId: z.number(), url: z.string().trim().min(1).refine((value) => /^https?:\/\//i.test(value) || value.startsWith("/manus-storage/"), "Use an HTTPS image URL or a /manus-storage/ path."), caption: z.string().optional(), displayOrder: z.number().int().min(0).default(0), isHeroImage: z.boolean().default(false) }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
+        if (input.isHeroImage) {
+          await db.update(propertyPhotos).set({ isHeroImage: false }).where(eq(propertyPhotos.propertyId, input.propertyId));
+        }
         await db.insert(propertyPhotos).values(input);
         return { success: true };
       }),
 
-    deletePropertyPhoto: adminProcedure
-      .input(z.object({ id: z.number() }))
+    updatePropertyPhoto: adminProcedure
+      .input(z.object({ id: z.number(), propertyId: z.number(), url: z.string().trim().min(1).refine((value) => /^https?:\/\//i.test(value) || value.startsWith("/manus-storage/"), "Use an HTTPS image URL or a /manus-storage/ path."), caption: z.string().optional(), displayOrder: z.number().int().min(0), isHeroImage: z.boolean() }))
       .mutation(async ({ input }) => {
         const db = await getDb();
         if (!db) throw new Error("Database unavailable");
-        await db.delete(propertyPhotos).where(eq(propertyPhotos.id, input.id));
+        const { id, propertyId, ...values } = input;
+        const photo = (await db.select({ id: propertyPhotos.id }).from(propertyPhotos).where(and(eq(propertyPhotos.id, id), eq(propertyPhotos.propertyId, propertyId))).limit(1))[0];
+        if (!photo) throw new TRPCError({ code: "NOT_FOUND", message: "Photo not found for this property." });
+        if (values.isHeroImage) {
+          await db.update(propertyPhotos).set({ isHeroImage: false }).where(eq(propertyPhotos.propertyId, propertyId));
+        }
+        await db.update(propertyPhotos).set(values).where(and(eq(propertyPhotos.id, id), eq(propertyPhotos.propertyId, propertyId)));
+        return { success: true };
+      }),
+
+    deletePropertyPhoto: adminProcedure
+      .input(z.object({ id: z.number(), propertyId: z.number() }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new Error("Database unavailable");
+        const photo = (await db.select().from(propertyPhotos).where(and(eq(propertyPhotos.id, input.id), eq(propertyPhotos.propertyId, input.propertyId))).limit(1))[0];
+        if (!photo) throw new TRPCError({ code: "NOT_FOUND", message: "Photo not found for this property." });
+        await db.delete(propertyPhotos).where(and(eq(propertyPhotos.id, input.id), eq(propertyPhotos.propertyId, input.propertyId)));
+        if (photo.isHeroImage) {
+          const replacement = (await db.select({ id: propertyPhotos.id }).from(propertyPhotos).where(eq(propertyPhotos.propertyId, input.propertyId)).orderBy(asc(propertyPhotos.displayOrder), asc(propertyPhotos.id)).limit(1))[0];
+          if (replacement) await db.update(propertyPhotos).set({ isHeroImage: true }).where(eq(propertyPhotos.id, replacement.id));
+        }
         return { success: true };
       }),
 
