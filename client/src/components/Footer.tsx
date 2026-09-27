@@ -66,7 +66,7 @@ export default function Footer() {
 
           {/* Quick links */}
           <div>
-            <h4 className="text-caption text-[var(--forest-400)] mb-4">
+            <h4 className="text-caption text-[var(--forest-400)] mb-4" style={{color: '#fafafa'}}>
               {t({ fr: "Navigation", en: "Navigation", be: "Navigation" })}
             </h4>
             <ul className="space-y-2.5">
@@ -93,7 +93,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-caption text-[var(--forest-400)] mb-4">
+            <h4 className="text-caption text-[var(--forest-400)] mb-4" style={{color: '#f8f7f7'}}>
               {t({ fr: "Contact", en: "Contact", be: "Contact" })}
             </h4>
             <ul className="space-y-3">
@@ -134,7 +134,7 @@ export default function Footer() {
 
           {/* Newsletter */}
           <div>
-            <h4 className="text-caption text-[var(--forest-400)] mb-4">
+            <h4 className="text-caption text-[var(--forest-400)] mb-4" style={{color: '#fbf9f9'}}>
               {t({ fr: "Guide Gratuit", en: "Free Guide", be: "Free Guide" })}
             </h4>
             <p className="text-sm text-[var(--forest-300)] leading-relaxed mb-4">

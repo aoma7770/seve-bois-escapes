@@ -287,9 +287,9 @@ export default function Home() {
           <FadeSection delay={300} className="mt-8" animation="fade-in">
             <div className="rounded-2xl bg-[var(--forest-900)] text-white p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-5">
               <div>
-                <p className="text-caption text-[var(--ochre-300)] mb-2">{t({ fr: "Pour les groupes", en: "For groups", be: "Voor groepen" })}</p>
+                <p className="text-caption text-[var(--ochre-300)] mb-2" style={{color: '#f8f7f7'}}>{t({ fr: "Pour les groupes", en: "For groups", be: "Voor groepen" })}</p>
                 <h3 className="font-serif text-2xl">{t({ fr: "Réservez les deux cottages", en: "Book both cottages", be: "Boek beide cottages" })}</h3>
-                <p className="text-sm text-white/75 mt-2">{t({ fr: "Pour 4 à 12 personnes, avec un tarif calculé selon le nombre de voyageurs.", en: "For 4–12 guests, with the rate calculated from the number of travellers.", be: "Voor 4–12 gasten, met de prijs berekend volgens het aantal reizigers." })}</p>
+                <p className="text-sm text-white/75 mt-2" style={{color: '#f9f6f6'}}>{t({ fr: "Pour 4 à 12 personnes, avec un tarif calculé selon le nombre de voyageurs.", en: "For 4–12 guests, with the rate calculated from the number of travellers.", be: "Voor 4–12 gasten, met de prijs berekend volgens het aantal reizigers." })}</p>
               </div>
               <Link href="/booking?cottage=both" className="btn-ghost shrink-0 text-center">{t({ fr: "Choisir les options", en: "Choose your option", be: "Kies uw optie" })}</Link>
             </div>
@@ -304,11 +304,11 @@ export default function Home() {
         </div>
         <div className="container relative z-10">
           <FadeSection className="max-w-3xl">
-            <p className="text-caption text-[var(--ochre-400)] mb-4">{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
+            <p className="text-caption text-[var(--ochre-400)] mb-4" style={{color: '#f6f4f4'}}>{t({ fr: "Le Lieu", en: "The Location", be: "The Location" })}</p>
             <h2 className="text-headline text-white mb-6">
               {t({ fr: "Laforêt : l'un des plus beaux villages de Wallonie.", en: "Laforêt: one of the most beautiful villages in Wallonia.", be: "Laforêt: one of the most beautiful villages in Wallonia." })}
             </h2>
-            <p className="text-lead text-white/80 mb-8">
+            <p className="text-lead text-white/80 mb-8" style={{color: '#ffffff'}}>
               {t({ fr: "Maisons en pierre ardoisée, collines boisées, la Semois qui serpente en contrebas. À 2h de Bruxelles — assez proche pour s'échapper, assez loin pour vraiment décrocher.", en: "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off.", be: "Slate-roofed stone houses, forested hills, the Semois winding below. 2 hours from Brussels — close enough to escape to, far enough to truly switch off." })}
             </p>
           </FadeSection>

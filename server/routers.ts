@@ -43,7 +43,30 @@ async function sendEmail(to: string, subject: string, html: string) {
   }
 }
 
-async function syncGuideLeadToHighLevel(input: { firstName: string; lastName: string; email: string }) {
+async function syncGuideLeadToHighLevel(input: { firstName: string; lastName: string; email: string; source?: string }) {
+  const webhookUrl = process.env.GOHIGHLEVEL_GUIDE_WEBHOOK_URL;
+  if (webhookUrl) {
+    const response = await fetch(webhookUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Green-Cottages-Event": "guide_request" },
+      body: JSON.stringify({
+        event_type: "guide_request",
+        source: input.source || "guide_cta",
+        first_name: input.firstName,
+        last_name: input.lastName,
+        email: input.email,
+        marketing_consent: true,
+        guide_requested: true,
+        guide_name: "Exploring the Semois & the Belgian Ardennes",
+      }),
+      signal: AbortSignal.timeout(8_000),
+    });
+    if (!response.ok) {
+      console.warn(`[GoHighLevel] Guide webhook sync failed with ${response.status}`);
+      return { synced: false };
+    }
+    return { synced: true };
+  }
   const token = process.env.GOHIGHLEVEL_PRIVATE_TOKEN;
   const locationId = process.env.GOHIGHLEVEL_LOCATION_ID;
   if (!token || !locationId) return { synced: false };
