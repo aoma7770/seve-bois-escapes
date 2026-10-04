@@ -43,3 +43,26 @@ export const adminProcedure = t.procedure.use(
     });
   }),
 );
+
+// Elise can operate the website and all current property, booking, calendar,
+// gallery, CRM, analytics, and content procedures. Any future procedure that
+// edits or removes users must use this owner-only guard instead of adminProcedure.
+export const ownerOnlyProcedure = t.procedure.use(
+  t.middleware(async opts => {
+    const { ctx, next } = opts;
+
+    if (!ctx.user || ctx.user.role !== "admin") {
+      throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
+    }
+    if (ctx.adminAuthSource === "elise-token") {
+      throw new TRPCError({ code: "FORBIDDEN", message: "Owner-only access." });
+    }
+
+    return next({
+      ctx: {
+        ...ctx,
+        user: ctx.user,
+      },
+    });
+  }),
+);

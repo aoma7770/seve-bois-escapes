@@ -8,8 +8,11 @@ import { getSessionCookieOptions } from "./_core/cookies";
 
 const ADMIN_SESSION_COOKIE = "green_cottages_admin_session";
 export const ADMIN_SESSION_TTL_SECONDS = 60 * 60 * 24;
+export const ELISE_ADMIN_TOKEN_ENV = "ELISE_ADMIN_TOKEN";
 
 type SessionPayload = { username: string; exp: number; sessionVersion: number };
+export type AdminAuthSource = "staff-session" | "elise-token";
+export type AdminAuthentication = { user: User; source: AdminAuthSource };
 
 function secret() {
   return process.env.JWT_SECRET || "development-only-admin-session-secret";
@@ -51,6 +54,27 @@ function readCookie(req: Request, name: string) {
   return match ? decodeURIComponent(match.slice(name.length + 1)) : null;
 }
 
+function readBearerToken(req: Request) {
+  const authorization = req.headers.authorization;
+  if (typeof authorization !== "string" || !authorization.startsWith("Bearer ")) return null;
+  const token = authorization.slice("Bearer ".length).trim();
+  return token || null;
+}
+
+function isEliseToken(req: Request) {
+  const configuredToken = process.env[ELISE_ADMIN_TOKEN_ENV];
+  const suppliedToken = readBearerToken(req);
+  if (!configuredToken || !suppliedToken) return false;
+  const supplied = Buffer.from(suppliedToken);
+  const configured = Buffer.from(configuredToken);
+  return supplied.length === configured.length && timingSafeEqual(supplied, configured);
+}
+
+function eliseUser(): User {
+  const now = new Date();
+  return { id: 0, openId: "standalone-admin:elise", name: "Elise", email: null, loginMethod: "bearer-token", role: "admin", createdAt: now, updatedAt: now, lastSignedIn: now };
+}
+
 async function credentialFromUsername(username: string) {
   const db = await getDb();
   if (!db) return null;
@@ -64,7 +88,8 @@ async function userFromUsername(username: string): Promise<User | null> {
   return { id: row.id, openId: `standalone-admin:${row.username}`, name: row.username, email: null, loginMethod: "password", role: "admin", createdAt: row.createdAt, updatedAt: row.updatedAt, lastSignedIn: now };
 }
 
-export async function authenticateAdminRequest(req: Request): Promise<User | null> {
+export async function authenticateAdminRequest(req: Request): Promise<AdminAuthentication | null> {
+  if (isEliseToken(req)) return { user: eliseUser(), source: "elise-token" };
   const token = readCookie(req, ADMIN_SESSION_COOKIE);
   if (!token) return null;
   const [encoded, suppliedSignature] = token.split(".");
@@ -78,7 +103,8 @@ export async function authenticateAdminRequest(req: Request): Promise<User | nul
     if (!payload.username || payload.sessionVersion === undefined || !payload.exp || payload.exp < Math.floor(Date.now() / 1000)) return null;
     const credential = await credentialFromUsername(payload.username);
     if (!credential || credential.sessionVersion !== payload.sessionVersion) return null;
-    return userFromUsername(payload.username);
+    const user = await userFromUsername(payload.username);
+    return user ? { user, source: "staff-session" } : null;
   } catch {
     return null;
   }

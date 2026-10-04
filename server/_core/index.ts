@@ -48,9 +48,9 @@ async function startServer() {
   app.post("/api/admin/login", loginAdmin);
   app.post("/api/admin/logout", logoutAdmin);
   app.get("/api/admin/me", async (req, res) => {
-    const user = await authenticateAdminRequest(req);
-    if (!user) return res.status(401).json({ authenticated: false });
-    return res.json({ authenticated: true, username: user.name });
+    const authentication = await authenticateAdminRequest(req);
+    if (!authentication) return res.status(401).json({ authenticated: false });
+    return res.json({ authenticated: true, username: authentication.user.name, authSource: authentication.source });
   });
   registerOAuthRoutes(app);
   registerSitemapRoute(app);
