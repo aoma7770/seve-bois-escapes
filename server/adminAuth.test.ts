@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { ADMIN_SESSION_TTL_SECONDS, ELISE_ADMIN_TOKEN_ENV, authenticateAdminRequest, createPasswordRecord, verifyPasswordRecord } from "./adminAuth";
+import { ADMIN_SESSION_TTL_SECONDS, ELISE_ADMIN_TOKEN_ENV, ELISE_ADMIN_USERNAME, adminAuthSourceForUsername, authenticateAdminRequest, createPasswordRecord, verifyPasswordRecord } from "./adminAuth";
 
 describe("standalone admin credentials", () => {
   it("stores a salted hash rather than the plaintext password", () => {
@@ -23,6 +23,9 @@ describe("standalone admin credentials", () => {
 
   it("uses a dedicated environment secret for Elise instead of the staff password", () => {
     expect(ELISE_ADMIN_TOKEN_ENV).toBe("ELISE_ADMIN_TOKEN");
+    expect(ELISE_ADMIN_USERNAME).toBe("elise_admin");
+    expect(adminAuthSourceForUsername(ELISE_ADMIN_USERNAME)).toBe("elise-staff-session");
+    expect(adminAuthSourceForUsername("aoma7770")).toBe("staff-session");
   });
 
   it("authenticates a lightweight bearer request with the configured Elise secret", async () => {

@@ -7,7 +7,7 @@ export type TrpcContext = {
   req: CreateExpressContextOptions["req"];
   res: CreateExpressContextOptions["res"];
   user: User | null;
-  adminAuthSource: "staff-session" | "elise-token" | null;
+  adminAuthSource: "staff-session" | "elise-token" | "elise-staff-session" | null;
 };
 
 export async function createContext(

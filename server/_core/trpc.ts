@@ -54,7 +54,7 @@ export const ownerOnlyProcedure = t.procedure.use(
     if (!ctx.user || ctx.user.role !== "admin") {
       throw new TRPCError({ code: "FORBIDDEN", message: NOT_ADMIN_ERR_MSG });
     }
-    if (ctx.adminAuthSource === "elise-token") {
+    if (ctx.adminAuthSource === "elise-token" || ctx.adminAuthSource === "elise-staff-session") {
       throw new TRPCError({ code: "FORBIDDEN", message: "Owner-only access." });
     }
 

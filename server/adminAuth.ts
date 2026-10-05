@@ -9,9 +9,10 @@ import { getSessionCookieOptions } from "./_core/cookies";
 const ADMIN_SESSION_COOKIE = "green_cottages_admin_session";
 export const ADMIN_SESSION_TTL_SECONDS = 60 * 60 * 24;
 export const ELISE_ADMIN_TOKEN_ENV = "ELISE_ADMIN_TOKEN";
+export const ELISE_ADMIN_USERNAME = "elise_admin";
 
 type SessionPayload = { username: string; exp: number; sessionVersion: number };
-export type AdminAuthSource = "staff-session" | "elise-token";
+export type AdminAuthSource = "staff-session" | "elise-token" | "elise-staff-session";
 export type AdminAuthentication = { user: User; source: AdminAuthSource };
 
 function secret() {
@@ -75,6 +76,10 @@ function eliseUser(): User {
   return { id: 0, openId: "standalone-admin:elise", name: "Elise", email: null, loginMethod: "bearer-token", role: "admin", createdAt: now, updatedAt: now, lastSignedIn: now };
 }
 
+export function adminAuthSourceForUsername(username: string): AdminAuthSource {
+  return username === ELISE_ADMIN_USERNAME ? "elise-staff-session" : "staff-session";
+}
+
 async function credentialFromUsername(username: string) {
   const db = await getDb();
   if (!db) return null;
@@ -104,7 +109,7 @@ export async function authenticateAdminRequest(req: Request): Promise<AdminAuthe
     const credential = await credentialFromUsername(payload.username);
     if (!credential || credential.sessionVersion !== payload.sessionVersion) return null;
     const user = await userFromUsername(payload.username);
-    return user ? { user, source: "staff-session" } : null;
+    return user ? { user, source: adminAuthSourceForUsername(payload.username) } : null;
   } catch {
     return null;
   }
