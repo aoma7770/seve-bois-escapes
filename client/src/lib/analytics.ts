@@ -14,6 +14,7 @@ declare global {
   interface Window {
     dataLayer: unknown[];
     gtag?: (...args: unknown[]) => void;
+    __greenCottagesGa4Configured?: boolean;
     fbq?: Fbq;
     _fbq?: Fbq;
   }
@@ -37,14 +38,29 @@ export function emitAnalyticsConsentChanged(value: "accepted" | "declined") {
 
 export function loadGoogleAnalytics() {
   if (typeof window === "undefined" || !hasAnalyticsConsent()) return false;
-  if (document.querySelector(`script[data-green-cottages-ga4="${GA4_MEASUREMENT_ID}"]`)) return true;
 
   window.dataLayer = window.dataLayer || [];
   window.gtag = window.gtag || function gtag(...args: unknown[]) {
     window.dataLayer.push(args);
   };
-  window.gtag("js", new Date());
-  window.gtag("config", GA4_MEASUREMENT_ID, { send_page_view: false, anonymize_ip: true });
+
+  if (!window.__greenCottagesGa4Configured) {
+    window.gtag("consent", "update", {
+      analytics_storage: "granted",
+      ad_storage: "denied",
+      ad_user_data: "denied",
+      ad_personalization: "denied",
+    });
+    window.gtag("js", new Date());
+    window.gtag("config", GA4_MEASUREMENT_ID, {
+      send_page_view: false,
+      anonymize_ip: true,
+      cookie_flags: "SameSite=None;Secure",
+    });
+    window.__greenCottagesGa4Configured = true;
+  }
+
+  if (document.querySelector(`script[data-green-cottages-ga4="${GA4_MEASUREMENT_ID}"]`)) return true;
 
   const script = document.createElement("script");
   script.async = true;
