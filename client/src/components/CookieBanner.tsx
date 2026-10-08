@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { emitAnalyticsConsentChanged, loadGoogleAnalytics, loadMetaPixel, trackEvent } from "@/lib/analytics";
+import { cookieConsentCopy } from "@/lib/cookieConsentCopy";
 
 export default function CookieBanner() {
   const { t } = useLanguage();
@@ -35,28 +36,25 @@ export default function CookieBanner() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 lg:bottom-4 lg:left-4 lg:right-auto lg:max-w-sm animate-fade-up">
       <div className="bg-[var(--forest-950)] text-[var(--cream-100)] rounded-t-xl lg:rounded-xl shadow-2xl p-5 border border-[var(--forest-800)]">
-        <p className="text-sm leading-relaxed mb-4">
-          {t({
-            fr: "Nous utilisons des cookies pour améliorer votre expérience. En continuant, vous acceptez notre ",
-            en: "We use cookies to improve your experience. By continuing, you accept our ",
-            be: "We use cookies to improve your experience. By continuing, you accept our "
-          })}
+        <p className="text-sm leading-relaxed mb-2">{t(cookieConsentCopy.intro)}</p>
+        <p className="text-xs leading-relaxed text-[var(--cream-200)] mb-4">
+          {t(cookieConsentCopy.detail)}{" "}
           <Link href="/cookies" className="underline hover:text-[var(--ochre-300)] transition-colors">
-            {t({ fr: "politique de cookies", en: "cookie policy", be: "cookie policy" })}
+            {t(cookieConsentCopy.policy)}
           </Link>.
         </p>
-        <div className="flex gap-2">
+        <div className="flex flex-col-reverse sm:flex-row gap-2">
           <button
             onClick={accept}
-            className="flex-1 py-2 bg-[var(--forest-600)] hover:bg-[var(--forest-500)] text-white text-sm font-semibold rounded transition-colors"
+            className="flex-[1.15] min-h-12 py-3 px-4 bg-[var(--ochre-500)] hover:bg-[var(--ochre-400)] text-[var(--forest-950)] text-sm font-bold rounded-lg shadow-md transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ochre-300)]"
           >
-            {t({ fr: "Accepter", en: "Accept", be: "Accepteren" })}
+            {t(cookieConsentCopy.accept)}
           </button>
           <button
             onClick={decline}
-            className="flex-1 py-2 bg-transparent border border-[var(--forest-600)] text-[var(--forest-300)] hover:text-white text-sm font-medium rounded transition-colors"
+            className="flex-1 min-h-12 py-3 px-4 bg-transparent border border-[var(--forest-500)] text-[var(--cream-100)] hover:bg-[var(--forest-800)] hover:text-white text-sm font-medium rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--cream-100)]"
           >
-            {t({ fr: "Refuser", en: "Decline", be: "Weigeren" })}
+            {t(cookieConsentCopy.decline)}
           </button>
         </div>
       </div>
