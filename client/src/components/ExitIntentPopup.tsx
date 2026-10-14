@@ -18,6 +18,9 @@ export default function ExitIntentPopup() {
     let lastScrollY = window.scrollY;
     let hasMeaningfulScroll = window.scrollY > 160;
     let hiddenAt = 0;
+    const enteredAt = Date.now();
+
+    const hasMeaningfulEngagement = () => hasMeaningfulScroll || Date.now() - enteredAt > 8000;
 
     const trigger = () => {
       if (triggered.current) return;
@@ -28,7 +31,7 @@ export default function ExitIntentPopup() {
 
     const handleMouseLeave = (e: MouseEvent) => {
       // Desktop exit intent: the pointer reaches the browser chrome.
-      if (e.clientY <= 0) trigger();
+      if (e.clientY <= 0 && hasMeaningfulEngagement()) trigger();
     };
 
     const handleScroll = () => {
@@ -47,14 +50,8 @@ export default function ExitIntentPopup() {
       }
       // If the visitor returns from the browser/tab switcher, offer the guide
       // while they are still deciding whether to leave.
-      if (hiddenAt && Date.now() - hiddenAt > 400 && (hasMeaningfulScroll || window.innerWidth < 768)) trigger();
+      if (hiddenAt && Date.now() - hiddenAt > 400 && hasMeaningfulEngagement()) trigger();
     };
-
-    // A shorter fallback catches visitors who do not move the pointer or
-    // scroll upward. It is intentionally delayed to avoid interrupting entry.
-    const mobileTimer = window.setTimeout(() => {
-      if (window.innerWidth < 768) trigger();
-    }, 18000);
 
     document.addEventListener("mouseleave", handleMouseLeave);
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -63,7 +60,6 @@ export default function ExitIntentPopup() {
       document.removeEventListener("mouseleave", handleMouseLeave);
       window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
-      clearTimeout(mobileTimer);
     };
   }, []);
 
