@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Mail, Phone, Instagram, Facebook } from "lucide-react";
+import { Mail, Phone, Instagram, Facebook, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
@@ -48,7 +48,7 @@ export default function Footer() {
             {/* Social */}
             <div className="flex gap-3 mt-5">
               <a
-                href="https://instagram.com/sevebois"
+                href="https://www.instagram.com/sevebois"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-[var(--forest-800)] flex items-center justify-center hover:bg-[var(--ochre-600)] transition-colors"
@@ -57,13 +57,22 @@ export default function Footer() {
                 <Instagram size={16} />
               </a>
               <a
-                href="https://facebook.com/sevebois"
+                href="https://www.facebook.com/sevebois"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-[var(--forest-800)] flex items-center justify-center hover:bg-[var(--ochre-600)] transition-colors"
                 aria-label="Facebook"
               >
                 <Facebook size={16} />
+              </a>
+              <a
+                href="https://www.linkedin.com/company/sevebois"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-9 h-9 rounded-full bg-[var(--forest-800)] flex items-center justify-center hover:bg-[var(--ochre-600)] transition-colors"
+                aria-label="LinkedIn"
+              >
+                <Linkedin size={16} />
               </a>
             </div>
           </div>
