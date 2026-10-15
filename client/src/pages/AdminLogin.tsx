@@ -6,14 +6,14 @@ import { Card } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const copy = {
-  title: { fr: "Espace administrateur", en: "Admin workspace", be: "Beheerdersruimte" },
-  subtitle: { fr: "Connexion réservée à l'équipe Green Cottages.", en: "Sign in for Green Cottages staff only.", be: "Aanmelden voor Green Cottages-medewerkers." },
-  username: { fr: "Nom d'utilisateur", en: "Username", be: "Gebruikersnaam" },
-  password: { fr: "Mot de passe", en: "Password", be: "Wachtwoord" },
-  submit: { fr: "Se connecter", en: "Sign in", be: "Aanmelden" },
-  loading: { fr: "Connexion…", en: "Signing in…", be: "Aanmelden…" },
-  error: { fr: "Nom d'utilisateur ou mot de passe incorrect.", en: "Incorrect username or password.", be: "Onjuiste gebruikersnaam of wachtwoord." },
-  connection: { fr: "Impossible de se connecter. Réessayez.", en: "Unable to sign in. Please try again.", be: "Aanmelden mislukt. Probeer opnieuw." },
+  title: { fr: "Espace administrateur", en: "Admin workspace", nl: "Beheerdersruimte" },
+  subtitle: { fr: "Connexion réservée à l'équipe Green Cottages.", en: "Sign in for Green Cottages staff only.", nl: "Aanmelden voor Green Cottages-medewerkers." },
+  username: { fr: "Nom d'utilisateur", en: "Username", nl: "Gebruikersnaam" },
+  password: { fr: "Mot de passe", en: "Password", nl: "Wachtwoord" },
+  submit: { fr: "Se connecter", en: "Sign in", nl: "Aanmelden" },
+  loading: { fr: "Connexion…", en: "Signing in…", nl: "Aanmelden…" },
+  error: { fr: "Nom d'utilisateur ou mot de passe incorrect.", en: "Incorrect username or password.", nl: "Onjuiste gebruikersnaam of wachtwoord." },
+  connection: { fr: "Impossible de se connecter. Réessayez.", en: "Unable to sign in. Please try again.", nl: "Aanmelden mislukt. Probeer opnieuw." },
 };
 
 export default function AdminLogin() {

@@ -96,7 +96,7 @@ export default function BookingPage() {
       }
       setAppliedPromo({ code: result.code, discount: Number(result.discount), signature: promoSignature });
       trackEvent("promo_code_applied", { promo_code: result.code, discount_amount: Number(result.discount) });
-      toast.success(t({ fr: `Code promo appliqué : -€${Number(result.discount).toFixed(2)}`, en: `Promo code applied: -€${Number(result.discount).toFixed(2)}`, be: `Promocode toegepast: -€${Number(result.discount).toFixed(2)}` }));
+      toast.success(t({ fr: `Code promo appliqué : -€${Number(result.discount).toFixed(2)}`, en: `Promo code applied: -€${Number(result.discount).toFixed(2)}`, nl: `Promocode toegepast: -€${Number(result.discount).toFixed(2)}` }));
     },
     onError: (error) => { setAppliedPromo(null); toast.error(error.message); },
   });
@@ -106,14 +106,14 @@ export default function BookingPage() {
       if (data.checkoutUrl) {
         trackEvent("booking_payment_redirected", { booking_selection: selection, guest_count: guestCount, total_amount: total, check_in: pricingCheckIn, check_out: pricingCheckOut });
         window.open(data.checkoutUrl, "_blank");
-        toast.success(t({ fr: "Redirection vers le paiement...", en: "Redirecting to payment...", be: "Redirecting to payment..." }));
+        toast.success(t({ fr: "Redirection vers le paiement...", en: "Redirecting to payment...", nl: "Omleiden naar betaling..." }));
       } else {
-        toast.success(t({ fr: "Réservation créée ! Nous vous contacterons sous peu.", en: "Booking created! We will contact you shortly.", be: "Booking created! We will contact you shortly." }));
+        toast.success(t({ fr: "Réservation créée ! Nous vous contacterons sous peu.", en: "Booking created! We will contact you shortly.", nl: "Boeking gemaakt! Wij nemen binnenkort contact met u op." }));
       }
     },
     onError: (err) => {
       trackEvent("booking_checkout_error", { error_message: err.message.slice(0, 120) });
-      toast.error(err.message || t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Something went wrong." }));
+      toast.error(err.message || t({ fr: "Une erreur est survenue.", en: "Something went wrong.", nl: "Er is iets misgegaan." }));
     },
   });
 
@@ -142,9 +142,9 @@ export default function BookingPage() {
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="bg-[var(--forest-900)] py-12 sm:py-16 text-white">
         <div className="container">
-          <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Réservation directe", en: "Direct booking", be: "Direct booking" })}</p>
-          <h1 className="text-headline text-white">{t({ fr: "Réservez votre séjour", en: "Book your stay", be: "Book your stay" })}</h1>
-          <p className="text-[var(--forest-300)] mt-2">{t({ fr: "Meilleur tarif garanti · Paiement sécurisé · Hôte humain", en: "Best rate guaranteed · Secure payment · Human host", be: "Best rate guaranteed · Secure payment · Human host" })}</p>
+          <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Réservation directe", en: "Direct booking", nl: "Directe boeking" })}</p>
+          <h1 className="text-headline text-white">{t({ fr: "Réservez votre séjour", en: "Book your stay", nl: "Boek uw verblijf" })}</h1>
+          <p className="text-[var(--forest-300)] mt-2">{t({ fr: "Meilleur tarif garanti · Paiement sécurisé · Hôte humain", en: "Best rate guaranteed · Secure payment · Human host", nl: "Gegarandeerd het beste tarief · Veilige betaling · Menselijke gastheer" })}</p>
         </div>
       </div>
 
@@ -152,7 +152,7 @@ export default function BookingPage() {
       <div className="bg-[var(--ochre-50)] border-b border-[var(--ochre-200)] py-4">
         <div className="container">
           <p className="text-sm font-semibold text-[var(--ochre-900)] text-center">
-            {t({ fr: "🎉 Tarifs de lancement spéciaux — Nous mettons les dernières touches à nos magnifiques nouveaux cottages. Profitez de notre tarif d'introduction et soyez parmi nos premiers clients !", en: "🎉 Special Introductory Rates — We are putting the finishing touches on our beautiful new cottages. Enjoy our launch pricing and be among our first guests!", be: "🎉 Special Introductory Rates — We are putting the finishing touches on our beautiful new cottages. Enjoy our launch pricing and be among our first guests!" })}
+            {t({ fr: "🎉 Tarifs de lancement spéciaux — Nous mettons les dernières touches à nos magnifiques nouveaux cottages. Profitez de notre tarif d'introduction et soyez parmi nos premiers clients !", en: "🎉 Special Introductory Rates — We are putting the finishing touches on our beautiful new cottages. Enjoy our launch pricing and be among our first guests!", nl: "🎉 Speciale introductietarieven — We leggen de laatste hand aan onze prachtige nieuwe huisjes. Geniet van onze lanceringsprijzen en wees een van onze eerste gasten!" })}
           </p>
         </div>
       </div>
@@ -163,13 +163,13 @@ export default function BookingPage() {
           <div className="lg:col-span-2 space-y-8">
             {/* Booking scope */}
             <div className="bg-white rounded-2xl p-4 sm:p-6 border border-[var(--cream-300)] overflow-hidden">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-2">{t({ fr: "Que souhaitez-vous réserver ?", en: "What would you like to book?", be: "Wat wilt u boeken?" })}</h3>
-              <p className="text-sm text-[var(--slate-600)] mb-5">{t({ fr: "Choisissez un cottage pour 1 à 6 personnes, ou les deux pour un groupe de 4 à 12 personnes.", en: "Choose one cottage for 1–6 guests, or both for a group of 4–12 guests.", be: "Kies één cottage voor 1–6 gasten, of beide voor een groep van 4–12 gasten." })}</p>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-2">{t({ fr: "Que souhaitez-vous réserver ?", en: "What would you like to book?", nl: "Wat wilt u boeken?" })}</h3>
+              <p className="text-sm text-[var(--slate-600)] mb-5">{t({ fr: "Choisissez un cottage pour 1 à 6 personnes, ou les deux pour un groupe de 4 à 12 personnes.", en: "Choose one cottage for 1–6 guests, or both for a group of 4–12 guests.", nl: "Kies één cottage voor 1–6 gasten, of beide voor een groep van 4–12 gasten." })}</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 {([
-                  { value: "la-seve" as const, title: "La Sève", detail: t({ fr: "1 cottage · jusqu'à 6 personnes", en: "1 cottage · up to 6 guests", be: "1 cottage · tot 6 gasten" }) },
-                  { value: "le-bois" as const, title: "Le Bois", detail: t({ fr: "1 cottage · jusqu'à 6 personnes", en: "1 cottage · up to 6 guests", be: "1 cottage · tot 6 gasten" }) },
-                  { value: "both" as const, title: t({ fr: "Les deux cottages", en: "Both cottages", be: "Beide cottages" }), detail: t({ fr: "2 cottages · 4 à 12 personnes", en: "2 cottages · 4–12 guests", be: "2 cottages · 4–12 gasten" }) },
+                  { value: "la-seve" as const, title: "La Sève", detail: t({ fr: "1 cottage · jusqu'à 6 personnes", en: "1 cottage · up to 6 guests", nl: "1 cottage · tot 6 gasten" }) },
+                  { value: "le-bois" as const, title: "Le Bois", detail: t({ fr: "1 cottage · jusqu'à 6 personnes", en: "1 cottage · up to 6 guests", nl: "1 cottage · tot 6 gasten" }) },
+                  { value: "both" as const, title: t({ fr: "Les deux cottages", en: "Both cottages", nl: "Beide cottages" }), detail: t({ fr: "2 cottages · 4 à 12 personnes", en: "2 cottages · 4–12 guests", nl: "2 cottages · 4–12 gasten" }) },
                 ]).map((option) => (
                   <button
                     key={option.value}
@@ -183,7 +183,7 @@ export default function BookingPage() {
                   >
                     <span className="block font-semibold text-[var(--forest-900)]">{option.title}</span>
                     <span className="block text-xs text-[var(--slate-600)] mt-1">{option.detail}</span>
-                    <span className="block text-xs font-semibold text-[var(--ochre-700)] mt-3">{t({ fr: "À partir de", en: "From", be: "Vanaf" })} €{option.value === "both" ? 300 : 150} / {t({ fr: "nuit", en: "night", be: "nacht" })}</span>
+                    <span className="block text-xs font-semibold text-[var(--ochre-700)] mt-3">{t({ fr: "À partir de", en: "From", nl: "Vanaf" })} €{option.value === "both" ? 300 : 150} / {t({ fr: "nuit", en: "night", nl: "nacht" })}</span>
                   </button>
                 ))}
               </div>
@@ -192,7 +192,7 @@ export default function BookingPage() {
 
             {/* Date picker */}
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)]">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Sélectionnez vos dates", en: "Select your dates", be: "Select your dates" })}</h3>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Sélectionnez vos dates", en: "Select your dates", nl: "Selecteer uw data" })}</h3>
               <DayPicker
                 mode="range"
                 selected={range}
@@ -204,36 +204,36 @@ export default function BookingPage() {
               <div className="flex items-center gap-4 mt-4">
                 <div className="flex items-center gap-2 text-xs text-[var(--slate-500)]">
                   <div className="w-3 h-3 rounded-full bg-[var(--forest-700)]" />
-                  {t({ fr: "Sélectionné", en: "Selected", be: "Selected" })}
+                  {t({ fr: "Sélectionné", en: "Selected", nl: "Gekozen" })}
                 </div>
                 <div className="flex items-center gap-2 text-xs text-[var(--slate-500)]">
                   <div className="w-3 h-3 rounded-full bg-red-200" />
-                  {t({ fr: "Indisponible", en: "Unavailable", be: "Unavailable" })}
+                  {t({ fr: "Indisponible", en: "Unavailable", nl: "Niet beschikbaar" })}
                 </div>
               </div>
             </div>
 
             {/* Guest details */}
             <form data-analytics-form="booking_details" data-analytics-booking-action="details" onSubmit={handleSubmit} className="bg-white rounded-2xl p-4 sm:p-6 border border-[var(--cream-300)] space-y-5">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)]">{t({ fr: "Vos coordonnées", en: "Your details", be: "Your details" })}</h3>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)]">{t({ fr: "Vos coordonnées", en: "Your details", nl: "Uw gegevens" })}</h3>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="label-eco">{t({ fr: "Prénom *", en: "First name *", be: "First name *" })}</label>
-                  <input type="text" required value={form.guestFirstName} onChange={e => setForm(f => ({ ...f, guestFirstName: e.target.value }))} className="input-eco" placeholder={t({ fr: "Jean", en: "Jane", be: "Jane" })} />
+                  <label className="label-eco">{t({ fr: "Prénom *", en: "First name *", nl: "Voornaam *" })}</label>
+                  <input type="text" required value={form.guestFirstName} onChange={e => setForm(f => ({ ...f, guestFirstName: e.target.value }))} className="input-eco" placeholder={t({ fr: "Jean", en: "Jane", nl: "Jane" })} />
                 </div>
                 <div>
-                  <label className="label-eco">{t({ fr: "Nom de famille *", en: "Surname *", be: "Surname *" })}</label>
-                  <input type="text" required value={form.guestSurname} onChange={e => setForm(f => ({ ...f, guestSurname: e.target.value }))} className="input-eco" placeholder={t({ fr: "Dupont", en: "Smith", be: "Smith" })} />
+                  <label className="label-eco">{t({ fr: "Nom de famille *", en: "Surname *", nl: "Achternaam *" })}</label>
+                  <input type="text" required value={form.guestSurname} onChange={e => setForm(f => ({ ...f, guestSurname: e.target.value }))} className="input-eco" placeholder={t({ fr: "Dupont", en: "Smith", nl: "Smit" })} />
                 </div>
                 <div>
-                  <label className="label-eco">{t({ fr: "Email *", en: "Email *", be: "Email *" })}</label>
+                  <label className="label-eco">{t({ fr: "Email *", en: "Email *", nl: "E-mail *" })}</label>
                   <input type="email" required value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="input-eco" placeholder="jean@exemple.com" />
                 </div>
                 <div>
-                  <label className="label-eco">{t({ fr: "Téléphone *", en: "Phone *", be: "Phone *" })}</label>
+                  <label className="label-eco">{t({ fr: "Téléphone *", en: "Phone *", nl: "Telefoon *" })}</label>
                   <div className="grid grid-cols-1 min-[380px]:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] gap-2">
-                    <select aria-label={t({ fr: "Pays du téléphone", en: "Phone country", be: "Phone country" })} value={form.country} onChange={e => setForm(f => ({ ...f, country: e.target.value }))} className="input-eco">
+                    <select aria-label={t({ fr: "Pays du téléphone", en: "Phone country", nl: "Telefoon land" })} value={form.country} onChange={e => setForm(f => ({ ...f, country: e.target.value }))} className="input-eco">
                       {PHONE_COUNTRIES.map(([code, flag, name, dialCode]) => <option key={code} value={code}>{flag} {name} ({dialCode})</option>)}
                     </select>
                     <div className="flex min-w-0">
@@ -241,48 +241,48 @@ export default function BookingPage() {
                       <input type="tel" required value={form.phone} onChange={e => setForm(f => ({ ...f, phone: e.target.value }))} className="input-eco min-w-0 rounded-l-none" placeholder="4XX XX XX XX" inputMode="tel" />
                     </div>
                   </div>
-                  <p className="text-xs text-[var(--slate-500)] mt-1">{t({ fr: "Choisissez votre pays, puis saisissez votre numéro sans l'indicatif.", en: "Choose your country, then enter your number without the country code.", be: "Kies uw land en voer daarna uw nummer in zonder landcode." })}</p>
+                  <p className="text-xs text-[var(--slate-500)] mt-1">{t({ fr: "Choisissez votre pays, puis saisissez votre numéro sans l'indicatif.", en: "Choose your country, then enter your number without the country code.", nl: "Kies uw land en voer daarna uw nummer in zonder landcode." })}</p>
                 </div>
                 <div>
-                  <label className="label-eco">{t({ fr: "Nombre de personnes *", en: "Number of guests *", be: "Aantal gasten *" })}</label>
+                  <label className="label-eco">{t({ fr: "Nombre de personnes *", en: "Number of guests *", nl: "Aantal gasten *" })}</label>
                   <select value={guestCount} onChange={e => setGuestCount(Number(e.target.value))} className="input-eco">
                     {Array.from({ length: maximumGuestsForSelection(selection) - minimumGuestsForSelection(selection) + 1 }, (_, index) => index + minimumGuestsForSelection(selection)).map(n => <option key={n} value={n}>{n}</option>)}
                   </select>
-                  {selection === "both" && <p className="text-xs text-[var(--slate-500)] mt-2">{t({ fr: "Les deux cottages sont disponibles pour les groupes de 4 à 12 personnes.", en: "Both cottages are available for groups of 4–12 guests.", be: "Beide cottages zijn beschikbaar voor groepen van 4–12 gasten." })}</p>}
+                  {selection === "both" && <p className="text-xs text-[var(--slate-500)] mt-2">{t({ fr: "Les deux cottages sont disponibles pour les groupes de 4 à 12 personnes.", en: "Both cottages are available for groups of 4–12 guests.", nl: "Beide cottages zijn beschikbaar voor groepen van 4–12 gasten." })}</p>}
                 </div>
               </div>
 
               <div>
-                <label className="label-eco">{t({ fr: "Animaux domestiques", en: "Pets", be: "Pets" })}</label>
+                <label className="label-eco">{t({ fr: "Animaux domestiques", en: "Pets", nl: "Huisdieren" })}</label>
                 <select value={form.pets || "none"} onChange={e => setForm(f => ({ ...f, pets: e.target.value }))} className="input-eco">
-                  <option value="none">{t({ fr: "Aucun", en: "None", be: "None" })}</option>
-                  <option value="1-small">{t({ fr: "1 petit animal", en: "1 small pet", be: "1 small pet" })}</option>
-                  <option value="2-small">{t({ fr: "2 petits animaux", en: "2 small pets", be: "2 small pets" })}</option>
-                  <option value="1-large">{t({ fr: "1 grand animal", en: "1 large pet", be: "1 large pet" })}</option>
+                  <option value="none">{t({ fr: "Aucun", en: "None", nl: "Geen" })}</option>
+                  <option value="1-small">{t({ fr: "1 petit animal", en: "1 small pet", nl: "1 klein huisdier" })}</option>
+                  <option value="2-small">{t({ fr: "2 petits animaux", en: "2 small pets", nl: "2 kleine huisdieren" })}</option>
+                  <option value="1-large">{t({ fr: "1 grand animal", en: "1 large pet", nl: "1 groot huisdier" })}</option>
                 </select>
               </div>
 
               <div>
-                <label className="label-eco">{t({ fr: "Demandes spéciales", en: "Special requests", be: "Special requests" })}</label>
-                <textarea value={form.specialRequests} onChange={e => setForm(f => ({ ...f, specialRequests: e.target.value }))} className="input-eco h-24 resize-none" placeholder={t({ fr: "Allergies, heure d'arrivée, etc.", en: "Allergies, arrival time, etc.", be: "Allergies, arrival time, etc." })} />
+                <label className="label-eco">{t({ fr: "Demandes spéciales", en: "Special requests", nl: "Speciale verzoeken" })}</label>
+                <textarea value={form.specialRequests} onChange={e => setForm(f => ({ ...f, specialRequests: e.target.value }))} className="input-eco h-24 resize-none" placeholder={t({ fr: "Allergies, heure d'arrivée, etc.", en: "Allergies, arrival time, etc.", nl: "Allergieën, aankomsttijd, etc." })} />
               </div>
 
               <div className="rounded-xl border border-[var(--cream-300)] bg-[var(--cream-50)] p-4">
-                <label className="label-eco">{t({ fr: "Code promo", en: "Promo code", be: "Promocode" })}</label>
+                <label className="label-eco">{t({ fr: "Code promo", en: "Promo code", nl: "Promocode" })}</label>
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <input type="text" value={promoCode} onChange={e => { setPromoCode(e.target.value.toUpperCase()); setAppliedPromo(null); }} className="input-eco flex-1 uppercase" placeholder={t({ fr: "Entrez votre code", en: "Enter your code", be: "Voer uw code in" })} autoComplete="off" />
+                  <input type="text" value={promoCode} onChange={e => { setPromoCode(e.target.value.toUpperCase()); setAppliedPromo(null); }} className="input-eco flex-1 uppercase" placeholder={t({ fr: "Entrez votre code", en: "Enter your code", nl: "Voer uw code in" })} autoComplete="off" />
                   <button type="button" onClick={() => { if (!promoCode.trim() || !nights) return; validatePromoMutation.mutate({ propertyId, code: promoCode, nights, guestCount, guestEmail: form.email || undefined, baseAmount: subtotalBeforePromo }); }} disabled={!promoCode.trim() || !nights || validatePromoMutation.isPending} className="btn-outline whitespace-nowrap disabled:opacity-50">
-                    {validatePromoMutation.isPending ? t({ fr: "Vérification…", en: "Checking…", be: "Controleren…" }) : t({ fr: "Appliquer", en: "Apply", be: "Toepassen" })}
+                    {validatePromoMutation.isPending ? t({ fr: "Vérification…", en: "Checking…", nl: "Controleren…" }) : t({ fr: "Appliquer", en: "Apply", nl: "Toepassen" })}
                   </button>
                 </div>
-                {usablePromo && <p className="text-xs text-emerald-700 mt-2">{t({ fr: `Code ${usablePromo.code} appliqué : -€${usablePromo.discount.toFixed(2)}`, en: `Code ${usablePromo.code} applied: -€${usablePromo.discount.toFixed(2)}`, be: `Code ${usablePromo.code} toegepast: -€${usablePromo.discount.toFixed(2)}` })}</p>}
-                <p className="text-xs text-[var(--slate-500)] mt-2">{t({ fr: "Les codes promotionnels sont vérifiés avant le paiement.", en: "Promo codes are checked before payment.", be: "Promocodes worden vóór betaling gecontroleerd." })}</p>
+                {usablePromo && <p className="text-xs text-emerald-700 mt-2">{t({ fr: `Code ${usablePromo.code} appliqué : -€${usablePromo.discount.toFixed(2)}`, en: `Code ${usablePromo.code} applied: -€${usablePromo.discount.toFixed(2)}`, nl: `Code ${usablePromo.code} toegepast: -€${usablePromo.discount.toFixed(2)}` })}</p>}
+                <p className="text-xs text-[var(--slate-500)] mt-2">{t({ fr: "Les codes promotionnels sont vérifiés avant le paiement.", en: "Promo codes are checked before payment.", nl: "Promocodes worden vóór betaling gecontroleerd." })}</p>
               </div>
               
               {/* Parking Note */}
               <div className="bg-[var(--cream-50)] rounded-lg p-4 border border-[var(--cream-200)]">
                 <p className="text-xs text-[var(--slate-600)]">
-                  {t({ fr: "📍 Notre zone de stationnement a une surface en pierre naturelle et est légèrement surélevée. Nous recommandons les véhicules avec un bon dégagement au sol.", en: "📍 Our parking area has a natural stone surface and is slightly elevated. We recommend vehicles with reasonable ground clearance.", be: "📍 Our parking area has a natural stone surface and is slightly elevated. We recommend vehicles with reasonable ground clearance." })}
+                  {t({ fr: "📍 Notre zone de stationnement a une surface en pierre naturelle et est légèrement surélevée. Nous recommandons les véhicules avec un bon dégagement au sol.", en: "📍 Our parking area has a natural stone surface and is slightly elevated. We recommend vehicles with reasonable ground clearance.", nl: "📍Onze parkeerplaats heeft een natuurstenen ondergrond en is licht verhoogd. Wij adviseren voertuigen met een redelijke bodemvrijheid." })}
                 </p>
               </div>
 
@@ -296,9 +296,9 @@ export default function BookingPage() {
                   className="mt-0.5 w-4 h-4 accent-[var(--forest-700)]"
                 />
                 <label htmlFor="gdpr" className="text-xs text-[var(--slate-600)] leading-relaxed">
-                  {t({ fr: "J'accepte que mes données soient utilisées pour traiter ma réservation, conformément à la ", en: "I agree that my data will be used to process my booking, in accordance with the ", be: "I agree that my data will be used to process my booking, in accordance with the " })}
-                  <Link href="/privacy" className="underline text-[var(--forest-600)]">{t({ fr: "politique de confidentialité", en: "privacy policy", be: "privacy policy" })}</Link>.
-                  {t({ fr: " Pas de spam, désabonnement possible à tout moment.", en: " No spam, unsubscribe at any time.", be: " No spam, unsubscribe at any time." })}
+                  {t({ fr: "J'accepte que mes données soient utilisées pour traiter ma réservation, conformément à la ", en: "I agree that my data will be used to process my booking, in accordance with the ", nl: "Ik ga ermee akkoord dat mijn gegevens worden gebruikt om mijn boeking te verwerken, in overeenstemming met de" })}
+                  <Link href="/privacy" className="underline text-[var(--forest-600)]">{t({ fr: "politique de confidentialité", en: "privacy policy", nl: "privacybeleid" })}</Link>.
+                  {t({ fr: " Pas de spam, désabonnement possible à tout moment.", en: " No spam, unsubscribe at any time.", nl: "Geen spam, u kunt zich op elk gewenst moment afmelden." })}
                 </label>
               </div>
 
@@ -308,11 +308,11 @@ export default function BookingPage() {
                 className="btn-primary w-full text-base py-4 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {checkoutMutation.isPending
-                  ? t({ fr: "Création de la réservation...", en: "Creating booking...", be: "Creating booking..." })
-                  : t({ fr: "Procéder au paiement sécurisé", en: "Proceed to secure payment", be: "Proceed to secure payment" })}
+                  ? t({ fr: "Création de la réservation...", en: "Creating booking...", nl: "Boeking maken..." })
+                  : t({ fr: "Procéder au paiement sécurisé", en: "Proceed to secure payment", nl: "Ga verder om de betaling veilig te stellen" })}
               </button>
               <p className="text-xs text-center text-[var(--slate-400)]">
-                🔒 {t({ fr: "Paiement sécurisé via Stripe. Vos données bancaires ne nous sont jamais transmises.", en: "Secure payment via Stripe. Your card details are never shared with us.", be: "Secure payment via Stripe. Your card details are never shared with us." })}
+                🔒 {t({ fr: "Paiement sécurisé via Stripe. Vos données bancaires ne nous sont jamais transmises.", en: "Secure payment via Stripe. Your card details are never shared with us.", nl: "Veilig betalen via Stripe. Uw kaartgegevens worden nooit met ons gedeeld." })}
               </p>
             </form>
           </div>
@@ -322,41 +322,41 @@ export default function BookingPage() {
             <div className="sticky top-24 bg-white rounded-2xl shadow-lg border border-[var(--cream-300)] overflow-hidden">
                   <div className="bg-[var(--forest-700)] p-6 text-white">
                 <div className="text-4xl font-serif font-bold">€{basePricePerNight}</div>
-                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit pour cette sélection", en: "/ night for this selection", be: "/ nacht voor deze selectie" })}</p>
+                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit pour cette sélection", en: "/ night for this selection", nl: "/ nacht voor deze selectie" })}</p>
               </div>
               <div className="p-6 space-y-3 text-sm">
                 {range?.from && range?.to ? (
                   <>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{t({ fr: "Arrivée", en: "Check-in", be: "Check-in" })}</span>
+                      <span className="text-[var(--slate-600)]">{t({ fr: "Arrivée", en: "Check-in", nl: "Inchecken" })}</span>
                       <span className="font-semibold">{range.from.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{t({ fr: "Départ", en: "Check-out", be: "Check-out" })}</span>
+                      <span className="text-[var(--slate-600)]">{t({ fr: "Départ", en: "Check-out", nl: "Uitchecken" })}</span>
                       <span className="font-semibold">{range.to.toLocaleDateString()}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", be: "nacht(en)" })} × €{basePricePerNight}</span>
+                      <span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", nl: "nacht(en)" })} × €{basePricePerNight}</span>
                       <span>€{nights * basePricePerNight}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="text-[var(--slate-600)]">{t({ fr: "Frais de ménage", en: "Cleaning fee", be: "Cleaning fee" })}</span>
+                      <span className="text-[var(--slate-600)]">{t({ fr: "Frais de ménage", en: "Cleaning fee", nl: "Schoonmaakkosten" })}</span>
                       <span>€{cleaningFee}</span>
                     </div>
                     {usablePromo && <div className="flex justify-between text-emerald-700"><span>{usablePromo.code}</span><span>-€{usablePromo.discount.toFixed(2)}</span></div>}
                     <div className="flex justify-between font-bold text-[var(--forest-900)] border-t border-[var(--cream-200)] pt-3 text-base">
-                      <span>Total</span>
+                      <span>{t({ fr: "Total", en: "Total", nl: "Totaal" })}</span>
                       <span>€{total}</span>
                     </div>
                     {nights < BOOKING_PRICING.minimumStayNights && (
-                      <p className="text-xs text-red-500">{t({ fr: "Séjour minimum 2 nuits.", en: "Minimum 2-night stay.", be: "Minimum 2-night stay." })}</p>
+                      <p className="text-xs text-red-500">{t({ fr: "Séjour minimum 2 nuits.", en: "Minimum 2-night stay.", nl: "Minimaal verblijf van 2 nachten." })}</p>
                     )}
                     {guestCount < minimumGuestsForSelection(selection) && (
-                      <p className="text-xs text-red-500">{t({ fr: "Les deux cottages nécessitent au moins 4 personnes.", en: "Both cottages require at least 4 guests.", be: "Beide cottages vereisen minstens 4 gasten." })}</p>
+                      <p className="text-xs text-red-500">{t({ fr: "Les deux cottages nécessitent au moins 4 personnes.", en: "Both cottages require at least 4 guests.", nl: "Beide cottages vereisen minstens 4 gasten." })}</p>
                     )}
                   </>
                 ) : (
-                  <p className="text-[var(--slate-500)] text-center py-4">{t({ fr: "Sélectionnez vos dates.", en: "Select your dates.", be: "Select your dates." })}</p>
+                  <p className="text-[var(--slate-500)] text-center py-4">{t({ fr: "Sélectionnez vos dates.", en: "Select your dates.", nl: "Selecteer uw data." })}</p>
                 )}
               </div>
             </div>

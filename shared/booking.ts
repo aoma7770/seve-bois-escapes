@@ -45,8 +45,8 @@ export function bookingTotal(selection: BookingSelection, guests: number, nights
   return subtotal + configuredFees;
 }
 
-export const BOOKING_SELECTION_LABELS: Record<BookingSelection, { fr: string; en: string; be: string }> = {
-  "la-seve": { fr: "La Sève", en: "La Sève", be: "La Sève" },
-  "le-bois": { fr: "Le Bois", en: "Le Bois", be: "Le Bois" },
-  both: { fr: "Les deux cottages", en: "Both cottages", be: "Beide cottages" },
+export const BOOKING_SELECTION_LABELS: Record<BookingSelection, { fr: string; en: string; nl: string }> = {
+  "la-seve": { fr: "La Sève", en: "La Sève", nl: "La Sève" },
+  "le-bois": { fr: "Le Bois", en: "Le Bois", nl: "Le Bois" },
+  both: { fr: "Les deux cottages", en: "Both cottages", nl: "Beide cottages" },
 };

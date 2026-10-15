@@ -30,10 +30,10 @@ export default function BookingConfirmation() {
           </div>
           <div className="divider-ochre mx-auto mb-6" />
           <h1 className="text-headline text-[var(--forest-950)] mb-4">
-            {t({ fr: "Réservation confirmée !", en: "Booking confirmed!", be: "Booking confirmed!" })}
+            {t({ fr: "Réservation confirmée !", en: "Booking confirmed!", nl: "Boeking bevestigd!" })}
           </h1>
           <p className="text-lead mb-8">
-            {t({ fr: "Merci pour votre réservation. Un email de confirmation vous a été envoyé. Nous avons hâte de vous accueillir !", en: "Thank you for your booking. A confirmation email has been sent to you. We look forward to welcoming you!", be: "Thank you for your booking. A confirmation email has been sent to you. We look forward to welcoming you!" })}
+            {t({ fr: "Merci pour votre réservation. Un email de confirmation vous a été envoyé. Nous avons hâte de vous accueillir !", en: "Thank you for your booking. A confirmation email has been sent to you. We look forward to welcoming you!", nl: "Bedankt voor uw boeking. Er is een bevestigingsmail naar u verzonden. Wij kijken ernaar uit u te mogen verwelkomen!" })}
           </p>
 
           {booking && (
@@ -41,7 +41,7 @@ export default function BookingConfirmation() {
               <div className="flex items-center gap-3">
                 <Calendar size={18} className="text-[var(--forest-600)]" />
                 <div>
-                  <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Dates", en: "Dates", be: "Dates" })}</p>
+                  <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Dates", en: "Dates", nl: "Datums" })}</p>
                   <p className="font-semibold text-[var(--forest-900)] text-sm">
                     {new Date(booking.checkIn).toLocaleDateString()} → {new Date(booking.checkOut).toLocaleDateString()}
                   </p>
@@ -50,7 +50,7 @@ export default function BookingConfirmation() {
               <div className="flex items-center gap-3">
                 <Mail size={18} className="text-[var(--forest-600)]" />
                 <div>
-                  <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Email", en: "Email", be: "Email" })}</p>
+                  <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Email", en: "Email", nl: "Email" })}</p>
                   <p className="font-semibold text-[var(--forest-900)] text-sm">{booking.guestEmail}</p>
                 </div>
               </div>
@@ -59,7 +59,7 @@ export default function BookingConfirmation() {
 
           <div className="space-y-3 mb-8">
             <p className="text-sm text-[var(--slate-600)]">
-              {t({ fr: "Des questions ? Contactez-nous :", en: "Questions? Contact us:", be: "Questions? Contact us:" })}
+              {t({ fr: "Des questions ? Contactez-nous :", en: "Questions? Contact us:", nl: "Vragen? Neem contact met ons op:" })}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a href="mailto:support@sevebois.be" className="btn-outline text-sm">
@@ -72,7 +72,7 @@ export default function BookingConfirmation() {
           </div>
 
           <Link href="/" className="text-sm text-[var(--forest-600)] underline hover:no-underline">
-            {t({ fr: "Retour à l'accueil", en: "Back to homepage", be: "Back to homepage" })}
+            {t({ fr: "Retour à l'accueil", en: "Back to homepage", nl: "Terug naar startpagina" })}
           </Link>
         </div>
       </div>

@@ -47,7 +47,7 @@ export default function RatesPage() {
   const nightly = nightlyRate(selection, guestCount, rateConfig);
   const total = bookingTotal(selection, guestCount, nights, rateConfig);
   const optionLabel = selection === "both"
-    ? t({ fr: "Les deux cottages", en: "Both cottages", be: "Beide cottages" })
+    ? t({ fr: "Les deux cottages", en: "Both cottages", nl: "Beide cottages" })
     : selection === "la-seve" ? "La Sève" : "Le Bois";
 
   const selectOption = (next: BookingSelection) => {
@@ -62,9 +62,9 @@ export default function RatesPage() {
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
       <div className="bg-[var(--forest-900)] py-16 text-white">
         <div className="container">
-          <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Tarifs & disponibilités", en: "Rates & availability", be: "Tarieven & beschikbaarheid" })}</p>
-          <h1 className="text-headline text-white">{t({ fr: "Choisissez votre séjour", en: "Choose your stay", be: "Kies uw verblijf" })}</h1>
-          <p className="text-white/75 mt-3 max-w-2xl">{t({ fr: "Réservez La Sève, Le Bois, ou les deux cottages. Le tarif par nuit est calculé selon votre choix et le nombre de voyageurs.", en: "Book La Sève, Le Bois, or both cottages. The nightly rate is calculated from your choice and number of guests.", be: "Boek La Sève, Le Bois of beide cottages. Het nachttarief wordt berekend op basis van uw keuze en het aantal gasten." })}</p>
+          <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Tarifs & disponibilités", en: "Rates & availability", nl: "Tarieven & beschikbaarheid" })}</p>
+          <h1 className="text-headline text-white">{t({ fr: "Choisissez votre séjour", en: "Choose your stay", nl: "Kies uw verblijf" })}</h1>
+          <p className="text-white/75 mt-3 max-w-2xl">{t({ fr: "Réservez La Sève, Le Bois, ou les deux cottages. Le tarif par nuit est calculé selon votre choix et le nombre de voyageurs.", en: "Book La Sève, Le Bois, or both cottages. The nightly rate is calculated from your choice and number of guests.", nl: "Boek La Sève, Le Bois of beide cottages. Het nachttarief wordt berekend op basis van uw keuze en het aantal gasten." })}</p>
         </div>
       </div>
 
@@ -73,9 +73,9 @@ export default function RatesPage() {
           <div className="lg:col-span-2">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-8">
               {([
-                { value: "la-seve" as const, title: "La Sève", description: t({ fr: "1 à 6 personnes", en: "1–6 guests", be: "1–6 gasten" }), from: 150 },
-                { value: "le-bois" as const, title: "Le Bois", description: t({ fr: "1 à 6 personnes", en: "1–6 guests", be: "1–6 gasten" }), from: 150 },
-                { value: "both" as const, title: t({ fr: "Les deux cottages", en: "Both cottages", be: "Beide cottages" }), description: t({ fr: "4 à 12 personnes", en: "4–12 guests", be: "4–12 gasten" }), from: 300 },
+                { value: "la-seve" as const, title: "La Sève", description: t({ fr: "1 à 6 personnes", en: "1–6 guests", nl: "1–6 gasten" }), from: 150 },
+                { value: "le-bois" as const, title: "Le Bois", description: t({ fr: "1 à 6 personnes", en: "1–6 guests", nl: "1–6 gasten" }), from: 150 },
+                { value: "both" as const, title: t({ fr: "Les deux cottages", en: "Both cottages", nl: "Beide cottages" }), description: t({ fr: "4 à 12 personnes", en: "4–12 guests", nl: "4–12 gasten" }), from: 300 },
               ]).map((option) => (
                 <button
                   key={option.value}
@@ -85,35 +85,35 @@ export default function RatesPage() {
                 >
                   <span className="block font-semibold text-[var(--forest-900)]">{option.title}</span>
                   <span className="block text-xs text-[var(--slate-600)] mt-1">{option.description}</span>
-                  <span className="block text-xs font-semibold text-[var(--ochre-700)] mt-3">{t({ fr: "À partir de", en: "From", be: "Vanaf" })} €{option.from} / {t({ fr: "nuit", en: "night", be: "nacht" })}</span>
+                  <span className="block text-xs font-semibold text-[var(--ochre-700)] mt-3">{t({ fr: "À partir de", en: "From", nl: "Vanaf" })} €{option.from} / {t({ fr: "nuit", en: "night", nl: "nacht" })}</span>
                 </button>
               ))}
             </div>
 
             <div className="bg-white rounded-2xl p-6 border border-[var(--cream-300)] shadow-sm">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Sélectionnez vos dates", en: "Select your dates", be: "Selecteer uw data" })}</h3>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-4">{t({ fr: "Sélectionnez vos dates", en: "Select your dates", nl: "Selecteer uw data" })}</h3>
               <DayPicker mode="range" selected={range} onSelect={setRange} disabled={disabledDays} numberOfMonths={2} fromDate={today} />
               <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="label-eco">{t({ fr: "Nombre de personnes", en: "Number of guests", be: "Aantal gasten" })}</label>
+                  <label className="label-eco">{t({ fr: "Nombre de personnes", en: "Number of guests", nl: "Aantal gasten" })}</label>
                   <select value={guestCount} onChange={(event) => setGuestCount(Number(event.target.value))} className="input-eco">
                     {Array.from({ length: maximumGuestsForSelection(selection) - minimumGuestsForSelection(selection) + 1 }, (_, index) => index + minimumGuestsForSelection(selection)).map((guest) => <option key={guest} value={guest}>{guest}</option>)}
                   </select>
                 </div>
                 <div className="rounded-xl bg-[var(--forest-50)] p-4 text-sm text-[var(--forest-800)]">
-                  {t({ fr: "Tarif calculé", en: "Rate calculation", be: "Tariefberekening" })}: €{BOOKING_PRICING.cottageNightlyBase} {t({ fr: "par cottage", en: "per cottage", be: "per cottage" })} + €{BOOKING_PRICING.extraGuestNightly} {t({ fr: "par personne supplémentaire et par nuit", en: "per additional guest per night", be: "per extra gast per nacht" })}.
+                  {t({ fr: "Tarif calculé", en: "Rate calculation", nl: "Tariefberekening" })}: €{BOOKING_PRICING.cottageNightlyBase} {t({ fr: "par cottage", en: "per cottage", nl: "per huisje" })} + €{BOOKING_PRICING.extraGuestNightly} {t({ fr: "par personne supplémentaire et par nuit", en: "per additional guest per night", nl: "per extra gast per nacht" })}.
                 </div>
               </div>
             </div>
 
             <div className="mt-8 bg-white rounded-2xl p-8 border border-[var(--cream-300)]">
-              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-6">{t({ fr: "Comment le tarif est calculé", en: "How the rate is calculated", be: "Hoe het tarief wordt berekend" })}</h3>
+              <h3 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-6">{t({ fr: "Comment le tarif est calculé", en: "How the rate is calculated", nl: "Hoe het tarief wordt berekend" })}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
-                <div className="rounded-xl bg-[var(--cream-50)] p-4"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Un cottage", en: "One cottage", be: "Eén cottage" })}</p><p className="text-[var(--slate-600)] mt-1">{t({ fr: "À partir de €150 / nuit pour 1 personne.", en: "From €150 / night for 1 guest.", be: "Vanaf €150 / nacht voor 1 gast." })}</p></div>
-                <div className="rounded-xl bg-[var(--cream-50)] p-4"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Personnes supplémentaires", en: "Additional guests", be: "Extra gasten" })}</p><p className="text-[var(--slate-600)] mt-1">{t({ fr: "+ €40 / nuit par personne au-delà de la première.", en: "+ €40 / night per guest after the first.", be: "+ €40 / nacht per gast na de eerste." })}</p></div>
-                <div className="rounded-xl bg-[var(--cream-50)] p-4"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Les deux cottages", en: "Both cottages", be: "Beide cottages" })}</p><p className="text-[var(--slate-600)] mt-1">{t({ fr: "À partir de €300 / nuit pour un groupe de 4 à 12 personnes.", en: "From €300 / night for a group of 4–12 guests.", be: "Vanaf €300 / nacht voor een groep van 4–12 gasten." })}</p></div>
+                <div className="rounded-xl bg-[var(--cream-50)] p-4"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Un cottage", en: "One cottage", nl: "Eén cottage" })}</p><p className="text-[var(--slate-600)] mt-1">{t({ fr: "À partir de €150 / nuit pour 1 personne.", en: "From €150 / night for 1 guest.", nl: "Vanaf €150 / nacht voor 1 gast." })}</p></div>
+                <div className="rounded-xl bg-[var(--cream-50)] p-4"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Personnes supplémentaires", en: "Additional guests", nl: "Extra gasten" })}</p><p className="text-[var(--slate-600)] mt-1">{t({ fr: "+ €40 / nuit par personne au-delà de la première.", en: "+ €40 / night per guest after the first.", nl: "+ €40 / nacht per gast na de eerste." })}</p></div>
+                <div className="rounded-xl bg-[var(--cream-50)] p-4"><p className="font-semibold text-[var(--forest-900)]">{t({ fr: "Les deux cottages", en: "Both cottages", nl: "Beide cottages" })}</p><p className="text-[var(--slate-600)] mt-1">{t({ fr: "À partir de €300 / nuit pour un groupe de 4 à 12 personnes.", en: "From €300 / night for a group of 4–12 guests.", nl: "Vanaf €300 / nacht voor een groep van 4–12 gasten." })}</p></div>
               </div>
-              <p className="text-xs text-[var(--slate-400)] mt-5">{t({ fr: "Séjour minimum de 2 nuits. Les tarifs peuvent être ajustés par l'hébergeur selon la période.", en: "Minimum stay of 2 nights. Rates may be adjusted by the host depending on the period.", be: "Minimum verblijf van 2 nachten. Tarieven kunnen per periode door de verhuurder worden aangepast." })}</p>
+              <p className="text-xs text-[var(--slate-400)] mt-5">{t({ fr: "Séjour minimum de 2 nuits. Les tarifs peuvent être ajustés par l'hébergeur selon la période.", en: "Minimum stay of 2 nights. Rates may nl adjusted by the host depending on the period.", nl: "Minimum verblijf van 2 nachten. Tarieven kunnen per periode door de verhuurder worden aangepast." })}</p>
             </div>
           </div>
 
@@ -122,21 +122,21 @@ export default function RatesPage() {
               <div className="bg-[var(--forest-700)] p-6 text-white">
                 <p className="text-sm text-[var(--forest-300)] mb-1">{optionLabel}</p>
                 <div className="text-4xl font-serif font-bold">€{nightly}</div>
-                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit pour votre sélection", en: "/ night for your selection", be: "/ nacht voor uw selectie" })}</p>
+                <p className="text-sm text-[var(--forest-300)] mt-1">{t({ fr: "/ nuit pour votre sélection", en: "/ night for your selection", nl: "/ nacht voor uw selectie" })}</p>
               </div>
               <div className="p-6 space-y-4">
                 {range?.from && range?.to ? (
                   <div className="space-y-3 text-sm">
-                    <div className="flex justify-between"><span className="text-[var(--slate-600)]">{t({ fr: "Arrivée", en: "Check-in", be: "Check-in" })}</span><span className="font-semibold">{range.from.toLocaleDateString()}</span></div>
-                    <div className="flex justify-between"><span className="text-[var(--slate-600)]">{t({ fr: "Départ", en: "Check-out", be: "Check-out" })}</span><span className="font-semibold">{range.to.toLocaleDateString()}</span></div>
-                    <div className="flex justify-between"><span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", be: "nacht(en)" })}</span><span>€{total}</span></div>
-                    <div className="flex justify-between font-bold text-[var(--forest-900)] border-t border-[var(--cream-200)] pt-3"><span>{t({ fr: "Total", en: "Total", be: "Totaal" })}</span><span>€{total}</span></div>
+                    <div className="flex justify-between"><span className="text-[var(--slate-600)]">{t({ fr: "Arrivée", en: "Check-in", nl: "Inchecken" })}</span><span className="font-semibold">{range.from.toLocaleDateString()}</span></div>
+                    <div className="flex justify-between"><span className="text-[var(--slate-600)]">{t({ fr: "Départ", en: "Check-out", nl: "Uitchecken" })}</span><span className="font-semibold">{range.to.toLocaleDateString()}</span></div>
+                    <div className="flex justify-between"><span className="text-[var(--slate-600)]">{nights} {t({ fr: "nuit(s)", en: "night(s)", nl: "nacht(en)" })}</span><span>€{total}</span></div>
+                    <div className="flex justify-between font-bold text-[var(--forest-900)] border-t border-[var(--cream-200)] pt-3"><span>{t({ fr: "Total", en: "Total", nl: "Totaal" })}</span><span>€{total}</span></div>
                   </div>
                 ) : (
-                  <p className="text-sm text-[var(--slate-500)] text-center py-4">{t({ fr: "Sélectionnez vos dates pour voir le total.", en: "Select your dates to see the total.", be: "Selecteer uw data om het totaal te zien." })}</p>
+                  <p className="text-sm text-[var(--slate-500)] text-center py-4">{t({ fr: "Sélectionnez vos dates pour voir le total.", en: "Select your dates to see the total.", nl: "Selecteer uw data om het totaal te zien." })}</p>
                 )}
-                <Link href={bookingHref} className="btn-primary w-full text-center">{t({ fr: "Réserver maintenant", en: "Book now", be: "Boek nu" })}</Link>
-                <p className="text-xs text-center text-[var(--slate-400)]">🔒 {t({ fr: "Paiement sécurisé via Stripe", en: "Secure payment via Stripe", be: "Veilige betaling via Stripe" })}</p>
+                <Link href={bookingHref} className="btn-primary w-full text-center">{t({ fr: "Réserver maintenant", en: "Book now", nl: "Boek nu" })}</Link>
+                <p className="text-xs text-center text-[var(--slate-400)]">🔒 {t({ fr: "Paiement sécurisé via Stripe", en: "Secure payment via Stripe", nl: "Veilige betaling via Stripe" })}</p>
               </div>
             </div>
           </div>

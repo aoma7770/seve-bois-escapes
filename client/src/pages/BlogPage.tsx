@@ -132,7 +132,7 @@ export default function BlogPage() {
                 onClick={() => { setSearchQuery(""); setSelectedCategory("all"); }}
                 className="mt-4 px-4 py-2 bg-[var(--forest-900)] text-white rounded-lg text-sm hover:bg-[var(--forest-800)] transition-colors"
               >
-                {lang === "fr" ? "Réinitialiser" : lang === "be" ? "Reset" : "Reset filters"}
+                {lang === "fr" ? "Réinitialiser" : lang === "nl" ? "Reset" : "Reset filters"}
               </button>
           </div>
         ) : (

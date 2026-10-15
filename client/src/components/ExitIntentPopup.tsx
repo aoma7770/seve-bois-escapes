@@ -66,12 +66,12 @@ export default function ExitIntentPopup() {
   const guideRequest = trpc.newsletter.requestGuide.useMutation({
     onSuccess: () => {
       trackEvent("guide_request_success", { lead_source: "exit_popup" });
-      toast.success(t({ fr: "Merci pour votre intérêt ! Le guide gratuit vient d’être envoyé à votre adresse email. Bonne découverte des Ardennes !", en: "Thank you for your interest! We’ve sent the free guide to your inbox — enjoy discovering the Semois and the Belgian Ardennes.", be: "Bedankt voor uw interesse! We hebben de gratis gids naar uw inbox gestuurd — veel ontdekkingsplezier in de Semois en de Belgische Ardennen!" }));
+      toast.success(t({ fr: "Merci pour votre intérêt ! Le guide gratuit vient d’être envoyé à votre adresse email. Bonne découverte des Ardennes !", en: "Thank you for your interest! We’ve sent the free guide to your inbox — enjoy discovering the Semois and the Belgian Ardennes.", nl: "Bedankt voor uw interesse! We hebben de gratis gids naar uw inbox gestuurd — veel ontdekkingsplezier in de Semois en de Belgische Ardennen!" }));
       setVisible(false);
     },
     onError: (error) => {
       trackEvent("guide_request_error", { lead_source: "exit_popup", error_message: error.message.slice(0, 120) });
-      toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", be: "Er is iets misgegaan." }));
+      toast.error(t({ fr: "Une erreur est survenue.", en: "Something went wrong.", nl: "Er is iets misgegaan." }));
     },
   });
 
@@ -103,20 +103,20 @@ export default function ExitIntentPopup() {
 
           <div className="divider-ochre mb-4" />
           <h3 className="text-subheadline text-[var(--forest-950)] mb-2">
-            {t({ fr: "Avant de partir…", en: "Before you go…", be: "Voordat je gaat..." })}
+            {t({ fr: "Avant de partir…", en: "Before you go…", nl: "Voordat je gaat..." })}
           </h3>
           <p className="text-sm text-[var(--slate-600)] leading-relaxed mb-5">
             {t({
               fr: "Recevez gratuitement notre guide « Explorer la Semois & les Ardennes belges » — sentiers, kayak, villages et bonnes adresses.",
               en: "Get our free guide \"Exploring the Semois & the Belgian Ardennes\" — trails, kayaking, villages and local gems.",
-              be: "Ontvang gratis onze gids \"De Semois & de Belgische Ardennen verkennen\" — paden, kajakken, dorpen en lokale juweeltjes."
+              nl: "Ontvang gratis onze gids \"De Semois & de Belgische Ardennen verkennen\" — paden, kajakken, dorpen en lokale juweeltjes."
             })}
           </p>
 
           <form data-analytics-form="free_guide_exit_popup" onSubmit={handleSubmit} className="space-y-3">
             <input
               type="text"
-              placeholder={t({ fr: "Votre prénom", en: "Your first name", be: "Je voornaam" })}
+              placeholder={t({ fr: "Votre prénom", en: "Your first name", nl: "Je voornaam" })}
               value={form.firstName}
               onChange={(e) => setForm({ ...form, firstName: e.target.value })}
               required
@@ -124,7 +124,7 @@ export default function ExitIntentPopup() {
             />
             <input
               type="text"
-              placeholder={t({ fr: "Votre nom", en: "Your last name", be: "Je achternaam" })}
+              placeholder={t({ fr: "Votre nom", en: "Your last name", nl: "Je achternaam" })}
               value={form.lastName}
               onChange={(e) => setForm({ ...form, lastName: e.target.value })}
               required
@@ -132,18 +132,18 @@ export default function ExitIntentPopup() {
             />
             <input
               type="email"
-              placeholder={t({ fr: "Votre email", en: "Your email", be: "Je e-mailadres" })}
+              placeholder={t({ fr: "Votre email", en: "Your email", nl: "Je e-mailadres" })}
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
               className="input-eco"
             />
-            <label className="flex items-start gap-2 text-xs text-[var(--slate-500)]"><input type="checkbox" checked={form.marketingConsent} onChange={(e) => setForm({ ...form, marketingConsent: e.target.checked })} required className="mt-0.5 accent-[var(--forest-700)]" />{t({ fr: "J'accepte de recevoir le guide et les informations de Sève & Bois.", en: "I agree to receive the guide and Green Cottages updates.", be: "Ik ga akkoord met de gids en updates van Green Cottages." })}</label>
+            <label className="flex items-start gap-2 text-xs text-[var(--slate-500)]"><input type="checkbox" checked={form.marketingConsent} onChange={(e) => setForm({ ...form, marketingConsent: e.target.checked })} required className="mt-0.5 accent-[var(--forest-700)]" />{t({ fr: "J'accepte de recevoir le guide et les informations de Sève & Bois.", en: "I agree to receive the guide and Green Cottages updates.", nl: "Ik ga akkoord met de gids en updates van Green Cottages." })}</label>
             <p className="text-xs text-[var(--slate-400)]">
               {t({
                 fr: "Pas de spam. Désabonnement en un clic. Conforme RGPD.",
                 en: "No spam. Unsubscribe anytime. GDPR compliant.",
-                be: "Geen spam. Afmelden met één klik. GDPR-conform."
+                nl: "Geen spam. Afmelden met één klik. GDPR-conform."
               })}
             </p>
             <button
@@ -152,8 +152,8 @@ export default function ExitIntentPopup() {
               className="btn-primary w-full"
             >
               {guideRequest.isPending
-                ? t({ fr: "Envoi...", en: "Sending...", be: "Verzenden..." })
-                : t({ fr: "Recevoir le guide gratuit", en: "Get the free guide", be: "Gratis gids ontvangen" })}
+                ? t({ fr: "Envoi...", en: "Sending...", nl: "Verzenden..." })
+                : t({ fr: "Recevoir le guide gratuit", en: "Get the free guide", nl: "Gratis gids ontvangen" })}
             </button>
           </form>
 
@@ -161,7 +161,7 @@ export default function ExitIntentPopup() {
             onClick={() => setVisible(false)}
             className="mt-3 w-full text-center text-xs text-[var(--slate-400)] hover:text-[var(--slate-600)] transition-colors"
           >
-            {t({ fr: "Non merci, continuer sans le guide", en: "No thanks, continue without the guide", be: "Nee dank je, doorgaan zonder gids" })}
+            {t({ fr: "Non merci, continuer sans le guide", en: "No thanks, continue without the guide", nl: "Nee dank je, doorgaan zonder gids" })}
           </button>
         </div>
       </div>

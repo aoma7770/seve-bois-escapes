@@ -6,7 +6,7 @@ export const WHATSAPP_NUMBER = "15554425152";
 export const whatsappMessages = {
   fr: "Bonjour, je suis intéressé(e) par votre propriété et j'aimerais recevoir de l'aide.",
   en: "Hello, I am interested in your property and would like some assistance.",
-  be: "Hallo, ik ben geïnteresseerd in uw accommodatie en ontvang graag hulp.",
+  nl: "Hallo, ik ben geïnteresseerd in uw accommodatie en ontvang graag hulp.",
 } as const;
 
 export function getWhatsAppHref(lang: keyof typeof whatsappMessages) {
@@ -23,7 +23,7 @@ function WhatsAppGlyph() {
 
 export function WhatsAppIconLink() {
   const { lang, t } = useLanguage();
-  const label = t({ fr: "Discuter avec nous sur WhatsApp", en: "Chat with us on WhatsApp", be: "Chat met ons op WhatsApp" });
+  const label = t({ fr: "Discuter avec nous sur WhatsApp", en: "Chat with us on WhatsApp", nl: "Chat met ons op WhatsApp" });
 
   return (
     <a
