@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Mail, Phone, Instagram, Facebook, Linkedin } from "lucide-react";
+import { Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
@@ -117,17 +117,6 @@ export default function Footer() {
                 >
                   <Mail size={14} className="shrink-0" />
                   support@sevebois.be
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://wa.me/15554425152"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-sm text-[var(--forest-300)] hover:text-white transition-colors"
-                >
-                  <Phone size={14} className="shrink-0" />
-                  +1 555 442 5152
                 </a>
               </li>
             </ul>

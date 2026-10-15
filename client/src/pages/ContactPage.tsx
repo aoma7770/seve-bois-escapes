@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { Link } from "wouter";
 import { LOCATION_IMAGES } from "../../../shared/location-images";
 import { trackEvent } from "@/lib/analytics";
@@ -85,15 +85,6 @@ export default function ContactPage() {
                   <div>
                     <p className="font-semibold text-[var(--forest-900)]">support@sevebois.be</p>
                     <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Réponse sous 24h", en: "Reply within 24h", nl: "Antwoord binnen 24 uur" })}</p>
-                  </div>
-                </a>
-                <a href="https://wa.me/15554425152" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--cream-300)] hover:border-[#25D366] transition-colors group">
-                  <div className="w-12 h-12 rounded-full bg-[#f0fdf4] flex items-center justify-center text-[#25D366] group-hover:bg-[#dcfce7] transition-colors">
-                    <Phone size={20} />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-[var(--forest-900)]">+1 555 442 5152</p>
-                    <p className="text-xs text-[var(--slate-500)]">{t({ fr: "WhatsApp — réponse rapide", en: "WhatsApp — quick response", nl: "WhatsApp - snelle reactie" })}</p>
                   </div>
                 </a>
                 <div className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--cream-300)]">
