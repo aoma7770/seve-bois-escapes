@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { WhatsAppIconLink } from "./WhatsAppFloat";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -84,6 +85,8 @@ export default function Header() {
               >
                 ⚙️
               </Link>
+
+              <WhatsAppIconLink />
 
               {/* CTA */}
               <Link

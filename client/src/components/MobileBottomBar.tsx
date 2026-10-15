@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { WhatsAppIconLink } from "./WhatsAppFloat";
 
 export default function MobileBottomBar() {
   const { t } = useLanguage();
@@ -13,6 +14,7 @@ export default function MobileBottomBar() {
         >
           {t({ fr: "Vérifier les disponibilités", en: "Check availability", be: "Check availability" })}
         </Link>
+        <WhatsAppIconLink />
       </div>
     </div>
   );
