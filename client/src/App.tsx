@@ -29,6 +29,7 @@ import CookieBanner from "./components/CookieBanner";
 import ExitIntentPopup from "./components/ExitIntentPopup";
 import ScrollRevealObserver from "./components/ScrollRevealObserver";
 import AnalyticsTracker from "./components/AnalyticsTracker";
+import WhatsAppFloat from "./components/WhatsAppFloat";
 import { useEffect, useState } from "react";
 import { trpc } from "@/lib/trpc";
 
@@ -123,6 +124,7 @@ function App() {
             </main>
             <Footer />
             <MobileBottomBar />
+            <WhatsAppFloat />
             <CookieBanner />
             <ExitIntentPopup />
           </TooltipProvider>

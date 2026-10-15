@@ -87,12 +87,12 @@ export default function ContactPage() {
                     <p className="text-xs text-[var(--slate-500)]">{t({ fr: "Réponse sous 24h", en: "Reply within 24h", be: "Reply within 24h" })}</p>
                   </div>
                 </a>
-                <a href="https://wa.me/32467808179" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--cream-300)] hover:border-[#25D366] transition-colors group">
+                <a href="https://wa.me/15554425152" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 p-5 bg-white rounded-xl border border-[var(--cream-300)] hover:border-[#25D366] transition-colors group">
                   <div className="w-12 h-12 rounded-full bg-[#f0fdf4] flex items-center justify-center text-[#25D366] group-hover:bg-[#dcfce7] transition-colors">
                     <Phone size={20} />
                   </div>
                   <div>
-                    <p className="font-semibold text-[var(--forest-900)]">+32 467 80 81 79</p>
+                    <p className="font-semibold text-[var(--forest-900)]">+1 555 442 5152</p>
                     <p className="text-xs text-[var(--slate-500)]">{t({ fr: "WhatsApp — réponse rapide", en: "WhatsApp — quick response", be: "WhatsApp — quick response" })}</p>
                   </div>
                 </a>

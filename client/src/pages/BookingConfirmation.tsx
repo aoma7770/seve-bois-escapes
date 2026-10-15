@@ -65,7 +65,7 @@ export default function BookingConfirmation() {
               <a href="mailto:support@sevebois.be" className="btn-outline text-sm">
                 <Mail size={14} /> support@sevebois.be
               </a>
-              <a href="https://wa.me/32467808179" target="_blank" rel="noopener noreferrer" className="btn-primary text-sm">
+              <a href="https://wa.me/15554425152" target="_blank" rel="noopener noreferrer" className="btn-primary text-sm">
                 <Phone size={14} /> WhatsApp
               </a>
             </div>

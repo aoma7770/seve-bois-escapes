@@ -121,13 +121,13 @@ export default function Footer() {
               </li>
               <li>
                 <a
-                  href="https://wa.me/32467808179"
+                  href="https://wa.me/15554425152"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-[var(--forest-300)] hover:text-white transition-colors"
                 >
                   <Phone size={14} className="shrink-0" />
-                  +32 467 80 81 79
+                  +1 555 442 5152
                 </a>
               </li>
             </ul>

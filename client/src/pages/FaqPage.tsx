@@ -44,7 +44,7 @@ export default function FaqPage() {
       items: [
         { q: t({ fr: "Je n'ai jamais fait de séjour en nature. Est-ce pour moi ?", en: "I've never done a nature stay. Is this for me?", be: "I've never done a nature stay. Is this for me?" }), a: t({ fr: "Absolument. Vous n'avez besoin d'aucune expérience, d'aucun équipement, et de rien à planifier. Le cottage est entièrement équipé — wifi, chauffage, eau chaude, cuisine complète, vrais lits. Vous arrivez, la forêt fait le reste.", en: "Absolutely. You need no experience, no equipment, and nothing to plan. The cottage is fully equipped — wifi, heating, hot water, full kitchen, real beds. You arrive, the forest does the rest.", be: "Absolutely. You need no experience, no equipment, and nothing to plan. The cottage is fully equipped — wifi, heating, hot water, full kitchen, real beds. You arrive, the forest does the rest." }) },
         { q: t({ fr: "Est-ce que je serai isolé(e) ?", en: "Will I be isolated?", be: "Will I be isolated?" }), a: t({ fr: "Vous serez au cœur de la nature, mais pas loin de tout. Le village de Laforêt est à quelques minutes à pied, avec des restaurants et commerces. Et vous aurez le wifi et le téléphone.", en: "You'll be in the heart of nature, but not far from everything. The village of Laforêt is a few minutes on foot, with restaurants and shops. And you'll have wifi and phone signal.", be: "You'll be in the heart of nature, but not far from everything. The village of Laforêt is a few minutes on foot, with restaurants and shops. And you'll have wifi and phone signal." }) },
-        { q: t({ fr: "Que faire si j'ai un problème ?", en: "What if I have a problem?", be: "What if I have a problem?" }), a: t({ fr: "Votre hôte est joignable par WhatsApp (+32 467 80 81 79) et par email (support@sevebois.be) à tout moment pendant votre séjour.", en: "Your host is reachable by WhatsApp (+32 467 80 81 79) and email (support@sevebois.be) at any time during your stay.", be: "Your host is reachable by WhatsApp (+32 467 80 81 79) and email (support@sevebois.be) at any time during your stay." }) },
+        { q: t({ fr: "Que faire si j'ai un problème ?", en: "What if I have a problem?", be: "What if I have a problem?" }), a: t({ fr: "Votre hôte est joignable par WhatsApp (+1 555 442 5152) et par email (support@sevebois.be) à tout moment pendant votre séjour.", en: "Your host is reachable by WhatsApp (+1 555 442 5152) and email (support@sevebois.be) at any time during your stay.", be: "Your host is reachable by WhatsApp (+1 555 442 5152) and email (support@sevebois.be) at any time during your stay." }) },
       ],
     },
     {
@@ -97,7 +97,7 @@ export default function FaqPage() {
           <p className="text-lead mb-6">{t({ fr: "Contactez-nous directement — nous répondons sous 24h.", en: "Contact us directly — we reply within 24 hours.", be: "Contact us directly — we reply within 24 hours." })}</p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/contact" className="btn-primary">{t({ fr: "Nous contacter", en: "Contact us", be: "Contact us" })}</Link>
-            <a href="https://wa.me/32467808179" target="_blank" rel="noopener noreferrer" className="btn-outline">{t({ fr: "WhatsApp", en: "WhatsApp", be: "WhatsApp" })}</a>
+            <a href="https://wa.me/15554425152" target="_blank" rel="noopener noreferrer" className="btn-outline">{t({ fr: "WhatsApp", en: "WhatsApp", be: "WhatsApp" })}</a>
           </div>
         </div>
       </div>
