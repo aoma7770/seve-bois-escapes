@@ -8,7 +8,7 @@ describe("WhatsApp chat links", () => {
   });
 
   it("prefills the message in the active site language", () => {
-    for (const language of ["fr", "en", "be"] as const) {
+    for (const language of ["fr", "en", "nl"] as const) {
       const href = getWhatsAppHref(language);
       expect(href).toContain(encodeURIComponent(whatsappMessages[language]));
     }
