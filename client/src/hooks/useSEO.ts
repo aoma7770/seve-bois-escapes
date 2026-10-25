@@ -33,8 +33,7 @@ export function useSEO({ title, description, keywords, ogTitle, ogDescription, o
     document.title = title;
     upsertMeta('meta[name="description"]', "name", description);
     if (keywords) upsertMeta('meta[name="keywords"]', "name", keywords);
-    const previewMarker = document.querySelector('meta[name="sevebois-preview"]')?.getAttribute("content") === "true";
-    upsertMeta('meta[name="robots"]', "name", robots || (previewMarker ? "noindex,nofollow" : "index,follow"));
+    upsertMeta('meta[name="robots"]', "name", robots || "index,follow");
     upsertMeta('meta[property="og:title"]', "property", ogTitle || title);
     upsertMeta('meta[property="og:description"]', "property", ogDescription || description);
     if (ogImage) upsertMeta('meta[property="og:image"]', "property", ogImage);

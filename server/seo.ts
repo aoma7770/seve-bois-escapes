@@ -1,9 +1,5 @@
 import type { Express, Request, Response, NextFunction } from "express";
-import crypto from "node:crypto";
 import { getAlternateLinks, getSeoPage, SEO_BUSINESS_NAME, SEO_BRAND_REFERENCE, SEO_LANGUAGES, SEO_SITE_URL, type SeoPage } from "../shared/seo";
-
-const PREVIEW_MODE = process.env.SEO_PREVIEW_MODE === "true";
-const PREVIEW_PASSWORD = process.env.SEO_PREVIEW_PASSWORD || "";
 
 const escapeHtml = (value: string) => value
   .replace(/&/g, "&amp;")
@@ -61,7 +57,7 @@ function pageForPath(pathname: string): SeoPage | undefined {
 }
 
 function isNoindexPath(pathname: string) {
-  return PREVIEW_MODE || pathname.startsWith("/admin") || pathname === "/booking" || pathname === "/booking/confirmation" || pathname === "/blog" || pathname.startsWith("/blog/") || !pageForPath(pathname);
+  return pathname.startsWith("/admin") || pathname === "/booking" || pathname === "/booking/confirmation" || pathname === "/blog" || pathname.startsWith("/blog/") || !pageForPath(pathname);
 }
 
 function htmlLanguage(pathname: string) {
@@ -114,37 +110,13 @@ export function renderSeoTemplate(template: string, pathname: string) {
     .replace(/<meta name="description"[^>]*>/, `<meta name="description" content="${escapeHtml(description)}" />`)
     .replace(/<meta property="og:title"[^>]*>/, `<meta property="og:title" content="${escapeHtml(title)}" />`)
     .replace(/<meta property="og:description"[^>]*>/, `<meta property="og:description" content="${escapeHtml(description)}" />`)
-    .replace("</head>", `<meta name="robots" content="${robots}" />${PREVIEW_MODE ? '<meta name="sevebois-preview" content="true" />' : ""}<link rel="canonical" href="${escapeHtml(canonical)}" />${alternateMarkup}<script type="application/ld+json">${escapeJson(structuredData)}</script></head>`)
+    .replace("</head>", `<meta name="robots" content="${robots}" /><link rel="canonical" href="${escapeHtml(canonical)}" />${alternateMarkup}<script type="application/ld+json">${escapeJson(structuredData)}</script></head>`)
     .replace("</body>", `${noscript}</body>`);
-}
-
-function safeEqual(left: string, right: string) {
-  const leftBuffer = Buffer.from(left);
-  const rightBuffer = Buffer.from(right);
-  return leftBuffer.length === rightBuffer.length && crypto.timingSafeEqual(leftBuffer, rightBuffer);
-}
-
-export function previewAccessMiddleware(req: Request, res: Response, next: NextFunction) {
-  if (!PREVIEW_MODE || !PREVIEW_PASSWORD || req.path.startsWith("/api/")) return next();
-  const header = req.headers.authorization || "";
-  const [scheme, encoded] = header.split(" ");
-  if (scheme === "Basic" && encoded) {
-    try {
-      const decoded = Buffer.from(encoded, "base64").toString("utf8");
-      const separator = decoded.indexOf(":");
-      const password = separator >= 0 ? decoded.slice(separator + 1) : "";
-      if (safeEqual(password, PREVIEW_PASSWORD)) return next();
-    } catch {
-      // Fall through to the challenge response.
-    }
-  }
-  res.setHeader("WWW-Authenticate", 'Basic realm="SEO preview"');
-  res.status(401).type("text/plain").send("SEO preview access requires the supplied password.");
 }
 
 export function registerRobotsRoute(app: Express) {
   app.get("/robots.txt", (_req, res) => {
-    res.type("text/plain").send(["User-agent: *", PREVIEW_MODE ? "Disallow: /" : "Disallow: /admin\nDisallow: /api", `Sitemap: ${SEO_SITE_URL}/sitemap.xml`].join("\n"));
+    res.type("text/plain").send(["User-agent: *", "Disallow: /admin\nDisallow: /api", `Sitemap: ${SEO_SITE_URL}/sitemap.xml`].join("\n"));
   });
 }
 

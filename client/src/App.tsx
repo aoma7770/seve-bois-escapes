@@ -65,7 +65,7 @@ function RouteSEO() {
     ogTitle: metadata.title,
     ogDescription: metadata.description,
     canonical: `${SEO_SITE_URL}${canonicalPath}`,
-    robots: import.meta.env.VITE_SEO_PREVIEW_MODE === "true" || path.startsWith("/admin") || path.startsWith("/blog") ? "noindex,nofollow" : undefined,
+    robots: path.startsWith("/admin") || path.startsWith("/blog") ? "noindex,nofollow" : undefined,
     lang: metadata.lang,
     alternates,
   });

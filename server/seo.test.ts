@@ -24,11 +24,10 @@ describe("multilingual SEO routes", () => {
 describe("server-rendered SEO shell", () => {
   const template = '<html lang="en"><head><title>Fallback</title><meta name="description" content="Fallback" /><meta property="og:title" content="Fallback" /><meta property="og:description" content="Fallback" /></head><body></body></html>';
 
-  it("renders canonical, alternates, noindex preview flag, noscript content and lodging schema", () => {
+  it("renders canonical, alternates, noscript content and lodging schema", () => {
     const html = renderSeoTemplate(template, "/fr/");
     expect(html).toContain('<title>Gîte Ardennes à Laforêt | Deux gîtes en bois | Sève &amp; Bois</title>');
-    expect(html).toContain('name="robots" content="noindex,nofollow"');
-    expect(html).toContain('name="sevebois-preview" content="true"');
+    expect(html).toContain('name="robots" content="index,follow"');
     expect(html).toContain('rel="canonical" href="https://www.sevebois.be/fr/"');
     expect(html).toContain('hreflang="nl" href="https://www.sevebois.be/nl/"');
     expect(html).toContain("Green Cottages of Laforêt");
@@ -41,9 +40,9 @@ describe("server-rendered SEO shell", () => {
     expect(html).toContain("How do I book?");
   });
 
-  it("keeps the approved legal URLs indexable outside preview-only utility routes", () => {
+  it("keeps the approved legal URLs indexable", () => {
     const html = renderSeoTemplate(template, "/privacy");
-    expect(html).toContain('name="robots" content="noindex,nofollow"');
+    expect(html).toContain('name="robots" content="index,follow"');
     expect(html).toContain("Privacy Policy | Sève &amp; Bois Cottages");
   });
 });
