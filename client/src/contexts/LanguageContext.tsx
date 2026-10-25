@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
+import { detectBrowserLanguage } from "@/lib/localeLanguage";
 
 export type Language = "fr" | "en" | "nl";
 
@@ -18,15 +19,21 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLangState] = useState<Language>(() => {
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("sevebois-lang");
-      return stored === "en" || stored === "nl" || stored === "fr" ? stored : "fr";
+      if (stored === "en" || stored === "nl" || stored === "fr") return stored;
+
+      const detected = detectBrowserLanguage();
+      localStorage.setItem("sevebois-lang", detected);
+      localStorage.setItem("sevebois-lang-source", "auto");
+      return detected;
     }
-    return "fr";
+    return "en";
   });
 
   const setLang = useCallback((l: Language) => {
     setLangState(l);
     if (typeof window !== "undefined") {
       localStorage.setItem("sevebois-lang", l);
+      localStorage.setItem("sevebois-lang-source", "manual");
     }
   }, []);
 
