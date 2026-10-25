@@ -4,7 +4,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import Slideshow from "@/components/Slideshow";
 import { trpc } from "@/lib/trpc";
 import {
-  Wifi, Flame, Car, Utensils, Droplets, Leaf, Users, Star,
+  Wifi, Flame, Car, Utensils, Droplets, Users,
   ChevronRight, ArrowRight
 } from "lucide-react";
 import {
@@ -12,6 +12,7 @@ import {
   TERRACE_SIDE, BATHROOM_C1, BEDROOM_C1, KITCHEN_C1
 } from "../../../shared/images";
 import { HERMAN_COTTAGE1_IMAGES, HERMAN_COTTAGE2_IMAGES } from "../../../shared/herman-images";
+import { localizedPath } from "../../../shared/seo";
 import { trackEvent } from "@/lib/analytics";
 
 type AnimationType = 'fade-in' | 'slide-in-left' | 'slide-in-right' | 'slide-in-up' | 'pop' | 'rotate-in';
@@ -42,7 +43,7 @@ function FadeSection({ children, className = "", delay = 0, animation = 'slide-i
 }
 
 export default function Home() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   
   const [heroLoaded, setHeroLoaded] = useState(false);
   const [heroParallax, setHeroParallax] = useState(0);
@@ -93,19 +94,19 @@ export default function Home() {
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="container text-center text-white">
             <p className="text-caption text-[var(--ochre-300)] mb-4 animate-fade-up" style={{color: '#ffffff'}}>
-              {t({ fr: "Laforêt · Ardennes belges · Sur la Semois", en: "Laforêt · Belgian Ardennes · On the Semois", nl: "Laforêt · Belgische Ardennen · Aan de Semois" })}
+              {t({ fr: "Laforêt · Ardennes belges · Vallée de la Semois", en: "Laforêt · Belgian Ardennes · Semois valley", nl: "Laforêt · Belgische Ardennen · Semoisvallei" })}
             </p>
             <h1 className="text-display text-white mb-6 px-2 animate-fade-up delay-100 max-w-3xl mx-auto">
-              {t({ fr: "Échappez à la ville — Deux cottages privés au cœur de Laforêt", en: "Escape to Nature — Two Private Cottages in the Heart of Laforêt", nl: "Ontsnap naar de natuur - Twee privéhuisjes in het hart van Laforêt" })}
+              {t({ fr: "Gîte Ardennes à Laforêt", en: "Ardennes cottage in Laforêt", nl: "Vakantiehuis Ardennen in Laforêt" })}
             </h1>
             <p className="text-lead text-white/85 mb-10 animate-fade-up delay-200 max-w-2xl mx-auto" style={{color: '#ffffff'}}>
-              {t({ fr: "Entièrement équipés, acceptant les animaux domestiques, et parfaitement isolés pour chaque saison. Réservez directement pour les meilleurs tarifs.", en: "Fully equipped, pet-friendly, and perfectly insulated for every season. Book directly for the best rates.", nl: "Van alle gemakken voorzien, huisdiervriendelijk en perfect geïsoleerd voor elk seizoen. Boek direct voor de beste tarieven." })}
+              {t({ fr: "Deux cottages contemporains en bois, La Sève et Le Bois, avec des équipements pensés pour un séjour confortable à Laforêt.", en: "Two contemporary timber cottages, La Sève and Le Bois, with thoughtful facilities for a comfortable stay in Laforêt.", nl: "Twee moderne houten cottages, La Sève en Le Bois, met voorzieningen voor een comfortabel verblijf in Laforêt." })}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-fade-up delay-300 px-4 sm:px-0">
               <Link href="/booking" className="btn-primary sm:w-auto text-base px-8 py-4">
                 {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Controleer beschikbaarheid" })}
               </Link>
-              <Link href="/cottages/la-seve" className="btn-ghost sm:w-auto text-base px-8 py-4">
+              <Link href={localizedPath("/cottages/la-seve", lang)} className="btn-ghost sm:w-auto text-base px-8 py-4">
                 {t({ fr: "Découvrir les cottages", en: "Discover the cottages", nl: "Ontdek de huisjes" })}
               </Link>
             </div>
@@ -119,10 +120,10 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-2 text-center">
             {[
               t({ fr: "Cœur de l'Ardenne belge", en: "Heart of the Belgian Ardennes", nl: "Hart van de Belgische Ardennen" }),
-              t({ fr: "Cottage éco-conçu", en: "Eco-designed cottage", nl: "Ecologisch ontworpen huisje" }),
-              t({ fr: "Énergie 100% renouvelable", en: "100% renewable energy", nl: "100% hernieuwbare energie" }),
-              t({ fr: "Wifi & tout confort", en: "Wifi & full comfort", nl: "Wifi en volledig comfort" }),
-              t({ fr: "Approuvé par la commune", en: "Council-approved", nl: "Goedgekeurd door de Raad" }),
+              t({ fr: "Wi-Fi haut débit", en: "High-speed Wi-Fi", nl: "Snelle wifi" }),
+              t({ fr: "Chauffage central", en: "Central heating", nl: "Centrale verwarming" }),
+              t({ fr: "Cuisine équipée", en: "Equipped kitchen", nl: "Uitgeruste keuken" }),
+              t({ fr: "Animaux acceptés", en: "Pets welcome", nl: "Huisdieren welkom" }),
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-2 text-sm text-[var(--forest-300)]">
                 {i > 0 && <span className="hidden sm:block text-[var(--forest-700)]">·</span>}
@@ -141,9 +142,8 @@ export default function Home() {
               { icon: "🐾", label: t({ fr: "Animaux acceptés", en: "Pets welcome", nl: "Huisdieren welkom" }) },
               { icon: "⚡", label: t({ fr: "Recharge EV", en: "EV charging", nl: "EV-opladen" }) },
               { icon: "📶", label: t({ fr: "WiFi gratuit", en: "Free WiFi", nl: "Gratis WiFi" }) },
-              { icon: "🌊", label: t({ fr: "10 min Semois", en: "10 min Semois", nl: "10 minuten Semois" }) },
-              { icon: "🔑", label: t({ fr: "Entrée sans clé", en: "Keyless entry", nl: "Sleutelloze toegang" }) },
-              { icon: "🍳", label: t({ fr: "Cuisine équipée", en: "Full kitchen", nl: "Volledige keuken" }) },
+              { icon: "🌊", label: t({ fr: "Vallée de la Semois", en: "Semois valley", nl: "Semoisvallei" }) },
+              { icon: "🍳", label: t({ fr: "Cuisine équipée", en: "Equipped kitchen", nl: "Uitgeruste keuken" }) },
             ].map((item, i) => (
               <FadeSection key={i} delay={i * 50} className="text-center">
                 <div className="text-4xl mb-3">{item.icon}</div>
@@ -163,7 +163,7 @@ export default function Home() {
               {t({ fr: "Loin de la ville. Au plus près de l'essentiel.", en: "Far from the city. Close to what matters.", nl: "Ver van de stad. Dichtbij wat ertoe doet." })}
             </h2>
             <p className="text-lead max-w-3xl mx-auto">
-              {t({ fr: "Ici, le temps ralentit. La forêt commence à votre porte, la Semois murmure en contrebas, et tout ce dont vous avez besoin est déjà là. Pas de stress, pas de matériel, pas d'expérience requise — juste vous, la nature, et le confort d'un vrai chez-soi.", en: "Here, time slows down. The forest begins at your door, the Semois murmurs below, and everything you need is already here. No stress, no gear, no experience required — just you, nature, and the comfort of a real home.", nl: "Hier vertraagt ​​de tijd. Het bos begint voor je deur, de Semois ruist beneden en alles wat je nodig hebt is er al. Geen stress, geen uitrusting, geen ervaring vereist - alleen jij, de natuur en het comfort van een echt huis." })}
+              {t({ fr: "À Laforêt, le temps ralentit. Les deux cottages offrent un espace confortable pour se retrouver, avec une cuisine équipée, du chauffage central, de l'eau chaude et le Wi-Fi haut débit.", en: "In Laforêt, time slows down. The two cottages offer a comfortable place to reconnect, with an equipped kitchen, central heating, hot water and high-speed Wi-Fi.", nl: "In Laforêt vertraagt de tijd. De twee cottages bieden een comfortabele plek om samen te zijn, met een uitgeruste keuken, centrale verwarming, warm water en snelle wifi." })}
             </p>
           </FadeSection>
         </div>
@@ -194,7 +194,7 @@ export default function Home() {
                       nl: "Geen ervaring nodig, geen uitrusting nodig, niets in te plannen. Gratis WiFi, verwarming, warm water, een echt comfortabel bed, een volledige keuken. Je arriveert, het bos doet de rest."
                     })}
                   </p>
-                  <Link href="/faq" className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
+                  <Link href={localizedPath("/faq", lang)} className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
                     {t({ fr: "Vos questions, nos réponses", en: "Your questions, our answers", nl: "Uw vragen, onze antwoorden" })} <ArrowRight size={14} />
                   </Link>
                 </div>
@@ -210,12 +210,12 @@ export default function Home() {
                   </h3>
                   <p className="text-[var(--slate-600)] leading-relaxed mb-4">
                     {t({
-                      fr: "Laforêts, sentiers, panoramas et kayak sur la Semois à deux pas. Un séjour éco-responsable qui correspond à vos valeurs — et un cottage chaleureux pour rentrer le soir.",
-                      en: "Forests, trails (please verify current conditions), viewpoints and kayaking on the Semois on your doorstep. An eco-responsible stay that matches your values — and a warm cottage to return to in the evening.",
-                      nl: "Bossen, paden, uitzichtpunten en kajakken op de Semois op je drempel. Een ecoverantwoord verblijf dat aansluit bij je waarden — en een warm cottage om 's avonds naar terug te keren."
+                      fr: "Forêts, sentiers balisés et patrimoine de village vous invitent à découvrir la région. Les expériences voisines sont indépendantes : vérifiez les saisons et les conditions.",
+                      en: "Forests, marked trails and village heritage invite you to discover the region. Nearby experiences are independently operated: check seasons and current conditions.",
+                      nl: "Bossen, gemarkeerde wandelroutes en dorpserfgoed nodigen u uit om de regio te ontdekken. Nabije ervaringen worden onafhankelijk georganiseerd: controleer seizoenen en omstandigheden."
                     })}
                   </p>
-                  <Link href="/location" className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
+                  <Link href={localizedPath("/location", lang)} className="text-sm font-semibold text-[var(--forest-600)] flex items-center gap-1 hover:gap-2 transition-all">
                     {t({ fr: "Explorer la région", en: "Explore the region", nl: "Verken de regio" })} <ArrowRight size={14} />
                   </Link>
                 </div>
@@ -237,14 +237,9 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <FadeSection delay={100} animation="slide-in-left">
               <div className="card-eco group">
-                <Link href="/cottages/la-seve" className="block relative h-72 overflow-hidden" aria-label={t({ fr: "Découvrir La Sève", en: "Discover La Sève", nl: "Ontdek La Sève" })}>
+                <Link href={localizedPath("/cottages/la-seve", lang)} className="block relative h-72 overflow-hidden" aria-label={t({ fr: "Découvrir La Sève", en: "Discover La Sève", nl: "Ontdek La Sève" })}>
                   <img src={HERMAN_COTTAGE1_IMAGES.livingRoom[0]} alt="La Sève — lounge room" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", nl: "Vanaf €150 / nacht" })}
-                    </span>
-                  </div>
                 </Link>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">La Sève</h3>
@@ -252,26 +247,21 @@ export default function Home() {
                     {t({ fr: "2 chambres · 6 personnes · Baies vitrées sur la forêt · Salle de bain aux carreaux vert forêt", en: "2 bedrooms · 6 guests · Floor-to-ceiling glazing onto the forest · Forest-green tiled bathroom", nl: "2 slaapkamers · 6 gasten · Kamerhoge beglazing met uitzicht op het bos · Bosgroen betegelde badkamer" })}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t({ fr: "Chauffage", en: "Heating", nl: "Verwarming" }) }, { icon: Utensils, label: t({ fr: "Cuisine", en: "Kitchen", nl: "Keuken" }) }, { icon: Leaf, label: t({ fr: "Éco", en: "Eco", nl: "Eco" }) }].map(({ icon: Icon, label }) => (
+                    {[{ icon: Wifi, label: "Wi-Fi" }, { icon: Flame, label: t({ fr: "Chauffage", en: "Heating", nl: "Verwarming" }) }, { icon: Utensils, label: t({ fr: "Cuisine", en: "Kitchen", nl: "Keuken" }) }, { icon: Users, label: t({ fr: "6 personnes", en: "6 guests", nl: "6 gasten" }) }].map(({ icon: Icon, label }) => (
                       <span key={label} className="flex items-center gap-1.5 text-xs text-[var(--forest-700)] bg-[var(--forest-50)] px-3 py-1.5 rounded-full">
                         <Icon size={12} /> {label}
                       </span>
                     ))}
                   </div>
-                  <Link href="/cottages/la-seve" className="btn-outline w-full text-center">{t({ fr: "Découvrir La Sève", en: "Discover La Sève", nl: "Ontdek La Sève" })}</Link>
+                  <Link href={localizedPath("/cottages/la-seve", lang)} className="btn-outline w-full text-center">{t({ fr: "Découvrir La Sève", en: "Discover La Sève", nl: "Ontdek La Sève" })}</Link>
                 </div>
               </div>
             </FadeSection>
             <FadeSection delay={200} animation="slide-in-right">
               <div className="card-eco group">
-                <Link href="/cottages/le-bois" className="block relative h-72 overflow-hidden" aria-label={t({ fr: "Découvrir Le Bois", en: "Discover Le Bois", nl: "Ontdek Le Bois" })}>
+                <Link href={localizedPath("/cottages/le-bois", lang)} className="block relative h-72 overflow-hidden" aria-label={t({ fr: "Découvrir Le Bois", en: "Discover Le Bois", nl: "Ontdek Le Bois" })}>
                   <img src={HERMAN_COTTAGE2_IMAGES.livingRoom[0]} alt="Le Bois — lounge room" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" loading="lazy" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <span className="bg-[var(--ochre-500)] text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t({ fr: "À partir de €150 / nuit", en: "From €150 / night", nl: "Vanaf €150 / nacht" })}
-                    </span>
-                  </div>
                 </Link>
                 <div className="p-7">
                   <h3 className="text-subheadline text-[var(--forest-950)] mb-2">Le Bois</h3>
@@ -279,13 +269,13 @@ export default function Home() {
                     {t({ fr: "2 chambres · 6 personnes · Terrasse panoramique · Poêle à bois", en: "2 bedrooms · 6 guests · Panoramic terrace · Wood-burning stove", nl: "2 slaapkamers · 6 gasten · Panoramisch terras · Houtkachel" })}
                   </p>
                   <div className="flex flex-wrap gap-2 mb-6">
-                    {[{ icon: Wifi, label: "Wifi" }, { icon: Flame, label: t({ fr: "Poêle à bois", en: "Wood stove", nl: "Houtkachel" }) }, { icon: Users, label: "6" }, { icon: Leaf, label: t({ fr: "Éco", en: "Eco", nl: "Eco" }) }].map(({ icon: Icon, label }) => (
+                    {[{ icon: Wifi, label: "Wi-Fi" }, { icon: Flame, label: t({ fr: "Poêle à bois", en: "Wood stove", nl: "Houtkachel" }) }, { icon: Users, label: "6" }, { icon: Utensils, label: t({ fr: "Cuisine", en: "Kitchen", nl: "Keuken" }) }].map(({ icon: Icon, label }) => (
                       <span key={label} className="flex items-center gap-1.5 text-xs text-[var(--forest-700)] bg-[var(--forest-50)] px-3 py-1.5 rounded-full">
                         <Icon size={12} /> {label}
                       </span>
                     ))}
                   </div>
-                  <Link href="/cottages/le-bois" className="btn-outline w-full text-center">{t({ fr: "Découvrir Le Bois", en: "Discover Le Bois", nl: "Ontdek Le Bois" })}</Link>
+                  <Link href={localizedPath("/cottages/le-bois", lang)} className="btn-outline w-full text-center">{t({ fr: "Découvrir Le Bois", en: "Discover Le Bois", nl: "Ontdek Le Bois" })}</Link>
                 </div>
               </div>
             </FadeSection>
@@ -333,76 +323,9 @@ export default function Home() {
             ))}
           </div>
           <div className="mt-10">
-            <Link href="/location" className="btn-ghost inline-flex items-center gap-2">
+            <Link href={localizedPath("/location", lang)} className="btn-ghost inline-flex items-center gap-2">
               {t({ fr: "Explorer la région", en: "Explore the region", nl: "Verken de regio" })} <ChevronRight size={16} />
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* SUSTAINABILITY */}
-      <section className="py-24 bg-white">
-        <div className="container">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <FadeSection>
-              <img src={HERMAN_COTTAGE1_IMAGES.hero[4]} alt="Cottage eco-concu avec jardin fleuri" className="rounded-2xl w-full h-80 object-cover shadow-lg" loading="lazy" />
-            </FadeSection>
-            <FadeSection delay={150}>
-              <p className="text-caption text-[var(--ochre-500)] mb-4">{t({ fr: "Durabilité", en: "Sustainability", nl: "Duurzaamheid" })}</p>
-              <h2 className="text-headline text-[var(--forest-950)] mb-6">
-                {t({ fr: "La nature, sans compromis.", en: "Nature, without compromise.", nl: "Natuur, zonder compromis." })}
-              </h2>
-              <p className="text-lead mb-6">
-                {t({ fr: "Matériaux naturels et éco-certifiés. Énergie 100% renouvelable. Construction à faible impact. Séjourner ici, c'est choisir la nature sans compromis — et sans culpabilité.", en: "Natural, eco-certified materials. 100% renewable energy. Low-impact construction. Staying here means choosing nature without compromise — and without guilt.", nl: "Natuurlijke, eco-gecertificeerde materialen. 100% hernieuwbare energie. Constructie met lage impact. Hier blijven betekent kiezen voor de natuur, zonder compromissen – en zonder schuldgevoel." })}
-              </p>
-              <div className="flex flex-wrap gap-3 mb-8">
-                {[
-                  { icon: "🌿", label: t({ fr: "Matériaux naturels", en: "Natural materials", nl: "Natuurlijke materialen" }) },
-                  { icon: "☀️", label: t({ fr: "Énergie renouvelable", en: "Renewable energy", nl: "Hernieuwbare energie" }) },
-                  { icon: "✓", label: t({ fr: "Approuvé commune", en: "Council-approved", nl: "Goedgekeurd door de Raad" }) },
-                ].map(({ icon, label }) => (
-                  <span key={label} className="flex items-center gap-2 text-sm text-[var(--forest-700)] bg-[var(--forest-50)] px-4 py-2 rounded-full font-medium">
-                    <span>{icon}</span> {label}
-                  </span>
-                ))}
-              </div>
-              <Link href="/sustainability" className="btn-outline">{t({ fr: "Notre engagement éco", en: "Our eco commitment", nl: "Onze ecologische inzet" })}</Link>
-            </FadeSection>
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="py-24 bg-[var(--cream-100)]">
-        <div className="container">
-          <FadeSection className="text-center mb-14">
-            <p className="text-caption text-[var(--ochre-500)] mb-3">{t({ fr: "Avis clients", en: "Guest reviews", nl: "Gast beoordelingen" })}</p>
-            <h2 className="text-headline text-[var(--forest-950)] mb-3">{t({ fr: "Ce que disent nos hôtes", en: "What our guests say", nl: "Wat onze gasten zeggen" })}</h2>
-            <div className="flex items-center justify-center gap-1 mb-2">
-              {[1,2,3,4,5].map(i => <Star key={i} size={20} className="text-[var(--ochre-500)] fill-current" />)}
-              <span className="ml-2 text-sm font-semibold text-[var(--forest-700)]">4.9 / 5</span>
-            </div>
-            <p className="text-xs text-[var(--slate-500)] italic">{t({ fr: "Avis indicatifs — à remplacer par de vrais témoignages", en: "Indicative reviews — to be replaced with real testimonials", nl: "Indicatieve beoordelingen – te vervangen door echte getuigenissen" })}</p>
-          </FadeSection>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { name: "Sophie & Marc", country: t({ fr: "Belgique", en: "Belgium", nl: "België" }), stars: 5, text: t({ fr: "Un endroit absolument magique. La forêt commence littéralement à la porte. On est rentrés complètement ressourcés.", en: "An absolutely magical place. The forest literally starts at the door. We came back completely recharged.", nl: "Een absoluut magische plek. Het bos begint letterlijk voor de deur. We kwamen helemaal opgeladen terug." }), tag: t({ fr: "Voyageurs aguerris", en: "Seasoned travellers", nl: "Doorgewinterde reizigers" }) },
-              { name: "Emma L.", country: t({ fr: "France", en: "France", nl: "Frankrijk" }), stars: 5, text: t({ fr: "C'était notre première escapade nature et on était un peu inquiets. Mais tout était parfait — le confort, la chaleur, le wifi. On recommande à 100%.", en: "It was our first nature escape and we were a little nervous. But everything was perfect — the comfort, the warmth, the wifi. 100% recommend.", nl: "Het was onze eerste natuurontsnapping en we waren een beetje nerveus. Maar alles was perfect: het comfort, de warmte, de wifi. 100% aanbevelen." }), tag: t({ fr: "Première escapade nature", en: "First nature escape", nl: "Eerste ontsnapping uit de natuur" }) },
-              { name: "Thomas V.", country: t({ fr: "Pays-Bas", en: "Netherlands", nl: "Nederland" }), stars: 5, text: t({ fr: "Le cottage est encore plus beau en vrai. Les matériaux, les détails, la vue sur la forêt… et la Semois à 5 minutes à pied. Parfait.", en: "The cottage is even more beautiful in person. The materials, the details, the forest view… and the Semois 5 minutes on foot. Perfect.", nl: "Het huisje is persoonlijk nog mooier. De materialen, de details, het boszicht… en de Semois op 5 minuten loopafstand. Perfect." }), tag: t({ fr: "Amoureux de la nature", en: "Nature lover", nl: "Natuurliefhebber" }) },
-            ].map(({ name, country, stars, text, tag }) => (
-              <FadeSection key={name} delay={100}>
-                <div className="bg-white rounded-2xl p-7 shadow-sm border border-[var(--cream-300)] h-full flex flex-col">
-                  <div className="flex items-center gap-1 mb-4">
-            {[...Array(stars)].map((_, i) => <Star key={i} size={14} className="text-[var(--ochre-500)] fill-current" />)}
-                  </div>
-                  <p className="text-[var(--slate-700)] leading-relaxed flex-1 mb-5 italic">\"{ text}\"</p>
-                  <div>
-                    <p className="font-semibold text-[var(--forest-900)] text-sm">{name}</p>
-                    <p className="text-xs text-[var(--slate-500)]">{country} · <span className="text-[var(--ochre-600)]">{tag}</span></p>
-                  </div>
-                </div>
-              </FadeSection>
-            ))}
           </div>
         </div>
       </section>
@@ -412,12 +335,12 @@ export default function Home() {
         <div className="container max-w-3xl text-center">
           <FadeSection>
             <div className="divider-ochre mx-auto mb-6" />
-            <h2 className="text-headline text-[var(--forest-950)] mb-4">{t({ fr: "Réservez en direct. Le meilleur tarif.", en: "Book direct. The best rate.", nl: "Boek direct. Het beste tarief." })}</h2>
-            <p className="text-lead mb-8">{t({ fr: "Pas de frais de plateforme, pas d'intermédiaire. Le meilleur tarif, un vrai hôte humain qui connaît l'endroit, et une réservation simple et sécurisée.", en: "No platform fees, no middleman. The best rate, a real human host who knows the place, and a simple, secure booking.", nl: "Geen platformkosten, geen tussenpersoon. Het beste tarief, een echte menselijke gastheer die de plaats kent, en een eenvoudige, veilige boeking." })}</p>
+            <h2 className="text-headline text-[var(--forest-950)] mb-4">{t({ fr: "Réservez en direct, simplement.", en: "Book direct, simply.", nl: "Boek direct, eenvoudig." })}</h2>
+            <p className="text-lead mb-8">{t({ fr: "Pas de frais de plateforme lorsque vous réservez en direct. Vous échangez avec l'équipe et voyez le total exact selon vos dates et vos voyageurs.", en: "No platform fees when you book direct. You can speak with the team and see the exact total for your dates and guests.", nl: "Geen platformkosten wanneer u rechtstreeks boekt. U kunt met het team overleggen en het exacte totaal voor uw data en gasten bekijken." })}</p>
             <div className="flex flex-wrap justify-center gap-4 mb-10">
               {[
                 { icon: "💳", label: t({ fr: "Paiement sécurisé", en: "Secure payment", nl: "Veilige betaling" }) },
-                { icon: "✓", label: t({ fr: "Meilleur tarif garanti", en: "Best rate guaranteed", nl: "Gegarandeerd het beste tarief" }) },
+                { icon: "✓", label: t({ fr: "Pas de frais de plateforme", en: "No platform fees", nl: "Geen platformkosten" }) },
                 { icon: "👤", label: t({ fr: "Hôte humain & disponible", en: "Real human host", nl: "Echte menselijke gastheer" }) },
                 { icon: "🔒", label: t({ fr: "Données protégées RGPD", en: "GDPR protected", nl: "AVG beschermd" }) },
               ].map(({ icon, label }) => (
@@ -455,7 +378,7 @@ export default function Home() {
               { q: t({ fr: "C'est adapté si je n'ai jamais fait ça ?", en: "Is it suitable if I've never done this?", nl: "Is het geschikt als ik dit nog nooit heb gedaan?" }), a: t({ fr: "Absolument. Tout est prévu : wifi, chauffage, eau chaude, lit confortable, cuisine complète. Vous n'avez besoin d'aucune expérience ni équipement.", en: "Absolutely. Everything is provided: wifi, heating, hot water, comfortable bed, full kitchen. You need no experience or equipment.", nl: "Absoluut. Alles is aanwezig: wifi, verwarming, warm water, comfortabel bed, volledige keuken. Je hebt geen ervaring of uitrusting nodig." }) },
               { q: t({ fr: "Y a-t-il du wifi et du chauffage ?", en: "Is there wifi and heating?", nl: "Is er wifi en verwarming?" }), a: t({ fr: "Oui. Wifi haut débit et chauffage inclus dans les deux cottages.", en: "Yes. High-speed wifi and heating included in both cottages.", nl: "Ja. Hoge snelheid wifi en verwarming inbegrepen in beide huisjes." }) },
               { q: t({ fr: "Qu'est-ce qui est inclus dans le prix ?", en: "What's included in the price?", nl: "Wat is inbegrepen in de prijs?" }), a: t({ fr: "Le logement, le wifi, le chauffage, l'eau chaude, le linge de maison, et l'accès à tous les équipements.", en: "Accommodation, wifi, heating, hot water, household linen, and access to all amenities.", nl: "Accommodatie, wifi, verwarming, warm water, huishoudlinnen en toegang tot alle voorzieningen." }) },
-              { q: t({ fr: "Puis-je réserver directement ?", en: "Can I book direct?", nl: "Kan ik rechtstreeks boeken?" }), a: t({ fr: "Oui — et c'est le meilleur moyen. Pas de frais de plateforme, le meilleur tarif, et un contact direct avec votre hôte.", en: "Yes — and it's the best way. No platform fees, the best rate, and direct contact with your host.", nl: "Ja – en het is de beste manier. Geen platformkosten, het beste tarief en direct contact met uw host." }) },
+              { q: t({ fr: "Puis-je réserver directement ?", en: "Can I book direct?", nl: "Kan ik rechtstreeks boeken?" }), a: t({ fr: "Oui. Il n'y a pas de frais de plateforme lorsque vous réservez en direct, et vous pouvez nous contacter pour préparer votre séjour.", en: "Yes. There are no platform fees when you book direct, and you can contact the team to prepare your stay.", nl: "Ja. Wanneer u rechtstreeks boekt, zijn er geen platformkosten en kunt u contact opnemen met het team om uw verblijf voor te bereiden." }) },
             ].map(({ q, a }, i) => (
               <FadeSection key={i} delay={i * 50}>
                 <details className="group bg-white rounded-xl border border-[var(--cream-300)] overflow-hidden">
@@ -469,7 +392,7 @@ export default function Home() {
             ))}
           </div>
           <FadeSection className="text-center mt-8">
-            <Link href="/faq" className="text-sm font-semibold text-[var(--forest-600)] flex items-center justify-center gap-1 hover:gap-2 transition-all">
+            <Link href={localizedPath("/faq", lang)} className="text-sm font-semibold text-[var(--forest-600)] flex items-center justify-center gap-1 hover:gap-2 transition-all">
               {t({ fr: "Toutes les questions", en: "All questions", nl: "Alle vragen" })} <ArrowRight size={14} />
             </Link>
           </FadeSection>
@@ -487,7 +410,7 @@ export default function Home() {
               {t({ fr: "Votre évasion vous attend.", en: "Your escape is waiting.", nl: "Je ontsnapping wacht." })}
             </h2>
             <p className="text-lead text-white/85 mb-10 max-w-xl mx-auto" style={{color: '#ffffff'}}>
-              {t({ fr: "Deux cottages. La forêt ardennaise. La Semois à votre porte. Il ne manque plus que vous.", en: "Two cottages. The Ardennes forest. The Semois at your door. All that's missing is you.", nl: "Twee huisjes. Het Ardense bos. De Semois aan uw deur. Het enige dat ontbreekt, ben jij." })}
+              {t({ fr: "Deux cottages. Le village de Laforêt. La vallée de la Semois. Il ne manque plus que vous.", en: "Two cottages. The village of Laforêt. The Semois valley. All that's missing is you.", nl: "Twee cottages. Het dorp Laforêt. De Semoisvallei. Het enige dat ontbreekt, bent u." })}
             </p>
             <Link href="/booking" className="btn-primary text-base px-10 py-4 mb-6 inline-block">
               {t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Controleer beschikbaarheid" })}

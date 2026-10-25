@@ -34,7 +34,7 @@ async function sendEmail(to: string, subject: string, html: string) {
       },
     });
     await transporter.sendMail({
-      from: '"Sève & Bois Escapes" <support@sevebois.be>',
+      from: '"Sève & Bois Cottages" <support@sevebois.be>',
       to,
       subject,
       html,
@@ -356,7 +356,7 @@ export const appRouter = router({
 
         const origin = ctx.req.headers.origin || "https://sevebois.be";
         const cottageName = input.bookingSelection === "both"
-          ? "Sève & Bois Escapes — both cottages"
+          ? "Sève & Bois Cottages — both cottages"
           : cottage.nameFr;
 
         const session = await stripe.checkout.sessions.create({

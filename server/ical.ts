@@ -44,11 +44,11 @@ router.get("/:cottageId.ics", async (req: Request, res: Response) => {
 
     // Generate iCal
     const cal = ical({
-      name: `${cottage.nameEn} — Sève & Bois Escapes`,
+      name: `${cottage.nameEn} — Sève & Bois Cottages`,
       description: `Availability calendar for ${cottage.nameEn}`,
       timezone: "Europe/Brussels",
       prodId: {
-        company: "Sève & Bois Escapes",
+        company: "Sève & Bois Cottages",
         product: "Booking Calendar",
         language: "EN",
       },

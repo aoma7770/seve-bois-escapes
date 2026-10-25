@@ -15,7 +15,7 @@ export default function LocationPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 flex items-end">
           <div className="container pb-10">
             <p className="text-caption text-white mb-2">{t({ fr: "Le Lieu", en: "The Location", nl: "De locatie" })}</p>
-            <h1 className="text-display text-white">{t({ fr: "Laforêt & la Semois", en: "Laforêt & the Semois", nl: "Laforêt en de Semois" })}</h1>
+            <h1 className="text-display text-white">{t({ fr: "Gîte Vresse-sur-Semois : Laforêt et la vallée", en: "Cottage Vresse-sur-Semois: Laforêt and the valley", nl: "Vakantiehuis Vresse-sur-Semois: Laforêt en de vallei" })}</h1>
           </div>
         </div>
       </div>

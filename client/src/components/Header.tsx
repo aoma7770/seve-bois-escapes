@@ -3,6 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { WhatsAppIconLink } from "./WhatsAppFloat";
+import { localizedPath } from "../../../shared/seo";
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -22,12 +23,12 @@ export default function Header() {
   }, [location]);
 
   const navLinks = [
-    { href: "/cottages/la-seve", label: t({ fr: "La Sève", en: "La Sève", nl: "La Seve" }) },
-    { href: "/cottages/le-bois", label: t({ fr: "Le Bois", en: "Le Bois", nl: "Le Bois" }) },
-    { href: "/location", label: t({ fr: "Le Lieu", en: "The Location", nl: "De locatie" }) },
-    { href: "/rates", label: t({ fr: "Tarifs", en: "Rates", nl: "Tarieven" }) },
-    { href: "/faq", label: "FAQ" },
-    { href: "/contact", label: t({ fr: "Contact", en: "Contact", nl: "Contact" }) },
+    { href: localizedPath("/cottages/la-seve", lang), label: t({ fr: "La Sève", en: "La Sève", nl: "La Seve" }) },
+    { href: localizedPath("/cottages/le-bois", lang), label: t({ fr: "Le Bois", en: "Le Bois", nl: "Le Bois" }) },
+    { href: localizedPath("/location", lang), label: t({ fr: "Le Lieu", en: "The Location", nl: "De locatie" }) },
+    { href: localizedPath("/rates", lang), label: t({ fr: "Tarifs", en: "Rates", nl: "Tarieven" }) },
+    { href: localizedPath("/faq", lang), label: "FAQ" },
+    { href: localizedPath("/contact", lang), label: t({ fr: "Contact", en: "Contact", nl: "Contact" }) },
   ];
 
   const headerBg = isHome && !scrolled
@@ -46,7 +47,7 @@ export default function Header() {
         <div className="container">
           <div className="flex items-center justify-between h-16 md:h-18">
             {/* Logo */}
-            <Link href="/" className={`font-serif text-xl font-semibold tracking-tight ${logoColor} transition-colors duration-300 shrink-0`}>
+            <Link href={localizedPath("/", lang)} className={`font-serif text-xl font-semibold tracking-tight ${logoColor} transition-colors duration-300 shrink-0`}>
               Sève & Bois
             </Link>
 

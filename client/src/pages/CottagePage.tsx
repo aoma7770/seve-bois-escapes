@@ -143,8 +143,10 @@ export default function CottagePage({ slug }: Props) {
 
       <div className="bg-white border-b border-[var(--cream-200)]">
         <div className="container py-6">
-          <p className="text-caption text-[var(--forest-600)] mb-2">{t({ fr: "Sève & Bois Escapes", en: "Sève & Bois Escapes", nl: "Sève & Bois ontsnapt" })}</p>
-          <h1 className="text-headline text-[var(--forest-950)]">{name}</h1>
+          <p className="text-caption text-[var(--forest-600)] mb-2">{t({ fr: "Sève & Bois Cottages", en: "Sève & Bois Cottages", nl: "Sève & Bois Cottages" })}</p>
+          <h1 className="text-headline text-[var(--forest-950)]">{slug === "la-seve"
+            ? t({ fr: "Gîte 2 personnes Ardennes : La Sève", en: "Cottage for two in the Ardennes: La Sève", nl: "Vakantiehuis Ardennen 2 personen: La Sève" })
+            : t({ fr: "Gîte 6 personnes Ardennes : Le Bois", en: "6-person cottage in the Ardennes: Le Bois", nl: "Vakantiehuis Ardennen 6 personen: Le Bois" })}</h1>
           <p className="text-sm text-[var(--slate-500)] mt-2">{t({ fr: "Cliquez sur une photo pour ouvrir la galerie complète.", en: "Click any photo to open the full gallery.", nl: "Klik op een foto om de volledige galerij te openen." })}</p>
         </div>
       </div>
@@ -291,15 +293,6 @@ export default function CottagePage({ slug }: Props) {
               </ul>
             </div>
 
-            {/* Eco features */}
-            <div>
-              <h3 className="text-subheadline text-[var(--forest-950)] mb-4">
-                {t({ fr: "Engagement éco-responsable", en: "Eco commitment", nl: "Eco-engagement" })}
-              </h3>
-              <p className="text-lead">
-                {t({ fr: "Ce cottage est construit avec des matériaux naturels et éco-certifiés. Il est alimenté à 100% par des énergies renouvelables. Séjourner ici, c'est choisir la nature sans compromis.", en: "This cottage is built with natural, eco-certified materials and powered 100% by renewable energy. Staying here means choosing nature without compromise.", nl: "Dit huisje is gebouwd met natuurlijke, eco-gecertificeerde materialen en wordt voor 100% aangedreven door hernieuwbare energie. Hier verblijven betekent kiezen voor de natuur zonder compromissen." })}
-              </p>
-            </div>
           </div>
 
           {/* Booking sidebar */}
@@ -310,7 +303,7 @@ export default function CottagePage({ slug }: Props) {
               </div>
               <div className="p-6 space-y-4">
                 <p className="text-sm text-[var(--slate-600)]">
-                  {t({ fr: "À partir de €150 / nuit pour ce cottage. Réservez en direct pour le meilleur tarif, sans frais de plateforme.", en: "From €150 / night for this cottage. Book direct for the best rate, with no platform fees.", nl: "Vanaf €150 / nacht voor dit cottage. Boek rechtstreeks voor het beste tarief, zonder platformkosten." })}
+                  {t({ fr: "Saisissez vos dates pour voir le total exact. Réservez en direct, sans frais de plateforme.", en: "Enter your dates to see the exact total. Book direct with no platform fees.", nl: "Voer uw data in om het exacte totaal te zien. Boek direct zonder platformkosten." })}
                 </p>
                 <Link
                   href={`/booking?cottage=${slug}`}

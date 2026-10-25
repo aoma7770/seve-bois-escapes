@@ -73,7 +73,7 @@ export default function BlogPage() {
       {/* Hero */}
       <section className="bg-gradient-to-b from-[var(--forest-900)] to-[var(--forest-800)] text-white py-16 md:py-24">
         <div className="container">
-          <p className="text-caption text-[var(--ochre-300)] mb-3">SÈVE & BOIS ESCAPES</p>
+          <p className="text-caption text-[var(--ochre-300)] mb-3">SÈVE & BOIS COTTAGES</p>
           <h1 className="text-4xl md:text-5xl font-serif font-bold mb-4">{trans.title}</h1>
           <p className="text-lg text-[var(--cream-200)] max-w-2xl mb-8">{trans.subtitle}</p>
 

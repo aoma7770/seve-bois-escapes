@@ -1,13 +1,14 @@
 import { Link } from "wouter";
-import { Mail, Instagram, Facebook, Linkedin } from "lucide-react";
+import { Mail, Phone, Facebook, Linkedin } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { localizedPath } from "../../../shared/seo";
 import { useState } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { trackEvent } from "@/lib/analytics";
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   const [guideForm, setGuideForm] = useState({ firstName: "", lastName: "", email: "", marketingConsent: false });
 
   const guideRequest = trpc.newsletter.requestGuide.useMutation({
@@ -43,19 +44,10 @@ export default function Footer() {
               {t({ fr: "Déconnectez. Respirez. Tout est prévu.", en: "Disconnect. Breathe. Everything's taken care of.", nl: "Verbreek de verbinding. Ademen. Er wordt voor alles gezorgd." })}
             </p>
             <p className="text-sm text-[var(--forest-300)] leading-relaxed">
-              {t({ fr: "Deux cottages éco-conçus au cœur de l'Ardenne belge, à Laforêt, sur les rives de la Semois.", en: "Two eco-designed cottages in the heart of the Belgian Ardennes, in Laforêt, on the banks of the Semois.", nl: "Twee eco-ontworpen cottages in het hart van de Belgische Ardennen, in Laforêt, aan de oevers van de Semois." })}
+              {t({ fr: "Green Cottages of Laforêt : deux gîtes contemporains en bois, La Sève et Le Bois, au cœur de Laforêt.", en: "Green Cottages of Laforêt: two contemporary timber cottages, La Sève and Le Bois, in the heart of Laforêt.", nl: "Green Cottages of Laforêt: twee moderne houten cottages, La Sève en Le Bois, midden in Laforêt." })}
             </p>
             {/* Social */}
             <div className="flex gap-3 mt-5">
-              <a
-                href="https://www.instagram.com/sevebois"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-9 h-9 rounded-full bg-[var(--forest-800)] flex items-center justify-center hover:bg-[var(--ochre-600)] transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram size={16} />
-              </a>
               <a
                 href="https://www.facebook.com/sevebois"
                 target="_blank"
@@ -84,13 +76,14 @@ export default function Footer() {
             </h4>
             <ul className="space-y-2.5">
               {[
-                { href: "/cottages/la-seve", label: t({ fr: "La Sève", en: "La Sève", nl: "La Seve" }) },
-                { href: "/cottages/le-bois", label: t({ fr: "Le Bois", en: "Le Bois", nl: "Le Bois" }) },
-                { href: "/location", label: t({ fr: "Le Lieu", en: "The Location", nl: "De locatie" }) },
-                { href: "/sustainability", label: t({ fr: "Durabilité", en: "Sustainability", nl: "Duurzaamheid" }) },
-                { href: "/rates", label: t({ fr: "Tarifs & Disponibilités", en: "Rates & Availability", nl: "Tarieven & Beschikbaarheid" }) },
-                { href: "/faq", label: "FAQ" },
-                { href: "/contact", label: t({ fr: "Contact & Réserver", en: "Contact & Book", nl: "Contact & Boek" }) },
+                { href: localizedPath("/cottages/la-seve", lang), label: t({ fr: "La Sève", en: "La Sève", nl: "La Seve" }) },
+                { href: localizedPath("/cottages/le-bois", lang), label: t({ fr: "Le Bois", en: "Le Bois", nl: "Le Bois" }) },
+                { href: localizedPath("/location", lang), label: t({ fr: "Le Lieu", en: "The Location", nl: "De locatie" }) },
+                { href: localizedPath("/groups", lang), label: t({ fr: "Pour les groupes", en: "For groups", nl: "Voor groepen" }) },
+                { href: localizedPath("/dogs", lang), label: t({ fr: "Animaux acceptés", en: "Pets welcome", nl: "Huisdieren welkom" }) },
+                { href: localizedPath("/rates", lang), label: t({ fr: "Tarifs", en: "Rates", nl: "Tarieven" }) },
+                { href: localizedPath("/faq", lang), label: "FAQ" },
+                { href: localizedPath("/contact", lang), label: t({ fr: "Contact", en: "Contact", nl: "Contact" }) },
               ].map((link) => (
                 <li key={link.href}>
                   <Link
@@ -119,19 +112,15 @@ export default function Footer() {
                   support@sevebois.be
                 </a>
               </li>
+              <li>
+                <a href="tel:+32467808179" className="flex items-center gap-2 text-sm text-[var(--forest-300)] hover:text-white transition-colors">
+                  <Phone size={14} className="shrink-0" />
+                  +32 467 80 81 79
+                </a>
+              </li>
             </ul>
 
-            {/* Trust badges */}
-            <div className="mt-6 space-y-2">
-              <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
-                <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">♻</span>
-                {t({ fr: "Énergie 100% renouvelable", en: "100% renewable energy", nl: "100% hernieuwbare energie" })}
-              </div>
-              <div className="flex items-center gap-2 text-xs text-[var(--forest-400)]">
-                <span className="w-5 h-5 rounded-full bg-[var(--forest-700)] flex items-center justify-center text-white text-xs">🔒</span>
-                {t({ fr: "Paiement sécurisé", en: "Secure payment", nl: "Veilige betaling" })}
-              </div>
-            </div>
+            <p className="mt-6 text-xs text-[var(--forest-400)]">{t({ fr: "Laforêt, 5550 Vresse-sur-Semois, Belgique", en: "Laforêt, 5550 Vresse-sur-Semois, Belgium", nl: "Laforêt, 5550 Vresse-sur-Semois, België" })}</p>
           </div>
 
           {/* Newsletter */}
@@ -186,7 +175,7 @@ export default function Footer() {
       <div className="border-t border-[var(--forest-800)]">
         <div className="container py-5 pb-24 lg:pb-5 flex flex-col sm:flex-row items-center justify-between gap-3">
           <p className="text-xs text-[var(--forest-500)]">
-            © {new Date().getFullYear()} Sève & Bois Escapes. {t({ fr: "Tous droits réservés.", en: "All rights reserved.", nl: "Alle rechten voorbehouden." })}
+            © {new Date().getFullYear()} Sève & Bois Cottages. {t({ fr: "Tous droits réservés.", en: "All rights reserved.", nl: "Alle rechten voorbehouden." })}
           </p>
           <div className="flex items-center gap-4">
             {[

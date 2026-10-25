@@ -13,6 +13,7 @@ import stripeWebhookRouter from "../stripeWebhook";
 import { registerSitemapRoute } from "../sitemap";
 import { loginAdmin, logoutAdmin, authenticateAdminRequest } from "../adminAuth";
 import { registerGuideDownloadRoute } from "../guide";
+import { previewAccessMiddleware, registerRedirects, registerRobotsRoute } from "../seo";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -36,6 +37,7 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  app.use(previewAccessMiddleware);
   // Stripe webhook must use raw body BEFORE json middleware
   app.use("/api/stripe", express.raw({ type: "application/json" }), stripeWebhookRouter);
   // iCal export feeds
@@ -53,6 +55,8 @@ async function startServer() {
     return res.json({ authenticated: true, username: authentication.user.name, authSource: authentication.source });
   });
   registerOAuthRoutes(app);
+  registerRedirects(app);
+  registerRobotsRoute(app);
   registerSitemapRoute(app);
   // tRPC API
   app.use(

@@ -34,7 +34,7 @@ export default function ContactPage() {
       <div className="bg-[var(--forest-900)] py-16 text-white">
         <div className="container">
           <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Contact & Réserver", en: "Contact & Book", nl: "Contact & Boek" })}</p>
-          <h1 className="text-headline text-white">{t({ fr: "Parlons de votre séjour", en: "Let's talk about your stay", nl: "Laten we het over uw verblijf hebben" })}</h1>
+          <h1 className="text-headline text-white">{t({ fr: "Contact Sève & Bois Cottages à Laforêt", en: "Contact Sève & Bois Cottages in Laforêt", nl: "Contact Sève & Bois Cottages in Laforêt" })}</h1>
         </div>
       </div>
       <div className="container py-16">
@@ -100,7 +100,7 @@ export default function ContactPage() {
             </div>
             <div className="bg-[var(--forest-50)] rounded-2xl p-6">
               <h4 className="font-serif text-lg font-semibold text-[var(--forest-950)] mb-3">{t({ fr: "Prêt à réserver ?", en: "Ready to book?", nl: "Klaar om te boeken?" })}</h4>
-              <p className="text-sm text-[var(--slate-600)] mb-4">{t({ fr: "Réservez directement en ligne pour le meilleur tarif.", en: "Book directly online for the best rate.", nl: "Boek direct online voor de beste prijs." })}</p>
+              <p className="text-sm text-[var(--slate-600)] mb-4">{t({ fr: "Réservez directement en ligne, sans frais de plateforme.", en: "Book directly online with no platform fees.", nl: "Boek direct online zonder platformkosten." })}</p>
               <Link href="/booking" className="btn-primary w-full text-center">{t({ fr: "Vérifier les disponibilités", en: "Check availability", nl: "Controleer beschikbaarheid" })}</Link>
             </div>
           </div>

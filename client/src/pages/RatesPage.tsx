@@ -63,7 +63,7 @@ export default function RatesPage() {
       <div className="bg-[var(--forest-900)] py-16 text-white">
         <div className="container">
           <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Tarifs & disponibilités", en: "Rates & availability", nl: "Tarieven & beschikbaarheid" })}</p>
-          <h1 className="text-headline text-white">{t({ fr: "Choisissez votre séjour", en: "Choose your stay", nl: "Kies uw verblijf" })}</h1>
+          <h1 className="text-headline text-white">{t({ fr: "Gîte Ardennes à Laforêt : tarifs", en: "Ardennes cottage in Laforêt: rates", nl: "Vakantiehuis Ardennen in Laforêt: prijzen" })}</h1>
           <p className="text-white/75 mt-3 max-w-2xl">{t({ fr: "Réservez La Sève, Le Bois, ou les deux cottages. Le tarif par nuit est calculé selon votre choix et le nombre de voyageurs.", en: "Book La Sève, Le Bois, or both cottages. The nightly rate is calculated from your choice and number of guests.", nl: "Boek La Sève, Le Bois of beide cottages. Het nachttarief wordt berekend op basis van uw keuze en het aantal gasten." })}</p>
         </div>
       </div>

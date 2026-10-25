@@ -1,44 +1,23 @@
-import { useLanguage } from "@/contexts/LanguageContext";
 import { Link } from "wouter";
-import { HERMAN_COTTAGE1_IMAGES } from "../../../shared/herman-images";
-import { LOCATION_IMAGES } from "../../../shared/location-images";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { localizedPath } from "../../../shared/seo";
 
 export default function SustainabilityPage() {
-  const { t } = useLanguage();
+  const { lang, t } = useLanguage();
   return (
     <div className="min-h-screen bg-[var(--cream-50)]" style={{ paddingTop: "4rem" }}>
-      <div className="relative h-64 md:h-80 overflow-hidden">
-        <img src={LOCATION_IMAGES.forestOverview} alt="Eco cottage exterior" className="w-full h-full object-cover" decoding="async" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 to-black/60 flex items-end">
-          <div className="container pb-10">
-            <p className="text-caption text-white mb-2">{t({ fr: "Durabilité", en: "Sustainability", nl: "Duurzaamheid" })}</p>
-            <h1 className="text-display text-white">{t({ fr: "La nature, sans compromis.", en: "Nature, without compromise.", nl: "Natuur, zonder compromis." })}</h1>
-          </div>
+      <div className="bg-[var(--forest-900)] py-16 text-white">
+        <div className="container">
+          <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Le séjour", en: "The stay", nl: "Het verblijf" })}</p>
+          <h1 className="text-headline text-white">{t({ fr: "Un confort simple au cœur de Laforêt", en: "Simple comfort in the heart of Laforêt", nl: "Eenvoudig comfort in het hart van Laforêt" })}</h1>
         </div>
       </div>
       <div className="container py-16 max-w-4xl">
         <div className="divider-ochre mb-6" />
-        <p className="text-lead mb-8">{t({ fr: "Chez Sève & Bois, l'éco-responsabilité n'est pas un argument marketing — c'est le fondement de tout ce que nous faisons. Chaque décision de construction, chaque choix de matériaux, chaque source d'énergie a été pensé pour minimiser notre impact sur l'environnement que nous aimons.", en: "At Sève & Bois, eco-responsibility is not a marketing argument — it is the foundation of everything we do. Every construction decision, every material choice, every energy source has been designed to minimise our impact on the environment we love.", nl: "Bij Sève & Bois is ecologische verantwoordelijkheid geen marketingargument; het is de basis van alles wat we doen. Elke bouwbeslissing, elke materiaalkeuze, elke energiebron is ontworpen om onze impact op het milieu waar we van houden te minimaliseren." })}</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          {[
-            { icon: "🌿", fr: "Matériaux naturels", en: "Natural materials", nl: "Natuurlijke materialen", desc_fr: "Bois certifié, isolants naturels, finitions saines — aucun compromis sur la qualité des matériaux.", desc_en: "Certified timber, natural insulation, healthy finishes — no compromise on material quality.", desc_nl: "Gecertificeerd hout, natuurlijke isolatie en gezonde afwerkingen — geen compromis op materiaalkwaliteit." },
-            { icon: "☀️", fr: "Énergie 100% renouvelable", en: "100% renewable energy", nl: "100% hernieuwbare energie", desc_fr: "Les cottages sont alimentés exclusivement par des sources d'énergie renouvelables.", desc_en: "The cottages are powered exclusively by renewable energy sources.", desc_nl: "De cottages worden uitsluitend gevoed door hernieuwbare energiebronnen." },
-            { icon: "🏡", fr: "Faible empreinte carbone", en: "Low carbon footprint", nl: "Lage ecologische voetafdruk", desc_fr: "Construction à faible impact, gestion raisonnée des déchets, respect de la biodiversité locale.", desc_en: "Low-impact construction, responsible waste management, respect for local biodiversity.", desc_nl: "Een bouw met beperkte impact, verantwoord afvalbeheer en respect voor de lokale biodiversiteit." },
-          ].map(({ icon, fr, en, nl, desc_fr, desc_en, desc_nl }) => (
-            <div key={fr} className="bg-white rounded-2xl p-8 border border-[var(--cream-300)] text-center">
-              <div className="text-4xl mb-4">{icon}</div>
-              <h3 className="font-serif text-xl font-semibold text-[var(--forest-900)] mb-3">{t({ fr, en, nl })}</h3>
-              <p className="text-sm text-[var(--slate-600)] leading-relaxed">{t({ fr: desc_fr, en: desc_en, nl: desc_nl })}</p>
-            </div>
-          ))}
-        </div>
-        <div className="bg-[var(--forest-50)] rounded-2xl p-8 mb-12">
-          <h3 className="text-subheadline text-[var(--forest-950)] mb-4">{t({ fr: "Approuvé par la commune", en: "Council-approved", nl: "Goedgekeurd door de Raad" })}</h3>
-          <p className="text-lead">{t({ fr: "Nos cottages sont officiellement approuvés et licenciés par la commune locale — un gage de qualité, de conformité et de respect des réglementations environnementales en vigueur.", en: "Our cottages are officially approved and licensed by the local council — a mark of quality, compliance and respect for current environmental regulations.", nl: "Onze huisjes zijn officieel goedgekeurd en erkend door de gemeente – een teken van kwaliteit, naleving en respect voor de huidige milieuvoorschriften." })}</p>
-        </div>
-        <div className="text-center">
-          <Link href="/booking" className="btn-primary">{t({ fr: "Réserver un séjour éco-responsable", en: "Book an eco-responsible stay", nl: "Boek een ecologisch verantwoord verblijf" })}</Link>
-        </div>
+        <h2 className="text-subheadline text-[var(--forest-950)] mb-4">{t({ fr: "Pensé pour ralentir", en: "Designed for slowing down", nl: "Ontworpen om te vertragen" })}</h2>
+        <p className="text-lead mb-8">{t({ fr: "Les cottages sont entourés de forêt et de paysages de la vallée de la Semois. À l'intérieur, vous trouverez une cuisine équipée, du Wi-Fi haut débit, le chauffage central, l'eau chaude, le linge de lit et les serviettes, ainsi qu'un espace de vie confortable.", en: "The cottages are surrounded by woodland and Semois valley landscapes. Inside, you will find an equipped kitchen, high-speed Wi-Fi, central heating, hot water, bed linen and towels, plus a comfortable living area.", nl: "De cottages liggen tussen bos en landschappen van de Semoisvallei. Binnen vindt u een uitgeruste keuken, snelle wifi, centrale verwarming, warm water, bedlinnen en handdoeken, plus een comfortabele leefruimte." })}</p>
+        <p className="text-lead mb-8">{t({ fr: "Le village et les activités de la région sont à découvrir à votre rythme. Les activités et services voisins sont indépendants : vérifiez leurs horaires, leurs saisons et leurs conditions avant de partir.", en: "Discover the village and the wider region at your own pace. Nearby activities and services are independently operated: check their opening times, seasons and conditions before you go.", nl: "Ontdek het dorp en de regio op uw eigen ritme. Nabije activiteiten en diensten worden onafhankelijk georganiseerd: controleer openingstijden, seizoenen en omstandigheden voordat u vertrekt." })}</p>
+        <Link href={localizedPath("/location", lang)} className="btn-primary">{t({ fr: "Explorer Laforêt", en: "Explore Laforêt", nl: "Ontdek Laforêt" })}</Link>
       </div>
     </div>
   );

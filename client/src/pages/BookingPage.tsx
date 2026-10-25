@@ -144,16 +144,7 @@ export default function BookingPage() {
         <div className="container">
           <p className="text-caption text-[var(--ochre-300)] mb-3">{t({ fr: "Réservation directe", en: "Direct booking", nl: "Directe boeking" })}</p>
           <h1 className="text-headline text-white">{t({ fr: "Réservez votre séjour", en: "Book your stay", nl: "Boek uw verblijf" })}</h1>
-          <p className="text-[var(--forest-300)] mt-2">{t({ fr: "Meilleur tarif garanti · Paiement sécurisé · Hôte humain", en: "Best rate guaranteed · Secure payment · Human host", nl: "Gegarandeerd het beste tarief · Veilige betaling · Menselijke gastheer" })}</p>
-        </div>
-      </div>
-
-      {/* Promotional Banner */}
-      <div className="bg-[var(--ochre-50)] border-b border-[var(--ochre-200)] py-4">
-        <div className="container">
-          <p className="text-sm font-semibold text-[var(--ochre-900)] text-center">
-            {t({ fr: "🎉 Tarifs de lancement spéciaux — Nous mettons les dernières touches à nos magnifiques nouveaux cottages. Profitez de notre tarif d'introduction et soyez parmi nos premiers clients !", en: "🎉 Special Introductory Rates — We are putting the finishing touches on our beautiful new cottages. Enjoy our launch pricing and be among our first guests!", nl: "🎉 Speciale introductietarieven — We leggen de laatste hand aan onze prachtige nieuwe huisjes. Geniet van onze lanceringsprijzen en wees een van onze eerste gasten!" })}
-          </p>
+          <p className="text-[var(--forest-300)] mt-2">{t({ fr: "Pas de frais de plateforme · Paiement sécurisé · Contact direct", en: "No platform fees · Secure payment · Direct contact", nl: "Geen platformkosten · Veilige betaling · Direct contact" })}</p>
         </div>
       </div>
 
@@ -183,7 +174,6 @@ export default function BookingPage() {
                   >
                     <span className="block font-semibold text-[var(--forest-900)]">{option.title}</span>
                     <span className="block text-xs text-[var(--slate-600)] mt-1">{option.detail}</span>
-                    <span className="block text-xs font-semibold text-[var(--ochre-700)] mt-3">{t({ fr: "À partir de", en: "From", nl: "Vanaf" })} €{option.value === "both" ? 300 : 150} / {t({ fr: "nuit", en: "night", nl: "nacht" })}</span>
                   </button>
                 ))}
               </div>

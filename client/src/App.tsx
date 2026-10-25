@@ -5,15 +5,18 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { LanguageProvider } from "./contexts/LanguageContext";
 import { useSEO } from "./hooks/useSEO";
+import { getAlternateLinks, getSeoPage, SEO_SITE_URL } from "../../shared/seo";
 import Home from "./pages/Home";
 import CottagePage from "./pages/CottagePage";
 import LocationPage from "./pages/LocationPage";
-import SustainabilityPage from "./pages/SustainabilityPage";
 import RatesPage from "./pages/RatesPage";
 import BookingPage from "./pages/BookingPage";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import ContactPage from "./pages/ContactPage";
 import FaqPage from "./pages/FaqPage";
+import AboutPage from "./pages/AboutPage";
+import GroupsPage from "./pages/GroupsPage";
+import DogsPage from "./pages/DogsPage";
 import PrivacyPage from "./pages/PrivacyPage";
 import TermsPage from "./pages/TermsPage";
 import CookiePage from "./pages/CookiePage";
@@ -32,30 +35,40 @@ import AnalyticsTracker from "./components/AnalyticsTracker";
 import { useEffect, useState } from "react";
 import { trpc } from "@/lib/trpc";
 
-const routeSEO: Record<string, { title: string; description: string; keywords: string; robots?: string }> = {
-  "/": { title: "Green Cottages of Laforêt | Belgian Ardennes", description: "Two private eco-cottages in Laforêt in the Belgian Ardennes, beside the Semois valley. Book a quiet, pet-friendly stay directly.", keywords: "Green Cottages Laforêt, cottages Ardennes, Semois holiday rental, eco accommodation Belgium" },
-  "/cottages/la-seve": { title: "La Sève — Eco-Cottage in Laforêt | Green Cottages", description: "Discover La Sève, a private eco-cottage in Laforêt in the Belgian Ardennes, with forest surroundings, thoughtful amenities and direct booking.", keywords: "La Sève cottage, Laforêt cottage, Belgian Ardennes accommodation, Semois holiday rental" },
-  "/cottages/le-bois": { title: "Le Bois — Eco-Cottage in Laforêt | Green Cottages", description: "Discover Le Bois, a private eco-cottage in Laforêt in the Belgian Ardennes, designed for restful stays beside the Semois valley.", keywords: "Le Bois cottage, Laforêt cottage, Belgian Ardennes accommodation, Semois holiday rental" },
-  "/location": { title: "Laforêt & the Semois Valley | Green Cottages", description: "Explore Laforêt, the Semois valley, forests, villages, restaurants and outdoor activities around Green Cottages in the Belgian Ardennes.", keywords: "Laforêt Belgium, Semois valley, Belgian Ardennes activities, Bouillon day trips" },
-  "/sustainability": { title: "Sustainable Stays in the Ardennes | Green Cottages", description: "Learn how Green Cottages combines comfortable stays with renewable energy, thoughtful resources and respect for the Belgian Ardennes landscape.", keywords: "sustainable cottage Belgium, eco accommodation Ardennes, renewable energy holiday rental" },
-  "/rates": { title: "Rates & Availability | Green Cottages of Laforêt", description: "Choose La Sève, Le Bois or both cottages, select your dates and see the current total for your stay in Laforêt.", keywords: "Laforêt cottage rates, Ardennes cottage availability, Semois holiday rental prices" },
-  "/booking": { title: "Book Your Stay | Green Cottages of Laforêt", description: "Select a cottage or both cottages, choose your dates and request a secure booking at Green Cottages of Laforêt.", keywords: "book cottage Laforêt, Ardennes cottage booking, Semois accommodation booking" },
-  "/booking/confirmation": { title: "Booking Confirmation | Green Cottages of Laforêt", description: "Your Green Cottages booking confirmation and next steps.", keywords: "Green Cottages booking confirmation", robots: "noindex,nofollow" },
-  "/contact": { title: "Contact Green Cottages of Laforêt", description: "Contact Green Cottages of Laforêt for questions about your stay, availability, accessibility and the Belgian Ardennes.", keywords: "contact Green Cottages, Laforêt holiday rental contact, Semois accommodation" },
-  "/faq": { title: "Frequently Asked Questions | Green Cottages", description: "Find answers about booking, amenities, pets, arrival, bed linen, towels and staying at Green Cottages in Laforêt.", keywords: "Green Cottages FAQ, Laforêt cottage questions, Ardennes holiday rental information" },
-  "/terms": { title: "Booking Terms & Conditions | Green Cottages", description: "Read the booking terms, cancellation information and conditions for stays at Green Cottages of Laforêt.", keywords: "Green Cottages terms, cottage booking conditions Belgium, cancellation policy Laforêt" },
-  "/privacy": { title: "Privacy Policy | Green Cottages of Laforêt", description: "Read how Green Cottages of Laforêt handles personal data, booking information and newsletter preferences.", keywords: "Green Cottages privacy policy, GDPR holiday rental Belgium" },
-  "/cookies": { title: "Cookie Policy | Green Cottages of Laforêt", description: "Read the cookie policy for the Green Cottages of Laforêt website.", keywords: "Green Cottages cookie policy, Laforêt website cookies" },
-  "/blog": { title: "Ardennes Travel Journal | Green Cottages", description: "Read practical guides and inspiration for exploring Laforêt, the Semois valley and the Belgian Ardennes.", keywords: "Laforêt travel journal, Belgian Ardennes blog, Semois travel guide" },
-  "/admin/login": { title: "Admin Login | Green Cottages", description: "Secure administration login for Green Cottages of Laforêt.", keywords: "Green Cottages administration", robots: "noindex,nofollow" },
-  "/admin": { title: "Admin Dashboard | Green Cottages", description: "Private property management dashboard for Green Cottages of Laforêt.", keywords: "Green Cottages administration", robots: "noindex,nofollow" },
-};
+function getPathWithoutQuery(path: string) {
+  const pathname = path.split("?")[0];
+  if (pathname === "/" || /^\/(fr|nl|en)\/$/.test(pathname)) return pathname;
+  return pathname.replace(/\/$/, "") || "/";
+}
 
 function RouteSEO() {
   const [location] = useLocation();
-  const path = location.split("?")[0];
-  const metadata = routeSEO[path] ?? (path.startsWith("/blog/") ? { title: "Ardennes Travel Journal | Green Cottages", description: "Stories, practical guides and inspiration for your stay in Laforêt and the Belgian Ardennes.", keywords: "Belgian Ardennes travel blog, Laforêt travel guide, Semois valley" } : { title: "Page not found | Green Cottages", description: "The requested Green Cottages page could not be found.", keywords: "Green Cottages", robots: "noindex,nofollow" });
-  useSEO({ ...metadata, ogTitle: metadata.title, ogDescription: metadata.description, canonical: typeof window === "undefined" ? undefined : `${window.location.origin}${path}` });
+  const path = getPathWithoutQuery(location);
+  const page = getSeoPage(path === "/" ? "/en/" : path);
+  const fallback = {
+    title: "Sève & Bois Cottages | Laforêt, Belgian Ardennes",
+    description: "Two contemporary timber cottages in Laforêt, Vresse-sur-Semois, in the Belgian Ardennes.",
+    h1: "Sève & Bois Cottages",
+    intro: "Green Cottages of Laforêt: two contemporary timber cottages, La Sève and Le Bois.",
+    path,
+    lang: "en" as const,
+    key: "fallback",
+    primaryKeyword: "Sève & Bois Cottages",
+  };
+  const metadata = page ?? fallback;
+  const canonicalPath = page?.path ?? path;
+  const alternates = page ? getAlternateLinks(page) : [];
+  useSEO({
+    title: metadata.title,
+    description: metadata.description,
+    keywords: metadata.primaryKeyword,
+    ogTitle: metadata.title,
+    ogDescription: metadata.description,
+    canonical: `${SEO_SITE_URL}${canonicalPath}`,
+    robots: import.meta.env.VITE_SEO_PREVIEW_MODE === "true" || path.startsWith("/admin") || path.startsWith("/blog") ? "noindex,nofollow" : undefined,
+    lang: metadata.lang,
+    alternates,
+  });
   return null;
 }
 
@@ -63,15 +76,54 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/fr/" component={Home} />
+      <Route path="/nl/" component={Home} />
+      <Route path="/en/" component={Home} />
+
       <Route path="/cottages/la-seve" component={() => <CottagePage slug="la-seve" />} />
+      <Route path="/fr/la-seve" component={() => <CottagePage slug="la-seve" />} />
+      <Route path="/nl/la-seve" component={() => <CottagePage slug="la-seve" />} />
+      <Route path="/en/la-seve" component={() => <CottagePage slug="la-seve" />} />
       <Route path="/cottages/le-bois" component={() => <CottagePage slug="le-bois" />} />
+      <Route path="/fr/le-bois" component={() => <CottagePage slug="le-bois" />} />
+      <Route path="/nl/le-bois" component={() => <CottagePage slug="le-bois" />} />
+      <Route path="/en/le-bois" component={() => <CottagePage slug="le-bois" />} />
+
       <Route path="/location" component={LocationPage} />
-      <Route path="/sustainability" component={SustainabilityPage} />
+      <Route path="/fr/gite-vresse-sur-semois" component={LocationPage} />
+      <Route path="/nl/vakantiehuis-vresse-sur-semois" component={LocationPage} />
+      <Route path="/en/vresse-sur-semois-cottage" component={LocationPage} />
+      <Route path="/sustainability" component={Home} />
+
       <Route path="/rates" component={RatesPage} />
+      <Route path="/fr/tarifs" component={RatesPage} />
+      <Route path="/nl/prijzen" component={RatesPage} />
+      <Route path="/en/rates" component={RatesPage} />
+
+      <Route path="/groups" component={GroupsPage} />
+      <Route path="/fr/gite-12-personnes-ardennes" component={GroupsPage} />
+      <Route path="/nl/groepsaccommodatie-ardennen" component={GroupsPage} />
+      <Route path="/en/group-accommodation-ardennes" component={GroupsPage} />
+      <Route path="/dogs" component={DogsPage} />
+      <Route path="/fr/gite-chien-ardennes" component={DogsPage} />
+      <Route path="/nl/vakantiehuis-ardennen-hond" component={DogsPage} />
+      <Route path="/en/dog-friendly-cottage-ardennes" component={DogsPage} />
+      <Route path="/about" component={AboutPage} />
+      <Route path="/fr/a-propos" component={AboutPage} />
+      <Route path="/nl/over-ons" component={AboutPage} />
+      <Route path="/en/about" component={AboutPage} />
+
       <Route path="/booking" component={BookingPage} />
       <Route path="/booking/confirmation" component={BookingConfirmation} />
       <Route path="/contact" component={ContactPage} />
+      <Route path="/fr/contact" component={ContactPage} />
+      <Route path="/nl/contact" component={ContactPage} />
+      <Route path="/en/contact" component={ContactPage} />
       <Route path="/faq" component={FaqPage} />
+      <Route path="/fr/faq" component={FaqPage} />
+      <Route path="/nl/faq" component={FaqPage} />
+      <Route path="/en/faq" component={FaqPage} />
+
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/terms" component={TermsPage} />
       <Route path="/cookies" component={CookiePage} />
@@ -118,9 +170,7 @@ function App() {
             <AnalyticsTracker />
             <ScrollRevealObserver />
             <Header />
-            <main>
-              <Router />
-            </main>
+            <main><Router /></main>
             <Footer />
             <MobileBottomBar />
             <CookieBanner />

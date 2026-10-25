@@ -1,4 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
+
+interface SeoAlternate {
+  lang: string;
+  href: string;
+}
 
 interface SEOProps {
   title: string;
@@ -9,79 +14,58 @@ interface SEOProps {
   ogImage?: string;
   canonical?: string;
   robots?: string;
+  lang?: string;
+  alternates?: SeoAlternate[];
 }
 
-export function useSEO({ title, description, keywords, ogTitle, ogDescription, ogImage, canonical, robots }: SEOProps) {
+function upsertMeta(selector: string, attribute: string, value: string) {
+  let tag = document.querySelector(selector);
+  if (!tag) {
+    tag = document.createElement("meta");
+    tag.setAttribute(attribute, selector.includes("property=") ? selector.split('property="')[1].split('"')[0] : selector.split('name="')[1].split('"')[0]);
+    document.head.appendChild(tag);
+  }
+  tag.setAttribute("content", value);
+}
+
+export function useSEO({ title, description, keywords, ogTitle, ogDescription, ogImage, canonical, robots, lang, alternates = [] }: SEOProps) {
   useEffect(() => {
-    // Update title
     document.title = title;
+    upsertMeta('meta[name="description"]', "name", description);
+    if (keywords) upsertMeta('meta[name="keywords"]', "name", keywords);
+    const previewMarker = document.querySelector('meta[name="sevebois-preview"]')?.getAttribute("content") === "true";
+    upsertMeta('meta[name="robots"]', "name", robots || (previewMarker ? "noindex,nofollow" : "index,follow"));
+    upsertMeta('meta[property="og:title"]', "property", ogTitle || title);
+    upsertMeta('meta[property="og:description"]', "property", ogDescription || description);
+    if (ogImage) upsertMeta('meta[property="og:image"]', "property", ogImage);
 
-    // Update meta description
-    let metaDescription = document.querySelector('meta[name="description"]');
-    if (!metaDescription) {
-      metaDescription = document.createElement('meta');
-      metaDescription.setAttribute('name', 'description');
-      document.head.appendChild(metaDescription);
-    }
-    metaDescription.setAttribute('content', description);
-
-    // Update keywords
-    if (keywords) {
-      let metaKeywords = document.querySelector('meta[name="keywords"]');
-      if (!metaKeywords) {
-        metaKeywords = document.createElement('meta');
-        metaKeywords.setAttribute('name', 'keywords');
-        document.head.appendChild(metaKeywords);
-      }
-      metaKeywords.setAttribute('content', keywords);
-    }
-
-    let robotsTag = document.querySelector('meta[name="robots"]');
-    if (!robotsTag) {
-      robotsTag = document.createElement('meta');
-      robotsTag.setAttribute('name', 'robots');
-      document.head.appendChild(robotsTag);
-    }
-    robotsTag.setAttribute('content', robots || 'index,follow');
-
-    // Update OG title
-    let ogTitleTag = document.querySelector('meta[property="og:title"]');
-    if (!ogTitleTag) {
-      ogTitleTag = document.createElement('meta');
-      ogTitleTag.setAttribute('property', 'og:title');
-      document.head.appendChild(ogTitleTag);
-    }
-    ogTitleTag.setAttribute('content', ogTitle || title);
-
-    // Update OG description
-    let ogDescTag = document.querySelector('meta[property="og:description"]');
-    if (!ogDescTag) {
-      ogDescTag = document.createElement('meta');
-      ogDescTag.setAttribute('property', 'og:description');
-      document.head.appendChild(ogDescTag);
-    }
-    ogDescTag.setAttribute('content', ogDescription || description);
-
-    // Update OG image if provided
-    if (ogImage) {
-      let ogImageTag = document.querySelector('meta[property="og:image"]');
-      if (!ogImageTag) {
-        ogImageTag = document.createElement('meta');
-        ogImageTag.setAttribute('property', 'og:image');
-        document.head.appendChild(ogImageTag);
-      }
-      ogImageTag.setAttribute('content', ogImage);
-    }
-
-    // Update canonical URL if provided
     if (canonical) {
       let canonicalTag = document.querySelector('link[rel="canonical"]');
       if (!canonicalTag) {
-        canonicalTag = document.createElement('link');
-        canonicalTag.setAttribute('rel', 'canonical');
+        canonicalTag = document.createElement("link");
+        canonicalTag.setAttribute("rel", "canonical");
         document.head.appendChild(canonicalTag);
       }
-      canonicalTag.setAttribute('href', canonical);
+      canonicalTag.setAttribute("href", canonical);
     }
-  }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonical, robots]);
+
+    document.documentElement.lang = lang || "en";
+    document.querySelectorAll('link[rel="alternate"][data-sevebois-hreflang]').forEach((tag) => tag.remove());
+    for (const alternate of alternates) {
+      const link = document.createElement("link");
+      link.setAttribute("rel", "alternate");
+      link.setAttribute("hreflang", alternate.lang);
+      link.setAttribute("href", alternate.href);
+      link.setAttribute("data-sevebois-hreflang", "true");
+      document.head.appendChild(link);
+    }
+    if (alternates.length > 0) {
+      const defaultLink = document.createElement("link");
+      defaultLink.setAttribute("rel", "alternate");
+      defaultLink.setAttribute("hreflang", "x-default");
+      defaultLink.setAttribute("href", alternates.find((alternate) => alternate.lang === "en")?.href || alternates[0].href);
+      defaultLink.setAttribute("data-sevebois-hreflang", "true");
+      document.head.appendChild(defaultLink);
+    }
+  }, [title, description, keywords, ogTitle, ogDescription, ogImage, canonical, robots, lang, alternates]);
 }
